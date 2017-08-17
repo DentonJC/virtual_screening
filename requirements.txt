@@ -1,0 +1,12 @@
+numpy
+pandas
+keras
+rdkit
+sklearn
+pickle
+json
+pybeep
+datetime
+socket
+matplotlib
+reportlab
