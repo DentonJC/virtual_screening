@@ -26,7 +26,6 @@ Task 4
 - [ ] gridsearch momentum for SGD
 - [ ] keras initializers
 - [ ] change accuracy
-- [ ] L2
 - [ ] two stages of gridsearch: 1) all parameters and small part of the data 2) top-n parameters and all data
 - [ ] print table of gridsearch results (+save)
 - [ ] сheckpoints for gridsearch
