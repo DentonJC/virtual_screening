@@ -19,8 +19,8 @@ Task 4
 
 
 // TODO
-- [ ] command line options
-   - [ ] README.md
+- [x] command line options
+   - [x] README.md
 - [ ] clean optimizers
 - [ ] hyperparameters in residual
 - [ ] gridsearch momentum for SGD
