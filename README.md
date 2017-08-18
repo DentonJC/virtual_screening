@@ -3,7 +3,7 @@
 Run scripts as:
 
 ```
- python src/scripts/regression_hiv.py --input data/preprocessed/HIV_maccs.csv --output tmp --feature maccs --dummy True
+ python src/scripts/regression_hiv.py --input data/preprocessed/HIV_maccs.csv --output tmp/ --feature maccs --dummy True
 ```
 ### Usage
 script.py -i <input_file> -f <featurizer> -o <output_file> -g (grid_search) -d (dummy_data)
