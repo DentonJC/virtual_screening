@@ -16,3 +16,19 @@ Task 3: physical set
 Task 4
    - [x] Update online and has a concatenation/report
    - [x] Recommend: markdown document on github
+
+
+// TODO
+- [ ] command line options
+   - [ ] README.md
+- [ ] clean optimizers
+- [ ] hyperparameters in residual
+- [ ] gridsearch momentum for SGD
+- [ ] keras initializers
+- [ ] change accuracy
+- [ ] L2
+- [ ] two stages of gridsearch: 1) all parameters and small part of the data 2) top-n parameters and all data
+- [ ] print table of gridsearch results (+save)
+- [ ] сheckpoints for gridsearch
+- [ ] logger instead of prints
+- [ ] jupyter notebook
