@@ -13,9 +13,9 @@ seed = 7
 np.random.seed(seed)
 
 pyname, DUMMY, GRID_SEARCH, filename, MACCS, Morgan, path, tstart, filepath, callbacks_list = firing(patience)
-filename = os.path.dirname(os.path.realpath(__file__)).replace("/src", "").replace("/scripts", "") + "/data/HIV_maccs.csv"
-MACCS = True
-Morgan = False
+#filename = os.path.dirname(os.path.realpath(__file__)).replace("/src", "").replace("/scripts", "") + "/data/preprocessed/HIV_maccs.csv"
+#MACCS = True
+#Morgan = False
 
 if MACCS:
     input_shape = 167

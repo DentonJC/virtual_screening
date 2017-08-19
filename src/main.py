@@ -1,7 +1,8 @@
-import os 
+import os
 import sys
 import glob
 import numpy as np
+import getopt
 from shutil import copyfile
 from pybeep.pybeep import PyVibrate, PyBeep
 from keras.models import model_from_json
@@ -12,43 +13,43 @@ from src.report import create_report, draw_history
 
     
 def firing(patience):
-    tstart = datetime.now() # start timer
+    time_start = datetime.now() # start timer
+    script_address = sys.argv[0]
     
-    pyname = sys.argv[0]
-    
-    path = os.path.dirname(os.path.realpath(__file__)).replace("/src", "") + "/tmp/" + str(tstart) + '/' # create folders
-    filename = os.path.dirname(os.path.realpath(__file__)).replace("/src", "") + "/data/HIV.csv"
+    path = os.path.dirname(os.path.realpath(__file__)).replace("/src", "") + "/tmp/" + str(time_start) + '/' # create folders
+    data_file = os.path.dirname(os.path.realpath(__file__)).replace("/src", "") + "/data/HIV.csv"
             
     MACCS = True
     Morgan = False
     GRID_SEARCH = False
     DUMMY = False
     
-    
-    if len(sys.argv) > 1:
-        filename = sys.argv[1]
-    
-    if len(sys.argv) > 2:
-        if sys.argv[2] in ("maccs", "MACCS"):
-            MACCS = True
-            Morgan = False
-        else:
-            MACCS = False
-            Morgan = True
-    
-    if len(sys.argv) > 3:
-        if sys.argv[3]:
-            path = sys.argv[3] + str(tstart) + '/'
-    
-    if len(sys.argv) > 4:
-        GRID_SEARCH = sys.argv[4]
-        if GRID_SEARCH in "False":
-            GRID_SEARCH = False
-    
-    if len(sys.argv) > 5:    
-        DUMMY = sys.argv[5]
-        if DUMMY in "False":
-            DUMMY = False
+    try:
+        opts, args = getopt.getopt(sys.argv[1:],"hifo:gd",["help", "input=", "feature=", "output=", "grid=", "dummy="])
+    except getopt.GetoptError:
+        print ("Usage : script.py -i <input_file> -f <featurizer> -o <output_file> -g <grid_search> -d <dummy_data> or \
+                script.py --input <input_file> --feature <featurizer> --output <output_file> --grid <grid_search> --dummy <dummy_data>")
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt in ('-h', '--help'):
+            print ("Usage : script.py -i <input_file> -f <featurizer> -o <output_file> -g <grid_search> -d <dummy_data> or \
+                script.py --input <input_file> --feature <featurizer> --output <output_file> --grid <grid_search> --dummy <dummy_data>")
+        if opt in ('-i', '--input'):
+            data_file = arg
+        if opt in ('-f', '--feature'):
+            if arg in ("maccs", "MACCS"):
+                MACCS = True
+                Morgan = False
+            else:
+                MACCS = False
+                Morgan = True
+        if opt in ('-o', '--output'):
+            if arg:
+                path = arg + str(time_start) + '/'
+        if opt in ('-g', '--grid'):
+            GRID_SEARCH = True
+        if opt in ('-d', '--dummy'):
+            DUMMY = True
  
     print("PATH",path)
     if not os.path.exists(path):
@@ -63,7 +64,7 @@ def firing(patience):
     csv_logger = CSVLogger(path+'history.csv', append=True, separator=';')
     callbacks_list = [checkpoint, stopping, csv_logger]
         
-    return(pyname, DUMMY, GRID_SEARCH, filename, MACCS, Morgan, path, tstart, filepath, callbacks_list)
+    return(script_address, DUMMY, GRID_SEARCH, data_file, MACCS, Morgan, path, time_start, filepath, callbacks_list)
 
 
 def get_latest_file(path):
@@ -107,7 +108,7 @@ def interp(optimizer, learning_rate):
     else:
         return SGD(lr=learning_rate)
 
-def evaluate_and_done(path, model, x_test, y_test, tstart, rparams, history, pyname):
+def evaluate_and_done(path, model, x_test, y_test, time_start, rparams, history, script_address):
     model_json = model.to_json()
     with open(path+"model.json", "w") as json_file:
         json_file.write(model_json)
@@ -115,6 +116,13 @@ def evaluate_and_done(path, model, x_test, y_test, tstart, rparams, history, pyn
     #copyfile(get_latest_file(path), path+"best_weights.h5")
 
     #model.load_weights(get_latest_file(path))
+    
+    orig_stdout = sys.stdout
+    f = open(path+'model', 'w')
+    sys.stdout = f
+    print(model.summary())
+    sys.stdout = orig_stdout
+    f.close()
 
     score = model.evaluate(x_test, y_test, batch_size=rparams.get("batch_size", 32), verbose=1)
     print('Score: %1.3f' % score[0])
@@ -147,10 +155,10 @@ def evaluate_and_done(path, model, x_test, y_test, tstart, rparams, history, pyn
         neg_score = (0,0)
     
     tstop = datetime.now()
-    timer = tstop - tstart
+    timer = tstop - time_start
     print(timer)
-    create_report(path, score, timer, rparams, pos_score, neg_score, tstart, history)
-    copyfile(pyname, path+os.path.basename(pyname))
+    create_report(path, score, timer, rparams, pos_score, neg_score, time_start, history)
+    copyfile(script_address, path+os.path.basename(script_address))
 
     print("Done")
 
