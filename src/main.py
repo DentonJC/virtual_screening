@@ -25,15 +25,15 @@ def firing(patience):
     DUMMY = False
     
     try:
-        opts, args = getopt.getopt(sys.argv[1:],"hifo:gd",["help", "input=", "feature=", "output=", "grid=", "dummy="])
+        opts, args = getopt.getopt(sys.argv[1:],"hifo:gd",["help", "input=", "feature=", "output="])
     except getopt.GetoptError:
-        print ("Usage : script.py -i <input_file> -f <featurizer> -o <output_file> -g <grid_search> -d <dummy_data> or \
-                script.py --input <input_file> --feature <featurizer> --output <output_file> --grid <grid_search> --dummy <dummy_data>")
+        print ("Usage : script.py -i <input_file> -f <featurizer> -o <output_file> -g (grid_search) -d (dummy_data) or \
+                script.py --input <input_file> --feature <featurizer> --output <output_file> -g (grid_search) -d (dummy_data)")
         sys.exit(2)
     for opt, arg in opts:
         if opt in ('-h', '--help'):
-            print ("Usage : script.py -i <input_file> -f <featurizer> -o <output_file> -g <grid_search> -d <dummy_data> or \
-                script.py --input <input_file> --feature <featurizer> --output <output_file> --grid <grid_search> --dummy <dummy_data>")
+            print ("Usage : script.py -i <input_file> -f <featurizer> -o <output_file> -g (grid_search) -d (dummy_data) or \
+                script.py --input <input_file> --feature <featurizer> --output <output_file> -g (grid_search) -d (dummy_data)")
         if opt in ('-i', '--input'):
             data_file = arg
         if opt in ('-f', '--feature'):
@@ -46,9 +46,9 @@ def firing(patience):
         if opt in ('-o', '--output'):
             if arg:
                 path = arg + str(time_start) + '/'
-        if opt in ('-g', '--grid'):
+        if opt in ('-g'):
             GRID_SEARCH = True
-        if opt in ('-d', '--dummy'):
+        if opt in ('-d'):
             DUMMY = True
  
     print("PATH",path)
@@ -92,7 +92,7 @@ def load_model(loaded_model_json):
     return model
 
 
-def interp(optimizer, learning_rate):
+def compile_optimizer(optimizer, learning_rate, momentum=0):
     if optimizer == 'Adam':
         return Adam(lr=learning_rate)
     elif optimizer == 'Nadam':
@@ -106,16 +106,17 @@ def interp(optimizer, learning_rate):
     elif optimizer == 'Adadelta':
         return Adadelta(lr=learning_rate)
     else:
-        return SGD(lr=learning_rate)
+        return SGD(lr=learning_rate, momentum=momentum)
 
 def evaluate_and_done(path, model, x_test, y_test, time_start, rparams, history, script_address):
     model_json = model.to_json()
     with open(path+"model.json", "w") as json_file:
         json_file.write(model_json)
-
-    #copyfile(get_latest_file(path), path+"best_weights.h5")
-
-    #model.load_weights(get_latest_file(path))
+    
+    ########
+    if rparams.get("metrics") == ['accuracy']:
+        copyfile(get_latest_file(path), path+"best_weights.h5")
+        model.load_weights(get_latest_file(path))
     
     orig_stdout = sys.stdout
     f = open(path+'model', 'w')

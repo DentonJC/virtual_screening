@@ -21,7 +21,7 @@ Task 4
 // TODO
 - [x] command line options
    - [x] README.md
-- [ ] clean optimizers
+- [x] clean optimizers
 - [ ] hyperparameters in residual
 - [ ] gridsearch momentum for SGD
 - [ ] keras initializers

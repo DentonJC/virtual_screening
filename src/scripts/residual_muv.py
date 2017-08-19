@@ -4,7 +4,7 @@ import getpass
 sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)).replace("/src/scripts", ""))
 
 from src.main import *
-from src.configs.config_muv import *
+from src.configs.config_residual_muv import *
 from src.gridsearch import *
 from src.data import get_data_bio_csv
 from src.models.models import build_residual_model
@@ -27,7 +27,10 @@ x_train, x_test, y_train, y_test, output_shape = get_data_bio_csv(filename, inpu
 if GRID_SEARCH:
     rparams = grid_search(gparams, build_residual_model, x_train, y_train, input_shape, output_shape)
 
-model = build_residual_model(input_shape, output_shape)
+model = build_residual_model(input_shape, output_shape, activation_0=rparams.get("activation_0", 'softmax'), activation_1=rparams.get("activation_1", 'softmax'), activation_2=rparams.get("activation_2", 'softmax'),
+                            loss=rparams.get("loss", 'binary_crossentropy'), metrics=rparams.get("metrics", ['accuracy']), 
+                            optimizer=rparams.get("optimizer", 'Adam'), learning_rate=rparams.get("learning_rate", '0.001'), 
+                            momentum=rparams.get("momentum", '0.1'), init_mode=rparams.get("init_mode", 'uniform'))
 
 print("FIT")
 history = model.fit(x_train, y_train, batch_size=rparams.get("batch_size", 32), epochs=epochs, validation_data=(x_test, y_test), shuffle=True, verbose=1, callbacks=callbacks_list)
