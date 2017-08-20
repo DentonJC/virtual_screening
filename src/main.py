@@ -25,15 +25,15 @@ def firing(patience):
     DUMMY = False
     
     try:
-        opts, args = getopt.getopt(sys.argv[1:],"hifo:gd",["help", "input=", "feature=", "output="])
+        opts, args = getopt.getopt(sys.argv[1:],"hifoc:gd",["help", "input=", "feature=", "output="])
     except getopt.GetoptError:
-        print ("Usage : script.py -i <input_file> -f <featurizer> -o <output_file> -g (grid_search) -d (dummy_data) or \
-                script.py --input <input_file> --feature <featurizer> --output <output_file> -g (grid_search) -d (dummy_data)")
+        print ("Usage : script.py -i <input_file> -c <config_file> -f <featurizer> -o <output_file> -g (grid_search) -d (dummy_data) or \
+                script.py --input <input_file> --config <config_file> --feature <featurizer> --output <output_file> -g (grid_search) -d (dummy_data)")
         sys.exit(2)
     for opt, arg in opts:
         if opt in ('-h', '--help'):
-            print ("Usage : script.py -i <input_file> -f <featurizer> -o <output_file> -g (grid_search) -d (dummy_data) or \
-                script.py --input <input_file> --feature <featurizer> --output <output_file> -g (grid_search) -d (dummy_data)")
+            print ("Usage : script.py -i <input_file> -c <config_file> -f <featurizer> -o <output_file> -g (grid_search) -d (dummy_data) or \
+                script.py --input <input_file> --config <config_file> --feature <featurizer> --output <output_file> -g (grid_search) -d (dummy_data)")
         if opt in ('-i', '--input'):
             data_file = arg
         if opt in ('-f', '--feature'):
@@ -50,6 +50,8 @@ def firing(patience):
             GRID_SEARCH = True
         if opt in ('-d'):
             DUMMY = True
+        if opt in ('-c', '--config'):
+            config_addr = arg.replace("/", ".").replace(".py", "")
  
     print("PATH",path)
     if not os.path.exists(path):
@@ -64,7 +66,7 @@ def firing(patience):
     csv_logger = CSVLogger(path+'history.csv', append=True, separator=';')
     callbacks_list = [checkpoint, stopping, csv_logger]
         
-    return(script_address, DUMMY, GRID_SEARCH, data_file, MACCS, Morgan, path, time_start, filepath, callbacks_list)
+    return(script_address, DUMMY, GRID_SEARCH, data_file, MACCS, Morgan, path, time_start, filepath, callbacks_list, config_addr)
 
 
 def get_latest_file(path):
@@ -164,8 +166,8 @@ def evaluate_and_done(path, model, x_test, y_test, time_start, rparams, history,
     print("Done")
 
     ##Signal
-    while True:
-        PyVibrate().beep()
-        PyVibrate().beepn(3)
-        PyBeep().beep()
-        PyBeep().beepn(3)
+    #while True:
+    #    PyVibrate().beep()
+    #    PyVibrate().beepn(3)
+    #    PyBeep().beep()
+    #    PyBeep().beepn(3)

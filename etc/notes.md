@@ -22,12 +22,13 @@ Task 4
 - [x] command line options
    - [x] README.md
 - [x] clean optimizers
-- [ ] hyperparameters in residual
-- [ ] gridsearch momentum for SGD
-- [ ] keras initializers
-- [ ] change accuracy
-- [ ] two stages of gridsearch: 1) all parameters and small part of the data 2) top-n parameters and all data
-- [ ] print table of gridsearch results (+save)
+- [x] hyperparameters in residual
+- [x] gridsearch momentum for SGD
+- [x] keras initializers
+- [x] change accuracy
+<del> - [ ] two stages of gridsearch: 1) all parameters and small part of the data 2) top-n parameters and all data </del>
+- [x] print table of gridsearch results (+save)
 - [ ] сheckpoints for gridsearch
-- [ ] logger instead of prints
-- [ ] jupyter notebook
+- [x] logger instead of prints
+- [x] jupyter notebook
+- [x] run_grid.sh
