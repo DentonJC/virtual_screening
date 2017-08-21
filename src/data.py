@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import logging
 from rdkit.Chem import AllChem
 from rdkit import Chem
 from rdkit.Chem import MACCSkeys
@@ -9,6 +10,7 @@ def get_data_bio_csv(filename, input_shape, DUMMY, MACCS, Morgan):
     data = pd.read_csv(filename)
     if "_morgan.csv" in filename:
         print("Loading data")
+        logging.info("Loading data")
         if DUMMY: 
             data = np.array(data[:100])
         else:
@@ -18,7 +20,7 @@ def get_data_bio_csv(filename, input_shape, DUMMY, MACCS, Morgan):
         labels = data[:,1024:]      
         
     elif "_maccs.csv" in filename:
-        print("Loading data")
+        logging.info("Loading data")
         if DUMMY: 
             data = np.array(data[:100])
         else:
@@ -41,6 +43,7 @@ def get_data_bio_csv(filename, input_shape, DUMMY, MACCS, Morgan):
         labels = np.array(l).T
         
         print("Featurization")
+        logging.info("Featurization")
         ms = [Chem.MolFromSmiles(x) for x in smiles]
         if MACCS:
             features = [MACCSkeys.GenMACCSKeys(x) for x in ms if x]
@@ -58,9 +61,13 @@ def get_data_bio_csv(filename, input_shape, DUMMY, MACCS, Morgan):
             labels = np.array(labels[:100])
     
     print("Data shape:",data.shape)
+    logging.info("Data shape:",data.shape)
     print("Features shape:",features.shape)
+    logging.info("Features shape:",features.shape)
     print("Labels shape:",labels.shape)
+    logging.info("Labels shape:",labels.shape)
     print("Data loaded")
+    logging.info("Data loaded")
     x_train, x_test, y_train, y_test = train_test_split(features, labels, test_size=0.2, random_state=43)
     output_shape = labels.shape[1]
             
