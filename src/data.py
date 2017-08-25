@@ -68,7 +68,7 @@ def get_data_bio_csv(filename, input_shape, DUMMY, MACCS, Morgan):
     logging.info("Labels shape:",labels.shape)
     print("Data loaded")
     logging.info("Data loaded")
-    x_train, x_test, y_train, y_test = train_test_split(features, labels, test_size=0.2, random_state=43)
+    x_train, x_test, y_train, y_test = train_test_split(features, labels, test_size=0.3, random_state=43)
     output_shape = labels.shape[1]
             
     return x_train, x_test, y_train, y_test, output_shape

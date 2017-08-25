@@ -2,7 +2,7 @@ patience = 20
 epochs = 1000
 
 rparams = {
-    "batch_size": 32, 
+    "batch_size": 256, 
     "activation": 'softmax', 
     "optimizer": 'Adam', 
     "loss": 'categorical_crossentropy',    
@@ -14,6 +14,7 @@ rparams = {
     }
 
 # For greed search
+"""
 gparams = {
     "epochs" : [3],
     "batch_size": [8, 16, 32, 64, 128],
@@ -25,4 +26,16 @@ gparams = {
     "learning_rate": [0.1, .001, .0001, .00001],
     "momentum": [0.0, 0.2, 0.4, 0.6, 0.8, 0.9],
     "init_mode": ['uniform', 'lecun_uniform', 'normal', 'zero', 'glorot_normal', 'glorot_uniform', 'he_normal', 'he_uniform']
+    }
+"""
+gparams = {
+    "epochs" : [2],
+    "batch_size": [128],
+    "activation": ['relu'],
+    "optimizer": ['SGD'],
+    "loss": ['categorical_crossentropy'],
+    # "neurons": [8], #[8, 16, 32, 64],
+    "learning_rate": [0.1, .001, .0001, .00001],
+    "momentum": [0.0, 0.2, 0.4, 0.6, 0.8, 0.9],
+    "init_mode": ['uniform']
     }

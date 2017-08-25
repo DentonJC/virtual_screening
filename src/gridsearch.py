@@ -9,19 +9,27 @@ from datetime import datetime
 from sklearn.model_selection import RandomizedSearchCV, GridSearchCV
 from keras.wrappers.scikit_learn import KerasClassifier
 from keras.callbacks import ModelCheckpoint, EarlyStopping, CSVLogger
+from sklearn.externals import joblib
+
 
 def grid_search(param_grid, create_model, x_train, y_train, input_shape, output_shape, path, n_folds):
+    
+    
     print("GRID SEARCH")
     logging.info("GRID SEARCH")
-    if not os.path.exists(path+"grid/*"):
-        os.makedirs(path+"grid/")
-    checkpoint = ModelCheckpoint(path+"grid/"+str(datetime.now())+"-{epoch:02d}-{acc:.2f}"+".hdf5", monitor='acc', period=1, verbose=1, save_best_only=False, save_weights_only=False, mode='auto')
-    csv_logger = CSVLogger(path+'history_grid_'+os.path.basename(sys.argv[0]).replace(".py", "")+'.csv', append=True, separator=';')
+    #if not os.path.exists(path+"grid/*"):
+    #    os.makedirs(path+"grid/")
+    #checkpoint = ModelCheckpoint(path+"grid/"+str(datetime.now())+"-{epoch:02d}-{acc:.2f}"+".hdf5", monitor='acc', period=1, verbose=1, save_best_only=False, save_weights_only=False, mode='auto')
+    #csv_logger = CSVLogger(path+'history_grid_'+os.path.basename(sys.argv[0]).replace(".py", "")+'.csv', append=True, separator=';')
     callbacks_list = []
 
     search_model = KerasClassifier(build_fn=create_model, input_dim = input_shape, output_dim = output_shape)
-    grid = GridSearchCV(estimator=search_model, param_grid=param_grid, n_jobs=-1, cv=n_folds, fit_params=dict(callbacks=callbacks_list))
+    grid = GridSearchCV(estimator=search_model, param_grid=param_grid, n_jobs=-1, cv=n_folds, fit_params=dict(callbacks=callbacks_list), verbose=10)
     grid_result = grid.fit(x_train, y_train)
+    #joblib.dump(grid, path+'grid/'+str(datetime.now())+'_output.pkl')
+    #joblib.dump(grid_result.best_estimator_, path+'best_params.pkl')
+    
+    
     
     orig_stdout = sys.stdout
     f = open(path+'grid_params', 'w')

@@ -16,6 +16,7 @@ rparams = {
     }
 
 # For greed search
+"""
 gparams = {
     "epochs" : [3],
     "batch_size": [8, 16, 32, 64, 128],
@@ -29,4 +30,14 @@ gparams = {
     "learning_rate": [.01, .001, .0001, .00001],
     "momentum": [0.0, 0.2, 0.4, 0.6, 0.8, 0.9],
     "init_mode": ['uniform', 'lecun_uniform', 'normal', 'zero', 'glorot_normal', 'glorot_uniform', 'he_normal', 'he_uniform']
+    }
+"""
+
+gparams = {
+    "epochs" : [1],
+    "activation_0": ['softmax', 'elu', 'softplus', 'softsign', 'relu', 'tanh', 'sigmoid', 'hard_sigmoid', 'linear'],
+    "loss": ['categorical_crossentropy'],    
+    "learning_rate": [.001],     
+    "momentum": [.1],
+    "init_mode": ['uniform'],
     }

@@ -6,7 +6,7 @@ Logistic regression model definition
 from keras.models import Sequential
 from keras.layers import Dense, merge, Input
 
-def build_logistic_model(input_dim, output_dim, activation='softmax', loss='binary_crossentropy', metrics=['accuracy'], optimizer='Adam', learning_rate='0.01', momentum='0', init_mode='uniform'):
+def build_logistic_model(input_dim, output_dim, activation='softmax', loss='binary_crossentropy', metrics=['accuracy'], optimizer='Adam', learning_rate=0.01, momentum=0, init_mode='uniform'):
     model = Sequential()
     model.add(Dense(input_dim=input_dim, kernel_initializer=init_mode, activation=activation, units=output_dim))
     optimizer = compile_optimizer(optimizer, learning_rate, momentum)
@@ -26,7 +26,7 @@ import keras.backend as K  # Needed for max pooling operation
 from src.models.residual_blocks import residual_block
 from src.main import compile_optimizer
 
-def build_residual_model(input_dim, output_dim, activation_0='relu', activation_1='softmax', activation_2='sigmoid', loss='binary_crossentropy', metrics=['accuracy'], optimizer='Adam', learning_rate='0.01', momentum='0', init_mode='uniform'):    
+def build_residual_model(input_dim, output_dim, activation_0='relu', activation_1='softmax', activation_2='sigmoid', loss='binary_crossentropy', metrics=['accuracy'], optimizer='Adam', learning_rate=0.01, momentum=0, init_mode='uniform', dropout=0):    
     input = Input(shape=(input_dim,))
     embedded = Embedding(input_dim, input_dim)(input)
 
@@ -38,9 +38,13 @@ def build_residual_model(input_dim, output_dim, activation_0='relu', activation_
         return Model(inputs, predictions)
 
     resnet = residual_block(get_model())(embedded)
+    resnet = residual_block(get_model())(resnet)
+    resnet = residual_block(get_model())(resnet)
     maxpool = Lambda(lambda x: K.max(x, axis=1, keepdims=False),
                      output_shape=lambda x: (x[0], x[2]))(resnet)
-    dropout = Dropout(0.5)(maxpool)
+    dropout = Dropout(dropout)(maxpool)
+    
+    
     output = Dense(output_dim, activation=activation_2)(dropout)
     model = Model(inputs=input, outputs=output)
     optimizer = compile_optimizer(optimizer, learning_rate, momentum)
