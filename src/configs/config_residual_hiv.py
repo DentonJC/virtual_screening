@@ -12,7 +12,8 @@ rparams = {
     "learning_rate": .001, 
     "momentum": .1,
     "init_mode": 'uniform',
-    "metrics": ['binary_accuracy']
+    "metrics": ['binary_accuracy'],
+    "dropout": 0.1
     }
 
 # For greed search
@@ -29,7 +30,8 @@ gparams = {
     # "neurons": [8], #[8, 16, 32, 64],
     "learning_rate": [.01, .001, .0001, .00001],
     "momentum": [0.0, 0.2, 0.4, 0.6, 0.8, 0.9],
-    "init_mode": ['uniform', 'lecun_uniform', 'normal', 'zero', 'glorot_normal', 'glorot_uniform', 'he_normal', 'he_uniform']
+    "init_mode": ['uniform', 'lecun_uniform', 'normal', 'zero', 'glorot_normal', 'glorot_uniform', 'he_normal', 'he_uniform'],
+    "dropout": [0]
     }
 """
 
@@ -44,5 +46,6 @@ gparams = {
     # "neurons": [8], #[8, 16, 32, 64],
     "learning_rate": [.01],
     "momentum": [0.0],
-    "init_mode": ['he_uniform']
+    "init_mode": ['he_uniform'],
+    "dropout": [0]
     }

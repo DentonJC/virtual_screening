@@ -28,7 +28,7 @@ from src.main import compile_optimizer
 
 def build_residual_model(input_dim, output_dim, activation_0='relu', activation_1='softmax', activation_2='sigmoid', loss='binary_crossentropy', metrics=['accuracy'], optimizer='Adam', learning_rate=0.01, momentum=0, init_mode='uniform', dropout=0):    
     input = Input(shape=(input_dim,))
-    embedded = Embedding(input_dim, input_dim)(input)
+    #embedded = Embedding(input_dim, input_dim)(input)
 
     def get_model():
         inputs = Input(shape=(input_dim,))
@@ -37,12 +37,12 @@ def build_residual_model(input_dim, output_dim, activation_0='relu', activation_
         predictions = Dense(input_dim, activation=activation_1)(x)
         return Model(inputs, predictions)
 
-    resnet = residual_block(get_model())(embedded)
+    resnet = residual_block(get_model())(input)
     resnet = residual_block(get_model())(resnet)
     resnet = residual_block(get_model())(resnet)
-    maxpool = Lambda(lambda x: K.max(x, axis=1, keepdims=False),
-                     output_shape=lambda x: (x[0], x[2]))(resnet)
-    dropout = Dropout(dropout)(maxpool)
+    """maxpool = Lambda(lambda x: K.max(x, axis=1, keepdims=False),
+                     output_shape=lambda x: (x[0], x[2]))(resnet)"""
+    dropout = Dropout(dropout)(resnet)
     
     
     output = Dense(output_dim, activation=activation_2)(dropout)

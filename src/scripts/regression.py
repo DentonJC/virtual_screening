@@ -20,9 +20,9 @@ np.random.seed(seed)
 
 
 if MACCS:
-    input_shape = 167
+    input_shape = 167+197
 if Morgan:
-    input_shape = 1024
+    input_shape = 1024+197
 
 x_train, x_test, y_train, y_test, output_shape = get_data_bio_csv(filename, input_shape, DUMMY, MACCS, Morgan) 
 
@@ -31,8 +31,8 @@ if GRID_SEARCH:
 
 model = build_logistic_model(input_shape, output_shape, activation=rparams.get("activation", 'softmax'), 
                             loss=rparams.get("loss", 'binary_crossentropy'), metrics=rparams.get("metrics", ['accuracy']), 
-                            optimizer=rparams.get("optimizer", 'Adam'), learning_rate=rparams.get("learning_rate", 0.001), 
-                            momentum=rparams.get("momentum", 0.1), init_mode=rparams.get("init_mode", 'uniform'))    
+                            optimizer=rparams.get("optimizer", 'Adam'), learning_rate=rparams.get("learning_rate", '0.001'), 
+                            momentum=rparams.get("momentum", '0.1'), init_mode=rparams.get("init_mode", 'uniform'))    
 
 print("FIT")
 logging.info("FIT")

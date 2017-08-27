@@ -110,7 +110,8 @@ def compile_optimizer(optimizer, learning_rate, momentum=0):
         return Adadelta(lr=learning_rate)
     else:
         return SGD(lr=learning_rate, momentum=momentum)
-
+        
+        
 def evaluate_and_done(path, model, x_test, y_test, time_start, rparams, history, script_address):
     model_json = model.to_json()
     with open(path+"model.json", "w") as json_file:
