@@ -1,5 +1,11 @@
-patience = 50
 epochs = 1000
+
+#Choose target
+targets = False
+#output_shape = output_shape
+#Chose features
+features = False
+#input_shape = input_shape
 
 rparams = {
     "batch_size": 128, 
@@ -16,7 +22,7 @@ rparams = {
 """
 gparams = {
     "epochs" : [1],
-    "batch_size": [8, 16, 32, 64, 128],
+    "batch_size": [8, 32, 128, 512, 2048],
     "activation": ['softmax', 'elu', 'softplus', 'softsign', 'relu', 'tanh', 'sigmoid', 'hard_sigmoid', 'linear'],
     "optimizer": ['Adam', 'RMSprop', 'SGD', 'Adagrad', 'Adadelta', 'Adamax', 'Nadam'],
     "loss": ['binary_crossentropy', 'mean_squared_error', 'mean_absolute_error', 'mean_absolute_percentage_error', 'mean_squared_logarithmic_error', 

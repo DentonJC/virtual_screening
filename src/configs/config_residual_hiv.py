@@ -1,5 +1,11 @@
-patience = 20
 epochs = 1000
+
+#Choose target
+targets = False
+#output_shape = output_shape
+#Chose features
+features = False
+#input_shape = input_shape
 
 rparams = {
     "batch_size": 64, 
@@ -13,14 +19,15 @@ rparams = {
     "momentum": .1,
     "init_mode": 'uniform',
     "metrics": ['binary_accuracy'],
-    "dropout": 0.1
+    "dropout": 0.1,
+    "layers": 3
     }
 
 # For greed search
 """
 gparams = {
     "epochs" : [3],
-    "batch_size": [8, 16, 32, 64, 128],
+    "batch_size": [8, 32, 128, 512, 2048],
     "activation_0": ['softmax', 'elu', 'softplus', 'softsign', 'relu', 'tanh', 'sigmoid', 'hard_sigmoid', 'linear'],
     "activation_1": ['softmax', 'elu', 'softplus', 'softsign', 'relu', 'tanh', 'sigmoid', 'hard_sigmoid', 'linear'],
     "activation_2": ['softmax', 'elu', 'softplus', 'softsign', 'relu', 'tanh', 'sigmoid', 'hard_sigmoid', 'linear'],
@@ -47,5 +54,6 @@ gparams = {
     "learning_rate": [.01],
     "momentum": [0.0],
     "init_mode": ['he_uniform'],
-    "dropout": [0]
+    "dropout": [0],
+    "layers": [1,2,3,4,5]    
     }
