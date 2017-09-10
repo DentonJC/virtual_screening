@@ -246,7 +246,6 @@ O=C(O)c1ccc(S(=O)(=O)O)o1,CI,0
 S=c1[nH][nH]c(=S)s1,CM,1
 OCC(S)CS,CI,0
 O=C(O)C(O)(O)C(O)(O)C(=O)O,CI,0
-CC1=[O+][V-]2(=O)([O+]=C(C)C1)[O+]=C(C)CC(C)=[O+]2,CI,0
 CC1=[O+][Zr]234([O+]=C(C)C1)([O+]=C(C)CC(C)=[O+]2)([O+]=C(C)CC(C)=[O+]3)[O+]=C(C)CC(C)=[O+]4,CI,0
 CC(=O)Oc1ccc2c(c1)Oc1cc(OC(C)=O)ccc1C21OC(=O)c2ccccc21,CI,0
 N=c1[nH]ncs1,CI,0
@@ -12523,7 +12522,6 @@ CC1(C)CCc2cc3c(cc2O1)OCCC3=O,CI,0
 CC1(C)CCc2cc3c(cc2O1)OCCC3O,CI,0
 O=C1OCc2cccc3c2-c2c1cccc2C(=O)OC3,CI,0
 Cn1c(=O)nc2n(-c3ccc(Cl)cc3Cl)c3ccccc3nc-2c1=O,CI,0
-CC(=O)[OH+][Mn+2]12([OH+]C(C)=O)[N+](=C(c3ccccc3)c3cccc[n+]31)[N-]c1cccc[n+]12,CI,0
 O=S(=O)([O-])[OH+][Fe-2]12[N+](=C(c3ccccc3)c3cccc[n+]31)[N-]c1cccc[n+]12,CI,0
 CC(=O)[OH+][Ni-2]12[N+](=C(c3ccccc3)c3cccc[n+]31)[N-]c1cccc[n+]12,CI,0
 CC(=O)[OH+][Zn-2]12[N+](=C(c3ccccc3)c3cccc[n+]31)[N-]c1cccc[n+]12,CI,0
@@ -12741,11 +12739,9 @@ COC(=O)c1ccc(C(=O)OC)c2nc3cc(Cl)ccc3nc12,CI,0
 O=S(=O)([O-])[OH+][Fe-2]12Oc3c(Cl)cc(Cl)cc3C=[N+]1[N-]c1cccc[n+]12,CI,0
 CC(=O)[OH+][Ni-3]12([OH+]C(C)=O)Oc3c(Cl)cc(Cl)cc3C=[N+]1[N-]C(c1ccncc1)=[O+]2,CI,0
 CC(=O)[OH+][Zn-2]12[OH+]c3c(Cl)cc(Cl)cc3C=[N+]1[N-]c1cccc[n+]12,CI,0
-CC(=O)[OH+][Mn+2]12([OH+]C(C)=O)Oc3c(Cl)cc(Cl)cc3C=[N+]1[N-]C(c1ccncc1)=[O+]2,CI,0
 CC(=O)[OH+][Cu-4]12([OH+]C(C)=O)Oc3c(Cl)cc(Cl)cc3C=[N+]1[N-]C(c1ccncc1)=[O+]2,CI,0
 O=S(=O)([O-])[OH+][Fe-2]12Oc3c(Cl)cc(Cl)cc3C=[N+]1[N-]C(c1ccncc1)=[O+]2,CI,0
 CC(=O)[OH+][Co-3]12([OH+]C(C)=O)Oc3c(Cl)cc(Cl)cc3C=[N+]1[N-]C(c1ccncc1)=[O+]2,CI,0
-CC(=O)[OH+][Zn-3]12([OH+]C(C)=O)Oc3c(Cl)cc(Cl)cc3C=[N+]1[N-]C(c1ccncc1)=[O+]2,CI,0
 CCOC(=O)NC(=O)c1cn(CCN2CCN(C(=O)CCCCCCCCCCNc3ncnc4[nH]cnc34)CC2)c(=O)[nH]c1=O,CI,0
 CCOC(=O)NC(=O)c1cn(CCN2CCN(c3ncnc4nc[nH]c34)CC2)c(=O)[nH]c1=O,CI,0
 BrN1C2c3ccccc3C1c1ccccc12,CI,0
@@ -14860,7 +14856,6 @@ CCCC(=O)c1c(NOC2OC(COC(C)=O)C(OC(C)=O)C(OC(C)=O)C2OC(C)=O)nc(OC)n(C)c1=O,CI,0
 COc1nc2c(c(O)c(C)c(=O)n2OC2OCC(OC(C)=O)C(OC(C)=O)C2OC(C)=O)c(=O)n1C,CI,0
 COc1nc2c(c(O)c(C)c(=O)n2OC2OC(COC(C)=O)C(OC(C)=O)C(OC(C)=O)C2OC(C)=O)c(=O)n1C,CI,0
 COc1cc(N=Nc2ccccc2C(=O)O)cc(C=NNNC(N)=S)c1O,CI,0
-COc1cc(N=Nc2ccccc2)cc2c1[OH+][Mo-](=O)(=O)([Mo-]1(=O)(=O)[OH+]c3c(cc(N=Nc4ccccc4)cc3OC)C=[N+]1[N-]C(N)=S)C[N+]([N-]C(N)=S)=C2,CI,0
 COc1cc(N=[N+]2c3ccccc3C(=O)[OH+][Mo]2(=O)=O)cc2c1[OH+][Mo](=O)(=O)[N+]([N-]C(N)=S)=C2,CI,0
 COc1cc(N=[N+]2[Cu-][OH+]C(=O)c3ccccc32)cc2c1[OH+][Cu-][N+]([N-]C(=S)Nc1ccc(C)cc1)=C2,CI,0
 CCCC(=O)OC1C(C(O)CO)OC2OC(C)(C)OC21,CI,0
@@ -15914,7 +15909,6 @@ C(=CP(c1ccccc1)c1ccccc1)P(C=CP(c1ccccc1)c1ccccc1)c1ccccc1,CI,0
 [Cl-].[O+]#C[Ru-4]12(C#[O+])(C#[O+])[PH](c3ccccc3)(CC[PH]1(c1ccccc1)c1ccccc1)CC[PH]2(c1ccccc1)c1ccccc1,CI,0
 [O+]#C[Cr]12(C#[O+])(C#[O+])[PH](c3ccccc3)(CC[AsH]1(c1ccccc1)c1ccccc1)CC[AsH]2(c1ccccc1)c1ccccc1,CI,0
 [O+]#C[Mo]12(C#[O+])(C#[O+])[PH](c3ccccc3)(CC[AsH]1(c1ccccc1)c1ccccc1)CC[AsH]2(c1ccccc1)c1ccccc1,CI,0
-CP(C)CC[PH]12CC[PH](C)(C)[W]1(C#[O+])(C#[O+])[PH](C)(C)CC2,CI,0
 C[PH]1(C)CC[PH]2(c3ccccc3)CC[PH](c3ccccc3)(c3ccccc3)[Mo]12(C#[O+])(C#[O+])C#[O+],CI,0
 OCC(O)C(OC1OC(CO)C(O)C(O)C1O)c1nn(-c2ccc(F)cc2)c2nc3cc(Cl)c(Cl)cc3cc12,CI,0
 OCC(O)C(OC1OC(CO)C(O)C(O)C1O)c1nn(-c2ccccc2)c2nc3cc(Cl)c(Cl)cc3cc12,CI,0
@@ -35975,7 +35969,6 @@ Cc1ccc2nc(NN=Cc3ccc(C)s3)cc(C)c2c1,CI,0
 Cc1ccc(C=NNc2cc(C)c3cccc(C)c3n2)s1,CI,0
 COc1ccc2nc(NN=Cc3ccc(C)s3)cc(C)c2c1,CI,0
 COc1ccc2c(C)cc(NN=Cc3ccc(C)s3)nc2c1,CI,0
-C1C[N+]23CCC[N+]4(C1)CC[S-]1[Fe+2]24([SH+]CC3)[S-]2CC[N+]34CCC[N+]5(CCC3)CC[SH+][Fe+2]1254,CI,0
 CC1(C)C[N+]23CCC[N+]4(CCC2)CC(C)(C)[SH+][Ni-2]34[SH+]1,CI,0
 c1ccc([PH]2(c3ccccc3)CC[SH+][Ni-2]23[SH+]CC[PH]3(c2ccccc2)c2ccccc2)cc1,CI,0
 C1C[N+]23CCC[N+]4(C1)CC[SH+][Pd-2]24[SH+]CC3,CI,0
@@ -38148,7 +38141,6 @@ Nc1ncnc2c1ncn2C1OC2CSCCC2(O)C1O,CI,0
 Nc1ncnc2c1ncn2C1OC2(CCSC2)C(O)C1O,CI,0
 COC1OC(CCC2NC(CO)C(O)C(O)C2O)C(O)C(O)C1O.Cl,CI,0
 Cl.OCC1NC(CC2OC(CO)C(O)C(O)C2O)C(O)C(O)C1O,CI,0
-CC[N+](CC)(CC)CC.O=[Re+]12([SH+]CC[SH+]1)[SH+]CC[SH+]2,CI,0
 O=c1sc2c(s1)SSSSS2,CI,0
 COc1ccc(C=NNc2nnc3c(n2)c2ccccc2c2nn(-c4ccccc4Cl)nc23)cc1,CI,0
 CCOC(=O)C(C)c1nc2c(Cl)c3ncccc3cc2nc1O,CI,0

@@ -6,41 +6,12 @@ from rdkit import Chem
 from rdkit.Chem import MACCSkeys
 from sklearn.model_selection import train_test_split
 from src._desc_rdkit import smiles_to_desc_rdkit
-#MolVS for standardization and normalization of molecules
-#import molvs as mv
 
-#Function to get parent of a smiles
-def parent(smiles):
-    st = mv.Standardizer() #MolVS standardizer
-    try:
-        mols = st.charge_parent(Chem.MolFromSmiles(smiles))
-        return Chem.MolToSmiles(mols)
-    except:
-        print("%s failed conversion"%smiles)
-        return "NaN"
- 
-#Clean and standardize the data
-def clean_data(data):
-    #remove missing smiles
-    data = data[~(data["smiles"].isnull())]
- 
-    #Standardize and get parent with molvs
-    data["smiles_parent"] = data.smiles.apply(parent)
-    data = data[~(data['smiles_parent'] == "NaN")]
- 
-    #Filter small fragents away
-    def NumAtoms(smile):
-        return Chem.MolFromSmiles(smile).GetNumAtoms()
- 
-    data["NumAtoms"] = data["smiles_parent"].apply(NumAtoms)
-    data = data[data["NumAtoms"], 3]# &amp;gt; 3]
-    return data
 
 def get_data_bio_csv(filename, input_shape, DUMMY, MACCS, Morgan, nBits=1024):
-    #plain_data = pd.read_csv(filename)
-    #data = clean_data(plain_data)
     data = pd.read_csv(filename)
-    data = data[:1000].fillna(0)
+    if DUMMY: 
+        data = data[:100]
     print(data.shape)
     if "_morgan.csv" in filename:
         print("Loading data")
@@ -68,6 +39,7 @@ def get_data_bio_csv(filename, input_shape, DUMMY, MACCS, Morgan, nBits=1024):
         smiles = data["smiles"]
         
         physic_smiles = pd.Series(smiles)
+
         physic_data = smiles_to_desc_rdkit(physic_smiles)
         
         data = np.array(data)
@@ -94,7 +66,7 @@ def get_data_bio_csv(filename, input_shape, DUMMY, MACCS, Morgan, nBits=1024):
             features = np.array(features)
             features = np.c_[features, physic_data]
             featurized = np.c_[features, labels]
-            np.savetxt(filename.replace(".csv", "_morgan.csv"), featurized, delimiter=",", fmt='%3f')
+            np.savetxt(filename.replace(".csv", "_morgan_"+str(nBits)+".csv"), featurized, delimiter=",", fmt='%3f')
     
         if DUMMY: 
             features = np.array(features[:100])

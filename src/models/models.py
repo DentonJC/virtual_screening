@@ -5,7 +5,7 @@ Logistic regression model definition
 
 from keras.models import Sequential
 from keras.layers import Dense, merge, Input
-#from keras.regularizers import WeightRegularizer
+from keras import regularizers # regularizers.l1_l2(0.)
 
 def build_logistic_model(input_dim, output_dim, activation='softmax', loss='binary_crossentropy', metrics=['accuracy'], optimizer='Adam', learning_rate=0.01, momentum=0, init_mode='uniform'):
     model = Sequential()

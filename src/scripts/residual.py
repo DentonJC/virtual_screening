@@ -3,7 +3,7 @@ import os
 import getpass
 import logging
 
-sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)).replace("/src/scripts", ""))
+sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)).replace("/src/scripts", "")) # add path to PATH for src.* imports
 
 from src.main import *
 
@@ -13,6 +13,7 @@ logging.basicConfig(filename=path+'residual.log', level=logging.INFO)
 from src.gridsearch import *
 from src.data import get_data_bio_csv
 from src.models.models import build_residual_model
+
 
 seed = 7
 np.random.seed(seed)
@@ -33,6 +34,18 @@ if features:
     x_train = x_train[:,features].reshape(x_train.shape[0],len(features))
     x_test = x_test[:,features].reshape(x_test.shape[0],len(features))
     x_val = x_val[:,features].reshape(x_val.shape[0],len(features))
+
+x_train, y_train = drop_nan(x_train, y_train)
+x_test, y_test = drop_nan(x_test, y_test)
+x_val, y_val = drop_nan(x_val, y_val)
+print("X_train:", x_train.shape)
+print("Y_train:", y_train.shape)
+print("X_test:", x_test.shape)
+print("Y_test:", y_test.shape)
+print("X_val:", x_val.shape)
+print("Y_val:", y_val.shape)
+_, input_shape = x_train.shape
+_, output_shape = y_train.shape
 
 if GRID_SEARCH:
     rparams = grid_search(gparams, build_residual_model, x_train, y_train, input_shape, output_shape, path, n_folds=10)

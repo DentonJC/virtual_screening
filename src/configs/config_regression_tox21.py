@@ -1,3 +1,6 @@
+n_folds = 3 #grid_search
+assert (n_folds>=3) and (n_folds<=10), "Looks like the number of folds is not in between 3 and 10"
+
 epochs = 1000
 
 #Choose target
@@ -21,7 +24,7 @@ rparams = {
 
 # For greed search
 gparams = {
-    "epochs" : [3],
+    "epochs" : [5],
     "batch_size": [8, 32, 128, 512, 2048],
     "activation": ['softmax', 'elu', 'softplus', 'softsign', 'relu', 'tanh', 'sigmoid', 'hard_sigmoid', 'linear'],
     "optimizer": ['Adam', 'RMSprop', 'SGD', 'Adagrad', 'Adadelta', 'Adamax', 'Nadam'],

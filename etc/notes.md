@@ -10,8 +10,8 @@ Task 2: Featurization task:
    - [x] 3 datasets
 
 Task 3: physical set
-   - [ ] [Physicochemical](https://github.com/richlewis42/scikit-chem/blob/master/skchem/features/physicochemical.py)
-   - [ ] Run sth on server [settings](https://github.com/gmum/servers/settings)
+   - [x] [Physicochemical](https://github.com/richlewis42/scikit-chem/blob/master/skchem/features/physicochemical.py)
+   - [x] Run sth on server [settings](https://github.com/gmum/servers/settings)
 
 Task 4
    - [x] Update online and has a concatenation/report
@@ -28,7 +28,7 @@ Task 4
 - [x] change accuracy
 <del> - [ ] two stages of gridsearch: 1) all parameters and small part of the data 2) top-n parameters and all data </del>
 - [x] print table of gridsearch results (+save)
-- [ ] сheckpoints for gridsearch
+<del> - [ ] сheckpoints for gridsearch </del>
 - [x] logger instead of prints
 - [x] jupyter notebook
 - [x] run_grid.sh

@@ -68,6 +68,7 @@ def smiles_to_desc_rdkit(x):
 
     
     for key, smi in tqdm.tqdm(x.items(), total=len(x)):
+        print(smi)
         
         # Try optimizing
         m = Chem.MolFromSmiles(smi)

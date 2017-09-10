@@ -4,8 +4,8 @@ import glob
 import numpy as np
 import getopt
 import logging
+import pandas as pd
 from shutil import copyfile, copytree
-#from pybeep.pybeep import PyVibrate, PyBeep
 from keras.models import model_from_json
 from keras.callbacks import ModelCheckpoint, EarlyStopping, CSVLogger
 from keras.optimizers import *
@@ -74,8 +74,7 @@ def firing():
     stopping = EarlyStopping(monitor='val_loss', min_delta=0, patience=patience, verbose=0, mode='auto')
     csv_logger = CSVLogger(path+'history_'+os.path.basename(sys.argv[0]).replace(".py", "")+"_"+os.path.basename(data_file).replace(".csv", "")+'.csv', append=True, separator=';')
     callbacks_list = [checkpoint, stopping, csv_logger]
-        
-    return script_address, DUMMY, GRID_SEARCH, data_file, MACCS, Morgan, path, time_start, filepath, callbacks_list, config_addr, nBits
+    return script_address, DUMMY, GRID_SEARCH, data_file, MACCS, Morgan, path, time_start, filepath, callbacks_list, config_addr, int(nBits)
 
 
 def get_latest_file(path):
@@ -119,38 +118,16 @@ def compile_optimizer(optimizer, learning_rate, momentum=0):
     else:
         return SGD(lr=learning_rate, momentum=momentum)
         
-        
-def show_auc(model, X_train, X_test, X_val, y_train, y_test, y_val):
-    pred_train = model.predict(X_train)
-    pred_val = model.predict(X_val)
-    pred_test = model.predict(X_test)
-    print("HERE")
-    print(y_train)
-    print(pred_train)
-    auc_train = roc_auc_score(y_train, pred_train)
-    auc_val = roc_auc_score(y_val, pred_val)
-    auc_test = roc_auc_score(y_test, pred_test)
-    print("AUC, Train:%0.3F Test:%0.3F Val:%0.3F"%(auc_train, auc_test, auc_val))
- 
-    fpr_train, tpr_train, _ =roc_curve(y_train, pred_train)
-    fpr_val, tpr_val, _ = roc_curve(y_val, pred_val)
-    fpr_test, tpr_test, _ = roc_curve(y_test, pred_test)
- 
-    plt.figure()
-    lw = 2
-    plt.plot(fpr_train, tpr_train, color='b',lw=lw, label='Train ROC (area = %0.2f)'%auc_train)
-    plt.plot(fpr_val, tpr_val, color='g',lw=lw, label='Val ROC (area = %0.2f)'%auc_val)
-    plt.plot(fpr_test, tpr_test, color='r',lw=lw, label='Test ROC (area = %0.2f)'%auc_test)
- 
-    plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
-    plt.xlim([0.0, 1.0])
-    plt.ylim([0.0, 1.05])
-    plt.xlabel('False Positive Rate')
-    plt.ylabel('True Positive Rate')
-    plt.title('Receiver operating characteristic of %s'%prop)
-    plt.legend(loc="lower right")
-    plt.interactive(True)
-    plt.show()
+
+def drop_nan(x, y):
+    _, targ = x.shape
+    table = np.c_[x, y]
+    table = pd.DataFrame(table)
+    table = table.dropna(axis=0, how='any')
+    table = np.array(table)
+    x = table[:,0:targ]
+    y = table[:,targ:]
+    return x, y
     
         
 def evaluate_and_done(path, model, x_train, x_test, x_val, y_train, y_test, y_val, time_start, rparams, history, script_address):
@@ -176,6 +153,7 @@ def evaluate_and_done(path, model, x_train, x_test, x_val, y_train, y_test, y_va
     logging.info('Score: %1.3f' % score[0])
     print('Accuracy: %1.3f' % score[1])
     logging.info('Accuracy: %1.3f' % score[1])
+
 
     if y_test.shape[1] == 1:
         print("y shape[1] = 1")
