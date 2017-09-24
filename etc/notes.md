@@ -16,19 +16,66 @@ Task 3: physical set
 Task 4
    - [x] Update online and has a concatenation/report
    - [x] Recommend: markdown document on github
+   
+Task 5:
+   - [ ] Seq2Seq
 
 
 // TODO
-- [x] command line options
-   - [x] README.md
-- [x] clean optimizers
-- [x] hyperparameters in residual
-- [x] gridsearch momentum for SGD
-- [x] keras initializers
-- [x] change accuracy
-<del> - [ ] two stages of gridsearch: 1) all parameters and small part of the data 2) top-n parameters and all data </del>
-- [x] print table of gridsearch results (+save)
-<del> - [ ] сheckpoints for gridsearch </del>
-- [x] logger instead of prints
-- [x] jupyter notebook
-- [x] run_grid.sh
+23.09.17
+- [x] save predictions
+- [x] combine config files into one
+- [x] extract the common part from /scripts
+
+24.09.17
+- [ ] RandomizedSearchCV
+- [ ] class weighting scheme
+- [ ] sklearn.pipeline.Pipeline
+- [ ] replace the existing model with the model from the package sklearn
+- [ ] reconnect to the server
+- [ ] find the optimal number of bits for Morgan fingerprint
+- [ ] add more classifiers
+- [ ] generate the final report automatically
+
+
+Experiments
+- tox 21:
+- [ ] morgan regression
+- [ ] physical regression
+- [ ] morgan+physical regression
+
+- [ ] morgan residual
+- [ ] physical residual
+- [ ] morgan+physical residual
+
+- [ ] morgan seq2seq
+- [ ] physical seq2seq
+- [ ] morgan+physical seq2seq
+
+- hiv:
+- [ ] morgan regression
+- [ ] physical regression
+- [ ] morgan+physical regression
+
+- [ ] morgan residual
+- [ ] physical residual
+- [ ] morgan+physical residual
+
+- [ ] morgan seq2seq
+- [ ] physical seq2seq
+- [ ] morgan+physical seq2seq
+
+- muv:
+- [ ] morgan regression
+- [ ] physical regression
+- [ ] morgan+physical regression
+
+- [ ] morgan residual
+- [ ] physical residual
+- [ ] morgan+physical residual
+
+- [ ] morgan seq2seq
+- [ ] physical seq2seq
+- [ ] morgan+physical seq2seq
+
+

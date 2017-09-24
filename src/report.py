@@ -7,7 +7,10 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
 
 
-def create_report(path, score, timer, rparams, pos_score, neg_score, tstart, history):
+def create_report(path, score, timer, rparams, tstart, history):
+    """
+    Create .pdf with information about experiment.
+    """
     doc = SimpleDocTemplate(path+"report "+str(round(score[1], 2))+".pdf", 
     pagesize=letter, rightMargin=72, leftMargin=72, topMargin=72, bottomMargin=18)
     
@@ -35,14 +38,6 @@ def create_report(path, score, timer, rparams, pos_score, neg_score, tstart, his
     Report.append(Paragraph(ptext, styles["Justify"]))
     ptext = '<font size=12> Accuracy: %1.3f </font>' % (score[1])
     Report.append(Paragraph(ptext, styles["Justify"]))
-    ptext = '<font size=12> Score for positive data only: %1.3f </font>' % (pos_score[0])
-    Report.append(Paragraph(ptext, styles["Justify"]))
-    ptext = '<font size=12> Accuracy for positive data only: %1.3f </font>' % (pos_score[1])
-    Report.append(Paragraph(ptext, styles["Justify"]))
-    ptext = '<font size=12> Score for negative data only: %1.3f </font>' % (neg_score[0])
-    Report.append(Paragraph(ptext, styles["Justify"]))
-    ptext = '<font size=12> Accuracy for negative data only: %1.3f </font>' % (neg_score[1])
-    Report.append(Paragraph(ptext, styles["Justify"]))
     ptext = '<font size=12> Started at: %s </font>' % (tstart)
     Report.append(Paragraph(ptext, styles["Justify"]))
     ptext = '<font size=12> Time required: %s </font>' % (timer)
@@ -51,13 +46,16 @@ def create_report(path, score, timer, rparams, pos_score, neg_score, tstart, his
     Report.append(Paragraph(ptext, styles["Justify"]))
     Report.append(Spacer(1, 12))
     
-    draw_history(history, path) # create plot of history and save in path
+    draw_history(history, path)
     im = Image(path+'history.png')
     Report.append(im)
     doc.build(Report)
     
     
 def draw_history(history, path):
+    """
+    Create plot of history and save in path.
+    """
     plt.figure(1)
     plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=1)
     plt.subplot(211)
