@@ -3,15 +3,15 @@
 Run scripts as:
 
 ```
- python src/scripts/regression.py --input data/muv.csv -c src/configs/config_regression_muv.py --output tmp/ --feature morgan --nBits 2048 -g
+ python src/scripts/regression.py --input data/tox21.csv --config 'src/configs/configs.ini' --section 'REGRESSION_TOX21' --output tmp/ --feature morgan --n 2048 -g
 ```
 ### Usage
 
-Usage : script.py -i <input_file> -c <config_file> -f <featurizer> -n <number_of_bits> -o <output_file> -g (grid_search) -d (dummy_data)
+script.py -i <input_file> -c <config_file> -s <section> -f <featurizer> -n <number_of_bits> -o <output_file> -p <patience> -g (grid_search) -d (dummy_data)
 
 or
 
-script.py --input <input_file> --config <config_file> --feature <featurizer> --nBits <number_of_bits> --output <output_file> -g (grid_search) -d (dummy_data))
+script.py --input <input_file> --config <config_file> --section <section> --feature <featurizer> --nBits <number_of_bits> --output <output_file> --patience <patience> -g (grid_search) -d (dummy_data) 
 
 Warning: With custom accuracy, model checkpoints do not work.
 

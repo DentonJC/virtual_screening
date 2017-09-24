@@ -81,7 +81,7 @@ def get_data(filename, DUMMY, MACCS, Morgan, nBits, set_targets, set_features):
     logging.info("Labels shape: %s", str(labels.shape))
     print("Data loaded")
     logging.info("Data loaded")
-    
+
     x_train, x, y_train, y = train_test_split(features, labels, test_size=0.4, random_state=43)
     x_test, x_val, y_test, y_val = train_test_split(x, y, test_size=0.5, random_state=43)
     
@@ -94,7 +94,7 @@ def get_data(filename, DUMMY, MACCS, Morgan, nBits, set_targets, set_features):
         x_train = x_train[:,set_features].reshape(x_train.shape[0],len(set_features))
         x_test = x_test[:,set_features].reshape(x_test.shape[0],len(set_features))
         x_val = x_val[:,set_features].reshape(x_val.shape[0],len(set_features))
-
+    
     x_train, y_train = drop_nan(x_train, y_train)
     x_test, y_test = drop_nan(x_test, y_test)
     x_val, y_val = drop_nan(x_val, y_val)

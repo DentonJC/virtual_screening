@@ -27,12 +27,13 @@ Task 5:
 - [x] combine config files into one
 - [x] extract the common part from /scripts
 
-24.09.17
-- [ ] RandomizedSearchCV
-- [ ] class weighting scheme
+24.09.17 
+- [x] RandomizedSearchCV
+- [x] class weighting scheme
 - [ ] sklearn.pipeline.Pipeline
 - [ ] replace the existing model with the model from the package sklearn
 - [ ] reconnect to the server
+- [ ] select features
 - [ ] find the optimal number of bits for Morgan fingerprint
 - [ ] add more classifiers
 - [ ] generate the final report automatically

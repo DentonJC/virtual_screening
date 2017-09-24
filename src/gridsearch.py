@@ -6,23 +6,22 @@ import sys
 import os
 import logging
 from datetime import datetime
-from sklearn.model_selection import RandomizedSearchCV, GridSearchCV
+from sklearn.model_selection import RandomizedSearchCV
 from keras.wrappers.scikit_learn import KerasClassifier
 from keras.callbacks import ModelCheckpoint, EarlyStopping, CSVLogger
 from sklearn.externals import joblib
 from src.main import Logger
 
 
-def grid_search(param_grid, create_model, x_train, y_train, input_shape, output_shape, path, n_folds):
+def grid_search(param_grid, create_model, x_train, y_train, input_shape, output_shape, path, n_folds, n_iter):
     print("GRID SEARCH")
     logging.info("GRID SEARCH")
-    callbacks_list = []
+    #callbacks_list = []
     search_model = KerasClassifier(build_fn=create_model, input_dim=input_shape, output_dim=output_shape)
     orig_stdout = sys.stdout
     f = open(path + 'gridsearch.log', 'w')
     sys.stdout = Logger(sys.stdout, f)
-    print(param_grid["batch_size"])
-    grid = GridSearchCV(estimator=search_model, param_grid=param_grid, n_jobs=-1, cv=n_folds, fit_params=dict(callbacks=callbacks_list), verbose=10)
+    grid = RandomizedSearchCV(estimator=search_model, param_distributions=param_grid, n_jobs=-1, cv=n_folds, n_iter=n_iter, verbose=10) # fit_params=dict(callbacks=callbacks_list))
     grid_result = grid.fit(x_train, y_train)
     sys.stdout = orig_stdout
     f.close()

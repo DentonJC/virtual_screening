@@ -13,7 +13,8 @@ from datetime import datetime
 from src.report import create_report, draw_history
 import configparser
 config = configparser.ConfigParser()
-    
+
+
 def read_cmd():
     """ 
     Read and return the script arguments.
@@ -32,13 +33,13 @@ def read_cmd():
     try:
         opts, args = getopt.getopt(sys.argv[1:], "hifnpocs:gd", ["help", "input=", "feature=", "nBits=", "patience=", "output=", "config=", "section="])
     except getopt.GetoptError:
-        print ("Usage : script.py -i <input_file> -c <config_file> -f <featurizer> -n <number_of_bits> -o <output_file> -g (grid_search) -d (dummy_data) or \
-                script.py --input <input_file> --config <config_file> --feature <featurizer> --nBits <number_of_bits> --output <output_file> -g (grid_search) -d (dummy_data)")
+        print ("Usage : script.py -i <input_file> -c <config_file> -s <section> -f <featurizer> -n <number_of_bits> -o <output_file> -p <patience> -g (grid_search) -d (dummy_data) or \
+                script.py --input <input_file> --config <config_file> --section <section> --feature <featurizer> --nBits <number_of_bits> --output <output_file> --patience <patience> -g (grid_search) -d (dummy_data)")
         sys.exit(2)
     for opt, arg in opts:
         if opt in ('-h', '--help'):
-            print ("Usage : script.py -i <input_file> -c <config_file> -f <featurizer> -n <number_of_bits> -o <output_file> -g (grid_search) -d (dummy_data) or \
-                script.py --input <input_file> --config <config_file> --feature <featurizer> --nBits <number_of_bits> --output <output_file> -g (grid_search) -d (dummy_data)")
+            print ("Usage : script.py -i <input_file> -c <config_file> -s <section> -f <featurizer> -n <number_of_bits> -o <output_file> -p <patience> -g (grid_search) -d (dummy_data) or \
+                script.py --input <input_file> --config <config_file> --section <section> --feature <featurizer> --nBits <number_of_bits> --output <output_file> --patience <patience> -g (grid_search) -d (dummy_data)")
         if opt in ('-i', '--input'):
             data_file = arg
         if opt in ('-f', '--feature'):
@@ -72,7 +73,7 @@ def read_cmd():
     # filepath = path + "results/" + "weights-improvement-{epoch:02d}-{val_acc:.2f}.hdf5"
     filepath = path + "results/" + "weights-improvement-{epoch:02d}.hdf5" # in case if metrics is not val_acc
     checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
-    stopping = EarlyStopping(monitor='val_loss', min_delta=0, patience=patience, verbose=0, mode='auto')
+    stopping = EarlyStopping(monitor='val_acc', min_delta=0, patience=patience, verbose=0, mode='auto')
     csv_logger = CSVLogger(path + 'history_' + os.path.basename(sys.argv[0]).replace(".py", "") + 
                             "_" + os.path.basename(data_file).replace(".csv", "") + '.csv', append=True, separator=';')
     callbacks_list = [checkpoint, stopping, csv_logger]
@@ -101,12 +102,14 @@ def read_config(config_path, section):
     def_config = config['DEFAULT']
     n_folds = eval(def_config['n_folds'])
     epochs = eval(def_config['epochs'])
+    n_iter = eval(def_config['n_iter'])
+    class_weight = eval(def_config['class_weight'])
     model_config = config[section]  
     set_targets = eval(model_config['set_targets'])
     set_features = eval(model_config['set_features'])
     rparams = eval(model_config['rparams'])
     gparams = eval(model_config['gparams'])
-    return n_folds, epochs, set_targets, set_features, rparams, gparams
+    return n_folds, epochs, set_targets, set_features, rparams, gparams, n_iter, class_weight
     
     
 def get_latest_file(path):
@@ -181,8 +184,7 @@ def drop_nan(x, y):
     return x, y
     
         
-def evaluate(path, model, x_train, x_test, x_val, y_train, y_test, y_val, time_start, rparams, history):
-    # save model and best weights
+def evaluate(path, model, x_train, x_test, x_val, y_train, y_test, y_val, time_start, rparams, history):   
     model_json = model.to_json()
     with open(path+"model.json", "w") as json_file:
         json_file.write(model_json)
