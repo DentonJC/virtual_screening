@@ -61,19 +61,20 @@ def draw_history(history, path):
     plt.subplot(211)
     
     keys=list(history.history.keys())
-    
-    plt.plot(history.history[keys[3]])
-    plt.plot(history.history[keys[1]])
+
+    plt.plot(history.history[keys[3]], color='r')
+    plt.plot(history.history[keys[1]], color='g')
     plt.title('model accuracy')
     plt.ylabel('accuracy')
     plt.xlabel('epoch')
-    plt.legend(['train', 'test'], loc='upper left')
+    plt.legend(['train', 'validate'], loc='upper left')
     plt.subplot(212)
-    plt.plot(history.history[keys[2]])
-    plt.plot(history.history[keys[0]])
+    plt.plot(history.history[keys[2]], color='r')
+    plt.plot(history.history[keys[0]], color='g')
     plt.title('model loss')
     plt.ylabel('loss')
     plt.xlabel('epoch')
-    plt.legend(['train', 'test'], loc='upper left')
+    plt.legend(['train', 'validate'], loc='upper left')
+        
     plt.savefig(path+'history.png')
     plt.clf()

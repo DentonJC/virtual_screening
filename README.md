@@ -7,11 +7,11 @@ Run scripts as:
 ```
 ### Usage
 
-script.py -i <input_file> -c <config_file> -s <section> -f <featurizer> -n <number_of_bits> -o <output_file> -p <patience> -g (grid_search) -d (dummy_data)
+script.py -i <input_file> -c <config_file> -s \<section\> -f <featurizer> -n <number_of_bits> -o <output_file> -p <patience> -g (grid_search) -d (dummy_data)
 
 or
 
-script.py --input <input_file> --config <config_file> --section <section> --feature <featurizer> --nBits <number_of_bits> --output <output_file> --patience <patience> -g (grid_search) -d (dummy_data) 
+script.py --input <input_file> --config <config_file> --section \<section\> --feature <featurizer> --nBits <number_of_bits> --output <output_file> --patience <patience> -g (grid_search) -d (dummy_data) 
 
 Warning: With custom accuracy, model checkpoints do not work.
 

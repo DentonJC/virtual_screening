@@ -13,7 +13,7 @@ from sklearn.externals import joblib
 from src.main import Logger
 
 
-def grid_search(param_grid, create_model, x_train, y_train, input_shape, output_shape, path, n_folds, n_iter):
+def grid_search(param_grid, create_model, x_train, y_train, input_shape, output_shape, path, n_folds, n_iter, n_jobs):
     print("GRID SEARCH")
     logging.info("GRID SEARCH")
     #callbacks_list = []
@@ -21,7 +21,7 @@ def grid_search(param_grid, create_model, x_train, y_train, input_shape, output_
     orig_stdout = sys.stdout
     f = open(path + 'gridsearch.log', 'w')
     sys.stdout = Logger(sys.stdout, f)
-    grid = RandomizedSearchCV(estimator=search_model, param_distributions=param_grid, n_jobs=-1, cv=n_folds, n_iter=n_iter, verbose=10) # fit_params=dict(callbacks=callbacks_list))
+    grid = RandomizedSearchCV(estimator=search_model, param_distributions=param_grid, n_jobs=n_jobs, cv=n_folds, n_iter=n_iter, verbose=10) # fit_params=dict(callbacks=callbacks_list))
     grid_result = grid.fit(x_train, y_train)
     sys.stdout = orig_stdout
     f.close()

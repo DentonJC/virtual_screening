@@ -29,9 +29,12 @@ def read_cmd():
     path = os.path.dirname(os.path.realpath(__file__)).replace("/src", "") + "/tmp/" + str(time_start) + '/'
     config_path = os.path.dirname(os.path.realpath(__file__)) + "/configs/configs.ini"
     section = ''
+    n_jobs = -1
+    
+    targets, features, set_targets, set_features = False, False, False, False
     
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "hifnpocs:gd", ["help", "input=", "feature=", "nBits=", "patience=", "output=", "config=", "section="])
+        opts, args = getopt.getopt(sys.argv[1:], "hifnpocsab:gd", ["help", "input=", "feature=", "nBits=", "patience=", "output=", "config=", "section=", "targets=", "features="])
     except getopt.GetoptError:
         print ("Usage : script.py -i <input_file> -c <config_file> -s <section> -f <featurizer> -n <number_of_bits> -o <output_file> -p <patience> -g (grid_search) -d (dummy_data) or \
                 script.py --input <input_file> --config <config_file> --section <section> --feature <featurizer> --nBits <number_of_bits> --output <output_file> --patience <patience> -g (grid_search) -d (dummy_data)")
@@ -60,6 +63,12 @@ def read_cmd():
             config_path = arg
         if opt in ('-s', '--section'):
             section = arg
+            
+        if opt in ('-a', '--targets'):
+            targets = arg
+        if opt in ('-b', '--features'):
+            features = arg    
+        
         if opt in ('-g'):
             GRID_SEARCH = True
         if opt in ('-d'):
@@ -73,28 +82,17 @@ def read_cmd():
     # filepath = path + "results/" + "weights-improvement-{epoch:02d}-{val_acc:.2f}.hdf5"
     filepath = path + "results/" + "weights-improvement-{epoch:02d}.hdf5" # in case if metrics is not val_acc
     checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
-    stopping = EarlyStopping(monitor='val_acc', min_delta=0, patience=patience, verbose=0, mode='auto')
+    stopping = EarlyStopping(monitor='val_acc', min_delta=0, patience=eval(patience), verbose=0, mode='auto')
     csv_logger = CSVLogger(path + 'history_' + os.path.basename(sys.argv[0]).replace(".py", "") + 
                             "_" + os.path.basename(data_file).replace(".csv", "") + '.csv', append=True, separator=';')
     callbacks_list = [checkpoint, stopping, csv_logger]
     
-    logging.info("Script adderss: %s", str(sys.argv[0]))
-    logging.info("Data file: %s", str(data_file))
-    logging.info("Config file: %s", str(config_path))
-    logging.info("Section: %s", str(section))
+    if targets:
+        set_targets = [eval(targets)]
+    if features:
+        set_features = range(0,eval(features))
 
-    if DUMMY:
-        logging.info("Dummy")
-    if GRID_SEARCH:
-        logging.info("Grid search")
-    if MACCS:
-        logging.info("MACCS")
-        logging.info("nBits: %s", str(nBits))
-    if Morgan:
-        logging.info("Morgan")
-        logging.info("nBits: %s", str(nBits))
-
-    return DUMMY, GRID_SEARCH, data_file, MACCS, Morgan, path, time_start, filepath, callbacks_list, config_path, section, int(nBits)
+    return DUMMY, GRID_SEARCH, data_file, MACCS, Morgan, path, time_start, filepath, callbacks_list, config_path, section, int(nBits), set_targets, set_features, n_jobs
 
 
 def read_config(config_path, section):
@@ -105,11 +103,9 @@ def read_config(config_path, section):
     n_iter = eval(def_config['n_iter'])
     class_weight = eval(def_config['class_weight'])
     model_config = config[section]  
-    set_targets = eval(model_config['set_targets'])
-    set_features = eval(model_config['set_features'])
     rparams = eval(model_config['rparams'])
     gparams = eval(model_config['gparams'])
-    return n_folds, epochs, set_targets, set_features, rparams, gparams, n_iter, class_weight
+    return n_folds, epochs, rparams, gparams, n_iter, class_weight
     
     
 def get_latest_file(path):
