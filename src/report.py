@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import sys
 import socket
 import matplotlib.pyplot as plt
@@ -5,31 +7,32 @@ from reportlab.lib.enums import TA_JUSTIFY
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
+from sklearn.metrics import roc_auc_score, roc_curve
 
 
 def create_report(path, score, timer, rparams, tstart, history):
     """
     Create .pdf with information about experiment.
     """
-    doc = SimpleDocTemplate(path+"report "+str(round(score[1], 2))+".pdf", 
-    pagesize=letter, rightMargin=72, leftMargin=72, topMargin=72, bottomMargin=18)
-    
+    doc = SimpleDocTemplate(path+"report "+str(round(score[1], 2))+".pdf",
+                            pagesize=letter, rightMargin=72, leftMargin=72, topMargin=72, bottomMargin=18)
+
     Report = []
     styles = getSampleStyleSheet()
     styles.add(ParagraphStyle(name='Justify', alignment=TA_JUSTIFY))
-        
+
     string = str(rparams)
     string = string.replace("{", "")
     string = string.replace("'", "")
     string = string.replace("}", "")
     string = string.replace("\"", "")
-    
+
     cmd = str(sys.argv)
     cmd = cmd.replace("[", "")
     cmd = cmd.replace("]", "")
     cmd = cmd.replace(",", " ")
     cmd = cmd.replace("'", "")
-    
+
     ptext = '<font size=12> Command line input: %s </font>' % (cmd)
     Report.append(Paragraph(ptext, styles["Justify"]))
     ptext = '<font size=12> Parameters: %s </font>' % (string)
@@ -45,13 +48,15 @@ def create_report(path, score, timer, rparams, tstart, history):
     ptext = '<font size=12> Host name: %s </font>' % (socket.gethostname())
     Report.append(Paragraph(ptext, styles["Justify"]))
     Report.append(Spacer(1, 12))
-    
-    draw_history(history, path)
-    im = Image(path+'history.png')
-    Report.append(im)
+    try:
+        draw_history(history, path)
+        im = Image(path+'history.png')
+        Report.append(im)
+    except:
+        print("History error")
     doc.build(Report)
-    
-    
+    print("Report complete")
+
 def draw_history(history, path):
     """
     Create plot of history and save in path.
@@ -59,8 +64,8 @@ def draw_history(history, path):
     plt.figure(1)
     plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=1)
     plt.subplot(211)
-    
-    keys=list(history.history.keys())
+
+    keys = list(history.history.keys())
 
     plt.plot(history.history[keys[3]], color='r')
     plt.plot(history.history[keys[1]], color='g')
@@ -75,6 +80,37 @@ def draw_history(history, path):
     plt.ylabel('loss')
     plt.xlabel('epoch')
     plt.legend(['train', 'validate'], loc='upper left')
-        
     plt.savefig(path+'history.png')
     plt.clf()
+
+
+def auc(model, X_train, X_test, X_val, y_train, y_test, y_val, path):
+    """
+    https://www.wildcardconsulting.dk/useful-information/a-deep-tox21-neural-network-with-rdkit-and-keras/
+    """
+    pred_train = model.predict(X_train)
+    pred_val = model.predict(X_val)
+    pred_test = model.predict(X_test)
+ 
+    auc_train = roc_auc_score(y_train, pred_train)
+    auc_val = roc_auc_score(y_val, pred_val)
+    auc_test = roc_auc_score(y_test, pred_test)
+ 
+    fpr_train, tpr_train, _ =roc_curve(y_train, pred_train, pos_label=1)
+    fpr_val, tpr_val, _ = roc_curve(y_val, pred_val, pos_label=1)
+    fpr_test, tpr_test, _ = roc_curve(y_test, pred_test, pos_label=1)
+ 
+    plt.figure()
+    lw = 2
+    plt.plot(fpr_train, tpr_train, color='b',lw=lw, label='Train ROC (area = %0.2f)'%auc_train)
+    plt.plot(fpr_val, tpr_val, color='g',lw=lw, label='Val ROC (area = %0.2f)'%auc_val)
+    plt.plot(fpr_test, tpr_test, color='r',lw=lw, label='Test ROC (area = %0.2f)'%auc_test)
+ 
+    plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
+    plt.xlim([0.0, 1.0])
+    plt.ylim([0.0, 1.05])
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title('Receiver operating characteristic')
+    plt.legend(loc="lower right")
+    plt.savefig(path+'auc.png')

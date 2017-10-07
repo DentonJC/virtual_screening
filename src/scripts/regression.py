@@ -1,44 +1,27 @@
+#!/usr/bin/env python
+
 import sys
-import os
-import getpass
 import logging
-sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)).replace("/src/scripts", "")) # add path to PATH for src.* imports
+import numpy as np
+from sklearn.utils import class_weight as cw
 from src.main import read_cmd, read_config, evaluate
 from src.gridsearch import grid_search
 from src.data import get_data
 from src.models.models import build_logistic_model
-from sklearn.utils import class_weight as cw
-import numpy as np
+from src.report import auc
 
 
 DUMMY, GRID_SEARCH, filename, MACCS, Morgan, path, tstart, filepath, callbacks_list, config_path, section, nBits, set_targets, set_features, n_jobs = read_cmd()
-logging.basicConfig(filename=path + 'main.log', level=logging.INFO)
-if DUMMY:
-    logging.info("Dummy")
-if GRID_SEARCH:
-    logging.info("Grid search")
-if MACCS:
-    logging.info("MACCS")
-    logging.info("nBits: %s", str(nBits))
-if Morgan:
-    logging.info("Morgan")
-    logging.info("nBits: %s", str(nBits))
-logging.info("Script adderss: %s", str(sys.argv[0]))
-logging.info("Data file: %s", str(filename))
-logging.info("Config file: %s", str(config_path))
-logging.info("Section: %s", str(section))
-
 n_folds, epochs, rparams, gparams, n_iter, class_weight = read_config(config_path, section)
-
-x_train, x_test, x_val, y_train, y_test, y_val, input_shape, output_shape, smiles = get_data(filename, DUMMY, MACCS, Morgan, nBits, set_targets, set_features) 
+x_train, x_test, x_val, y_train, y_test, y_val, input_shape, output_shape, smiles = get_data(filename, DUMMY, MACCS, Morgan, nBits, set_targets, set_features)
 
 if GRID_SEARCH:
     rparams = grid_search(gparams, build_logistic_model, x_train, y_train, input_shape, output_shape, path, n_folds, n_iter, n_jobs)
 
-model = build_logistic_model(input_shape, output_shape, activation=rparams.get("activation"), 
-                            loss=rparams.get("loss"), metrics=rparams.get("metrics"), 
-                            optimizer=rparams.get("optimizer"), learning_rate=rparams.get("learning_rate"), 
-                            momentum=rparams.get("momentum"), init_mode=rparams.get("init_mode"))    
+model = build_logistic_model(input_shape, output_shape, activation=rparams.get("activation"),
+                             loss=rparams.get("loss"), metrics=rparams.get("metrics"),
+                             optimizer=rparams.get("optimizer"), learning_rate=rparams.get("learning_rate"),
+                             momentum=rparams.get("momentum"), init_mode=rparams.get("init_mode"))
 
 print("FIT")
 logging.info("FIT")
@@ -49,3 +32,4 @@ history = model.fit(x_train, y_train, batch_size=rparams.get("batch_size"), epoc
 print("EVALUATE")
 logging.info("EVALUATE")
 evaluate(path, model, x_train, x_test, x_val, y_train, y_test, y_val, tstart, rparams, history)
+auc(model, x_train, x_test, x_val, y_train, y_test, y_val, path)

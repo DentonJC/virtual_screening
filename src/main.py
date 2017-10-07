@@ -1,22 +1,25 @@
+#!/usr/bin/env python
+
 import os
 import sys
 import glob
 import getopt
 import logging
+import configparser
 import numpy as np
 import pandas as pd
-from keras.optimizers import * # for compile_optimizer()
+from sklearn.metrics import accuracy_score
+from keras.optimizers import Adam, Nadam, Adamax, RMSprop, Adagrad, Adadelta, SGD
 from shutil import copyfile, copytree
 from keras.models import model_from_json
 from keras.callbacks import ModelCheckpoint, EarlyStopping, CSVLogger
 from datetime import datetime
-from src.report import create_report, draw_history
-import configparser
+from src.report import create_report
 config = configparser.ConfigParser()
 
 
 def read_cmd():
-    """ 
+    """
     Read and return the script arguments.
     """
     MACCS = False
@@ -24,24 +27,24 @@ def read_cmd():
     GRID_SEARCH = False
     DUMMY = False
     nBits = 1024
-    patience = 100
+    patience = "100"
     time_start = datetime.now()
     path = os.path.dirname(os.path.realpath(__file__)).replace("/src", "") + "/tmp/" + str(time_start) + '/'
     config_path = os.path.dirname(os.path.realpath(__file__)) + "/configs/configs.ini"
     section = ''
-    n_jobs = -1
-    
+    n_jobs = 1
+
     targets, features, set_targets, set_features = False, False, False, False
-    
+
     try:
         opts, args = getopt.getopt(sys.argv[1:], "hifnpocsab:gd", ["help", "input=", "feature=", "nBits=", "patience=", "output=", "config=", "section=", "targets=", "features="])
     except getopt.GetoptError:
-        print ("Usage : script.py -i <input_file> -c <config_file> -s <section> -f <featurizer> -n <number_of_bits> -o <output_file> -p <patience> -g (grid_search) -d (dummy_data) or \
+        print("Usage : script.py -i <input_file> -c <config_file> -s <section> -f <featurizer> -n <number_of_bits> -o <output_file> -p <patience> -g (grid_search) -d (dummy_data) or \
                 script.py --input <input_file> --config <config_file> --section <section> --feature <featurizer> --nBits <number_of_bits> --output <output_file> --patience <patience> -g (grid_search) -d (dummy_data)")
         sys.exit(2)
     for opt, arg in opts:
         if opt in ('-h', '--help'):
-            print ("Usage : script.py -i <input_file> -c <config_file> -s <section> -f <featurizer> -n <number_of_bits> -o <output_file> -p <patience> -g (grid_search) -d (dummy_data) or \
+            print("Usage : script.py -i <input_file> -c <config_file> -s <section> -f <featurizer> -n <number_of_bits> -o <output_file> -p <patience> -g (grid_search) -d (dummy_data) or \
                 script.py --input <input_file> --config <config_file> --section <section> --feature <featurizer> --nBits <number_of_bits> --output <output_file> --patience <patience> -g (grid_search) -d (dummy_data)")
         if opt in ('-i', '--input'):
             data_file = arg
@@ -63,35 +66,35 @@ def read_cmd():
             config_path = arg
         if opt in ('-s', '--section'):
             section = arg
-            
         if opt in ('-a', '--targets'):
             targets = arg
         if opt in ('-b', '--features'):
-            features = arg    
-        
+            features = arg
         if opt in ('-g'):
             GRID_SEARCH = True
         if opt in ('-d'):
             DUMMY = True
-        
+
     if not os.path.exists(path):
         os.makedirs(path)
     if not os.path.exists(path+"results/*"):
         os.makedirs(path+"results/")
-        
-    # filepath = path + "results/" + "weights-improvement-{epoch:02d}-{val_acc:.2f}.hdf5"
-    filepath = path + "results/" + "weights-improvement-{epoch:02d}.hdf5" # in case if metrics is not val_acc
+
+    filepath = path + "results/" + "weights-improvement-{epoch:02d}.hdf5"
     checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
     stopping = EarlyStopping(monitor='val_acc', min_delta=0, patience=eval(patience), verbose=0, mode='auto')
-    csv_logger = CSVLogger(path + 'history_' + os.path.basename(sys.argv[0]).replace(".py", "") + 
-                            "_" + os.path.basename(data_file).replace(".csv", "") + '.csv', append=True, separator=';')
+    csv_logger = CSVLogger(path + 'history_' + os.path.basename(sys.argv[0]).replace(".py", "") +
+                           "_" + os.path.basename(data_file).replace(".csv", "") + '.csv', append=True, separator=';')
     callbacks_list = [checkpoint, stopping, csv_logger]
-    
+
     if targets:
         set_targets = [eval(targets)]
     if features:
-        set_features = range(0,eval(features))
-
+        set_features = range(0, eval(features))
+    
+    logging.basicConfig(filename=path + 'main.log', level=logging.INFO)
+    start_log(DUMMY, GRID_SEARCH, MACCS, Morgan, int(nBits),config_path, data_file, section)
+    
     return DUMMY, GRID_SEARCH, data_file, MACCS, Morgan, path, time_start, filepath, callbacks_list, config_path, section, int(nBits), set_targets, set_features, n_jobs
 
 
@@ -102,12 +105,29 @@ def read_config(config_path, section):
     epochs = eval(def_config['epochs'])
     n_iter = eval(def_config['n_iter'])
     class_weight = eval(def_config['class_weight'])
-    model_config = config[section]  
+    model_config = config[section]
     rparams = eval(model_config['rparams'])
     gparams = eval(model_config['gparams'])
     return n_folds, epochs, rparams, gparams, n_iter, class_weight
-    
-    
+
+
+def start_log(DUMMY, GRID_SEARCH, MACCS, Morgan, nBits, config_path, filename, section):
+    if DUMMY:
+        logging.info("Dummy")
+    if GRID_SEARCH:
+        logging.info("Grid search")
+    if MACCS:
+        logging.info("MACCS")
+        logging.info("nBits: %s", str(nBits))
+    if Morgan:
+        logging.info("Morgan")
+        logging.info("nBits: %s", str(nBits))
+    logging.info("Script adderss: %s", str(sys.argv[0]))
+    logging.info("Data file: %s", str(filename))
+    logging.info("Config file: %s", str(config_path))
+    logging.info("Section: %s", str(section))
+
+
 def get_latest_file(path):
     """
     Return the path to the last (and best) checkpoint.
@@ -117,7 +137,7 @@ def get_latest_file(path):
         return None
     latest_file = max(list_of_files, key=os.path.getctime)
     _, filename = os.path.split(latest_file)
-    
+
     return path+"results/"+filename
 
 
@@ -134,19 +154,21 @@ def load_model(loaded_model_json):
     json_file.close()
     model = model_from_json(loaded_model_json)
     return model
-    
+
 
 class Logger(object):
     """https://stackoverflow.com/questions/11325019/output-on-the-console-and-file-using-python"""
     def __init__(self, *files):
         self.files = files
+
     def write(self, obj):
         for f in self.files:
             f.write(obj)
-            f.flush() # If you want the output to be visible immediately
-    def flush(self) :
+            f.flush()
+
+    def flush(self):
         for f in self.files:
-            f.flush()    
+            f.flush()
 
 
 def compile_optimizer(optimizer, learning_rate=0.1, momentum=0.1):
@@ -164,7 +186,7 @@ def compile_optimizer(optimizer, learning_rate=0.1, momentum=0.1):
         return Adadelta(lr=learning_rate)
     else:
         return SGD(lr=learning_rate, momentum=momentum)
-        
+
 
 def drop_nan(x, y):
     """
@@ -178,46 +200,59 @@ def drop_nan(x, y):
     x = table[:, 0:targ]
     y = table[:, targ:]
     return x, y
-    
-        
-def evaluate(path, model, x_train, x_test, x_val, y_train, y_test, y_val, time_start, rparams, history):   
-    model_json = model.to_json()
-    with open(path+"model.json", "w") as json_file:
-        json_file.write(model_json)
-    if rparams.get("metrics") == ['accuracy']:
-        copyfile(get_latest_file(path), path + "best_weights.h5")
-        #model.load_weights(get_latest_file(path))
-    
-    # print and save model summary
-    orig_stdout = sys.stdout
-    f = open(path + 'model', 'w')
-    sys.stdout = f
-    logging.info(model.summary())
-    print(model.summary())
-    sys.stdout = orig_stdout
-    f.close()
 
-    # evaluate
-    score = model.evaluate(x_test, y_test, batch_size=rparams.get("batch_size", 32), verbose=1)
-    print('Score: %1.3f' % score[0])
-    logging.info('Score: %1.3f' % score[0])
-    print('Accuracy: %1.3f' % score[1])
-    logging.info('Accuracy: %1.3f' % score[1])
+
+def evaluate(path, model, x_train, x_test, x_val, y_train, y_test, y_val, time_start, rparams, history):
+    try:
+        model_json = model.to_json()
+        with open(path+"model.json", "w") as json_file:
+            json_file.write(model_json)
+        if rparams.get("metrics") == ['accuracy']:
+            copyfile(get_latest_file(path), path + "best_weights.h5")
+
+        # print and save model summary
+        orig_stdout = sys.stdout
+        f = open(path + 'model', 'w')
+        sys.stdout = f
+        logging.info(model.summary())
+        print(model.summary())
+        sys.stdout = orig_stdout
+        f.close()
+
+        # evaluate
+        score = model.evaluate(x_test, y_test, batch_size=rparams.get("batch_size", 32), verbose=1)
+        print('Score: %1.3f' % score[0])
+        logging.info('Score: %1.3f' % score[0])
+        print('Accuracy: %1.3f' % score[1])
+        logging.info('Accuracy: %1.3f' % score[1])
+    except:
+        y_pred = model.predict(x_test)
+        predictions = [round(value) for value in y_pred]
+
+        accuracy = accuracy_score(y_test, predictions)
+        print("Accuracy: %.2f%%" % (accuracy * 100.0))
+
+        # find how long the program was running
+        score = [1-accuracy_score(y_pred, y_test), accuracy_score(y_pred, y_test)]
     
     # find how long the program was running
     tstop = datetime.now()
     timer = tstop - time_start
     print(timer)
     logging.info(timer)
-    
+
     # create report, prediction and save script and all current models
-    create_report(path, score, timer, rparams, time_start, history)
+    try:
+        create_report(path, score, timer, rparams, time_start, history)
+    except:
+        create_report(path, score, timer, rparams, tstart, None)
     copyfile(sys.argv[0], path + os.path.basename(sys.argv[0]))
     copytree('src/models', path + 'models')
+    print("PREDICT")
     y_pred = model.predict(x_test)
     result = [np.argmax(i) for i in y_pred]
     save_labels(result, path + "y_pred.csv")
 
     print("Done")
-    print("Results path",path)
+    print("Results path", path)
     logging.info("Done")

@@ -1,0 +1,1 @@
+python src/scripts/regression.py --input data/preprocessed/tox21_morgan_32.csv --config 'src/configs/configs.ini' --section 'REGRESSION_TOX21' --output tmp/ --feature morgan --n 32 --features 32 --targets 7 -g
