@@ -8,94 +8,29 @@ import logging
 import configparser
 import numpy as np
 import pandas as pd
+from datetime import datetime
+from shutil import copyfile, copytree
 from sklearn.metrics import accuracy_score
 from keras.optimizers import Adam, Nadam, Adamax, RMSprop, Adagrad, Adadelta, SGD
-from shutil import copyfile, copytree
 from keras.models import model_from_json
 from keras.callbacks import ModelCheckpoint, EarlyStopping, CSVLogger
-from datetime import datetime
 from src.report import create_report
 config = configparser.ConfigParser()
 
 
-def read_cmd():
-    """
-    Read and return the script arguments.
-    """
-    MACCS = False
-    Morgan = True
-    GRID_SEARCH = False
-    DUMMY = False
-    nBits = 1024
-    patience = "100"
-    time_start = datetime.now()
-    path = os.path.dirname(os.path.realpath(__file__)).replace("/src", "") + "/tmp/" + str(time_start) + '/'
-    config_path = os.path.dirname(os.path.realpath(__file__)) + "/configs/configs.ini"
-    section = ''
-    n_jobs = 1
-
-    targets, features, set_targets, set_features = False, False, False, False
-
-    try:
-        opts, args = getopt.getopt(sys.argv[1:], "hifnpocsab:gd", ["help", "input=", "feature=", "nBits=", "patience=", "output=", "config=", "section=", "targets=", "features="])
-    except getopt.GetoptError:
-        print("Usage : script.py -i <input_file> -c <config_file> -s <section> -f <featurizer> -n <number_of_bits> -o <output_file> -p <patience> -g (grid_search) -d (dummy_data) or \
-                script.py --input <input_file> --config <config_file> --section <section> --feature <featurizer> --nBits <number_of_bits> --output <output_file> --patience <patience> -g (grid_search) -d (dummy_data)")
-        sys.exit(2)
-    for opt, arg in opts:
-        if opt in ('-h', '--help'):
-            print("Usage : script.py -i <input_file> -c <config_file> -s <section> -f <featurizer> -n <number_of_bits> -o <output_file> -p <patience> -g (grid_search) -d (dummy_data) or \
-                script.py --input <input_file> --config <config_file> --section <section> --feature <featurizer> --nBits <number_of_bits> --output <output_file> --patience <patience> -g (grid_search) -d (dummy_data)")
-        if opt in ('-i', '--input'):
-            data_file = arg
-        if opt in ('-f', '--feature'):
-            if arg in ("maccs", "MACCS"):
-                MACCS = True
-                Morgan = False
-            else:
-                MACCS = False
-                Morgan = True
-        if opt in ('-n', '--nBits'):
-            nBits = arg
-        if opt in ('-p', '--patience'):
-            patience = arg
-        if opt in ('-o', '--output'):
-            if arg:
-                path = arg + str(time_start) + '/'
-        if opt in ('-c', '--config'):
-            config_path = arg
-        if opt in ('-s', '--section'):
-            section = arg
-        if opt in ('-a', '--targets'):
-            targets = arg
-        if opt in ('-b', '--features'):
-            features = arg
-        if opt in ('-g'):
-            GRID_SEARCH = True
-        if opt in ('-d'):
-            DUMMY = True
-
-    if not os.path.exists(path):
-        os.makedirs(path)
-    if not os.path.exists(path+"results/*"):
-        os.makedirs(path+"results/")
-
-    filepath = path + "results/" + "weights-improvement-{epoch:02d}.hdf5"
+def create_callbacks(output, patience, data):
+    if not os.path.exists(output):
+        os.makedirs(output)
+    if not os.path.exists(output+"results/*"):
+        os.makedirs(output+"results/")
+        
+    filepath = output + "results/" + "weights-improvement-{epoch:02d}.hdf5"
     checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
-    stopping = EarlyStopping(monitor='val_acc', min_delta=0, patience=eval(patience), verbose=0, mode='auto')
-    csv_logger = CSVLogger(path + 'history_' + os.path.basename(sys.argv[0]).replace(".py", "") +
-                           "_" + os.path.basename(data_file).replace(".csv", "") + '.csv', append=True, separator=';')
+    stopping = EarlyStopping(monitor='val_acc', min_delta=0, patience=patience, verbose=0, mode='auto')
+    csv_logger = CSVLogger(output + 'history_' + os.path.basename(sys.argv[0]).replace(".py", "") +
+                           "_" + os.path.basename(data).replace(".csv", "") + '.csv', append=True, separator=';')
     callbacks_list = [checkpoint, stopping, csv_logger]
-
-    if targets:
-        set_targets = [eval(targets)]
-    if features:
-        set_features = range(0, eval(features))
-    
-    logging.basicConfig(filename=path + 'main.log', level=logging.INFO)
-    start_log(DUMMY, GRID_SEARCH, MACCS, Morgan, int(nBits),config_path, data_file, section)
-    
-    return DUMMY, GRID_SEARCH, data_file, MACCS, Morgan, path, time_start, filepath, callbacks_list, config_path, section, int(nBits), set_targets, set_features, n_jobs
+    return callbacks_list
 
 
 def read_config(config_path, section):
@@ -111,21 +46,17 @@ def read_config(config_path, section):
     return n_folds, epochs, rparams, gparams, n_iter, class_weight
 
 
-def start_log(DUMMY, GRID_SEARCH, MACCS, Morgan, nBits, config_path, filename, section):
+def start_log(DUMMY, GRID_SEARCH, fingerprint, nBits, config_path, filename, section):
+    logging.info("Script adderss: %s", str(sys.argv[0]))
+    logging.info("Data file: %s", str(filename))
+    logging.info("Fingerprint: %s", str(fingerprint))
+    logging.info("n_bits: %s", str(nBits))
+    logging.info("Config file: %s", str(config_path))
+    logging.info("Section: %s", str(section))
     if DUMMY:
         logging.info("Dummy")
     if GRID_SEARCH:
         logging.info("Grid search")
-    if MACCS:
-        logging.info("MACCS")
-        logging.info("nBits: %s", str(nBits))
-    if Morgan:
-        logging.info("Morgan")
-        logging.info("nBits: %s", str(nBits))
-    logging.info("Script adderss: %s", str(sys.argv[0]))
-    logging.info("Data file: %s", str(filename))
-    logging.info("Config file: %s", str(config_path))
-    logging.info("Section: %s", str(section))
 
 
 def get_latest_file(path):

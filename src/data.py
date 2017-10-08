@@ -16,7 +16,7 @@ Dummy_n = 1000
 number_of_features_physical_representaion = 196
 
 
-def get_data(filename, DUMMY, MACCS, Morgan, nBits, set_targets, set_features):
+def get_data(filename, DUMMY, fingerprint, nBits, set_targets, set_features):
     data = pd.read_csv(filename)
     smiles = []
     if DUMMY:
@@ -61,7 +61,7 @@ def get_data(filename, DUMMY, MACCS, Morgan, nBits, set_targets, set_features):
         print("Featurization")
         logging.info("Featurization")
         ms = [Chem.MolFromSmiles(x) for x in smiles]
-        if MACCS:
+        if fingerprint in ['MACCS', 'maccs', 'Maccs', 'maccs (167)']:
             features = [MACCSkeys.GenMACCSKeys(x) for x in ms if x]
             features = np.array(features)
             features = np.c_[features, physic_data]
@@ -72,7 +72,7 @@ def get_data(filename, DUMMY, MACCS, Morgan, nBits, set_targets, set_features):
             filename = head + "/preprocessed/" + tail
             np.savetxt(filename, featurized, delimiter=",", fmt='%3f')
 
-        if Morgan:
+        if fingerprint in ['MORGAN', 'Morgan', 'morgan', 'morgan (n)']:
             features = [AllChem.GetMorganFingerprintAsBitVect(x, 3, nBits=nBits) for x in ms if x]
             features = np.array(features)
             features = np.c_[features, physic_data]

@@ -1,35 +1,66 @@
 #!/usr/bin/env python
 
+import os
 import sys
 import logging
 import numpy as np
+import argh
+from argh.decorators import arg
+from datetime import datetime
 from sklearn.utils import class_weight as cw
-from src.main import read_cmd, read_config, evaluate
+from src.main import create_callbacks, read_config, evaluate, start_log
 from src.gridsearch import grid_search
 from src.data import get_data
 from src.models.models import build_logistic_model
 from src.report import auc
+time_start = datetime.now()
 
 
-DUMMY, GRID_SEARCH, filename, MACCS, Morgan, path, tstart, filepath, callbacks_list, config_path, section, nBits, set_targets, set_features, n_jobs = read_cmd()
-n_folds, epochs, rparams, gparams, n_iter, class_weight = read_config(config_path, section)
-x_train, x_test, x_val, y_train, y_test, y_val, input_shape, output_shape, smiles = get_data(filename, DUMMY, MACCS, Morgan, nBits, set_targets, set_features)
+def main(
+    data:'path to dataset',
+    section:'name of section in config file',
+    targets:'set targets'=0, 
+    features:'set features'=256, 
+    output:'path to output directory'=os.path.dirname(os.path.realpath(__file__)).replace("/src/scripts", "") + "/tmp/" + str(time_start) + '/',
+    configs:'path to config file'=os.path.dirname(os.path.realpath(__file__)).replace("/scripts", "") + "/configs/configs.ini", 
+    fingerprint:'maccs (167) or morgan (n)'='morgan', 
+    n_bits:'number of bits in Morgan fingerprint'=256, 
+    n_jobs:'number of jobs'=1, 
+    patience:'patience of fit'=100, 
+    gridsearch:'use gridsearch'=False, 
+    dummy:'use only first 1000 rows of dataset'=False,
+    ):
+    
+    features = range(0, features)
 
-if GRID_SEARCH:
-    rparams = grid_search(gparams, build_logistic_model, x_train, y_train, input_shape, output_shape, path, n_folds, n_iter, n_jobs)
+    callbacks_list = create_callbacks(output, patience, data)
+    logging.basicConfig(filename=output+'main.log', level=logging.INFO)
+    start_log(dummy, gridsearch, fingerprint, n_bits, configs, data, section)
+    n_folds, epochs, rparams, gparams, n_iter, class_weight = read_config(configs, section)
+    x_train, x_test, x_val, y_train, y_test, y_val, input_shape, output_shape, smiles = get_data(data, dummy, fingerprint, n_bits, targets, features)
+    
+    if gridsearch:
+        rparams = grid_search(gparams, build_logistic_model, x_train, y_train, input_shape, output_shape, output, n_folds, n_iter, n_jobs)
 
-model = build_logistic_model(input_shape, output_shape, activation=rparams.get("activation"),
-                             loss=rparams.get("loss"), metrics=rparams.get("metrics"),
-                             optimizer=rparams.get("optimizer"), learning_rate=rparams.get("learning_rate"),
-                             momentum=rparams.get("momentum"), init_mode=rparams.get("init_mode"))
+    model = build_logistic_model(input_shape, output_shape, activation=rparams.get("activation"),
+                                 loss=rparams.get("loss"), metrics=rparams.get("metrics"),
+                                 optimizer=rparams.get("optimizer"), learning_rate=rparams.get("learning_rate"),
+                                 momentum=rparams.get("momentum"), init_mode=rparams.get("init_mode"))
 
-print("FIT")
-logging.info("FIT")
-if not class_weight:
-    y = [item for sublist in y_train for item in sublist]
-    class_weight = cw.compute_class_weight("balanced", np.unique(y), y)
-history = model.fit(x_train, y_train, batch_size=rparams.get("batch_size"), epochs=epochs, validation_data=(x_val, y_val), shuffle=True, verbose=1, callbacks=callbacks_list, class_weight=class_weight)
-print("EVALUATE")
-logging.info("EVALUATE")
-evaluate(path, model, x_train, x_test, x_val, y_train, y_test, y_val, tstart, rparams, history)
-auc(model, x_train, x_test, x_val, y_train, y_test, y_val, path)
+    print("FIT")
+    logging.info("FIT")
+    if not class_weight:
+        y = [item for sublist in y_train for item in sublist]
+        class_weight = cw.compute_class_weight("balanced", np.unique(y), y)
+    history = model.fit(x_train, y_train, batch_size=rparams.get("batch_size"), epochs=epochs, validation_data=(x_val, y_val), shuffle=True, verbose=1, callbacks=callbacks_list, class_weight=class_weight)
+    print("EVALUATE")
+    logging.info("EVALUATE")
+    evaluate(output, model, x_train, x_test, x_val, y_train, y_test, y_val, time_start, rparams, history)
+    auc(model, x_train, x_test, x_val, y_train, y_test, y_val, output)
+
+
+parser = argh.ArghParser()
+argh.set_default_command(parser, main)
+
+if __name__ == "__main__":
+    parser.dispatch()
