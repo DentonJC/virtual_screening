@@ -41,9 +41,10 @@ def read_config(config_path, section):
     n_iter = eval(def_config['n_iter'])
     class_weight = eval(def_config['class_weight'])
     model_config = config[section]
+    targets = eval(model_config['targets'])
     rparams = eval(model_config['rparams'])
     gparams = eval(model_config['gparams'])
-    return n_folds, epochs, rparams, gparams, n_iter, class_weight
+    return n_folds, epochs, rparams, gparams, n_iter, class_weight, targets
 
 
 def start_log(DUMMY, GRID_SEARCH, fingerprint, nBits, config_path, filename, section):
@@ -179,10 +180,10 @@ def evaluate(path, model, x_train, x_test, x_val, y_train, y_test, y_val, time_s
         create_report(path, score, timer, rparams, tstart, None)
     copyfile(sys.argv[0], path + os.path.basename(sys.argv[0]))
     copytree('src/models', path + 'models')
-    print("PREDICT")
-    y_pred = model.predict(x_test)
-    result = [np.argmax(i) for i in y_pred]
-    save_labels(result, path + "y_pred.csv")
+    #print("PREDICT")
+    #y_pred = model.predict(x_test)
+    #result = [np.argmax(i) for i in y_pred]
+    #save_labels(result, path + "y_pred.csv")
 
     print("Done")
     print("Results path", path)

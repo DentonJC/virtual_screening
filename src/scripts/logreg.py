@@ -11,24 +11,23 @@ from src.main import create_callbacks, read_config, evaluate, start_log
 from src.gridsearch import grid_search
 from src.data import get_data
 time_start = datetime.now()
+n_physical = 196
 
 
 def main(
     data:'path to dataset',
     section:'name of section in config file',
-    targets:'set targets'=0, 
-    features:'set features'=256, 
+    # targets:'set target'=0,
+    features:'take features: all, fingerptint or physical'='all',
     output:'path to output directory'=os.path.dirname(os.path.realpath(__file__)).replace("/src/scripts", "") + "/tmp/" + str(time_start) + '/',
-    configs:'path to config file'=os.path.dirname(os.path.realpath(__file__)).replace("/scripts", "") + "/configs/configs.ini", 
-    fingerprint:'maccs (167) or morgan (n)'='morgan', 
-    n_bits:'number of bits in Morgan fingerprint'=256, 
-    n_jobs:'number of jobs'=1, 
-    patience:'patience of fit'=100, 
-    gridsearch:'use gridsearch'=False, 
+    configs:'path to config file'=os.path.dirname(os.path.realpath(__file__)).replace("/scripts", "") + "/configs/configs.ini",
+    fingerprint:'maccs (167) or morgan (n)'='morgan',
+    n_bits:'number of bits in Morgan fingerprint'=256,
+    n_jobs:'number of jobs'=1,
+    patience:'patience of fit'=100,
+    gridsearch:'use gridsearch'=False,
     dummy:'use only first 1000 rows of dataset'=False,
     ):
-    
-    features = range(0, features)
 
     callbacks_list = create_callbacks(output, patience, data)
     logging.basicConfig(filename=output+'main.log', level=logging.INFO)

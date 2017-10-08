@@ -13,7 +13,7 @@ from src.main import drop_nan
 
 
 Dummy_n = 1000
-number_of_features_physical_representaion = 196
+n_physical = 196
 
 
 def get_data(filename, DUMMY, fingerprint, nBits, set_targets, set_features):
@@ -30,8 +30,8 @@ def get_data(filename, DUMMY, fingerprint, nBits, set_targets, set_features):
         else:
             data = np.array(data)
 
-        features = data[:, 0:nBits+number_of_features_physical_representaion]
-        labels = data[:, nBits+number_of_features_physical_representaion:]
+        features = data[:, 0:nBits+n_physical]
+        labels = data[:, nBits+n_physical:]
 
     elif "_maccs" in filename:
         print("Loading data")
@@ -41,8 +41,8 @@ def get_data(filename, DUMMY, fingerprint, nBits, set_targets, set_features):
         else:
             data = np.array(data)
 
-        features = data[:, 0:167+number_of_features_physical_representaion]
-        labels = data[:, 167+number_of_features_physical_representaion:]
+        features = data[:, 0:167+n_physical]
+        labels = data[:, 167+n_physical:]
 
     else:
         print("Physic data extraction")
@@ -110,19 +110,18 @@ def get_data(filename, DUMMY, fingerprint, nBits, set_targets, set_features):
     features = np.delete(features, remove_rows, axis=1)
 
     features, labels = drop_nan(features, labels)
+    
+    if set_targets:
+        labels = labels[:, set_targets].reshape(labels.shape[0], len(set_targets))
+
+    if set_features in ['physical', 'p']:
+        features = features[:, range(nBits, features.shape[1])].reshape(features.shape[0], features.shape[1]-nBits)
+    elif set_features in ['fingerprint', 'f']:
+        features = features[:, range(0, nBits)].reshape(features.shape[0], nBits)
 
     x_train, x, y_train, y = train_test_split(features, labels, test_size=0.4, stratify=labels[:, set_targets])
     x_test, x_val, y_test, y_val = train_test_split(x, y, test_size=0.5, stratify=y[:, set_targets])
 
-    if set_targets:
-        y_train = y_train[:, set_targets].reshape(y_train.shape[0], len(set_targets))
-        y_test = y_test[:, set_targets].reshape(y_test.shape[0], len(set_targets))
-        y_val = y_val[:, set_targets].reshape(y_val.shape[0], len(set_targets))
-
-    if set_features:
-        x_train = x_train[:, set_features].reshape(x_train.shape[0], len(set_features))
-        x_test = x_test[:, set_features].reshape(x_test.shape[0], len(set_features))
-        x_val = x_val[:, set_features].reshape(x_val.shape[0], len(set_features))
 
     # remove prints
     print("X_train:", x_train.shape)

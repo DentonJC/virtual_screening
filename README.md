@@ -1,19 +1,32 @@
 # Virtual screening
 
-Run scripts as:
-
-```
- python src/scripts/regression.py --input data/tox21.csv --config 'src/configs/configs.ini' --section 'REGRESSION_TOX21' --output tmp/ --feature morgan --n 2048 -g
-```
 ### Usage
 
-script.py -i <input_file> -c <config_file> -s \<section\> -f <featurizer> -n <number_of_bits> -o <output_file> -p <patience> -g (grid_search) -d (dummy_data)
+    usage: knn.py [-h] [-t TARGETS] [--features FEATURES] [-o OUTPUT] [-c CONFIGS]
 
-or
+              [--fingerprint FINGERPRINT] [--n-bits N_BITS] [--n-jobs N_JOBS]
+              [-p PATIENCE] [-g] [--dummy]
+              data section
 
-script.py --input <input_file> --config <config_file> --section \<section\> --feature <featurizer> --nBits <number_of_bits> --output <output_file> --patience <patience> -g (grid_search) -d (dummy_data) 
+    positional arguments:
+      data                  path to dataset
+      section               name of section in config file
 
-Warning: With custom accuracy, model checkpoints do not work.
+    optional arguments:
+      -h, --help            show this help message and exit
+      --features FEATURES   take features: all, fingerptint or physical (default: 'all')
+      -o OUTPUT, --output OUTPUT
+                        path to output directory (default: '/virtual_screening/tmp/')
+      -c CONFIGS, --configs CONFIGS
+                        path to config file (default: '/virtual_screening/src/configs/configs.ini')
+      --fingerprint FINGERPRINT
+                        maccs (167) or morgan (n) (default: 'morgan')
+      --n-bits N_BITS       number of bits in Morgan fingerprint (default: 256)
+      --n-jobs N_JOBS       number of jobs (default: 1)
+      -p PATIENCE, --patience PATIENCE
+                        patience of fit (default: 100)
+      -g, --gridsearch      use gridsearch (default: False)
+      --dummy               use only first 1000 rows of dataset (default: False)
 
 ## Citation
 - Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.
