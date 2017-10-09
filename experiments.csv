@@ -53,13 +53,13 @@ src/scripts/logreg.py,data/tox21.csv,LOGREG_TOX21,fingerprint,,,morgan,256,1,500
 src/scripts/logreg.py,data/tox21.csv,LOGREG_TOX21,fingerprint,,,morgan,512,1,500,TRUE,FALSE,,,
 src/scripts/logreg.py,data/tox21.csv,LOGREG_TOX21,fingerprint,,,morgan,1024,1,500,TRUE,FALSE,,,
 src/scripts/logreg.py,data/tox21.csv,LOGREG_TOX21,fingerprint,,,maccs,167,1,500,TRUE,FALSE,,,
-src/scripts/knn.py,data/HIV.csv,KNN_HIV,all,,,morgan,32,1,500,TRUE,FALSE,,,
-src/scripts/knn.py,data/HIV.csv,KNN_HIV,all,,,morgan,64,1,500,TRUE,FALSE,,,
-src/scripts/knn.py,data/HIV.csv,KNN_HIV,all,,,morgan,256,1,500,TRUE,FALSE,,,
-src/scripts/knn.py,data/HIV.csv,KNN_HIV,all,,,morgan,512,1,500,TRUE,FALSE,,,
-src/scripts/knn.py,data/HIV.csv,KNN_HIV,all,,,morgan,1024,1,500,TRUE,FALSE,,,
-src/scripts/knn.py,data/HIV.csv,KNN_HIV,all,,,maccs,167,1,500,TRUE,FALSE,,,
-src/scripts/knn.py,data/HIV.csv,KNN_HIV,physical,,,morgan,32,1,500,TRUE,FALSE,,,
+src/scripts/knn.py,data/HIV.csv,KNN_HIV,all,,,morgan,32,1,500,TRUE,FALSE,97.5,97.1666666667,/tmp/2017-10-09 17:49:42.166529
+src/scripts/knn.py,data/HIV.csv,KNN_HIV,all,,,morgan,64,1,500,TRUE,FALSE,97.5,97.1666666667,/tmp/2017-10-09 17:50:33.629899
+src/scripts/knn.py,data/HIV.csv,KNN_HIV,all,,,morgan,256,1,500,TRUE,FALSE,97.5,97.1666666667,/tmp/2017-10-09 17:51:28.630646
+src/scripts/knn.py,data/HIV.csv,KNN_HIV,all,,,morgan,512,1,500,TRUE,FALSE,97.5,97.1666666667,/tmp/2017-10-09 17:52:34.086822
+src/scripts/knn.py,data/HIV.csv,KNN_HIV,all,,,morgan,1024,1,500,TRUE,FALSE,97.0,97.1666666667,/tmp/2017-10-09 17:54:03.481516
+src/scripts/knn.py,data/HIV.csv,KNN_HIV,all,,,maccs,167,1,500,TRUE,FALSE,97.5,97.1666666667,/tmp/2017-10-09 17:56:24.327517
+src/scripts/knn.py,data/HIV.csv,KNN_HIV,physical,,,morgan,32,1,500,TRUE,FALSE,97.5,97.1666666667,/tmp/2017-10-09 17:57:31.971950
 src/scripts/knn.py,data/HIV.csv,KNN_HIV,physical,,,morgan,64,1,500,TRUE,FALSE,,,
 src/scripts/knn.py,data/HIV.csv,KNN_HIV,physical,,,morgan,256,1,500,TRUE,FALSE,,,
 src/scripts/knn.py,data/HIV.csv,KNN_HIV,physical,,,morgan,512,1,500,TRUE,FALSE,,,

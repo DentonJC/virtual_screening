@@ -32,7 +32,7 @@ def main(
     callbacks_list = create_callbacks(output, patience, data)
     logging.basicConfig(filename=output+'main.log', level=logging.INFO)
     start_log(dummy, gridsearch, fingerprint, n_bits, configs, data, section)
-    n_folds, epochs, rparams, gparams, n_iter, class_weight = read_config(configs, section)
+    n_folds, epochs, rparams, gparams, n_iter, class_weight, targets = read_config(configs, section)
     x_train, x_test, x_val, y_train, y_test, y_val, input_shape, output_shape, smiles = get_data(data, dummy, fingerprint, n_bits, targets, features)
     
     if gridsearch:
