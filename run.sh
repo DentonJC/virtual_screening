@@ -1,1 +1,0 @@
-nice -n 9 parallel -a regression.sh -j 10

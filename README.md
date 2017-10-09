@@ -2,11 +2,7 @@
 
 ### Usage
 
-    usage: knn.py [-h] [-t TARGETS] [--features FEATURES] [-o OUTPUT] [-c CONFIGS]
-
-              [--fingerprint FINGERPRINT] [--n-bits N_BITS] [--n-jobs N_JOBS]
-              [-p PATIENCE] [-g] [--dummy]
-              data section
+    usage: knn.py data section [-h] [--features FEATURES] [-o OUTPUT] [-c CONFIGS] [--fingerprint FINGERPRINT] [--n-bits N_BITS] [--n-jobs N_JOBS] [-p PATIENCE] [-g] [--dummy]
 
     positional arguments:
       data                  path to dataset

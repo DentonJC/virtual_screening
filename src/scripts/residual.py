@@ -8,7 +8,7 @@ import argh
 from argh.decorators import arg
 from datetime import datetime
 from sklearn.utils import class_weight as cw
-from src.main import create_callbacks, read_config, evaluate, start_log
+from src.main import create_callbacks, read_config, evaluate, start_log, write_experiment
 from src.gridsearch import grid_search
 from src.data import get_data
 from src.models.models import build_residual_model
@@ -54,7 +54,8 @@ def main(
     history = model.fit(x_train, y_train, batch_size=rparams.get("batch_size"), epochs=epochs, validation_data=(x_val, y_val), shuffle=True, verbose=1, callbacks=callbacks_list, class_weight=class_weight)
     print("EVALUATE")
     logging.info("EVALUATE")
-    evaluate(output, model, x_train, x_test, x_val, y_train, y_test, y_val, time_start, rparams, history)
+    train_acc, test_acc = evaluate(output, model, x_train, x_test, x_val, y_train, y_test, y_val, time_start, rparams, history)
+    write_experiment(train_acc, test_acc, "/tmp/" + str(time_start))
     auc(model, x_train, x_test, x_val, y_train, y_test, y_val, output)
 
 

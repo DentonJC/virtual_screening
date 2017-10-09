@@ -2,7 +2,9 @@
 
 import os
 import sys
+import csv
 import glob
+import math
 import getopt
 import logging
 import configparser
@@ -132,6 +134,58 @@ def drop_nan(x, y):
     x = table[:, 0:targ]
     y = table[:, targ:]
     return x, y
+    
+
+def isnan(x):
+    return isinstance(x, float) and math.isnan(x)
+   
+
+def write_experiment(train_acc, test_acc, output):
+    try:
+        arguments = ""
+        for arg in sys.argv:
+            arguments+=arg+" "
+
+        table = pd.read_csv("experiments.csv")
+        for i in range(table.shape[0]):
+            command = ""
+            if not isnan(table["Address"][i]): 
+                command+=str(table["Address"][i]) + " "
+            if not isnan(table["Data"][i]): 
+                command+=str(table["Data"][i]) + " "
+            if not isnan(table["Section"][i]): 
+                command+=str(table["Section"][i]) + " "
+            if not isnan(table["Features"][i]): 
+                command+="--features " + str(table["Features"][i]) + " "
+            if not isnan(table["Output"][i]): 
+                command+="-o " + str(table["Output"][i]) + " "
+            if not isnan(table["Configs"][i]): 
+                command+="-c " + str(table["Configs"][i]) + " "
+            if not isnan(table["Fingerprint"][i]): 
+                command+="--fingerprint " + str(table["Fingerprint"][i]) + " "
+            if not isnan(table["n_bits"][i]): 
+                command+="--n-bits " + str(table["n_bits"][i]) + " "
+            if not isnan(table["n_jobs"][i]): 
+                command+="--n-jobs " + str(table["n_jobs"][i]) + " "
+            if not isnan(table["Patience"][i]): 
+                command+="-p " + str(table["Patience"][i]) + " "
+            if not isnan(table["Gridsearch"][i]): 
+                command+="-g "
+            if not isnan(table["Dummy"][i]): 
+                command+="--dummy "
+            
+            if command == arguments:
+                i+=1
+                r = csv.reader(open('experiments.csv')) # Here your csv file
+                lines = [l for l in r]
+                lines[i][12] = str(train_acc)
+                lines[i][13] = str(test_acc)
+                lines[i][14] = str(output)
+                writer = csv.writer(open('experiments.csv', 'w'))
+                writer.writerows(lines)
+                print("Write results of experiment")
+    except:
+        print("Can't write results of experiment")
 
 
 def evaluate(path, model, x_train, x_test, x_val, y_train, y_test, y_val, time_start, rparams, history):
@@ -158,14 +212,18 @@ def evaluate(path, model, x_train, x_test, x_val, y_train, y_test, y_val, time_s
         print('Accuracy: %1.3f' % score[1])
         logging.info('Accuracy: %1.3f' % score[1])
     except:
-        y_pred = model.predict(x_test)
-        predictions = [round(value) for value in y_pred]
+        y_pred_test = model.predict(x_test)
+        p_test = [round(value) for value in y_pred_test]
+        
+        y_pred_train = model.predict(x_train)
+        p_train = [round(value) for value in y_pred_train]
 
-        accuracy = accuracy_score(y_test, predictions)
-        print("Accuracy: %.2f%%" % (accuracy * 100.0))
-
+        accuracy = accuracy_score(y_test, p_test)*100
+        accuracy_train = accuracy_score(y_train, p_train)*100
+        print("Accuracy: %.2f%%" % (accuracy))
+        
         # find how long the program was running
-        score = [1-accuracy_score(y_pred, y_test), accuracy_score(y_pred, y_test)]
+        score = [1-accuracy_score(y_pred_test, y_test), accuracy_score(y_pred_test, y_test)]
     
     # find how long the program was running
     tstop = datetime.now()
@@ -188,3 +246,4 @@ def evaluate(path, model, x_train, x_test, x_val, y_train, y_test, y_val, time_s
     print("Done")
     print("Results path", path)
     logging.info("Done")
+    return accuracy, accuracy_train

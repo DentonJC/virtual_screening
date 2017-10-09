@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 import sys
 import socket
 import matplotlib.pyplot as plt
@@ -114,3 +115,16 @@ def auc(model, X_train, X_test, X_val, y_train, y_test, y_val, path):
     plt.title('Receiver operating characteristic')
     plt.legend(loc="lower right")
     plt.savefig(path+'auc.png')
+
+
+if __name__ == "__main__":
+    """
+    Create dummy report.
+    """
+    path = os.path.dirname(os.path.realpath(__file__)).replace("/src", "") + "/tmp/"
+    score = [0,0]
+    timer = 0
+    rparams = []
+    tstart = 0
+    history = None
+    create_report(path, score, timer, rparams, tstart, history)

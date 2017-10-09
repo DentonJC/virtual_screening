@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 import logging
 import numpy as np
 import pandas as pd
@@ -7,7 +8,7 @@ from rdkit.Chem import AllChem
 from rdkit import Chem
 from rdkit.Chem import MACCSkeys
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, LabelEncoder
 from src._desc_rdkit import smiles_to_desc_rdkit
 from src.main import drop_nan
 
@@ -21,72 +22,76 @@ def get_data(filename, DUMMY, fingerprint, nBits, set_targets, set_features):
     smiles = []
     if DUMMY:
         data = data[:Dummy_n]
-
-    if "_morgan" in filename:
-        print("Loading data")
-        logging.info("Loading data")
-        if DUMMY:
-            data = np.array(data[:Dummy_n])
-        else:
-            data = np.array(data)
-
-        features = data[:, 0:nBits+n_physical]
-        labels = data[:, nBits+n_physical:]
-
-    elif "_maccs" in filename:
-        print("Loading data")
-        logging.info("Loading data")
-        if DUMMY:
-            data = np.array(data[:Dummy_n])
-        else:
-            data = np.array(data)
-
-        features = data[:, 0:167+n_physical]
-        labels = data[:, 167+n_physical:]
-
+    print("Loading data")
+    logging.info("Loading data")
+    l_headers = list(data)
+    if " 'f'" in l_headers or " 'p'" in l_headers:
+        data = np.array(data)
+        _, cols = data.shape
+        features = np.empty(shape=(data.shape[0], ))
+        labels = np.empty(shape=(data.shape[0], ))
+        for i in range(cols):
+            if " 'f'" in l_headers[i] or " 'p'" in l_headers[i]:
+                features = np.c_[features,data[:,i]]
+            else:
+                labels = np.c_[labels,data[:,i]]
+        features = np.delete(features, [0], axis=1)
+        labels = np.delete(labels, [0], axis=1)
+        
     else:
         print("Physic data extraction")
         smiles = data["smiles"]
+        data = data.drop("smiles", 1)
+        if "mol_id" in list(data):
+            data = data.drop("mol_id", 1)
+        l_headers = list(data)
         physic_smiles = pd.Series(smiles)
         physic_data = smiles_to_desc_rdkit(physic_smiles)
+        p_headers = "p" * physic_data.shape[1]
         data = np.array(data)
         _, cols = data.shape
         l = []
-        for c in range(cols):
-            if data[0][c] in (0, 1) or pd.isnull(data[0][c]):
-                l.append(data[:, c])
-
+        for i in range(cols):
+            if isinstance(data[i][0], str):
+                le = LabelEncoder()
+                le.fit(data[:,i])
+                c = le.transform(data[:,i])
+                l.append(c)
+            else:
+                l.append(data[:, i])
+            
         labels = np.array(l).T
-
         print("Featurization")
         logging.info("Featurization")
         ms = [Chem.MolFromSmiles(x) for x in smiles]
         if fingerprint in ['MACCS', 'maccs', 'Maccs', 'maccs (167)']:
             features = [MACCSkeys.GenMACCSKeys(x) for x in ms if x]
             features = np.array(features)
+            f_headers = "f" * features.shape[1]
             features = np.c_[features, physic_data]
             featurized = np.c_[features, labels]
 
             filename = filename.replace(".csv", "_maccs.csv")
-            head, _sep, tail = filename.rpartition('/')
-            filename = head + "/preprocessed/" + tail
-            np.savetxt(filename, featurized, delimiter=",", fmt='%3f')
 
         if fingerprint in ['MORGAN', 'Morgan', 'morgan', 'morgan (n)']:
             features = [AllChem.GetMorganFingerprintAsBitVect(x, 3, nBits=nBits) for x in ms if x]
             features = np.array(features)
+            f_headers = "f" * features.shape[1]
             features = np.c_[features, physic_data]
             featurized = np.c_[features, labels]
 
             filename = filename.replace(".csv", "_morgan_"+str(nBits)+".csv")
-            head, _sep, tail = filename.rpartition('/')
-            filename = head + "/preprocessed/" + tail
-            np.savetxt(filename, featurized, delimiter=",", fmt='%3f')
+        
+        head, _sep, tail = filename.rpartition('/')
+        filename = head + "/preprocessed/" + tail
+        headers = list(f_headers) + list(p_headers) + list(l_headers)            
+        headers = str(headers).replace('[','').replace(']','').replace('#','')
+        np.savetxt(filename, featurized, delimiter=",", header=headers, fmt='%3f')
 
         if DUMMY:
             features = np.array(features[:Dummy_n])
             labels = np.array(labels[:Dummy_n])
-    # remove prints
+
     print("Data shape:", str(data.shape))
     logging.info("Data shape: %s", str(data.shape))
     print("Features shape:", str(features.shape))
@@ -140,3 +145,16 @@ def get_data(filename, DUMMY, fingerprint, nBits, set_targets, set_features):
     _, output_shape = y_train.shape
 
     return x_train, x_test, x_val, y_train, y_test, y_val, input_shape, output_shape, smiles
+
+
+if __name__ == "__main__":
+    """
+    Process dataset.
+    """
+    filename = os.path.dirname(os.path.realpath(__file__)).replace("/src", "") + "/data/HIV.csv"
+    fingerprint = 'morgan'
+    nBits = 256
+    DUMMY = False
+    set_targets = [0]
+    set_features = 'all'
+    get_data(filename, DUMMY, fingerprint, nBits, set_targets, set_features)

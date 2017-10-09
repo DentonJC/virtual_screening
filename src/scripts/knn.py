@@ -7,7 +7,7 @@ from argh.decorators import arg
 from datetime import datetime
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import GridSearchCV
-from src.main import create_callbacks, read_config, evaluate, start_log
+from src.main import create_callbacks, read_config, evaluate, start_log, write_experiment
 from src.gridsearch import grid_search
 from src.data import get_data
 time_start = datetime.now()
@@ -45,13 +45,13 @@ def main(
     model.fit(x_train, y_train.reshape(y_train.shape[0],))
 
     if gridsearch:
-        rparams = model.grid_scores_
+        rparams = model.cv_results_
         print(rparams)
 
     print("EVALUATE")
     logging.info("EVALUATE")
-    evaluate(output, model, x_train, x_test, x_val, y_train, y_test, y_val, time_start, rparams, None)
-
+    train_acc, test_acc = evaluate(output, model, x_train, x_test, x_val, y_train, y_test, y_val, time_start, rparams, None)
+    write_experiment(train_acc, test_acc, "/tmp/" + str(time_start))
 
 parser = argh.ArghParser()
 argh.set_default_command(parser, main)

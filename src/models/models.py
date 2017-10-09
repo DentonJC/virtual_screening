@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import os
+import sys
 # import keras.backend as K  # for max pooling operation
 from keras.models import Sequential
 # from keras import regularizers  # regularizers.l1_l2(0.)
@@ -49,3 +51,29 @@ def build_residual_model(input_dim, output_dim, activation_0='relu', activation_
     # try using different optimizers and different optimizer configs
     model.compile(optimizer=optimizer, loss=loss, metrics=metrics)
     return model
+
+
+if __name__ == "__main__":
+    """
+    Print models summary in file.
+    """
+    path = os.path.dirname(os.path.realpath(__file__)).replace("src/models", "") + "/tmp/"
+    input_dim = 256
+    output_dim = 2
+    
+    print("Residual")
+    f = open(path + 'model', 'w')
+    # print and save model summary
+    model = build_residual_model(input_dim, output_dim)
+    orig_stdout = sys.stdout
+    sys.stdout = f
+    print(model.summary())
+    sys.stdout = orig_stdout
+    
+    print("Regression")
+    model = build_logistic_model(input_dim, output_dim)
+    orig_stdout = sys.stdout
+    sys.stdout = f
+    print(model.summary())
+    sys.stdout = orig_stdout    
+    f.close()
