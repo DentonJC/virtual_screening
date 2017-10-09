@@ -220,7 +220,8 @@ def evaluate(path, model, x_train, x_test, x_val, y_train, y_test, y_val, time_s
 
         accuracy = accuracy_score(y_test, p_test)*100
         accuracy_train = accuracy_score(y_train, p_train)*100
-        print("Accuracy: %.2f%%" % (accuracy))
+        print("Accuracy test: %.2f%%" % (accuracy))
+        print("Accuracy train: %.2f%%" % (accuracy_train))
         
         # find how long the program was running
         score = [1-accuracy_score(y_pred_test, y_test), accuracy_score(y_pred_test, y_test)]
@@ -246,4 +247,4 @@ def evaluate(path, model, x_train, x_test, x_val, y_train, y_test, y_val, time_s
     print("Done")
     print("Results path", path)
     logging.info("Done")
-    return accuracy, accuracy_train
+    return accuracy_train, accuracy
