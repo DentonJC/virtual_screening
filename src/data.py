@@ -123,8 +123,6 @@ def get_data(filename, DUMMY, fingerprint, nBits, set_targets, set_features):
         features = features[:, range(0, nBits)].reshape(features.shape[0], nBits)
     
     features, labels = drop_nan(features, labels)
-    print(features)
-    print(labels)
     
     x_train, x, y_train, y = train_test_split(features, labels, test_size=0.4, stratify=labels)
     x_test, x_val, y_test, y_val = train_test_split(x, y, test_size=0.5, stratify=y)

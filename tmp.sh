@@ -1,0 +1,1 @@
+src/scripts/knn.py data/preprocessed/HIV_morgan_32.csv KNN_HIV --features all --fingerprint morgan --n-bits 32 --n-jobs 1 -p 500 -g 

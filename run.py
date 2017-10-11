@@ -17,7 +17,7 @@ for i in range(table.shape[0]):
         if not isnan(table["Address"][i]): 
             command+=str(table["Address"][i]) + " "
         if not isnan(table["Data"][i]): 
-            command+=str(table["Data"][i]) + " "
+            command+=table["Data"][i] + " "
         if not isnan(table["Section"][i]): 
             command+=str(table["Section"][i]) + " "
         if not isnan(table["Features"][i]): 
@@ -29,21 +29,20 @@ for i in range(table.shape[0]):
         if not isnan(table["Fingerprint"][i]): 
             command+="--fingerprint " + str(table["Fingerprint"][i]) + " "
         if not isnan(table["n_bits"][i]): 
-            command+="--n-bits " + str(table["n_bits"][i]) + " "
+            command+="--n-bits " + str(int(table["n_bits"][i])) + " "
         if not isnan(table["n_jobs"][i]): 
-            command+="--n-jobs " + str(table["n_jobs"][i]) + " "
+            command+="--n-jobs " + str(int(table["n_jobs"][i])) + " "
         if not isnan(table["Patience"][i]): 
-            command+="-p " + str(table["Patience"][i]) + " "
+            command+="-p " + str(int(table["Patience"][i])) + " "
         if not isnan(table["Gridsearch"][i]): 
             command+="-g "
         if not isnan(table["Dummy"][i]): 
             command+="--dummy"
-
         text_file = open("tmp.sh", "w")
         text_file.write(command)
         text_file.close()
         try:
-            os.system("nice -n 9 parallel -a tmp.sh -j 10")
+            os.system("nice -n 9 parallel -a tmp.sh -j -1")
         except:
             print("Something wrong with experiment")
         os.remove("tmp.sh")
