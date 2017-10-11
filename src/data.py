@@ -114,18 +114,20 @@ def get_data(filename, DUMMY, fingerprint, nBits, set_targets, set_features):
     features = features.T
     features = np.delete(features, remove_rows, axis=1)
 
-    features, labels = drop_nan(features, labels)
-    
     if set_targets:
         labels = labels[:, set_targets].reshape(labels.shape[0], len(set_targets))
-
+    
     if set_features in ['physical', 'p']:
         features = features[:, range(nBits, features.shape[1])].reshape(features.shape[0], features.shape[1]-nBits)
     elif set_features in ['fingerprint', 'f']:
         features = features[:, range(0, nBits)].reshape(features.shape[0], nBits)
-
-    x_train, x, y_train, y = train_test_split(features, labels, test_size=0.4, stratify=labels[:, set_targets])
-    x_test, x_val, y_test, y_val = train_test_split(x, y, test_size=0.5, stratify=y[:, set_targets])
+    
+    features, labels = drop_nan(features, labels)
+    print(features)
+    print(labels)
+    
+    x_train, x, y_train, y = train_test_split(features, labels, test_size=0.4, stratify=labels)
+    x_test, x_val, y_test, y_val = train_test_split(x, y, test_size=0.5, stratify=y)
 
 
     # remove prints
