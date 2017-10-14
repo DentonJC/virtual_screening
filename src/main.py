@@ -43,10 +43,10 @@ def read_config(config_path, section):
     n_iter = eval(def_config['n_iter'])
     class_weight = eval(def_config['class_weight'])
     model_config = config[section]
-    targets = eval(model_config['targets'])
+    #targets = eval(model_config['targets'])
     rparams = eval(model_config['rparams'])
     gparams = eval(model_config['gparams'])
-    return n_folds, epochs, rparams, gparams, n_iter, class_weight, targets
+    return n_folds, epochs, rparams, gparams, n_iter, class_weight#, targets
 
 
 def start_log(DUMMY, GRID_SEARCH, fingerprint, nBits, config_path, filename, section):
@@ -140,54 +140,6 @@ def isnan(x):
     return isinstance(x, float) and math.isnan(x)
    
 
-def write_experiment(train_acc, test_acc, output):
-    try:
-        arguments = ""
-        for arg in sys.argv:
-            arguments+=arg+" "
-
-        table = pd.read_csv("experiments.csv")
-        for i in range(table.shape[0]):
-            command = ""
-            if not isnan(table["Address"][i]): 
-                command+=str(table["Address"][i]) + " "
-            if not isnan(table["Data"][i]): 
-                command+=str(table["Data"][i]) + " "
-            if not isnan(table["Section"][i]): 
-                command+=str(table["Section"][i]) + " "
-            if not isnan(table["Features"][i]): 
-                command+="--features " + str(table["Features"][i]) + " "
-            if not isnan(table["Output"][i]): 
-                command+="-o " + str(table["Output"][i]) + " "
-            if not isnan(table["Configs"][i]): 
-                command+="-c " + str(table["Configs"][i]) + " "
-            if not isnan(table["Fingerprint"][i]): 
-                command+="--fingerprint " + str(table["Fingerprint"][i]) + " "
-            if not isnan(table["n_bits"][i]): 
-                command+="--n-bits " + str(table["n_bits"][i]) + " "
-            if not isnan(table["n_jobs"][i]): 
-                command+="--n-jobs " + str(table["n_jobs"][i]) + " "
-            if not isnan(table["Patience"][i]): 
-                command+="-p " + str(table["Patience"][i]) + " "
-            if not isnan(table["Gridsearch"][i]): 
-                command+="-g "
-            if not isnan(table["Dummy"][i]): 
-                command+="--dummy "
-            
-            if command == arguments:
-                i+=1
-                r = csv.reader(open('experiments.csv')) # Here your csv file
-                lines = [l for l in r]
-                lines[i][12] = str(train_acc)
-                lines[i][13] = str(test_acc)
-                lines[i][14] = str(output)
-                writer = csv.writer(open('experiments.csv', 'w'))
-                writer.writerows(lines)
-                print("Write results of experiment")
-    except:
-        print("Can't write results of experiment")
-
-
 def evaluate(path, model, x_train, x_test, x_val, y_train, y_test, y_val, time_start, rparams, history):
     try:
         model_json = model.to_json()
@@ -211,10 +163,21 @@ def evaluate(path, model, x_train, x_test, x_val, y_train, y_test, y_val, time_s
         logging.info('Score: %1.3f' % score[0])
         print('Accuracy: %1.3f' % score[1])
         logging.info('Accuracy: %1.3f' % score[1])
+        print("PREDICT")
+        y_pred = model.predict(x_test)
+        result = [np.argmax(i) for i in y_pred]
+        y_pred_train = model.predict(x_train)
+        result_train = [np.argmax(i) for i in y_pred_train]
+        
+        accuracy = accuracy_score(y_test, result)*100
+        accuracy_train = accuracy_score(y_train, result_train)*100
+        
+        save_labels(result, path + "y_pred.csv")
     except:
         y_pred_test = model.predict(x_test)
         p_test = [round(value) for value in y_pred_test]
-        
+        save_labels(p_test, path + "y_pred.csv")
+
         y_pred_train = model.predict(x_train)
         p_train = [round(value) for value in y_pred_train]
 
@@ -239,12 +202,8 @@ def evaluate(path, model, x_train, x_test, x_val, y_train, y_test, y_val, time_s
         create_report(path, score, timer, rparams, tstart, None)
     copyfile(sys.argv[0], path + os.path.basename(sys.argv[0]))
     copytree('src/models', path + 'models')
-    #print("PREDICT")
-    #y_pred = model.predict(x_test)
-    #result = [np.argmax(i) for i in y_pred]
-    #save_labels(result, path + "y_pred.csv")
-
+    
     print("Done")
     print("Results path", path)
     logging.info("Done")
-    return accuracy_train, accuracy
+    return accuracy, accuracy_train

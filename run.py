@@ -1,18 +1,18 @@
 #!/usr/bin/env python
 
+import os
+import math
+import argh
 import pandas as pd
 import numpy as np
-import math
-import os
 
-TABLE_NAME = "experiments.csv"
 
 def isnan(x):
     return isinstance(x, float) and math.isnan(x)
 
-table = pd.read_csv(TABLE_NAME)
-for i in range(table.shape[0]):
-    if (isnan(table["Train acc"][i])) or (isnan(table["Test acc"][i])):
+def main(experiments_file = 'experiments.csv'):
+    table = pd.read_csv(experiments_file)
+    for i in range(table.shape[0]):
         command = ""
         if not isnan(table["Address"][i]): 
             command+=str(table["Address"][i]) + " "
@@ -37,13 +37,23 @@ for i in range(table.shape[0]):
         if not isnan(table["Gridsearch"][i]): 
             command+="-g "
         if not isnan(table["Dummy"][i]): 
-            command+="--dummy"
-        text_file = open("tmp.sh", "w")
-        text_file.write(command)
-        text_file.close()
-        try:
-            os.system("nice -n 9 parallel -a tmp.sh -j -1")
-        except:
-            print("Something wrong with experiment")
-        os.remove("tmp.sh")
+            command+="--dummy "
+
+        command+="-e " + experiments_file
+        for j in range(int((table.shape[1] - 12) / 2)): # 12 - num of parameters, 4 columns per target
+            command_f = command + " -t " + str(j)
+            text_file = open("tmp.sh", "w")
+            text_file.write(command_f)
+            text_file.close()
+            try:
+                os.system("nice -n 9 parallel -a tmp.sh -j -1")
+            except:
+                print("Something wrong with experiment")
+            os.remove("tmp.sh")
+
+parser = argh.ArghParser()
+argh.set_default_command(parser, main)
+
+if __name__ == "__main__":
+    parser.dispatch()
 

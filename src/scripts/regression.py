@@ -8,11 +8,12 @@ import argh
 from argh.decorators import arg
 from datetime import datetime
 from sklearn.utils import class_weight as cw
-from src.main import create_callbacks, read_config, evaluate, start_log, write_experiment
+from src.main import create_callbacks, read_config, evaluate, start_log
 from src.gridsearch import grid_search
 from src.data import get_data
 from src.models.models import build_logistic_model
 from src.report import auc
+from src.experiment import write_experiment
 time_start = datetime.now()
 n_physical = 196
 
@@ -20,7 +21,6 @@ n_physical = 196
 def main(
     data:'path to dataset',
     section:'name of section in config file',
-    # targets:'set target'=0,
     features:'take features: all, fingerptint or physical'='all',
     output:'path to output directory'=os.path.dirname(os.path.realpath(__file__)).replace("/src/scripts", "") + "/tmp/" + str(time_start) + '/',
     configs:'path to config file'=os.path.dirname(os.path.realpath(__file__)).replace("/scripts", "") + "/configs/configs.ini",
@@ -30,12 +30,16 @@ def main(
     patience:'patience of fit'=100,
     gridsearch:'use gridsearch'=False,
     dummy:'use only first 1000 rows of dataset'=False,
+    targets: 'set number of target column'=0,
+    experiments_file: 'where to write results of experiments'='experiments.csv'
     ):
+    if targets is not list:
+        targets = [targets]
 
     callbacks_list = create_callbacks(output, patience, data)
     logging.basicConfig(filename=output+'main.log', level=logging.INFO)
     start_log(dummy, gridsearch, fingerprint, n_bits, configs, data, section)
-    n_folds, epochs, rparams, gparams, n_iter, class_weight, targets = read_config(configs, section)
+    n_folds, epochs, rparams, gparams, n_iter, class_weight = read_config(configs, section)
     x_train, x_test, x_val, y_train, y_test, y_val, input_shape, output_shape, smiles = get_data(data, dummy, fingerprint, n_bits, targets, features)
     
     if gridsearch:
@@ -55,7 +59,7 @@ def main(
     print("EVALUATE")
     logging.info("EVALUATE")
     train_acc, test_acc = evaluate(output, model, x_train, x_test, x_val, y_train, y_test, y_val, time_start, rparams, history)
-    write_experiment(train_acc, test_acc, "/tmp/" + str(time_start))
+    write_experiment(train_acc, test_acc, targets, experiments_file)
     auc(model, x_train, x_test, x_val, y_train, y_test, y_val, output)
 
 

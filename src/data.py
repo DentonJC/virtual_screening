@@ -104,15 +104,18 @@ def get_data(filename, DUMMY, fingerprint, nBits, set_targets, set_features):
     # Scaler
     st = StandardScaler()
     remove_rows = []
+    
     features = features.T
+    
     for i in range(features.shape[0]):
         try:
-            features[i] = st.fit_transform(features[i].reshape(1, -1))
+            st.fit_transform(features[i].reshape(1, -1)) # try scalar here
         except:
             remove_rows.append(i)
             print("Input contains NaN, infinity or a value too large for dtype('float64')")
     features = features.T
     features = np.delete(features, remove_rows, axis=1)
+    
 
     if set_targets:
         labels = labels[:, set_targets].reshape(labels.shape[0], len(set_targets))

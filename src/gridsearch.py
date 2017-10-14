@@ -2,9 +2,11 @@
 
 import sys
 import logging
+import numpy as np
 from sklearn.model_selection import RandomizedSearchCV
 from keras.wrappers.scikit_learn import KerasClassifier
 from src.main import Logger
+from sklearn.metrics import matthews_corrcoef, make_scorer
 
 
 def grid_search(param_grid, create_model, x_train, y_train, input_shape, output_shape, path, n_folds, n_iter, n_jobs):
@@ -14,8 +16,16 @@ def grid_search(param_grid, create_model, x_train, y_train, input_shape, output_
     orig_stdout = sys.stdout
     f = open(path + 'gridsearch.log', 'w')
     sys.stdout = Logger(sys.stdout, f)
-    grid = RandomizedSearchCV(estimator=search_model, param_distributions=param_grid, n_jobs=n_jobs, cv=n_folds, n_iter=n_iter, verbose=10)
-    grid_result = grid.fit(x_train, y_train)
+    mcc = make_scorer(matthews_corrcoef)
+    # if len(np.unique(y_train)) > 2:
+    try:
+        grid = RandomizedSearchCV(estimator=search_model, param_distributions=param_grid, n_jobs=n_jobs, cv=n_folds, n_iter=n_iter, verbose=10, scoring=[mcc, 'f1_weighted', 'precision_weighted', 'r2', 'recall_weighted'])
+        grid_result = grid.fit(x_train, y_train)
+    except:
+        grid = RandomizedSearchCV(estimator=search_model, param_distributions=param_grid, n_jobs=n_jobs, cv=n_folds, n_iter=n_iter, verbose=10)
+        grid_result = grid.fit(x_train, y_train)
+
+    logging.info("HERE")
     sys.stdout = orig_stdout
     f.close()
 
