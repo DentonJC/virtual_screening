@@ -6,7 +6,7 @@ import argh
 import numpy as np
 from argh.decorators import arg
 from datetime import datetime
-from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import RandomizedSearchCV
 from src.main import create_callbacks, read_config, evaluate, start_log
 from src.gridsearch import grid_search
@@ -45,17 +45,17 @@ def main(
     
     if gridsearch:
         try:
-            model = RandomizedSearchCV(LogisticRegression(**rparams), gparams, n_iter=n_iter, n_jobs=n_jobs, cv=n_folds, verbose=10, scoring=[mcc, 'f1_weighted', 'precision_weighted', 'r2', 'recall_weighted'])
+            model = RandomizedSearchCV(RandomForestClassifier(**rparams), gparams, n_iter=n_iter, n_jobs=n_jobs, cv=n_folds, verbose=10, scoring=[mcc, 'f1_weighted', 'precision_weighted', 'r2', 'recall_weighted'])
             print("FIT")
             logging.info("FIT")
             model.fit(x_train, np.ravel(y_train))
         except:
-            model = RandomizedSearchCV(LogisticRegression(**rparams), gparams, n_iter=n_iter, n_jobs=n_jobs, cv=n_folds, verbose=10)
+            model = RandomizedSearchCV(RandomForestClassifier(**rparams), gparams, n_iter=n_iter, n_jobs=n_jobs, cv=n_folds, verbose=10)
             print("FIT")
             logging.info("FIT")
             model.fit(x_train, np.ravel(y_train))
     else:
-        model = LogisticRegression(**rparams, class_weight="balanced")
+        model = RandomForestClassifier(**rparams, class_weight="balanced")
         print("FIT")
         logging.info("FIT")
         model.fit(x_train, np.ravel(y_train))

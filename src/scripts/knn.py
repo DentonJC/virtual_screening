@@ -7,7 +7,7 @@ import numpy as np
 from argh.decorators import arg
 from datetime import datetime
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import RandomizedSearchCV
 from src.main import create_callbacks, read_config, evaluate, start_log
 from src.gridsearch import grid_search
 from src.data import get_data
@@ -44,17 +44,20 @@ def main(
     
     if gridsearch:
         try:
-            model = GridSearchCV(KNeighborsClassifier(**rparams), gparams, scoring=mcc, cv=n_folds, n_jobs=n_jobs, verbose=10)
+            model = RandomizedSearchCV(KNeighborsClassifier(**rparams), gparams, n_iter=n_iter, n_jobs=n_jobs, cv=n_folds, verbose=10, scoring=[mcc, 'f1_weighted', 'precision_weighted', 'r2', 'recall_weighted'])
             print("FIT")
             logging.info("FIT")
-            model.fit(x_train, y_train.reshape(y_train.shape[0],))
+            model.fit(x_train, np.ravel(y_train))
         except:
-            model = GridSearchCV(KNeighborsClassifier(**rparams), gparams, cv=n_folds, n_jobs=n_jobs, verbose=10)
+            model = RandomizedSearchCV(KNeighborsClassifier(**rparams), gparams, n_iter=n_iter, n_jobs=n_jobs, cv=n_folds, verbose=10)
             print("FIT")
             logging.info("FIT")
-            model.fit(x_train, y_train.reshape(y_train.shape[0],))
+            model.fit(x_train, np.ravel(y_train))
     else:
         model = KNeighborsClassifier(**rparams)
+        print("FIT")
+        logging.info("FIT")
+        model.fit(x_train, np.ravel(y_train))
 
     if gridsearch:
         rparams = model.cv_results_

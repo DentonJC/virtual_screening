@@ -55,7 +55,7 @@ def main(
     if not class_weight:
         y = [item for sublist in y_train for item in sublist]
         class_weight = cw.compute_class_weight("balanced", np.unique(y), y)
-    history = model.fit(x_train, y_train, batch_size=rparams.get("batch_size"), epochs=epochs, validation_data=(x_val, y_val), shuffle=True, verbose=1, callbacks=callbacks_list, class_weight=class_weight)
+    history = model.fit(x_train, np.ravel(y_train), batch_size=rparams.get("batch_size"), epochs=epochs, validation_data=(x_val, y_val), shuffle=True, verbose=1, callbacks=callbacks_list, class_weight=class_weight)
     print("EVALUATE")
     logging.info("EVALUATE")
     train_acc, test_acc = evaluate(output, model, x_train, x_test, x_val, y_train, y_test, y_val, time_start, rparams, history)

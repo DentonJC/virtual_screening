@@ -1,4 +1,4 @@
 Address,Data,Section,Features,Output,Configs,Fingerprint,n_bits,n_jobs,Patience,Gridsearch,Dummy,Activity train acc,Activity test acc 
-src/scripts/logreg.py,data/preprocessed/HIV_toy.csv,LOGREG_HIV,all,,,morgan,32,1,500,TRUE,,3.0,3.0
+src/scripts/logreg.py,data/preprocessed/HIV_toy.csv,LOGREG_HIV,all,,,morgan,32,1,500,TRUE,,96.0,95.9166666667
 src/scripts/logreg.py,data/preprocessed/HIV_toy.csv,LOGREG_HIV,physical,,,morgan,32,1,500,TRUE,,96.0,95.9166666667
 src/scripts/logreg.py,data/preprocessed/HIV_toy.csv,LOGREG_HIV,fingerprint,,,morgan,32,1,500,TRUE,,96.0,95.9166666667

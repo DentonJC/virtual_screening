@@ -7,7 +7,7 @@ import argh
 from argh.decorators import arg
 from datetime import datetime
 from sklearn.utils import class_weight as cw
-from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import RandomizedSearchCV
 from sklearn.svm import SVC
 from src.main import create_callbacks, read_config, evaluate, start_log
 from src.data import get_data
@@ -49,17 +49,20 @@ def main(
 
     if gridsearch:
         try:
-            model = GridSearchCV(SVC(**rparams), gparams, scoring=mcc, cv=n_folds, n_jobs=n_jobs, verbose=10)
+            model = RandomizedSearchCV(SVC(**rparams), gparams, n_iter=n_iter, n_jobs=n_jobs, cv=n_folds, verbose=10, scoring=[mcc, 'f1_weighted', 'precision_weighted', 'r2', 'recall_weighted'])
             print("FIT")
             logging.info("FIT")
-            history = model.fit(x_train, y_train.reshape(y_train.shape[0],))
+            history = model.fit(x_train, np.ravel(y_train))
         except:
-            model = GridSearchCV(SVC(**rparams), gparams, cv=n_folds, n_jobs=n_jobs, verbose=10)
+            model = RandomizedSearchCV(SVC(**rparams), gparams, n_iter=n_iter, n_jobs=n_jobs, cv=n_folds, verbose=10)
             print("FIT")
             logging.info("FIT")
-            history = model.fit(x_train, y_train.reshape(y_train.shape[0],))
+            history = model.fit(x_train, np.ravel(y_train))
     else:
         model = SVC(**rparams, class_weight="balanced")
+        print("FIT")
+        logging.info("FIT")
+        history = model.fit(x_train, np.ravel(y_train))
 
     if gridsearch:
         rparams = model.cv_results_
