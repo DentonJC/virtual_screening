@@ -202,6 +202,9 @@ def evaluate(path, model, x_train, x_test, x_val, y_train, y_test, y_val, time_s
         create_report(path, score, timer, rparams, tstart, None)
     copyfile(sys.argv[0], path + os.path.basename(sys.argv[0]))
     copytree('src/models', path + 'models')
+    path_old = path
+    path = (path[:-1] + ' ' + str(sys.argv[0]) +  ' ' + str(sys.argv[1]) +  ' ' + str(round(score[1], 3)) +'/').replace(".py", "").replace(".csv", "").replace("src/scripts/","").replace("data/preprocessed/","")
+    os.rename(path_old,path)
     
     print("Done")
     print("Results path", path)
