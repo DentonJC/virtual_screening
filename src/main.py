@@ -25,7 +25,7 @@ def create_callbacks(output, patience, data):
         os.makedirs(output)
     if not os.path.exists(output+"results/*"):
         os.makedirs(output+"results/")
-        
+            
     filepath = output + "results/" + "weights-improvement-{epoch:02d}.hdf5"
     checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
     stopping = EarlyStopping(monitor='val_acc', min_delta=0, patience=patience, verbose=0, mode='auto')

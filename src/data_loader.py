@@ -18,6 +18,12 @@ n_physical = 196
 
 
 def get_data(filename, DUMMY, fingerprint, nBits, set_targets, set_features):
+    path = os.path.dirname(os.path.realpath(__file__)).replace("/src", "")
+    if not os.path.exists(path+"data/"):
+        os.makedirs(path+"data/")
+    if not os.path.exists(path+"/data/preprocessed/"):
+        os.makedirs(path+"/data/preprocessed/")
+
     data = pd.read_csv(filename)
     smiles = []
     if DUMMY:
@@ -92,7 +98,7 @@ def get_data(filename, DUMMY, fingerprint, nBits, set_targets, set_features):
             filename = filename.replace(".csv", "_morgan_"+str(nBits)+".csv")
         
         head, _sep, tail = filename.rpartition('/')
-        filename = head + "/preprocessed/" + tail
+        filename = path + "/data/preprocessed/" + tail
         headers = list(f_headers) + list(p_headers) + list(l_headers)            
         headers = str(headers).replace('[','').replace(']','').replace('#','')
         np.savetxt(filename, featurized, delimiter=",", header=headers, fmt='%3f')
