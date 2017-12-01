@@ -10,7 +10,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import RandomizedSearchCV
 from src.main import create_callbacks, read_config, evaluate, start_log
 from src.gridsearch import grid_search
-from src.data import get_data
+from src.data_loader import get_data
 from src.experiment import write_experiment
 from sklearn.metrics import matthews_corrcoef, make_scorer
 mcc = make_scorer(matthews_corrcoef)

@@ -15,8 +15,8 @@ def create_report(path, score, timer, rparams, tstart, history):
     """
     Create .pdf with information about experiment.
     """
-    doc = SimpleDocTemplate(path+"report "+str(round(score[1], 2))+".pdf",
-                            pagesize=letter, rightMargin=72, leftMargin=72, topMargin=72, bottomMargin=18)
+    report_name = path+"report "+str(round(score[1], 2))+".pdf"
+    doc = SimpleDocTemplate(report_name, pagesize=letter, rightMargin=72, leftMargin=72, topMargin=72, bottomMargin=18)
 
     Report = []
     styles = getSampleStyleSheet()
@@ -54,9 +54,9 @@ def create_report(path, score, timer, rparams, tstart, history):
         im = Image(path+'history.png')
         Report.append(im)
     except:
-        print("History error")
+        print("Can't create history plot for this type of experiment")
     doc.build(Report)
-    print("Report complete")
+    print("Report complete, you can see it in the results folder")
 
 def draw_history(history, path):
     """
@@ -118,9 +118,7 @@ def auc(model, X_train, X_test, X_val, y_train, y_test, y_val, path):
 
 
 if __name__ == "__main__":
-    """
-    Create dummy report.
-    """
+    # Create dummy report.
     path = os.path.dirname(os.path.realpath(__file__)).replace("/src", "") + "/tmp/"
     score = [0,0]
     timer = 0

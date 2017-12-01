@@ -10,7 +10,7 @@ from datetime import datetime
 from sklearn.utils import class_weight as cw
 from src.main import create_callbacks, read_config, evaluate, start_log
 from src.gridsearch import grid_search
-from src.data import get_data
+from src.data_loader import get_data
 from src.models.models import build_residual_model
 from src.report import auc
 from src.experiment import write_experiment

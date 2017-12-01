@@ -1,23 +1,45 @@
 #!/usr/bin/env python
 
 import os
-import sys
 import logging
-import numpy as np
 import argh
+import numpy as np
 from argh.decorators import arg
 from datetime import datetime
-from sklearn.utils import class_weight as cw
+from sklearn.model_selection import RandomizedSearchCV
 from src.main import create_callbacks, read_config, evaluate, start_log
 from src.gridsearch import grid_search
 from src.data_loader import get_data
-from src.models.models import build_logistic_model
-from src.report import auc
 from src.experiment import write_experiment
+from sklearn.metrics import matthews_corrcoef, make_scorer
+from keras.models import Model, Sequential
+from keras.layers import Dense, Dropout, Embedding, LSTM, Input, Merge,TimeDistributed, merge, GRU, SimpleRNN
+mcc = make_scorer(matthews_corrcoef)
 time_start = datetime.now()
 n_physical = 196
 
 
+def lstm(input_dim = 28, MAX_SEQ_LENGTH=None, N_CLASSES=2):
+    print("FORWARD")
+    encoder_a = Sequential()
+    encoder_a.add(LSTM(8, input_dim=input_dim,return_sequences=True))
+    print("BACKWARD")
+    encoder_b = Sequential()
+    encoder_b.add(LSTM(8, input_dim=input_dim,go_backwards=True,return_sequences=True))
+
+    print("MODEL")
+    model = Sequential()
+    model.add(Merge([encoder_a, encoder_b], mode='concat'))
+    model.add(TimeDistributed(Dense(N_CLASSES, activation='softmax')))
+
+    print("COMPILE")
+    model.compile(loss='categorical_crossentropy',
+                optimizer='rmsprop',
+                metrics=['accuracy'])
+    return model
+
+
+    
 def main(
     data:'path to dataset',
     section:'name of section in config file',
@@ -42,26 +64,33 @@ def main(
     n_folds, epochs, rparams, gparams, n_iter, class_weight = read_config(configs, section)
     x_train, x_test, x_val, y_train, y_test, y_val, input_shape, output_shape, smiles = get_data(data, dummy, fingerprint, n_bits, targets, features)
     
+    
     if gridsearch:
-        rparams = grid_search(gparams, build_logistic_model, x_train, y_train, input_shape, output_shape, output, n_folds, n_iter, n_jobs)
+        try:
+            model = RandomizedSearchCV(lstm(x_train.shape[1]), gparams, n_iter=n_iter, n_jobs=n_jobs, cv=n_folds, verbose=10, scoring=[mcc, 'f1_weighted', 'precision_weighted', 'r2', 'recall_weighted'])
+            print("FIT")
+            logging.info("FIT")
+            model.fit(x_train, np.ravel(y_train))
+        except:
+            model = RandomizedSearchCV(lstm(x_train.shape[1]), gparams, n_iter=n_iter, n_jobs=n_jobs, cv=n_folds, verbose=10)
+            print("FIT")
+            logging.info("FIT")
+            model.fit(x_train, np.ravel(y_train))
+    else:
+        model = lstm(x_train.shape[1])
+        print("FIT")
+        logging.info("FIT")
+        model.fit(x_train, np.ravel(y_train))
 
-    model = build_logistic_model(input_shape, output_shape, activation=rparams.get("activation"),
-                                 loss=rparams.get("loss"), metrics=rparams.get("metrics"),
-                                 optimizer=rparams.get("optimizer"), learning_rate=rparams.get("learning_rate"),
-                                 momentum=rparams.get("momentum"), init_mode=rparams.get("init_mode"))
+    if gridsearch:
+        rparams = model.cv_results_
+        print(rparams)
 
-    print("FIT")
-    logging.info("FIT")
-    if not class_weight:
-        y = [item for sublist in y_train for item in sublist]
-        class_weight = cw.compute_class_weight("balanced", np.unique(y), y)
-    history = model.fit(x_train, np.ravel(y_train), batch_size=rparams.get("batch_size"), epochs=epochs, validation_data=(x_val, y_val), shuffle=True, verbose=1, callbacks=callbacks_list, class_weight=class_weight)
     print("EVALUATE")
     logging.info("EVALUATE")
-    train_acc, test_acc = evaluate(output, model, x_train, x_test, x_val, y_train, y_test, y_val, time_start, rparams, history)
+    train_acc, test_acc = evaluate(output, model, x_train, x_test, x_val, y_train, y_test, y_val, time_start, rparams, None)
     write_experiment(train_acc, test_acc, targets, experiments_file)
-    auc(model, x_train, x_test, x_val, y_train, y_test, y_val, output)
-
+    
 
 parser = argh.ArghParser()
 argh.set_default_command(parser, main)

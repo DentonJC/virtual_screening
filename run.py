@@ -17,11 +17,9 @@ def isnan(x):
     return isinstance(x, float) and math.isnan(x)
 
 
-def main(experiments_file='experiments.csv'):
+def main(experiments_file='etc/experiments_tox21.csv'):
     table = pd.read_csv(experiments_file)
-    for i in range(table.shape[0]):
-        
-    return 0
+
     
     for i in range(table.shape[0]):
         command = ""
@@ -56,7 +54,7 @@ def main(experiments_file='experiments.csv'):
             text_file.write(command_f)
             text_file.close()
             try:
-                os.system("nice -n 9 parallel -a tmp.sh -j -1")
+                os.system("nice -n 9 parallel -a tmp.sh -j 4")
             except:
                 print("Something wrong with experiment")
             os.remove("tmp.sh")

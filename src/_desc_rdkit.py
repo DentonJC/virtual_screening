@@ -88,6 +88,7 @@ def smiles_to_desc_rdkit(x):
                 features_index.append(key)
                 features_values.append(_rdkit_transform(m))
         except:
+            missing.append(key)
             print("Serialization failed")
 
     logger.info("Serialized {} out of {} compounds to sdf".format(len(x) - len(missing), len(x)))
@@ -100,7 +101,7 @@ def smiles_to_desc_rdkit(x):
     if len(set(features.index)) == len(x):
         print("Missed compounds")
 
-    return features
+    return features, missing
 
 
 if __name__ == "__main__":

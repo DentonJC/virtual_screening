@@ -16,7 +16,7 @@ from sklearn.metrics import accuracy_score
 from keras.optimizers import Adam, Nadam, Adamax, RMSprop, Adagrad, Adadelta, SGD
 from keras.models import model_from_json
 from keras.callbacks import ModelCheckpoint, EarlyStopping, CSVLogger
-from src.report import create_report
+from src.report_formatter import create_report
 config = configparser.ConfigParser()
 
 
@@ -203,7 +203,7 @@ def evaluate(path, model, x_train, x_test, x_val, y_train, y_test, y_val, time_s
     copyfile(sys.argv[0], path + os.path.basename(sys.argv[0]))
     copytree('src/models', path + 'models')
     path_old = path
-    path = (path[:-1] + ' ' + str(sys.argv[0]) +  ' ' + str(sys.argv[1]) +  ' ' + str(round(score[1], 3)) +'/').replace(".py", "").replace(".csv", "").replace("src/scripts/","").replace("data/preprocessed/","")
+    path = (path[:-1] + ' ' + str(sys.argv[0]) +  ' ' + str(sys.argv[1]) +  ' ' + str(round(score[1], 3)) +'/').replace(".py", "").replace(".csv", "").replace("src/scripts/","").replace("data/preprocessed/","").replace('data/','') # ugly! remove address of file
     os.rename(path_old,path)
     
     print("Done")

@@ -10,7 +10,7 @@ from sklearn.utils import class_weight as cw
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.svm import SVC
 from src.main import create_callbacks, read_config, evaluate, start_log
-from src.data import get_data
+from src.data_loader import get_data
 from src.experiment import write_experiment
 from sklearn.metrics import matthews_corrcoef, make_scorer
 mcc = make_scorer(matthews_corrcoef)

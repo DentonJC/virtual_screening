@@ -46,9 +46,14 @@ def get_data(filename, DUMMY, fingerprint, nBits, set_targets, set_features):
             data = data.drop("mol_id", 1)
         l_headers = list(data)
         physic_smiles = pd.Series(smiles)
-        physic_data = smiles_to_desc_rdkit(physic_smiles)
-        p_headers = "p" * physic_data.shape[1]
+        physic_data, missing = smiles_to_desc_rdkit(physic_smiles)
+        smiles = np.array(smiles)
+        smiles = np.delete(smiles, missing)
         data = np.array(data)
+        print(data.shape)
+        data = np.delete(data, missing, axis=1)
+        print(data.shape)
+        p_headers = "p" * physic_data.shape[1]
         _, cols = data.shape
         l = []
         for i in range(cols):
@@ -61,6 +66,7 @@ def get_data(filename, DUMMY, fingerprint, nBits, set_targets, set_features):
                 l.append(data[:, i])
             
         labels = np.array(l).T
+        labels = np.delete(labels, missing, axis=0)
         print("Featurization")
         logging.info("Featurization")
         ms = [Chem.MolFromSmiles(x) for x in smiles]
@@ -78,6 +84,9 @@ def get_data(filename, DUMMY, fingerprint, nBits, set_targets, set_features):
             features = np.array(features)
             f_headers = "f" * features.shape[1]
             features = np.c_[features, physic_data]
+            print("HERE")
+            print(features.shape)
+            print(labels.shape)
             featurized = np.c_[features, labels]
 
             filename = filename.replace(".csv", "_morgan_"+str(nBits)+".csv")

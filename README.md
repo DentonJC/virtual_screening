@@ -1,8 +1,24 @@
 # Virtual screening
 
-### Usage
+### Install with Conda
+- Linux
+- Python 3.6+
+- Parallel
+  - apt-get install parallel or pacman -S parallel
+- Conda (https://www.anaconda.com/download/#linux)
+- conda install --file requirements
+- conda install -c conda-forge argh
+- conda install -c rdkit rdkit
+##### OR
+- Python 3.6+
+- Parallel
+- Packages from requirements
+- Argh (https://pypi.python.org/pypi/argh/)
+- RDKit (https://github.com/rdkit/rdkit)
 
-    usage: knn.py data section [-h] [--features FEATURES] [-o OUTPUT] [-c CONFIGS] [--fingerprint FINGERPRINT] [--n-bits N_BITS] [--n-jobs N_JOBS] [-p PATIENCE] [-g] [--dummy]
+
+### Usage
+    usage: logreg.py data section [-h] [--features FEATURES] [-o OUTPUT] [-c CONFIGS] [--fingerprint FINGERPRINT] [--n-bits N_BITS] [--n-jobs N_JOBS] [-p PATIENCE] [-g] [--dummy]
 
     positional arguments:
       data                  path to dataset
@@ -23,6 +39,33 @@
                         patience of fit (default: 100)
       -g, --gridsearch      use gridsearch (default: False)
       --dummy               use only first 1000 rows of dataset (default: False)
+
+
+## Example input
+python src/scripts/logreg.py data/tox21.csv LOGREG_TOX21 --features a --fingerprint morgan --n-bits 100 --n-jobs -1 -p 200 -t 1
+
+## Example output
+Loading data <br />
+Data shape: (7981, 308) <br />
+Features shape: (7981, 296) <br />
+Labels shape: (7981, 12) <br />
+Data loaded <br />
+X_train: (4126, 292) <br />
+Y_train: (4126, 1) <br />
+X_test: (1376, 292) <br />
+Y_test: (1376, 1) <br />
+X_val: (1376, 292) <br />
+Y_val: (1376, 1) <br />
+FIT <br />
+EVALUATE <br />
+Accuracy test: 91.28% <br />
+Accuracy train: 95.27% <br />
+0:06:27.941201 <br />
+Can't create history plot for this type of experiment <br />
+Report complete, you can see it in the results folder <br />
+Done <br />
+Results path /tmp/2017-12-01 17:45:27.798223 logreg tox21 0.913/ <br />
+
 
 ## Citation
 - Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.
