@@ -19,8 +19,8 @@ n_physical = 196
 
 def get_data(filename, DUMMY, fingerprint, nBits, set_targets, set_features):
     path = os.path.dirname(os.path.realpath(__file__)).replace("/src", "")
-    if not os.path.exists(path+"data/"):
-        os.makedirs(path+"data/")
+    if not os.path.exists(path+"/data/"):
+        os.makedirs(path+"/data/")
     if not os.path.exists(path+"/data/preprocessed/"):
         os.makedirs(path+"/data/preprocessed/")
 

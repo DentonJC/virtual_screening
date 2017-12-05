@@ -17,7 +17,7 @@ def isnan(x):
     return isinstance(x, float) and math.isnan(x)
 
 
-def main(experiments_file='etc/experiments_tox21.csv'):
+def main(experiments_file='etc/experiments_HIV.csv'):
     table = pd.read_csv(experiments_file)
 
     

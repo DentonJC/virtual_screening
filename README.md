@@ -1,23 +1,35 @@
 # Virtual screening
+*тема диплома*
 
-### Install with Conda
+Проект позволяет использовать supervised learning на молекулах записанных в формате SMILE(s) используя обучение на самих SMILE(s), maccs/morgan fingerprints and physical features с помощью следующих моделей:
+- KNN
+- Logistic regression
+- Linear regression
+- LSTM
+- RandomForestClassifier
+- SVC
+- XGBClassifier
+
+## Results
+
+## Install
 - Linux
 - Python 3.6+
 - Parallel
   - apt-get install parallel or pacman -S parallel
+- run env.sh
+### with Conda
 - Conda (https://www.anaconda.com/download/#linux)
 - conda install --file requirements
 - conda install -c conda-forge argh
 - conda install -c rdkit rdkit
-##### OR
-- Python 3.6+
-- Parallel
+### with Pip
 - Packages from requirements
 - Argh (https://pypi.python.org/pypi/argh/)
 - RDKit (https://github.com/rdkit/rdkit)
 
 
-### Usage
+## Usage
     usage: logreg.py data section [-h] [--features FEATURES] [-o OUTPUT] [-c CONFIGS] [--fingerprint FINGERPRINT] [--n-bits N_BITS] [--n-jobs N_JOBS] [-p PATIENCE] [-g] [--dummy]
 
     positional arguments:
@@ -42,7 +54,7 @@
 
 
 ## Example input
-python src/scripts/logreg.py data/tox21.csv LOGREG_TOX21 --features a --fingerprint morgan --n-bits 100 --n-jobs -1 -p 200 -t 1
+python src/scripts/logreg.py data/tox21.csv LOGREG_TOX21 --features a --fingerprint morgan --n-bits 100 --n-jobs -1 -p 20 -t 1
 
 ## Example output
 Loading data <br />
