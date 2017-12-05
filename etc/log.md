@@ -1,4 +1,4 @@
-# Developing log
+# Development Log
 ### 01.12.17
 - installation procedure (Conda)
   - https://github.com/DentonJC/virtual_screening/issues/6
