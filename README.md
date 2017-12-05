@@ -1,7 +1,7 @@
 # Virtual screening
-*тема диплома*
+Physics aware representation for drug discovery
 
-Проект позволяет использовать supervised learning на молекулах записанных в формате SMILE(s) используя обучение на самих SMILE(s), maccs/morgan fingerprints and physical features с помощью следующих моделей:
+The project allows to use supervised learning on molecules written in the SMILES format by the training on SMILES themselves, maccs/morgan fingerprints and physical features using the following models:
 - KNN
 - Logistic regression
 - Linear regression
