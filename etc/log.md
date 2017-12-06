@@ -16,3 +16,7 @@
 
 ### 04.12.17
 - README updated
+
+### 06.12.17
+- Table of Contents
+- Compare new physical features with previous - there <b>is</b> a difference! Better normalization required.

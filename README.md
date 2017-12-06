@@ -8,26 +8,37 @@ The project allows to use supervised learning on molecules written in the SMILES
 - SVC
 - XGBClassifier
 
-## Results
+## Table of Contents
+1. [Results](#results)
+2. [Install](#install)
+  1. [Conda](#conda)
+  2. [Pip](#pip)
+3. [Usage](#usage)
+4. [Dataset](#dataset)
+5. [Input](#input)
+6. [Output](#output)
+7. [Citation](#citation)
 
-## Install
+## Results <a name="results"></a>
+
+## Install <a name="install"></a>
 - Linux
 - Python 3.6+
 - Parallel
   - apt-get install parallel or pacman -S parallel
 - run env.sh
-### with Conda
+### with Conda <a name="conda"></a>
 - Conda (https://www.anaconda.com/download/#linux)
 - conda install --file requirements
 - conda install -c conda-forge argh
 - conda install -c rdkit rdkit
-### with Pip
+### with Pip <a name="pip"></a>
 - Packages from requirements
 - Argh (https://pypi.python.org/pypi/argh/)
 - RDKit (https://github.com/rdkit/rdkit)
 
 
-## Usage
+## Usage <a name="usage"></a>
     usage: logreg.py data section [-h] [--features FEATURES] [-o OUTPUT] [-c CONFIGS] [--fingerprint FINGERPRINT] [--n-bits N_BITS] [--n-jobs N_JOBS] [-p PATIENCE] [-g] [--dummy]
 
     positional arguments:
@@ -50,11 +61,13 @@ The project allows to use supervised learning on molecules written in the SMILES
       -g, --gridsearch      use gridsearch (default: False)
       --dummy               use only first 1000 rows of dataset (default: False)
 
+## Dataset
 
-## Example input
+
+## Example input <a name="input"></a>
 python src/scripts/logreg.py data/tox21.csv LOGREG_TOX21 --features a --fingerprint morgan --n-bits 100 --n-jobs -1 -p 20 -t 1
 
-## Example output
+## Example output <a name="output"></a>
 Loading data <br />
 Data shape: (7981, 308) <br />
 Features shape: (7981, 296) <br />
@@ -77,7 +90,7 @@ Done <br />
 Results path /tmp/2017-12-01 17:45:27.798223 logreg tox21 0.913/ <br />
 
 
-## Citation
+## Citation <a name="citation"></a>
 - Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.
 - Stéfan van der Walt, S. Chris Colbert and Gaël Varoquaux. The NumPy Array: A Structure for Efficient Numerical Computation, Computing in Science & Engineering, 13, 22-30 (2011), DOI:10.1109/MCSE.2011.37 (publisher link)
 - Travis E. Oliphant. Python for Scientific Computing, Computing in Science & Engineering, 9, 10-20 (2007), DOI:10.1109/MCSE.2007.58 (publisher link)
