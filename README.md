@@ -11,8 +11,8 @@ The project allows to use supervised learning on molecules written in the SMILES
 ## Table of Contents
 1. [Results](#results)
 2. [Install](#install)
-  1. [Conda](#conda)
-  2. [Pip](#pip)
+    1. [Conda](#conda)
+    2. [Pip](#pip)
 3. [Usage](#usage)
 4. [Dataset](#dataset)
 5. [Input](#input)
