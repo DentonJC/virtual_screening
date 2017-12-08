@@ -8,7 +8,6 @@ import math
 import argh
 import pandas as pd
 
-n_params = 12  # 12 - number of sritps' parameters of main()
 n_cols = 2  # 2 columns (train_acc, test, acc) per target
 
 
@@ -17,38 +16,29 @@ def isnan(x):
     return isinstance(x, float) and math.isnan(x)
 
 
-def main(experiments_file='etc/experiments_HIV.csv'):
+def main(experiments_file='etc/experiments_muv.csv'):
     table = pd.read_csv(experiments_file)
-
-    
+    keys = ["--features ", "-o ", "-c ", "--fingerprint ", "--n-bits ", 
+           "--n-jobs ", "-p ", "-g ", "--dummy "]
+    cols = ["Address", "Data", "Section", "Features", "Output", "Configs",
+            "Fingerprint", "n_bits", "n_jobs", "Patience", "Gridsearch", "Dummy"]
     for i in range(table.shape[0]):
         command = ""
-        if not isnan(table["Address"][i]):
-            command += str(table["Address"][i]) + " "
-        if not isnan(table["Data"][i]):
-            command += table["Data"][i] + " "
-        if not isnan(table["Section"][i]):
-            command += str(table["Section"][i]) + " "
-        if not isnan(table["Features"][i]):
-            command += "--features " + str(table["Features"][i]) + " "
-        if not isnan(table["Output"][i]):
-            command += "-o " + str(table["Output"][i]) + " "
-        if not isnan(table["Configs"][i]):
-            command += "-c " + str(table["Configs"][i]) + " "
-        if not isnan(table["Fingerprint"][i]):
-            command += "--fingerprint " + str(table["Fingerprint"][i]) + " "
-        if not isnan(table["n_bits"][i]):
-            command += "--n-bits " + str(int(table["n_bits"][i])) + " "
-        if not isnan(table["n_jobs"][i]):
-            command += "--n-jobs " + str(int(table["n_jobs"][i])) + " "
-        if not isnan(table["Patience"][i]):
-            command += "-p " + str(int(table["Patience"][i])) + " "
-        if not isnan(table["Gridsearch"][i]):
-            command += "-g "
-        if not isnan(table["Dummy"][i]):
-            command += "--dummy "
+        c = -(len(cols) - len(keys) + 1)
+        for j in range(len(cols)):
+            c+=1
+            if not isnan(table[cols[j]][i]):
+                if j >= len(cols) - len(keys):
+                    if keys[c] in ["-g ", "--dummy "]:
+                        command += keys[c] + " "
+                    else:
+                        command += keys[c] + str(table[cols[j]][i]) + " "
+                else:
+                    command += str(table[cols[j]][i]) + " "
         command += "-e " + experiments_file
-        for j in range(int((table.shape[1] - n_params) / n_cols)):
+        print(command)
+
+        for j in range(int((table.shape[1] - len(cols)) / n_cols)):
             command_f = command + " -t " + str(j)
             text_file = open("tmp.sh", "w")
             text_file.write(command_f)
@@ -58,6 +48,14 @@ def main(experiments_file='etc/experiments_HIV.csv'):
             except:
                 print("Something wrong with experiment")
             os.remove("tmp.sh")
+            
+            res_file = open(os.path.dirname(os.path.realpath(__file__)) + "/tmp/last_result","r")
+            res = []
+            for r in res_file:
+                res.append(r)
+            table.iloc[i, j*n_cols+len(cols)] = res[0].replace('\n','')
+            table.iloc[i, j*n_cols+1+len(cols)] = res[1].replace('\n','')
+            table.to_csv(experiments_file, index=False)
 
 parser = argh.ArghParser()
 argh.set_default_command(parser, main)

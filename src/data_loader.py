@@ -11,6 +11,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from src._desc_rdkit import smiles_to_desc_rdkit
 from src.main import drop_nan
+from sklearn import preprocessing
 
 
 Dummy_n = 1000
@@ -56,9 +57,7 @@ def get_data(filename, DUMMY, fingerprint, nBits, set_targets, set_features):
         smiles = np.array(smiles)
         smiles = np.delete(smiles, missing)
         data = np.array(data)
-        print(data.shape)
         data = np.delete(data, missing, axis=1)
-        print(data.shape)
         p_headers = "p" * physic_data.shape[1]
         _, cols = data.shape
         l = []
@@ -82,7 +81,6 @@ def get_data(filename, DUMMY, fingerprint, nBits, set_targets, set_features):
             f_headers = "f" * features.shape[1]
             features = np.c_[features, physic_data]
             featurized = np.c_[features, labels]
-
             filename = filename.replace(".csv", "_maccs.csv")
 
         if fingerprint in ['MORGAN', 'Morgan', 'morgan', 'morgan (n)']:
@@ -90,11 +88,7 @@ def get_data(filename, DUMMY, fingerprint, nBits, set_targets, set_features):
             features = np.array(features)
             f_headers = "f" * features.shape[1]
             features = np.c_[features, physic_data]
-            print("HERE")
-            print(features.shape)
-            print(labels.shape)
             featurized = np.c_[features, labels]
-
             filename = filename.replace(".csv", "_morgan_"+str(nBits)+".csv")
         
         head, _sep, tail = filename.rpartition('/')
@@ -116,21 +110,24 @@ def get_data(filename, DUMMY, fingerprint, nBits, set_targets, set_features):
     print("Data loaded")
     logging.info("Data loaded")
 
+    # np.savetxt("out.csv", features, delimiter=",", fmt='%3f')
     # Scaler
+    
     st = StandardScaler()
     remove_rows = []
     
     features = features.T
     
-    for i in range(features.shape[0]):
+    for i in range(nBits, features.shape[0]):
         try:
-            st.fit_transform(features[i].reshape(1, -1)) # try scalar here
+            st.fit_transform(features[i].reshape(1, -1)) # it's do nothing, really
+            #features[i] = preprocessing.normalize(features[i].reshape(1, -1))
         except:
             remove_rows.append(i)
             print("Input contains NaN, infinity or a value too large for dtype('float64')")
     features = features.T
     features = np.delete(features, remove_rows, axis=1)
-    
+    #np.savetxt("out.csv", features, delimiter=",", fmt='%3f')
 
     if set_targets:
         labels = labels[:, set_targets].reshape(labels.shape[0], len(set_targets))
@@ -141,7 +138,7 @@ def get_data(filename, DUMMY, fingerprint, nBits, set_targets, set_features):
         features = features[:, range(0, nBits)].reshape(features.shape[0], nBits)
     
     features, labels = drop_nan(features, labels)
-    
+        
     x_train, x, y_train, y = train_test_split(features, labels, test_size=0.4, stratify=labels)
     x_test, x_val, y_test, y_val = train_test_split(x, y, test_size=0.5, stratify=y)
 

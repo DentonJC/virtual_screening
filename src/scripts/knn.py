@@ -11,7 +11,6 @@ from sklearn.model_selection import RandomizedSearchCV
 from src.main import create_callbacks, read_config, evaluate, start_log
 from src.gridsearch import grid_search
 from src.data_loader import get_data
-from src.experiment import write_experiment
 from sklearn.metrics import matthews_corrcoef, make_scorer
 mcc = make_scorer(matthews_corrcoef)
 time_start = datetime.now()
@@ -66,7 +65,9 @@ def main(
     print("EVALUATE")
     logging.info("EVALUATE")
     train_acc, test_acc = evaluate(output, model, x_train, x_test, x_val, y_train, y_test, y_val, time_start, rparams, None)
-    write_experiment(train_acc, test_acc, targets, experiments_file)
+    with open(os.path.dirname(os.path.realpath(__file__)).replace("/src/scripts", "") + "/tmp/last_result", 'w') as tmp_file:
+        tmp_file.write(str(train_acc) + '\n' + str(test_acc))
+
 
 parser = argh.ArghParser()
 argh.set_default_command(parser, main)

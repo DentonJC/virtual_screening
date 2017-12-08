@@ -19,4 +19,11 @@
 
 ### 06.12.17
 - Table of Contents
-- Compare new physical features with previous - there <b>is</b> a difference! Better normalization required.
+- compare new physical features with previous - there <b>is</b> a difference! Better normalization required.
+- create new datasets and start experiments on server
+
+### 07.12.17
+- total remove write_experiment
+  - https://github.com/DentonJC/virtual_screening/issues/14
+- rewrite run.py
+  - https://github.com/DentonJC/virtual_screening/issues/13

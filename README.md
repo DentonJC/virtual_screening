@@ -61,8 +61,8 @@ The project allows to use supervised learning on molecules written in the SMILES
       -g, --gridsearch      use gridsearch (default: False)
       --dummy               use only first 1000 rows of dataset (default: False)
 
-## Dataset
-
+## Dataset <a name="dataset"></a>
+A csv format file is required, in which one of the headers will be "smiles", and the rest - the names of the experiments(targets). The column "mol_id" will be dropped if exist. After processing, the names of the targets are saved, and instead of the "smiles", columns of fingerprints 'f' and physical representations 'p' are added.
 
 ## Example input <a name="input"></a>
 python src/scripts/logreg.py data/tox21.csv LOGREG_TOX21 --features a --fingerprint morgan --n-bits 100 --n-jobs -1 -p 20 -t 1
