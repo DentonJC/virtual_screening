@@ -3,7 +3,6 @@ The project allows to use supervised learning on molecules written in the SMILES
 - KNN
 - Logistic regression
 - Linear regression
-- LSTM
 - RandomForestClassifier
 - SVC
 - XGBClassifier
@@ -17,55 +16,68 @@ The project allows to use supervised learning on molecules written in the SMILES
 4. [Dataset](#dataset)
 5. [Input](#input)
 6. [Output](#output)
-7. [Citation](#citation)
+7. [Experiments table](#table)
+8. [Citation](#citation)
 
 ## Results <a name="results"></a>
 
 ## Install <a name="install"></a>
 - Linux
 - Python 3.6+
-- Parallel
-  - apt-get install parallel or pacman -S parallel
 - run env.sh
 ### with Conda <a name="conda"></a>
 - Conda (https://www.anaconda.com/download/#linux)
 - conda install --file requirements
-- conda install -c conda-forge argh
 - conda install -c rdkit rdkit
 ### with Pip <a name="pip"></a>
 - Packages from requirements
-- Argh (https://pypi.python.org/pypi/argh/)
 - RDKit (https://github.com/rdkit/rdkit)
 
 
 ## Usage <a name="usage"></a>
-    usage: logreg.py data section [-h] [--features FEATURES] [-o OUTPUT] [-c CONFIGS] [--fingerprint FINGERPRINT] [--n-bits N_BITS] [--n-jobs N_JOBS] [-p PATIENCE] [-g] [--dummy]
+    usage: logreg.py data section [-h]
+                          [--features {all,a,fingerprint,f,physical,p}]
+                          [--output OUTPUT] [--configs CONFIGS]
+                          [--fingerprint FINGERPRINT] [--n_bits N_BITS]
+                          [--n_iter N_ITER] [--n_jobs N_JOBS]
+                          [--patience PATIENCE] [--gridsearch GRIDSEARCH]
+                          [--dummy DUMMY] [--targets TARGETS]
+                          [--experiments_file EXPERIMENTS_FILE]
+                          select_model [select_model ...] data [data ...]
+                          section [section ...]
 
     positional arguments:
-      data                  path to dataset
-      section               name of section in config file
+    select_model          name of the model, select from list in README
+    data                  path to dataset
+    section               name of section in config file
 
     optional arguments:
-      -h, --help            show this help message and exit
-      --features FEATURES   take features: all, fingerptint or physical (default: 'all')
-      -o OUTPUT, --output OUTPUT
-                        path to output directory (default: '/virtual_screening/tmp/')
-      -c CONFIGS, --configs CONFIGS
-                        path to config file (default: '/virtual_screening/src/configs/configs.ini')
-      --fingerprint FINGERPRINT
-                        maccs (167) or morgan (n) (default: 'morgan')
-      --n-bits N_BITS       number of bits in Morgan fingerprint (default: 256)
-      --n-jobs N_JOBS       number of jobs (default: 1)
-      -p PATIENCE, --patience PATIENCE
-                        patience of fit (default: 100)
-      -g, --gridsearch      use gridsearch (default: False)
-      --dummy               use only first 1000 rows of dataset (default: False)
+    -h, --help            show this help message and exit
+    --features {all,a,fingerprint,f,physical,p}
+                    take features: all, fingerptint or physical
+    --output OUTPUT       path to output directory
+    --configs CONFIGS     path to config file
+    --fingerprint FINGERPRINT
+                    maccs (167) or morgan (n)
+    --n_bits N_BITS       number of bits in Morgan fingerprint
+    --n_iter N_ITER       number of iterations in RandomizedSearchCV
+    --n_jobs N_JOBS       number of jobs
+    --patience PATIENCE, -p PATIENCE
+                    patience of fit
+    --gridsearch GRIDSEARCH, -g GRIDSEARCH
+                    use gridsearch
+    --dummy DUMMY, -d DUMMY
+                    use only first 1000 rows of dataset
+    --targets TARGETS, -t TARGETS
+                    set number of target column
+    --experiments_file EXPERIMENTS_FILE, -e EXPERIMENTS_FILE
+                    where to write results of experiments
 
 ## Dataset <a name="dataset"></a>
 A csv format file is required, in which one of the headers will be "smiles", and the rest - the names of the experiments(targets). The column "mol_id" will be dropped if exist. After processing, the names of the targets are saved, and instead of the "smiles", columns of fingerprints 'f' and physical representations 'p' are added.
 
 ## Example input <a name="input"></a>
-python src/scripts/logreg.py data/tox21.csv LOGREG_TOX21 --features a --fingerprint morgan --n-bits 100 --n-jobs -1 -p 20 -t 1
+python src/run_model.py logreg data/tox21.csv LOGREG_TOX21 --features all --fingerprint morgan --n_bits 1024 --n_jobs -1 -p 2000 -t 0 --n_iter 10
 
 ## Example output <a name="output"></a>
 Loading data <br />
@@ -87,8 +99,12 @@ Accuracy train: 95.27% <br />
 Can't create history plot for this type of experiment <br />
 Report complete, you can see it in the results folder <br />
 Done <br />
-Results path /tmp/2017-12-01 17:45:27.798223 logreg tox21 0.913/ <br />
+Results path /tmp/2017-12-01 17:45:27.798223 logreg tox21 all 0.913/ <br />
 
+## Processing the experiment table  <a name="table"></a>
+  1. Fill in the table with experiments parameters (examples in /etc, False = empty cell)
+  2. Run run.py with Python, seriously
+  3. Experiments will be performed one by one and fill in the columns with the results
 
 ## Citation <a name="citation"></a>
 - Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.

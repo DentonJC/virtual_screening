@@ -3,11 +3,11 @@
 import os
 import sys
 # import keras.backend as K  # for max pooling operation
-from keras.models import Sequential
 # from keras import regularizers  # regularizers.l1_l2(0.)
 # from keras.preprocessing import sequence
-from keras.models import Model
+from keras.models import Model, Sequential
 from keras.layers import Dense, Dropout, Input  # , Embedding, LSTM, merge, Bidirectional, Lambda
+from keras.layers import Embedding, LSTM, Merge, TimeDistributed, merge, GRU, SimpleRNN
 from src.models.residual_blocks import residual_block
 from src.main import compile_optimizer
 
@@ -50,6 +50,26 @@ def build_residual_model(input_dim, output_dim, activation_0='relu', activation_
     optimizer = compile_optimizer(optimizer, learning_rate, momentum)
     # try using different optimizers and different optimizer configs
     model.compile(optimizer=optimizer, loss=loss, metrics=metrics)
+    return model
+
+
+def lstm(input_dim = 28, MAX_SEQ_LENGTH=None, N_CLASSES=2):
+    print("FORWARD")
+    encoder_a = Sequential()
+    encoder_a.add(LSTM(8, input_dim=input_dim,return_sequences=True))
+    print("BACKWARD")
+    encoder_b = Sequential()
+    encoder_b.add(LSTM(8, input_dim=input_dim,go_backwards=True,return_sequences=True))
+
+    print("MODEL")
+    model = Sequential()
+    model.add(Merge([encoder_a, encoder_b], mode='concat'))
+    model.add(TimeDistributed(Dense(N_CLASSES, activation='softmax')))
+
+    print("COMPILE")
+    model.compile(loss='categorical_crossentropy',
+                optimizer='rmsprop',
+                metrics=['accuracy'])
     return model
 
 

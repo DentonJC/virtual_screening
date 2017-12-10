@@ -27,3 +27,26 @@
   - https://github.com/DentonJC/virtual_screening/issues/14
 - rewrite run.py
   - https://github.com/DentonJC/virtual_screening/issues/13
+
+### 08.12.17
+- rewrite on argparse
+- new arguments
+- remove argh from dependences
+- do not enter the values of the previous experiment into the table
+  - https://github.com/DentonJC/virtual_screening/issues/17
+
+### 09.12.17
+- get rid of duplicate code in /scripts
+  - https://github.com/DentonJC/virtual_screening/issues/9
+- move the number of iterations of random search to the script arguments.
+  - https://github.com/DentonJC/virtual_screening/issues/20
+- run.py interact with run_model.py directly, no more tmp files!
+
+### 10.12.17
+- set nBits for maccs
+  - https://github.com/DentonJC/virtual_screening/issues/18
+- README updated
+  - https://github.com/DentonJC/virtual_screening/issues/21
+  - new run, usage
+- \__main__ updated
+- remove gridsearch.py

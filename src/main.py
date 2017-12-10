@@ -40,13 +40,10 @@ def read_config(config_path, section):
     def_config = config['DEFAULT']
     n_folds = eval(def_config['n_folds'])
     epochs = eval(def_config['epochs'])
-    n_iter = eval(def_config['n_iter'])
-    class_weight = eval(def_config['class_weight'])
     model_config = config[section]
-    #targets = eval(model_config['targets'])
     rparams = eval(model_config['rparams'])
     gparams = eval(model_config['gparams'])
-    return n_folds, epochs, rparams, gparams, n_iter, class_weight#, targets
+    return n_folds, epochs, rparams, gparams
 
 
 def start_log(DUMMY, GRID_SEARCH, fingerprint, nBits, config_path, filename, section):
@@ -140,7 +137,7 @@ def isnan(x):
     return isinstance(x, float) and math.isnan(x)
    
 
-def evaluate(path, model, x_train, x_test, x_val, y_train, y_test, y_val, time_start, rparams, history):
+def evaluate(path, model, x_train, x_test, x_val, y_train, y_test, y_val, time_start, rparams, history, data, section, features):
     try:
         model_json = model.to_json()
         with open(path+"model.json", "w") as json_file:
@@ -203,7 +200,7 @@ def evaluate(path, model, x_train, x_test, x_val, y_train, y_test, y_val, time_s
     copyfile(sys.argv[0], path + os.path.basename(sys.argv[0]))
     copytree('src/models', path + 'models')
     path_old = path
-    path = (path[:-1] + ' ' + str(sys.argv[0]) +  ' ' + str(sys.argv[1]) +  ' ' + str(round(score[1], 3)) +'/').replace(".py", "").replace(".csv", "").replace("src/scripts/","").replace("data/preprocessed/","").replace('data/','') # ugly! remove address of file
+    path = (path[:-1] + ' ' + data +  ' ' + section +  ' ' + features +  ' ' + str(round(score[1], 3)) +'/').replace(".py", "").replace(".csv", "").replace("src/","").replace("data/preprocessed/","").replace('data/','') # ugly! remove address of file
     os.rename(path_old,path)
     
     print("Done")
