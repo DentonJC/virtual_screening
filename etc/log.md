@@ -50,3 +50,10 @@
   - new run, usage
 - \__main__ updated
 - remove gridsearch.py
+
+### 11.12.17
+- xgboost library now optional
+- Python2 compatibility
+  - https://github.com/DentonJC/virtual_screening/issues/32
+
+### 12.12.17

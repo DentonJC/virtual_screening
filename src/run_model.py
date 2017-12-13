@@ -5,7 +5,6 @@ import sys
 import logging
 import argparse
 import numpy as np
-import xgboost as xgb
 from datetime import datetime
 from sklearn.svm import SVC
 from sklearn.utils import class_weight as cw
@@ -19,6 +18,13 @@ from src.data_loader import get_data
 from src.models.models import build_logistic_model
 from src.models.models import build_residual_model
 from keras.wrappers.scikit_learn import KerasClassifier
+
+xgb_flag = False
+try:
+    import xgboost as xgb
+    xgb_flag = True
+except ImportError:
+    print("xgboost is not available")
 
 scoring = {'accuracy': 'accuracy', 'MCC': make_scorer(matthews_corrcoef)}
 time_start = datetime.now()
@@ -68,19 +74,19 @@ def script(args_list):
         if options.select_model[0] == "logreg":
             model = RandomizedSearchCV(LogisticRegression(**rparams), gparams, n_iter=options.n_iter, n_jobs=options.n_jobs, cv=n_folds, verbose=10, 
                                        scoring=scoring, refit='MCC')
-        if options.select_model[0] == "knn":
+        elif options.select_model[0] == "knn":
             model = RandomizedSearchCV(KNeighborsClassifier(**rparams), gparams, n_iter=options.n_iter, n_jobs=options.n_jobs, cv=n_folds, verbose=10,
                                        scoring=scoring, refit='MCC')
-        if options.select_model[0] == "xgb":
+        elif options.select_model[0] == "xgb" and xgb_flag:
             model = RandomizedSearchCV(xgb.XGBClassifier(**rparams), gparams, n_iter=options.n_iter, n_jobs=options.n_jobs, cv=n_folds, verbose=10, 
                                        scoring=scoring, refit='MCC')
-        if options.select_model[0] == "svc":
+        elif options.select_model[0] == "svc":
             model = RandomizedSearchCV(SVC(**rparams), gparams, n_iter=options.n_iter, n_jobs=options.n_jobs, cv=n_folds, verbose=10, 
                                        scoring=scoring, refit='MCC')
-        if options.select_model[0] == "rf":
+        elif options.select_model[0] == "rf":
             model = RandomizedSearchCV(RandomForestClassifier(**rparams), gparams, n_iter=options.n_iter, n_jobs=options.n_jobs, cv=n_folds, verbose=10, 
                                        scoring=scoring, refit='MCC')
-        if options.select_model[0] == "regression":
+        elif options.select_model[0] == "regression":
             search_model = KerasClassifier(build_fn=build_logistic_model, input_dim=input_shape, output_dim=output_shape)
             grid = RandomizedSearchCV(estimator=search_model, param_distributions=gparams, n_jobs=options.n_jobs, cv=n_folds, n_iter=options.n_iter, verbose=10, scoring=scoring, refit='MCC')
             rparams = grid.fit(x_train, y_train)
@@ -89,15 +95,17 @@ def script(args_list):
                                      optimizer=rparams.get("optimizer", 'Adam'), learning_rate=rparams.get("learning_rate", 0.001),
                                      momentum=rparams.get("momentum", 0.1), init_mode=rparams.get("init_mode", 'uniform'), dropout=rparams.get("dropout", 0), layers=rparams.get("layers", 0))
             search_model = KerasClassifier(build_fn=model, input_dim=input_shape, output_dim=output_shape)
-        if options.select_model[0] == "residual":
+        elif options.select_model[0] == "residual":
             search_model = KerasClassifier(build_fn=build_residual_model, input_dim=input_shape, output_dim=output_shape)
             grid = RandomizedSearchCV(estimator=search_model, param_distributions=gparams, n_jobs=options.n_jobs, cv=n_folds, n_iter=options.n_iter, verbose=10, scoring=scoring, refit='MCC')
             rparams = grid.fit(x_train, y_train)
             model = build_logistic_model(input_shape, output_shape, activation=rparams.get("activation"),
                                      loss=rparams.get("loss"), metrics=rparams.get("metrics"),
                                      optimizer=rparams.get("optimizer"), learning_rate=rparams.get("learning_rate"),
-                                     momentum=rparams.get("momentum"), init_mode=rparams.get("init_mode"))  
-            
+                                     momentum=rparams.get("momentum"), init_mode=rparams.get("init_mode")) 
+        else:
+            print("Model name is not found or xgboost import error.")
+            return 0, 0
 
             
 
@@ -107,25 +115,31 @@ def script(args_list):
 
     else:
         if options.select_model[0] == "logreg":
-            model = LogisticRegression(**rparams, verbose=10)
-        if options.select_model[0] == "knn":
+            rparams['verbose'] = 10
+            model = LogisticRegression(**rparams)
+        elif options.select_model[0] == "knn":
             model = KNeighborsClassifier(**rparams)
-        if options.select_model[0] == "xgb":
+        elif options.select_model[0] == "xgb":
             model = xgb.XGBClassifier(**rparams)
-        if options.select_model[0] == "svc":
-            model = SVC(**rparams, class_weight="balanced")
-        if options.select_model[0] == "rf":
-            model = RandomForestClassifier(**rparams, class_weight="balanced")
-        if options.select_model[0] == "regression":
+        elif options.select_model[0] == "svc":
+            rparams['class_weight'] = "balanced"
+            model = SVC(**rparams)
+        elif options.select_model[0] == "rf":
+            rparams['class_weight'] = "balanced"
+            model = RandomForestClassifier(**rparams)
+        elif options.select_model[0] == "regression":
             model = build_residual_model(input_shape, output_shape, activation_0=rparams.get("activation_0", 'softmax'), activation_1=rparams.get("activation_0", 'softmax'), activation_2=rparams.get("activation_0", 'softmax'),
                                      loss=rparams.get("loss", 'binary_crossentropy'), metrics=rparams.get("metrics", ['accuracy']),
                                      optimizer=rparams.get("optimizer", 'Adam'), learning_rate=rparams.get("learning_rate", 0.001),
                                      momentum=rparams.get("momentum", 0.1), init_mode=rparams.get("init_mode", 'uniform'), dropout=rparams.get("dropout", 0), layers=rparams.get("layers", 0))
-        if options.select_model[0] == "residual":
+        elif options.select_model[0] == "residual":
             model = build_logistic_model(input_shape, output_shape, activation=rparams.get("activation"),
                                      loss=rparams.get("loss"), metrics=rparams.get("metrics"),
                                      optimizer=rparams.get("optimizer"), learning_rate=rparams.get("learning_rate"),
                                      momentum=rparams.get("momentum"), init_mode=rparams.get("init_mode"))
+        else:
+            print("Model name is not found or xgboost import error.")
+            return 0, 0
         print("FIT")
         logging.info("FIT")
 
@@ -142,7 +156,7 @@ def script(args_list):
 
     print("EVALUATE")
     logging.info("EVALUATE")
-    train_acc, test_acc = evaluate(options.output, model, x_train, x_test, x_val, y_train, y_test, y_val, time_start, rparams, history, options.data[0], options.section[0], options.features[0])
+    train_acc, test_acc = evaluate(options.output, model, x_train, x_test, x_val, y_train, y_test, y_val, time_start, rparams, history, options.data[0], options.section[0], options.features[0], n_jobs=options.n_jobs)
     return train_acc, test_acc
     
 

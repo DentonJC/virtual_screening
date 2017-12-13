@@ -23,16 +23,17 @@ The project allows to use supervised learning on molecules written in the SMILES
 
 ## Install <a name="install"></a>
 - Linux
-- Python 3.6+
+- Python 3.6+ (Python 2.7 unstable)
 - run env.sh
 ### with Conda <a name="conda"></a>
 - Conda (https://www.anaconda.com/download/#linux)
 - conda install --file requirements
+- (optional) conda install -c akode xgboost
 - conda install -c rdkit rdkit
 ### with Pip <a name="pip"></a>
 - Packages from requirements
+- (optional) xgboost
 - RDKit (https://github.com/rdkit/rdkit)
-
 
 ## Usage <a name="usage"></a>
     usage: logreg.py data section [-h]

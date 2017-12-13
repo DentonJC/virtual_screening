@@ -137,7 +137,7 @@ def isnan(x):
     return isinstance(x, float) and math.isnan(x)
    
 
-def evaluate(path, model, x_train, x_test, x_val, y_train, y_test, y_val, time_start, rparams, history, data, section, features):
+def evaluate(path, model, x_train, x_test, x_val, y_train, y_test, y_val, time_start, rparams, history, data, section, features, n_jobs):
     try:
         model_json = model.to_json()
         with open(path+"model.json", "w") as json_file:
@@ -155,7 +155,7 @@ def evaluate(path, model, x_train, x_test, x_val, y_train, y_test, y_val, time_s
         f.close()
 
         # evaluate
-        score = model.evaluate(x_test, y_test, batch_size=rparams.get("batch_size", 32), verbose=1)
+        score = model.evaluate(x_test, y_test, batch_size=rparams.get("batch_size", 32), verbose=1, n_jobs=n_jobs)
         print('Score: %1.3f' % score[0])
         logging.info('Score: %1.3f' % score[0])
         print('Accuracy: %1.3f' % score[1])
