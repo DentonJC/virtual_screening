@@ -56,4 +56,21 @@
 - Python2 compatibility
   - https://github.com/DentonJC/virtual_screening/issues/32
 
-### 12.12.17
+### 13.12.17
+- error in start_time from run.py
+  - two folders with same name if same start_time
+- one gridsearch for all experiments in row
+  - https://github.com/DentonJC/virtual_screening/issues/26
+
+### 14.12.17
+- turn off one gridsearch for all experiments in row
+- train_test_split now with one random_state for all experiments in table
+- better hyperparams in report (only rparams[0])
+
+### 15.12.17
+- two experiments columns for HIV dataset
+- clean print + logging pairs
+  - https://github.com/DentonJC/virtual_screening/issues/10
+- try isolation forest
+  - https://github.com/DentonJC/virtual_screening/issues/27
+- add random forest to tables

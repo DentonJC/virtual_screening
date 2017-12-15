@@ -14,11 +14,11 @@ from src.main import drop_nan
 from sklearn import preprocessing
 
 
-Dummy_n = 1000
+Dummy_n = 3000
 n_physical = 196
 
 
-def get_data(filename, DUMMY, fingerprint, nBits, set_targets, set_features):
+def get_data(filename, DUMMY, fingerprint, nBits, set_targets, set_features, random_state):
     if fingerprint in ['MACCS', 'maccs', 'Maccs', 'maccs (167)']:
         nBits = 167
 
@@ -32,7 +32,7 @@ def get_data(filename, DUMMY, fingerprint, nBits, set_targets, set_features):
     smiles = []
     if DUMMY:
         data = data[:Dummy_n]
-    print("Loading data")
+
     logging.info("Loading data")
     l_headers = list(data)
     if " 'f'" in l_headers or " 'p'" in l_headers:
@@ -49,7 +49,7 @@ def get_data(filename, DUMMY, fingerprint, nBits, set_targets, set_features):
         labels = np.delete(labels, [0], axis=1)
         
     else:
-        print("Physic data extraction")
+        logging.info("Physic data extraction")
         smiles = data["smiles"]
         data = data.drop("smiles", 1)
         if "mol_id" in list(data):
@@ -75,7 +75,7 @@ def get_data(filename, DUMMY, fingerprint, nBits, set_targets, set_features):
             
         labels = np.array(l).T
         labels = np.delete(labels, missing, axis=0)
-        print("Featurization")
+
         logging.info("Featurization")
         ms = [Chem.MolFromSmiles(x) for x in smiles]
         if fingerprint in ['MACCS', 'maccs', 'Maccs', 'maccs (167)']:
@@ -104,13 +104,9 @@ def get_data(filename, DUMMY, fingerprint, nBits, set_targets, set_features):
             features = np.array(features[:Dummy_n])
             labels = np.array(labels[:Dummy_n])
 
-    print("Data shape:", str(data.shape))
     logging.info("Data shape: %s", str(data.shape))
-    print("Features shape:", str(features.shape))
     logging.info("Features shape: %s", str(features.shape))
-    print("Labels shape:", str(labels.shape))
     logging.info("Labels shape: %s", str(labels.shape))
-    print("Data loaded")
     logging.info("Data loaded")
 
     # np.savetxt("out.csv", features, delimiter=",", fmt='%3f')
@@ -127,7 +123,7 @@ def get_data(filename, DUMMY, fingerprint, nBits, set_targets, set_features):
             #features[i] = preprocessing.normalize(features[i].reshape(1, -1))
         except:
             remove_rows.append(i)
-            print("Input contains NaN, infinity or a value too large for dtype('float64')")
+            logging.info("Input contains NaN, infinity or a value too large for dtype('float64')")
     features = features.T
     features = np.delete(features, remove_rows, axis=1)
     #np.savetxt("out.csv", features, delimiter=",", fmt='%3f')
@@ -140,17 +136,9 @@ def get_data(filename, DUMMY, fingerprint, nBits, set_targets, set_features):
         features = features[:, range(0, nBits)].reshape(features.shape[0], nBits)
 
     features, labels = drop_nan(features, labels)
-    x_train, x, y_train, y = train_test_split(features, labels, test_size=0.4, stratify=labels)
-    x_test, x_val, y_test, y_val = train_test_split(x, y, test_size=0.5, stratify=y)
+    x_train, x, y_train, y = train_test_split(features, labels, test_size=0.2, stratify=labels, random_state=random_state)
+    x_test, x_val, y_test, y_val = train_test_split(x, y, test_size=0.8, stratify=y, random_state=random_state)
 
-
-    # remove prints
-    print("X_train:", x_train.shape)
-    print("Y_train:", y_train.shape)
-    print("X_test:", x_test.shape)
-    print("Y_test:", y_test.shape)
-    print("X_val:", x_val.shape)
-    print("Y_val:", y_val.shape)
     logging.info("X_train: %s", str(x_train.shape))
     logging.info("Y_train: %s", str(y_train.shape))
     logging.info("X_test: %s", str(x_test.shape))

@@ -6,6 +6,7 @@ The project allows to use supervised learning on molecules written in the SMILES
 - RandomForestClassifier
 - SVC
 - XGBClassifier
+- Isolation Forest
 
 ## Table of Contents
 1. [Results](#results)

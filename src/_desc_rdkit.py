@@ -66,7 +66,6 @@ def smiles_to_desc_rdkit(x):
     features_values = []
 
     for key, smi in tqdm.tqdm(x.items(), total=len(x)):
-        # print(smi)
         try:
             # Try optimizing
             m = Chem.MolFromSmiles(smi)
@@ -89,7 +88,6 @@ def smiles_to_desc_rdkit(x):
                 features_values.append(_rdkit_transform(m))
         except:
             missing.append(key)
-            # print("Serialization failed")
 
     logger.info("Serialized {} out of {} compounds to sdf".format(len(x) - len(missing), len(x)))
 
@@ -99,7 +97,7 @@ def smiles_to_desc_rdkit(x):
     features.reindex(features.index.union(missing))
 
     if len(set(features.index)) == len(x):
-        print("Missed compounds")
+        logger.info("Missed compounds")
 
     return features, missing
 

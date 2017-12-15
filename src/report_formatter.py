@@ -21,7 +21,11 @@ def create_report(path, score, timer, rparams, tstart, history):
     Report = []
     styles = getSampleStyleSheet()
     styles.add(ParagraphStyle(name='Justify', alignment=TA_JUSTIFY))
-
+    
+    try:
+        rparams = rparams['params'][0]
+    except KeyError:
+        pass
     string = str(rparams)
     string = string.replace("{", "")
     string = string.replace("'", "")

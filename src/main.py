@@ -150,17 +150,14 @@ def evaluate(path, model, x_train, x_test, x_val, y_train, y_test, y_val, time_s
         f = open(path + 'model', 'w')
         sys.stdout = f
         logging.info(model.summary())
-        print(model.summary())
         sys.stdout = orig_stdout
         f.close()
 
         # evaluate
         score = model.evaluate(x_test, y_test, batch_size=rparams.get("batch_size", 32), verbose=1, n_jobs=n_jobs)
-        print('Score: %1.3f' % score[0])
         logging.info('Score: %1.3f' % score[0])
-        print('Accuracy: %1.3f' % score[1])
         logging.info('Accuracy: %1.3f' % score[1])
-        print("PREDICT")
+        logging.info("PREDICT")
         y_pred = model.predict(x_test)
         result = [np.argmax(i) for i in y_pred]
         y_pred_train = model.predict(x_train)
@@ -180,8 +177,8 @@ def evaluate(path, model, x_train, x_test, x_val, y_train, y_test, y_val, time_s
 
         accuracy = accuracy_score(y_test, p_test)*100
         accuracy_train = accuracy_score(y_train, p_train)*100
-        print("Accuracy test: %.2f%%" % (accuracy))
-        print("Accuracy train: %.2f%%" % (accuracy_train))
+        logging.info("Accuracy test: %.2f%%" % (accuracy))
+        logging.info("Accuracy train: %.2f%%" % (accuracy_train))
         
         # find how long the program was running
         score = [1-accuracy_score(y_pred_test, y_test), accuracy_score(y_pred_test, y_test)]
@@ -203,7 +200,6 @@ def evaluate(path, model, x_train, x_test, x_val, y_train, y_test, y_val, time_s
     path = (path[:-1] + ' ' + data +  ' ' + section +  ' ' + features +  ' ' + str(round(score[1], 3)) +'/').replace(".py", "").replace(".csv", "").replace("src/","").replace("data/preprocessed/","").replace('data/','') # ugly! remove address of file
     os.rename(path_old,path)
     
-    print("Done")
-    print("Results path", path)
     logging.info("Done")
+    logging.info("Results path: %s", path)
     return accuracy, accuracy_train

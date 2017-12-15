@@ -54,19 +54,17 @@ def build_residual_model(input_dim, output_dim, activation_0='relu', activation_
 
 
 def lstm(input_dim = 28, MAX_SEQ_LENGTH=None, N_CLASSES=2):
-    print("FORWARD")
+    # forward
     encoder_a = Sequential()
     encoder_a.add(LSTM(8, input_dim=input_dim,return_sequences=True))
-    print("BACKWARD")
+    # backward
     encoder_b = Sequential()
     encoder_b.add(LSTM(8, input_dim=input_dim,go_backwards=True,return_sequences=True))
 
-    print("MODEL")
     model = Sequential()
     model.add(Merge([encoder_a, encoder_b], mode='concat'))
     model.add(TimeDistributed(Dense(N_CLASSES, activation='softmax')))
 
-    print("COMPILE")
     model.compile(loss='categorical_crossentropy',
                 optimizer='rmsprop',
                 metrics=['accuracy'])
