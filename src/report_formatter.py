@@ -11,7 +11,7 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
 from sklearn.metrics import roc_auc_score, roc_curve
 
 
-def create_report(path, score, timer, rparams, tstart, history):
+def create_report(path, score, timer, rparams, tstart, history, random_state, options):
     """
     Create .pdf with information about experiment.
     """
@@ -40,7 +40,11 @@ def create_report(path, score, timer, rparams, tstart, history):
 
     ptext = '<font size=12> Command line input: %s </font>' % (cmd)
     Report.append(Paragraph(ptext, styles["Justify"]))
+    ptext = '<font size=12> Arguments: %s </font>' % (str(options))
+    Report.append(Paragraph(ptext, styles["Justify"]))
     ptext = '<font size=12> Parameters: %s </font>' % (string)
+    Report.append(Paragraph(ptext, styles["Justify"]))
+    ptext = '<font size=12> Random state: %s </font>' % (str(random_state))
     Report.append(Paragraph(ptext, styles["Justify"]))
     ptext = '<font size=12> Score: %1.3f </font>' % (score[0])
     Report.append(Paragraph(ptext, styles["Justify"]))

@@ -74,3 +74,17 @@
 - try isolation forest
   - https://github.com/DentonJC/virtual_screening/issues/27
 - add random forest to tables
+
+### 16.12.17
+- errors after testing with /etc/test.csv
+  - AttributeError: 'RandomizedSearchCV' object has no attribute 'get'
+- random_state added to report
+- logging fixed
+
+### 17.12.17
+- Replace train accuracy with recall in the experiments tables.
+  - https://github.com/DentonJC/virtual_screening/issues/34
+- run.py now working only without argument
+- Add choices to the argument options.
+  - https://github.com/DentonJC/virtual_screening/issues/29
+- remove xgb from tables - too long without interesting results

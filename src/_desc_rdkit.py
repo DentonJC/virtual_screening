@@ -11,12 +11,8 @@ import tqdm
 import pandas as pd
 import numpy as np
 import re
-import logging
-
 from rdkit import Chem
 from rdkit.Chem import Descriptors, AllChem
-
-logger = logging.getLogger(__name__)
 
 
 def _camel_to_snail(s):
@@ -89,7 +85,7 @@ def smiles_to_desc_rdkit(x):
         except:
             missing.append(key)
 
-    logger.info("Serialized {} out of {} compounds to sdf".format(len(x) - len(missing), len(x)))
+    print("Serialized {} out of {} compounds to sdf".format(len(x) - len(missing), len(x)))
 
     # Featurize and fill with NaNs
     features = pd.DataFrame(features_values, index=features_index)
@@ -97,7 +93,7 @@ def smiles_to_desc_rdkit(x):
     features.reindex(features.index.union(missing))
 
     if len(set(features.index)) == len(x):
-        logger.info("Missed compounds")
+        print("Missed compounds")
 
     return features, missing
 

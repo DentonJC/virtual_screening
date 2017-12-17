@@ -12,7 +12,7 @@ import numpy as np
 import pandas as pd
 from datetime import datetime
 from shutil import copyfile, copytree
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, recall_score
 from keras.optimizers import Adam, Nadam, Adamax, RMSprop, Adagrad, Adadelta, SGD
 from keras.models import model_from_json
 from keras.callbacks import ModelCheckpoint, EarlyStopping, CSVLogger
@@ -46,17 +46,17 @@ def read_config(config_path, section):
     return n_folds, epochs, rparams, gparams
 
 
-def start_log(DUMMY, GRID_SEARCH, fingerprint, nBits, config_path, filename, section):
-    logging.info("Script adderss: %s", str(sys.argv[0]))
-    logging.info("Data file: %s", str(filename))
-    logging.info("Fingerprint: %s", str(fingerprint))
-    logging.info("n_bits: %s", str(nBits))
-    logging.info("Config file: %s", str(config_path))
-    logging.info("Section: %s", str(section))
+def start_log(logger, DUMMY, GRID_SEARCH, fingerprint, nBits, config_path, filename, section):
+    logger.info("Script adderss: %s", str(sys.argv[0]))
+    logger.info("Data file: %s", str(filename))
+    logger.info("Fingerprint: %s", str(fingerprint))
+    logger.info("n_bits: %s", str(nBits))
+    logger.info("Config file: %s", str(config_path))
+    logger.info("Section: %s", str(section))
     if DUMMY:
-        logging.info("Dummy")
+        logger.info("Dummy")
     if GRID_SEARCH:
-        logging.info("Grid search")
+        logger.info("Grid search")
 
 
 def get_latest_file(path):
@@ -137,7 +137,7 @@ def isnan(x):
     return isinstance(x, float) and math.isnan(x)
    
 
-def evaluate(path, model, x_train, x_test, x_val, y_train, y_test, y_val, time_start, rparams, history, data, section, features, n_jobs):
+def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val, y_train, y_test, y_val, time_start, rparams, history, data, section, features, n_jobs):
     try:
         model_json = model.to_json()
         with open(path+"model.json", "w") as json_file:
@@ -149,15 +149,15 @@ def evaluate(path, model, x_train, x_test, x_val, y_train, y_test, y_val, time_s
         orig_stdout = sys.stdout
         f = open(path + 'model', 'w')
         sys.stdout = f
-        logging.info(model.summary())
+        logger.info(model.summary())
         sys.stdout = orig_stdout
         f.close()
 
         # evaluate
-        score = model.evaluate(x_test, y_test, batch_size=rparams.get("batch_size", 32), verbose=1, n_jobs=n_jobs)
-        logging.info('Score: %1.3f' % score[0])
-        logging.info('Accuracy: %1.3f' % score[1])
-        logging.info("PREDICT")
+        score = model.evaluate(x_test, y_test, batch_size=rparams.get("batch_size", 32), verbose=1)
+        logger.info('Score: %1.3f' % score[0])
+        logger.info('Accuracy: %1.3f' % score[1])
+        logger.info("PREDICT")
         y_pred = model.predict(x_test)
         result = [np.argmax(i) for i in y_pred]
         y_pred_train = model.predict(x_train)
@@ -169,37 +169,38 @@ def evaluate(path, model, x_train, x_test, x_val, y_train, y_test, y_val, time_s
         save_labels(result, path + "y_pred.csv")
     except:
         y_pred_test = model.predict(x_test)
-        p_test = [round(value) for value in y_pred_test]
-        save_labels(p_test, path + "y_pred.csv")
+        result = [round(value) for value in y_pred_test]
+        save_labels(result, path + "y_pred.csv")
 
         y_pred_train = model.predict(x_train)
         p_train = [round(value) for value in y_pred_train]
 
-        accuracy = accuracy_score(y_test, p_test)*100
+        accuracy = accuracy_score(y_test, result)*100
         accuracy_train = accuracy_score(y_train, p_train)*100
-        logging.info("Accuracy test: %.2f%%" % (accuracy))
-        logging.info("Accuracy train: %.2f%%" % (accuracy_train))
+        logger.info("Accuracy test: %.2f%%" % (accuracy))
+        logger.info("Accuracy train: %.2f%%" % (accuracy_train))
         
-        # find how long the program was running
         score = [1-accuracy_score(y_pred_test, y_test), accuracy_score(y_pred_test, y_test)]
+    
+    rec = recall_score(y_test, result, average=None)
     
     # find how long the program was running
     tstop = datetime.now()
     timer = tstop - time_start
     print(timer)
-    logging.info(timer)
+    logger.info(timer)
 
     # create report, prediction and save script and all current models
     try:
-        create_report(path, score, timer, rparams, time_start, history)
+        create_report(path, score, timer, rparams, time_start, history, random_state, options)
     except:
-        create_report(path, score, timer, rparams, tstart, None)
+        create_report(path, score, timer, rparams, tstart, None, random_state, options)
     copyfile(sys.argv[0], path + os.path.basename(sys.argv[0]))
     copytree('src/models', path + 'models')
     path_old = path
     path = (path[:-1] + ' ' + data +  ' ' + section +  ' ' + features +  ' ' + str(round(score[1], 3)) +'/').replace(".py", "").replace(".csv", "").replace("src/","").replace("data/preprocessed/","").replace('data/','') # ugly! remove address of file
     os.rename(path_old,path)
     
-    logging.info("Done")
-    logging.info("Results path: %s", path)
-    return accuracy, accuracy_train
+    logger.info("Done")
+    logger.info("Results path: %s", path)
+    return accuracy, accuracy_train, rec

@@ -19,26 +19,30 @@ from src.models.models import build_logistic_model
 from src.models.models import build_residual_model
 from keras.wrappers.scikit_learn import KerasClassifier
 
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s [%(name)s] %(levelname)s: %(message)s')
+
 xgb_flag = False
 try:
     import xgboost as xgb
     xgb_flag = True
 except ImportError:
-    logging.info("xgboost is not available")
+    logger.info("xgboost is not available")
 
 scoring = {'accuracy': 'accuracy', 'MCC': make_scorer(matthews_corrcoef)}
 n_physical = 196
 
 
 def get_options():
-    parser = argparse.ArgumentParser(prog="logreg.py data section")
+    parser = argparse.ArgumentParser(prog="model data section")
     parser.add_argument('select_model', nargs='+', help='name of the model, select from list in README'),
     parser.add_argument('data', nargs='+', help='path to dataset'),
     parser.add_argument('section', nargs='+', help='name of section in config file'),
     parser.add_argument('--features', default='all', choices=['all', 'a', 'fingerprint', 'f', 'physical', 'p'], help='take features: all, fingerptint or physical'),
     parser.add_argument('--output', default=os.path.dirname(os.path.realpath(__file__)).replace("/src", "") + "/tmp/" + str(datetime.now()) + '/', help='path to output directory'),
     parser.add_argument('--configs', default=os.path.dirname(os.path.realpath(__file__)) + "/configs.ini", help='path to config file'),
-    parser.add_argument('--fingerprint', default='morgan', help='maccs (167) or morgan (n)'),
+    parser.add_argument('--fingerprint', default='morgan', choices=['morgan', 'maccs'], help='maccs (167) or morgan (n)'),
     parser.add_argument('--n_bits', default=256, type=int, help='number of bits in Morgan fingerprint'),
     parser.add_argument('--n_iter', default=6, type=int, help='number of iterations in RandomizedSearchCV'),
     parser.add_argument('--n_jobs', default=1, type=int, help='number of jobs'),
@@ -60,14 +64,25 @@ def script(args_list, random_state=False, p_rparams=False):
         options.targets = [options.targets]
 
     callbacks_list = create_callbacks(options.output, options.patience, options.data[0])
-    logging.basicConfig(filename=options.output+'main.log', level=logging.INFO)
-    start_log(options.dummy, options.gridsearch, options.fingerprint, options.n_bits, options.configs, options.data[0], options.section[0])
+    
+    # writing to a file
+    handler = logging.FileHandler(options.output + 'log')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+
+    # and to stderr (for stdout `stream=sys.stdout`)
+    handler = logging.StreamHandler()
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+
+    #logging.basicConfig(filename=options.output+'main.log', level=logging.INFO)
+    start_log(logger, options.dummy, options.gridsearch, options.fingerprint, options.n_bits, options.configs, options.data[0], options.section[0])
     n_folds, epochs, rparams, gparams = read_config(options.configs, options.section[0])
-    x_train, x_test, x_val, y_train, y_test, y_val, input_shape, output_shape, smiles = get_data(options.data[0], options.dummy, options.fingerprint, options.n_bits, options.targets, options.features, random_state)
+    x_train, x_test, x_val, y_train, y_test, y_val, input_shape, output_shape, smiles = get_data(logger, options.data[0], options.dummy, options.fingerprint, options.n_bits, options.targets, options.features, random_state)
     
     
     if options.gridsearch and not p_rparams:
-        logging.info("GRID SEARCH")  
+        logger.info("GRID SEARCH")  
         
         if options.select_model[0] == "logreg":
             model = RandomizedSearchCV(LogisticRegression(**rparams), gparams, n_iter=options.n_iter, n_jobs=options.n_jobs, cv=n_folds, verbose=10, 
@@ -105,10 +120,10 @@ def script(args_list, random_state=False, p_rparams=False):
                                      optimizer=rparams.get("optimizer"), learning_rate=rparams.get("learning_rate"),
                                      momentum=rparams.get("momentum"), init_mode=rparams.get("init_mode")) 
         else:
-            logging.info("Model name is not found or xgboost import error.")
+            logger.info("Model name is not found or xgboost import error.")
             return 0, 0
 
-        logging.info("FIT")
+        logger.info("FIT")
         history = model.fit(x_train, np.ravel(y_train))
 
     else:
@@ -140,10 +155,10 @@ def script(args_list, random_state=False, p_rparams=False):
                                      optimizer=rparams.get("optimizer"), learning_rate=rparams.get("learning_rate"),
                                      momentum=rparams.get("momentum"), init_mode=rparams.get("init_mode"))
         else:
-            logging.info("Model name is not found or xgboost import error.")
+            logger.info("Model name is not found or xgboost import error.")
             return 0, 0
 
-        logging.info("FIT")
+        logger.info("FIT")
 
         if options.select_model[0] == "regression" or options.select_model[0] == "residual":
             if not rparams.get("class_weight"):
@@ -156,12 +171,11 @@ def script(args_list, random_state=False, p_rparams=False):
     if options.gridsearch and not p_rparams:
         rparams = model.cv_results_
 
-    logging.info("EVALUATE")
-    train_acc, test_acc = evaluate(options.output, model, x_train, x_test, x_val, y_train, y_test, y_val, time_start, rparams, history, options.data[0], options.section[0], options.features[0], n_jobs=options.n_jobs)
-    return train_acc, test_acc, rparams
+    logger.info("EVALUATE")
+    train_acc, test_acc, rec = evaluate(logger, options, random_state, options.output, model, x_train, x_test, x_val, y_train, y_test, y_val, time_start, rparams, history, options.data[0], options.section[0], options.features[0], n_jobs=options.n_jobs)
+    return train_acc, test_acc, rparams, rec
     
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
     args_list = ['data/preprocessed/tox21_morgan_256.csv', 'LOGREG_TOX21', '--features', 'p', '--fingerprint', 'morgan', '--n_bits', '256', '--n_jobs', '-1', '-p', '200', '-t', '0']
     script(args_list)
