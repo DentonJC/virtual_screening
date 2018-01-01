@@ -12,11 +12,11 @@ import numpy as np
 import pandas as pd
 from datetime import datetime
 from shutil import copyfile, copytree
-from sklearn.metrics import accuracy_score, recall_score
+from sklearn.metrics import accuracy_score, recall_score, roc_auc_score, f1_score
 from keras.optimizers import Adam, Nadam, Adamax, RMSprop, Adagrad, Adadelta, SGD
 from keras.models import model_from_json
 from keras.callbacks import ModelCheckpoint, EarlyStopping, CSVLogger
-from src.report_formatter import create_report
+from src.report_formatter import create_report, AUC
 config = configparser.ConfigParser()
 
 
@@ -46,9 +46,10 @@ def read_config(config_path, section):
     return n_folds, epochs, rparams, gparams
 
 
-def start_log(logger, DUMMY, GRID_SEARCH, fingerprint, nBits, config_path, filename, section):
+def start_log(logger, DUMMY, GRID_SEARCH, fingerprint, nBits, config_path, data_train, data_test, section):
     logger.info("Script adderss: %s", str(sys.argv[0]))
-    logger.info("Data file: %s", str(filename))
+    logger.info("Data test file: %s", str(data_test))
+    logger.info("Data train file: %s", str(data_train))
     logger.info("Fingerprint: %s", str(fingerprint))
     logger.info("n_bits: %s", str(nBits))
     logger.info("Config file: %s", str(config_path))
@@ -155,34 +156,36 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
 
         # evaluate
         score = model.evaluate(x_test, y_test, batch_size=rparams.get("batch_size", 32), verbose=1)
-        logger.info('Score: %1.3f' % score[0])
-        logger.info('Accuracy: %1.3f' % score[1])
+        logger.info('Accuracy test: %1.3f' % score[1])
         logger.info("PREDICT")
         y_pred = model.predict(x_test)
         result = [np.argmax(i) for i in y_pred]
         y_pred_train = model.predict(x_train)
         result_train = [np.argmax(i) for i in y_pred_train]
         
-        accuracy = accuracy_score(y_test, result)*100
+        accuracy_test = accuracy_score(y_test, result)*100
         accuracy_train = accuracy_score(y_train, result_train)*100
         
         save_labels(result, path + "y_pred.csv")
     except:
         y_pred_test = model.predict(x_test)
-        result = [round(value) for value in y_pred_test]
+        result = [round(np.argmax(value)) for value in y_pred_test]
         save_labels(result, path + "y_pred.csv")
 
         y_pred_train = model.predict(x_train)
-        p_train = [round(value) for value in y_pred_train]
+        p_train = [round(np.argmax(value)) for value in y_pred_train]
 
-        accuracy = accuracy_score(y_test, result)*100
+        accuracy_test = accuracy_score(y_test, result)*100
         accuracy_train = accuracy_score(y_train, p_train)*100
-        logger.info("Accuracy test: %.2f%%" % (accuracy))
-        logger.info("Accuracy train: %.2f%%" % (accuracy_train))
-        
-        score = [1-accuracy_score(y_pred_test, y_test), accuracy_score(y_pred_test, y_test)]
+        logger.info("Accuracy test: %.2f%%" % (accuracy_test))
     
     rec = recall_score(y_test, result, average=None)
+    try:
+        auc = roc_auc_score(y_test, result)
+        AUC(y_pred_train, y_pred_test, False, y_train, y_test, False, path)
+    except ValueError:
+        auc = '-'
+    f1 = f1_score(y_test, result, average=None)
     
     # find how long the program was running
     tstop = datetime.now()
@@ -192,15 +195,23 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
 
     # create report, prediction and save script and all current models
     try:
-        create_report(path, score, timer, rparams, time_start, history, random_state, options)
+        create_report(path, accuracy_test, accuracy_train, rec, auc, f1, timer, rparams, time_start, history, random_state, options)
     except:
-        create_report(path, score, timer, rparams, tstart, None, random_state, options)
+        create_report(path, accuracy_test, accuracy_train, rec, auc, f1, timer, rparams, time_start, None, random_state, options)
+
     copyfile(sys.argv[0], path + os.path.basename(sys.argv[0]))
-    copytree('src/models', path + 'models')
+    try:
+        copytree('src/models', path + 'models')
+    except FileNotFoundError:
+        pass
     path_old = path
-    path = (path[:-1] + ' ' + data +  ' ' + section +  ' ' + features +  ' ' + str(round(score[1], 3)) +'/').replace(".py", "").replace(".csv", "").replace("src/","").replace("data/preprocessed/","").replace('data/','') # ugly! remove address of file
-    os.rename(path_old,path)
+    
+    try:
+        path = (path[:-1] + ' ' + data +  ' ' + section +  ' ' + features +  ' ' + str(round(accuracy_test, 3)) +'/').replace(".py", "").replace(".csv", "").replace("src/","").replace("data/preprocessed/","").replace('data/','') # ugly! remove address of file
+        os.rename(path_old,path)
+    except TypeError:
+        pass
     
     logger.info("Done")
     logger.info("Results path: %s", path)
-    return accuracy, accuracy_train, rec
+    return accuracy_test, accuracy_train, rec, auc, f1

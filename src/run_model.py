@@ -37,7 +37,8 @@ n_physical = 196
 def get_options():
     parser = argparse.ArgumentParser(prog="model data section")
     parser.add_argument('select_model', nargs='+', help='name of the model, select from list in README'),
-    parser.add_argument('data', nargs='+', help='path to dataset'),
+    parser.add_argument('data_test', nargs='+', help='path to test dataset'),
+    parser.add_argument('data_train', nargs='+', help='path to train dataset'),
     parser.add_argument('section', nargs='+', help='name of section in config file'),
     parser.add_argument('--features', default='all', choices=['all', 'a', 'fingerprint', 'f', 'physical', 'p'], help='take features: all, fingerptint or physical'),
     parser.add_argument('--output', default=os.path.dirname(os.path.realpath(__file__)).replace("/src", "") + "/tmp/" + str(datetime.now()) + '/', help='path to output directory'),
@@ -63,7 +64,7 @@ def script(args_list, random_state=False, p_rparams=False):
     if options.targets is not list:
         options.targets = [options.targets]
 
-    callbacks_list = create_callbacks(options.output, options.patience, options.data[0])
+    callbacks_list = create_callbacks(options.output, options.patience, options.data_train[0])
     
     # writing to a file
     handler = logging.FileHandler(options.output + 'log')
@@ -76,11 +77,11 @@ def script(args_list, random_state=False, p_rparams=False):
     logger.addHandler(handler)
 
     #logging.basicConfig(filename=options.output+'main.log', level=logging.INFO)
-    start_log(logger, options.dummy, options.gridsearch, options.fingerprint, options.n_bits, options.configs, options.data[0], options.section[0])
+    start_log(logger, options.dummy, options.gridsearch, options.fingerprint, options.n_bits, options.configs, options.data_train[0], options.data_test[0], options.section[0])
     n_folds, epochs, rparams, gparams = read_config(options.configs, options.section[0])
-    x_train, x_test, x_val, y_train, y_test, y_val, input_shape, output_shape, smiles = get_data(logger, options.data[0], options.dummy, options.fingerprint, options.n_bits, options.targets, options.features, random_state)
-    
-    
+    x_train, x_test, x_val, y_train, y_test, y_val, input_shape, output_shape = get_data(logger, options.data_train[0], options.data_test[0], options.dummy, options.fingerprint, options.n_bits, options.targets, options.features, random_state)
+
+
     if options.gridsearch and not p_rparams:
         logger.info("GRID SEARCH")  
         
@@ -172,8 +173,8 @@ def script(args_list, random_state=False, p_rparams=False):
         rparams = model.cv_results_
 
     logger.info("EVALUATE")
-    train_acc, test_acc, rec = evaluate(logger, options, random_state, options.output, model, x_train, x_test, x_val, y_train, y_test, y_val, time_start, rparams, history, options.data[0], options.section[0], options.features[0], n_jobs=options.n_jobs)
-    return train_acc, test_acc, rparams, rec
+    accuracy_test, accuracy_train, rec, auc, f1 = evaluate(logger, options, random_state, options.output, model, x_train, x_test, x_val, y_train, y_test, y_val, time_start, rparams, history, options.data_train[0], options.section[0], options.features[0], n_jobs=options.n_jobs)
+    return accuracy_test, accuracy_train, rec, auc, f1, rparams
     
 
 if __name__ == "__main__":

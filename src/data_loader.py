@@ -17,17 +17,7 @@ from sklearn import preprocessing
 Dummy_n = 3000
 n_physical = 196
 
-
-def get_data(logger, filename, DUMMY, fingerprint, nBits, set_targets, set_features, random_state):
-    if fingerprint in ['MACCS', 'maccs', 'Maccs', 'maccs (167)']:
-        nBits = 167
-
-    path = os.path.dirname(os.path.realpath(__file__)).replace("/src", "")
-    if not os.path.exists(path+"/data/"):
-        os.makedirs(path+"/data/")
-    if not os.path.exists(path+"/data/preprocessed/"):
-        os.makedirs(path+"/data/preprocessed/")
-
+def featurization(logger, filename, DUMMY, fingerprint, nBits, path):
     data = pd.read_csv(filename)
     smiles = []
     if DUMMY:
@@ -103,15 +93,11 @@ def get_data(logger, filename, DUMMY, fingerprint, nBits, set_targets, set_featu
         if DUMMY:
             features = np.array(features[:Dummy_n])
             labels = np.array(labels[:Dummy_n])
+        
+    return data, features, labels
+        
 
-    logger.info("Data shape: %s", str(data.shape))
-    logger.info("Features shape: %s", str(features.shape))
-    logger.info("Labels shape: %s", str(labels.shape))
-    logger.info("Data loaded")
-
-    # np.savetxt("out.csv", features, delimiter=",", fmt='%3f')
-    # Scaler
-    
+def preprocessing(logger, features, nBits):
     st = StandardScaler()
     remove_rows = []
     
@@ -127,6 +113,18 @@ def get_data(logger, filename, DUMMY, fingerprint, nBits, set_targets, set_featu
     features = features.T
     features = np.delete(features, remove_rows, axis=1)
     #np.savetxt("out.csv", features, delimiter=",", fmt='%3f')
+    
+    
+def processing(logger, filename, nBits, set_targets, set_features, DUMMY, fingerprint, path):
+    data, features, labels = featurization(logger, filename, DUMMY, fingerprint, nBits, path)
+    
+    logger.info("Data shape: %s", str(data.shape))
+    logger.info("Features shape: %s", str(features.shape))
+    logger.info("Labels shape: %s", str(labels.shape))
+    logger.info("Data loaded")
+    
+    preprocessing(logger, features, nBits)
+    logger.info("Data preprocessed")
 
     if set_targets:
         labels = labels[:, set_targets].reshape(labels.shape[0], len(set_targets))
@@ -134,10 +132,29 @@ def get_data(logger, filename, DUMMY, fingerprint, nBits, set_targets, set_featu
         features = features[:, range(nBits, features.shape[1])].reshape(features.shape[0], features.shape[1]-nBits)
     elif set_features in ['fingerprint', 'f']:
         features = features[:, range(0, nBits)].reshape(features.shape[0], nBits)
-
+        
     features, labels = drop_nan(features, labels)
-    x_train, x, y_train, y = train_test_split(features, labels, test_size=0.2, stratify=labels, random_state=random_state)
-    x_test, x_val, y_test, y_val = train_test_split(x, y, test_size=0.8, stratify=y, random_state=random_state)
+    return features, labels
+
+def get_data(logger, train_addr, test_addr, DUMMY, fingerprint, nBits, set_targets, set_features, random_state):
+    if fingerprint in ['MACCS', 'maccs', 'Maccs', 'maccs (167)']:
+        nBits = 167
+
+    path = os.path.dirname(os.path.realpath(__file__)).replace("/src", "")
+    if not os.path.exists(path+"/data/"):
+        os.makedirs(path+"/data/")
+    if not os.path.exists(path+"/data/preprocessed/"):
+        os.makedirs(path+"/data/preprocessed/")
+
+    logger.info("Train data")
+    features, labels = processing(logger, train_addr, nBits, set_targets, set_features, DUMMY, fingerprint, path)
+    if test_addr:
+        logger.info("Test data")
+        x_test, y_test = processing(logger, test_addr, nBits, set_targets, set_features, DUMMY, fingerprint, path)
+        x_train, x_val, y_train, y_val = train_test_split(features, labels, test_size=0.8, stratify=labels, random_state=random_state)
+    else:
+        x_train, x, y_train, y = train_test_split(features, labels, test_size=0.2, stratify=labels, random_state=random_state)
+        x_test, x_val, y_test, y_val = train_test_split(x, y, test_size=0.8, stratify=y, random_state=random_state)
 
     logger.info("X_train: %s", str(x_train.shape))
     logger.info("Y_train: %s", str(y_train.shape))
@@ -148,7 +165,7 @@ def get_data(logger, filename, DUMMY, fingerprint, nBits, set_targets, set_featu
     _, input_shape = x_train.shape
     _, output_shape = y_train.shape
 
-    return x_train, x_test, x_val, y_train, y_test, y_val, input_shape, output_shape, smiles
+    return x_train, x_test, x_val, y_train, y_test, y_val, input_shape, output_shape
 
 
 if __name__ == "__main__":

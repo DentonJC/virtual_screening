@@ -11,11 +11,11 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
 from sklearn.metrics import roc_auc_score, roc_curve
 
 
-def create_report(path, score, timer, rparams, tstart, history, random_state, options):
+def create_report(path, accuracy_test, accuracy_train, rec, auc, f1, timer, rparams, tstart, history, random_state, options):
     """
     Create .pdf with information about experiment.
     """
-    report_name = path+"report "+str(round(score[1], 2))+".pdf"
+    report_name = path+"report "+str(round(accuracy_test, 2))+".pdf"
     doc = SimpleDocTemplate(report_name, pagesize=letter, rightMargin=72, leftMargin=72, topMargin=72, bottomMargin=18)
 
     Report = []
@@ -46,10 +46,18 @@ def create_report(path, score, timer, rparams, tstart, history, random_state, op
     Report.append(Paragraph(ptext, styles["Justify"]))
     ptext = '<font size=12> Random state: %s </font>' % (str(random_state))
     Report.append(Paragraph(ptext, styles["Justify"]))
-    ptext = '<font size=12> Score: %1.3f </font>' % (score[0])
+
+    ptext = '<font size=12> Accuracy test: %s </font>' % (accuracy_test)
     Report.append(Paragraph(ptext, styles["Justify"]))
-    ptext = '<font size=12> Accuracy: %1.3f </font>' % (score[1])
+    ptext = '<font size=12> Accuracy train: %s </font>' % (accuracy_train)
     Report.append(Paragraph(ptext, styles["Justify"]))
+    ptext = '<font size=12> Recall: %s </font>' % (rec)
+    Report.append(Paragraph(ptext, styles["Justify"]))
+    ptext = '<font size=12> ROC AUC score: %s </font>' % (auc)
+    Report.append(Paragraph(ptext, styles["Justify"]))
+    ptext = '<font size=12> f1 score: %s </font>' % (f1)
+    Report.append(Paragraph(ptext, styles["Justify"]))
+    
     ptext = '<font size=12> Started at: %s </font>' % (tstart)
     Report.append(Paragraph(ptext, styles["Justify"]))
     ptext = '<font size=12> Time required: %s </font>' % (timer)
@@ -63,6 +71,12 @@ def create_report(path, score, timer, rparams, tstart, history, random_state, op
         Report.append(im)
     except:
         print("Can't create history plot for this type of experiment")
+    if os.path.exists(path+'auc.png'):
+        im = Image(path+'auc.png')
+        Report.append(im)
+    else:
+        print("Can't append AUC plot for this type of experiment")
+
     doc.build(Report)
     print("Report complete, you can see it in the results folder")
 
@@ -93,26 +107,31 @@ def draw_history(history, path):
     plt.clf()
 
 
-def auc(model, X_train, X_test, X_val, y_train, y_test, y_val, path):
+def AUC(pred_train, pred_test, pred_val, y_train, y_test, y_val, path):
     """
     https://www.wildcardconsulting.dk/useful-information/a-deep-tox21-neural-network-with-rdkit-and-keras/
     """
-    pred_train = model.predict(X_train)
-    pred_val = model.predict(X_val)
-    pred_test = model.predict(X_test)
- 
     auc_train = roc_auc_score(y_train, pred_train)
-    auc_val = roc_auc_score(y_val, pred_val)
+    try:
+        auc_val = roc_auc_score(y_val, pred_val)
+    except:
+        pass
     auc_test = roc_auc_score(y_test, pred_test)
  
     fpr_train, tpr_train, _ =roc_curve(y_train, pred_train, pos_label=1)
-    fpr_val, tpr_val, _ = roc_curve(y_val, pred_val, pos_label=1)
+    try:
+        fpr_val, tpr_val, _ = roc_curve(y_val, pred_val, pos_label=1)
+    except:
+        pass
     fpr_test, tpr_test, _ = roc_curve(y_test, pred_test, pos_label=1)
  
     plt.figure()
     lw = 2
     plt.plot(fpr_train, tpr_train, color='b',lw=lw, label='Train ROC (area = %0.2f)'%auc_train)
-    plt.plot(fpr_val, tpr_val, color='g',lw=lw, label='Val ROC (area = %0.2f)'%auc_val)
+    try:
+        plt.plot(fpr_val, tpr_val, color='g',lw=lw, label='Val ROC (area = %0.2f)'%auc_val)
+    except:
+        pass
     plt.plot(fpr_test, tpr_test, color='r',lw=lw, label='Test ROC (area = %0.2f)'%auc_test)
  
     plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
@@ -128,9 +147,23 @@ def auc(model, X_train, X_test, X_val, y_train, y_test, y_val, path):
 if __name__ == "__main__":
     # Create dummy report.
     path = os.path.dirname(os.path.realpath(__file__)).replace("/src", "") + "/tmp/"
-    score = [0,0]
+    accuracy_test = 0
+    accuracy_train = 0
+    rec_score = auc_score = f1_score = [0,0]
     timer = 0
-    rparams = []
+    rparams = {"weights": "distance", "p": "2", "leaf_size": "30", "algorithm": "brute"}
     tstart = 0
     history = None
-    create_report(path, score, timer, rparams, tstart, history)
+    random_state = 0
+    options = [0, 0, 0]
+    create_report(path, accuracy_test, accuracy_train, rec_score, auc_score, f1_score, timer, rparams, tstart, history, random_state, options)
+
+    ### Добавить историю из загруженной модели траем и потестить plot_history
+    pred_train = [1, 0, 1, 1, 0, 0, 0, 1, 0, 1]
+    pred_test = [1, 0, 1, 1, 0, 0, 0, 1, 0, 1]
+    pred_val = [1, 0, 1, 1, 0, 0, 0, 1, 0, 1]
+    y_train = [1, 1, 1, 1, 0, 0, 0, 1, 0, 1]
+    y_test = [1, 0, 0, 0, 0, 0, 0, 1, 0, 1]
+    y_val = [1, 0, 1, 1, 0, 0, 0, 1, 0, 0]
+    
+    AUC(pred_train, pred_test, pred_val, y_train, y_test, y_val, path)
