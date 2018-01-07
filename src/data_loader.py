@@ -8,7 +8,7 @@ from rdkit.Chem import AllChem
 from rdkit import Chem
 from rdkit.Chem import MACCSkeys
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler, LabelEncoder
+from sklearn.preprocessing import StandardScaler, LabelEncoder, normalize
 from src._desc_rdkit import smiles_to_desc_rdkit
 from src.main import drop_nan
 from sklearn import preprocessing
@@ -44,16 +44,18 @@ def featurization(logger, filename, DUMMY, fingerprint, nBits, path):
         data = data.drop("smiles", 1)
         if "mol_id" in list(data):
             data = data.drop("mol_id", 1)
+        
         l_headers = list(data)
         physic_smiles = pd.Series(smiles)
         physic_data, missing = smiles_to_desc_rdkit(physic_smiles)
         smiles = np.array(smiles)
         smiles = np.delete(smiles, missing)
-        data = np.array(data)
-        data = np.delete(data, missing, axis=1)
+        data = np.array(data)    
+        data = np.delete(data, missing, axis=0)     
         p_headers = "p" * physic_data.shape[1]
         _, cols = data.shape
         l = []
+        
         for i in range(cols):
             if isinstance(data[i][0], str):
                 le = LabelEncoder()
@@ -62,9 +64,9 @@ def featurization(logger, filename, DUMMY, fingerprint, nBits, path):
                 l.append(c)
             else:
                 l.append(data[:, i])
-            
+        
         labels = np.array(l).T
-        labels = np.delete(labels, missing, axis=0)
+        #labels = np.delete(labels, missing, axis=0)
 
         logger.info("Featurization")
         ms = [Chem.MolFromSmiles(x) for x in smiles]
@@ -81,6 +83,9 @@ def featurization(logger, filename, DUMMY, fingerprint, nBits, path):
             features = np.array(features)
             f_headers = "f" * features.shape[1]
             features = np.c_[features, physic_data]
+            
+            print(features.shape)
+            print(labels.shape)
             featurized = np.c_[features, labels]
             filename = filename.replace(".csv", "_morgan_"+str(nBits)+".csv")
         
@@ -112,6 +117,13 @@ def preprocessing(logger, features, nBits):
             logger.info("Input contains NaN, infinity or a value too large for dtype('float64')")
     features = features.T
     features = np.delete(features, remove_rows, axis=1)
+    features = features.T
+    ################
+    features[nBits:] = normalize(features[nBits:])
+    #features[nBits:-85] = normalize(features[nBits:-85])
+    #features = normalize(features)
+    features = features.T
+    return features
     #np.savetxt("out.csv", features, delimiter=",", fmt='%3f')
     
     
@@ -123,7 +135,7 @@ def processing(logger, filename, nBits, set_targets, set_features, DUMMY, finger
     logger.info("Labels shape: %s", str(labels.shape))
     logger.info("Data loaded")
     
-    preprocessing(logger, features, nBits)
+    features = preprocessing(logger, features, nBits)
     logger.info("Data preprocessed")
 
     if set_targets:
@@ -136,7 +148,7 @@ def processing(logger, filename, nBits, set_targets, set_features, DUMMY, finger
     features, labels = drop_nan(features, labels)
     return features, labels
 
-def get_data(logger, train_addr, test_addr, DUMMY, fingerprint, nBits, set_targets, set_features, random_state):
+def get_data(logger, train_addr, test_addr, DUMMY, fingerprint, nBits, set_targets, set_features, random_state, split):
     if fingerprint in ['MACCS', 'maccs', 'Maccs', 'maccs (167)']:
         nBits = 167
 
@@ -150,22 +162,25 @@ def get_data(logger, train_addr, test_addr, DUMMY, fingerprint, nBits, set_targe
     features, labels = processing(logger, train_addr, nBits, set_targets, set_features, DUMMY, fingerprint, path)
     if test_addr:
         logger.info("Test data")
+        print(test_addr)
         x_test, y_test = processing(logger, test_addr, nBits, set_targets, set_features, DUMMY, fingerprint, path)
-        x_train, x_val, y_train, y_val = train_test_split(features, labels, test_size=0.8, stratify=labels, random_state=random_state)
+        x_train, y_train = features, labels
     else:
-        x_train, x, y_train, y = train_test_split(features, labels, test_size=0.2, stratify=labels, random_state=random_state)
-        x_test, x_val, y_test, y_val = train_test_split(x, y, test_size=0.8, stratify=y, random_state=random_state)
+        x_train, x, y_train, y = train_test_split(features, labels, test_size=split, stratify=labels, random_state=random_state)
+        x_test, y_test = x, y
 
     logger.info("X_train: %s", str(x_train.shape))
     logger.info("Y_train: %s", str(y_train.shape))
     logger.info("X_test: %s", str(x_test.shape))
     logger.info("Y_test: %s", str(y_test.shape))
-    logger.info("X_val: %s", str(x_val.shape))
-    logger.info("Y_val: %s", str(y_val.shape))
     _, input_shape = x_train.shape
     _, output_shape = y_train.shape
+    
+    ##############
+    #np.savetxt("x_train "+set_features+".csv", x_train, delimiter=",", fmt='%3f')
+    #np.savetxt("y_train "+set_features+".csv", y_train, delimiter=",", fmt='%3f')
 
-    return x_train, x_test, x_val, y_train, y_test, y_val, input_shape, output_shape
+    return x_train, x_test, y_train, y_test, input_shape, output_shape
 
 
 if __name__ == "__main__":

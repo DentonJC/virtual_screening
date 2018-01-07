@@ -88,3 +88,52 @@
 - Add choices to the argument options.
   - https://github.com/DentonJC/virtual_screening/issues/29
 - remove xgb from tables - too long without interesting results
+
+### 18.12.17
+- error in filling table - instead of skipping in the field, an incorrect value was inserted
+
+### 19.12.17
+- error in outputs of keras models
+- multylabel classification
+- more data prints in report
+
+### 20.12.17
+- new dataset for tox21?
+
+### 21.12.17
+- ROC AUC plot
+- add different metrics
+- keep playing with metrics
+
+### 22.12.17
+- test dataset in experiments table
+- test dataset for tox21
+- new train dataset for tox21?
+
+### 25.12.17
+- fix normalization for physical features
+- if the number of iterations of RandomizedSearchCV is grater then combinations of gparams, replace it
+- start experimets with different normalizations
+
+### 28.12.17
+- set all random_states in run.py
+- README updated, Tox21
+- MUV, TOX21 in /utils
+
+### 01.01.18
+- refactor run.py
+- visualization for 2 and 3 hyperparams
+
+### 02.01.18
+- add cv_splits, splis and metrics to experiment table
+
+### 03.01.18
+- fix cv_splits
+- save sklearn models
+- add models to experiment table
+
+### 05.01.18
+- fix error with featurization of last two colums in Tox21
+
+### 07.01.18
+- better hyperparams for regression (with visualization)

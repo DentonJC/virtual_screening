@@ -5,6 +5,7 @@ import sys
 import csv
 import glob
 import math
+import pickle
 import getopt
 import logging
 import configparser
@@ -12,7 +13,7 @@ import numpy as np
 import pandas as pd
 from datetime import datetime
 from shutil import copyfile, copytree
-from sklearn.metrics import accuracy_score, recall_score, roc_auc_score, f1_score
+from sklearn.metrics import accuracy_score, recall_score, roc_auc_score, f1_score, matthews_corrcoef, make_scorer
 from keras.optimizers import Adam, Nadam, Adamax, RMSprop, Adagrad, Adadelta, SGD
 from keras.models import model_from_json
 from keras.callbacks import ModelCheckpoint, EarlyStopping, CSVLogger
@@ -38,12 +39,11 @@ def create_callbacks(output, patience, data):
 def read_config(config_path, section):
     config.read(config_path)
     def_config = config['DEFAULT']
-    n_folds = eval(def_config['n_folds'])
     epochs = eval(def_config['epochs'])
     model_config = config[section]
     rparams = eval(model_config['rparams'])
     gparams = eval(model_config['gparams'])
-    return n_folds, epochs, rparams, gparams
+    return epochs, rparams, gparams
 
 
 def start_log(logger, DUMMY, GRID_SEARCH, fingerprint, nBits, config_path, data_train, data_test, section):
@@ -102,6 +102,18 @@ class Logger(object):
         for f in self.files:
             f.flush()
 
+def make_scoring(metric):
+    scoring = make_scorer(accuracy_score)
+    if metric in 'accuracy':
+        scoring = make_scorer(accuracy_score)
+    if metric in 'roc_auc':
+        scoring = make_scorer(roc_auc_score)
+    if metric in 'f1':
+        scoring = make_scorer(f1_score)
+    if metric in 'matthews':
+        scoring = make_scorer(matthews_corrcoef)
+    return scoring
+
 
 def compile_optimizer(optimizer, learning_rate=0.1, momentum=0.1):
     if optimizer == 'Adam':
@@ -138,13 +150,16 @@ def isnan(x):
     return isinstance(x, float) and math.isnan(x)
    
 
-def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val, y_train, y_test, y_val, time_start, rparams, history, data, section, features, n_jobs):
+def evaluate(logger, options, random_state, path, model, x_train, x_test, y_train, y_test, time_start, rparams, history, data, section, features, n_jobs):
     try:
+        pickle.dump(model, open(path+"model.sav", 'wb'))
         model_json = model.to_json()
         with open(path+"model.json", "w") as json_file:
             json_file.write(model_json)
-        if rparams.get("metrics") == ['accuracy']:
+        try:
             copyfile(get_latest_file(path), path + "best_weights.h5")
+        except:
+            pass
 
         # print and save model summary
         orig_stdout = sys.stdout
@@ -168,16 +183,20 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
         
         save_labels(result, path + "y_pred.csv")
     except:
+        pickle.dump(model, open(path+"model.sav", 'wb'))
+        
         y_pred_test = model.predict(x_test)
-        result = [round(np.argmax(value)) for value in y_pred_test]
+        result = [round(value) for value in y_pred_test]
+        
         save_labels(result, path + "y_pred.csv")
 
         y_pred_train = model.predict(x_train)
-        p_train = [round(np.argmax(value)) for value in y_pred_train]
+        p_train = [round(value) for value in y_pred_train]
 
         accuracy_test = accuracy_score(y_test, result)*100
         accuracy_train = accuracy_score(y_train, p_train)*100
         logger.info("Accuracy test: %.2f%%" % (accuracy_test))
+    
     
     rec = recall_score(y_test, result, average=None)
     try:
@@ -195,9 +214,9 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
 
     # create report, prediction and save script and all current models
     try:
-        create_report(path, accuracy_test, accuracy_train, rec, auc, f1, timer, rparams, time_start, history, random_state, options)
+        create_report(path, accuracy_test, accuracy_train, rec, auc, f1, timer, rparams, time_start, history, random_state, options, x_train, y_train, x_test, y_test)
     except:
-        create_report(path, accuracy_test, accuracy_train, rec, auc, f1, timer, rparams, time_start, None, random_state, options)
+        create_report(path, accuracy_test, accuracy_train, rec, auc, f1, timer, rparams, time_start, None, random_state, options, x_train, y_train, x_test, y_test)
 
     copyfile(sys.argv[0], path + os.path.basename(sys.argv[0]))
     try:
@@ -214,4 +233,5 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
     
     logger.info("Done")
     logger.info("Results path: %s", path)
+
     return accuracy_test, accuracy_train, rec, auc, f1

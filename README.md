@@ -1,5 +1,5 @@
 # Virtual screening
-The project allows to use supervised learning on molecules written in the SMILES format by the training on SMILES themselves, maccs/morgan fingerprints and physical features using the following models:
+The project allows to use supervised learning on molecules written in the SMILES format by the training on maccs/morgan fingerprints and physical features using the following models:
 - KNN
 - Logistic regression
 - Linear regression
@@ -7,6 +7,8 @@ The project allows to use supervised learning on molecules written in the SMILES
 - SVC
 - XGBClassifier
 - Isolation Forest
+
+Use src/config.ini to configure the models.
 
 ## Table of Contents
 1. [Results](#results)
@@ -21,6 +23,17 @@ The project allows to use supervised learning on molecules written in the SMILES
 8. [Citation](#citation)
 
 ## Results <a name="results"></a>
+### Tox21 (https://tripod.nih.gov/tox21/challenge/data.jsp)
+Set | Classs | AR	| AR-LBD	| AhR	| Aromatase	| ER	| ER-LBD	| PPAR-g | ARE	 | ATAD5	| HSE	 | MMP | p53
+ --- | --- | --- |  --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+Train | Inactive | 7197	|	6702	|	5948	|	5669	|	5631	|	6818	|	6422	|	5015	|	7003	|	6260	|	5018	|	6511
+Train | Active | 270	|	224	|	767	|	296	|	702	|	319	|	184	|	943	|	252	|	356	|	922	|	419
+Test | Inactive | 7106	| 6647	| 5879	| 5617	| 5504	| 6730	| 6377	| 4968	| 6944	| 6202	| 4971 |	6457
+Test | Active | 306	| 231	| 785	| 305	| 793	| 350	| 186	| 958	| 265	| 378	| 927	| 425
+
+
+
+
 
 ## Install <a name="install"></a>
 - Linux

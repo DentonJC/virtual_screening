@@ -3,6 +3,8 @@
 import os
 import sys
 import socket
+import numpy as np
+import seaborn as sns
 import matplotlib.pyplot as plt
 from reportlab.lib.enums import TA_JUSTIFY
 from reportlab.lib.pagesizes import letter
@@ -11,7 +13,7 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
 from sklearn.metrics import roc_auc_score, roc_curve
 
 
-def create_report(path, accuracy_test, accuracy_train, rec, auc, f1, timer, rparams, tstart, history, random_state, options):
+def create_report(path, accuracy_test, accuracy_train, rec, auc, f1, timer, rparams, tstart, history, random_state, options, x_train, y_train, x_test, y_test):
     """
     Create .pdf with information about experiment.
     """
@@ -22,10 +24,6 @@ def create_report(path, accuracy_test, accuracy_train, rec, auc, f1, timer, rpar
     styles = getSampleStyleSheet()
     styles.add(ParagraphStyle(name='Justify', alignment=TA_JUSTIFY))
     
-    try:
-        rparams = rparams['params'][0]
-    except KeyError:
-        pass
     string = str(rparams)
     string = string.replace("{", "")
     string = string.replace("'", "")
@@ -46,7 +44,16 @@ def create_report(path, accuracy_test, accuracy_train, rec, auc, f1, timer, rpar
     Report.append(Paragraph(ptext, styles["Justify"]))
     ptext = '<font size=12> Random state: %s </font>' % (str(random_state))
     Report.append(Paragraph(ptext, styles["Justify"]))
-
+    
+    ptext = '<font size=12> X_train shape: %s</font>' % str(x_train.shape)
+    Report.append(Paragraph(ptext, styles["Justify"]))
+    ptext = '<font size=12> Y_train shape: %s</font>' % str(y_train.shape)
+    Report.append(Paragraph(ptext, styles["Justify"]))
+    ptext = '<font size=12> X_test shape: %s</font>' % str(x_test.shape)
+    Report.append(Paragraph(ptext, styles["Justify"]))
+    ptext = '<font size=12> Y_test shape: %s</font>' % str(y_test.shape)
+    Report.append(Paragraph(ptext, styles["Justify"]))
+    
     ptext = '<font size=12> Accuracy test: %s </font>' % (accuracy_test)
     Report.append(Paragraph(ptext, styles["Justify"]))
     ptext = '<font size=12> Accuracy train: %s </font>' % (accuracy_train)
@@ -142,6 +149,37 @@ def AUC(pred_train, pred_test, pred_val, y_train, y_test, y_val, path):
     plt.title('Receiver operating characteristic')
     plt.legend(loc="lower right")
     plt.savefig(path+'auc.png')
+    
+    
+def plot_grid_search_2(cv_results, grid_param_1, grid_param_2, name_param_1, name_param_2):
+    """
+    https://stackoverflow.com/questions/37161563/how-to-graph-grid-scores-from-gridsearchcv#37163377
+    """
+    # Get Test Scores Mean and std for each grid search
+    scores_mean = cv_results['mean_test_score']
+    scores_mean = np.array(scores_mean).reshape(len(grid_param_2),len(grid_param_1))
+
+    scores_sd = cv_results['std_test_score']
+    scores_sd = np.array(scores_sd).reshape(len(grid_param_2),len(grid_param_1))
+
+    # Plot Grid search scores
+    _, ax = plt.subplots(1,1)
+
+    # Param1 is the X-axis, Param 2 is represented as a different curve (color line)
+    for idx, val in enumerate(grid_param_2):
+        ax.plot(grid_param_1, scores_mean[idx,:], '-o', label= name_param_2 + ': ' + str(val))
+
+    ax.set_title("Grid Search Scores", fontsize=20, fontweight='bold')
+    ax.set_xlabel(name_param_1, fontsize=16)
+    ax.set_ylabel('CV Average Score', fontsize=16)
+    ax.legend(loc="best", fontsize=15)
+    ax.grid('on')
+    plt.savefig(path+'grid.png')
+
+
+def plot_grid_search_3(score, k0, k1, k2):
+    plt = sns.factorplot(x=k1, y='mean_test_score', col=k2, hue=k0, data=score);
+    plt.savefig(path+'grid.png')
 
 
 if __name__ == "__main__":
