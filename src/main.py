@@ -184,7 +184,6 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, y_trai
         save_labels(result, path + "y_pred.csv")
     except:
         pickle.dump(model, open(path+"model.sav", 'wb'))
-        
         y_pred_test = model.predict(x_test)
         result = [round(value) for value in y_pred_test]
         

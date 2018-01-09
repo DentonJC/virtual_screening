@@ -42,13 +42,13 @@ def main(experiments_file, common_gridsearch, random_state, n_cols):
                 else:
                     command += keys[c] + str(table[p][i]) + " "
         
-        command += "-e " + experiments_file
-
-        print(command)
+        command_base = command + "-e " + experiments_file
         
-        for j in range(int((table.shape[1] - len(params) - len(pos_params) / n_cols))):
+        print(command_base)
+        
+        for j in range(int(((table.shape[1] - len(params) - len(pos_params)) / n_cols))):
             accuracy_test = accuracy_train = rec = auc = f1 = '-'
-            command = command + " -t " + str(j)
+            command = command_base + " -t " + str(j)
             command_f = command.split()
             print(command_f)
             if isnan(table.iloc[i, j*n_cols + len(params) + len(pos_params)]):    

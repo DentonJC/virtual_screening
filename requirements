@@ -7,3 +7,5 @@ reportlab
 tqdm
 pickle
 seaborn
+multiprocessing
+joblib

@@ -72,7 +72,7 @@ def smiles_to_desc_rdkit(x):
                 _ = AllChem.EmbedMolecule(m, useRandomCoords=True, ignoreSmoothingFailures=True)
 
             # Try logarithmically more iteration (still fails sometimes)
-            for maxIters in [200, 2000, 20000, 200000]:
+            for maxIters in [200, 2000, 20000, 200000, 2000000, 20000000, 200000000]:
                 ret = AllChem.UFFOptimizeMolecule(m, maxIters=maxIters)
                 if ret == 0:
                     break

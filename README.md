@@ -1,5 +1,5 @@
 # Virtual screening
-The project allows to use supervised learning on molecules written in the SMILES format by the training on maccs/morgan fingerprints and physical features using the following models:
+The project allows to use supervised learning on molecules written in the SMILES format by the training on maccs/morgan fingerprints and physical features (rdkit descriptors) using the following models:
 - KNN
 - Logistic regression
 - Linear regression
@@ -23,17 +23,31 @@ Use src/config.ini to configure the models.
 8. [Citation](#citation)
 
 ## Results <a name="results"></a>
-### Tox21 (https://tripod.nih.gov/tox21/challenge/data.jsp)
-Set | Classs | AR	| AR-LBD	| AhR	| Aromatase	| ER	| ER-LBD	| PPAR-g | ARE	 | ATAD5	| HSE	 | MMP | p53
+### Tox21
+link: https://tripod.nih.gov/tox21/challenge/data.jsp
+
+Set | Class | AR	| AR-LBD	| AhR	| Aromatase	| ER	| ER-LBD	| PPAR-g | ARE	 | ATAD5	| HSE	 | MMP | p53
  --- | --- | --- |  --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 Train | Inactive | 7197	|	6702	|	5948	|	5669	|	5631	|	6818	|	6422	|	5015	|	7003	|	6260	|	5018	|	6511
 Train | Active | 270	|	224	|	767	|	296	|	702	|	319	|	184	|	943	|	252	|	356	|	922	|	419
 Test | Inactive | 7106	| 6647	| 5879	| 5617	| 5504	| 6730	| 6377	| 4968	| 6944	| 6202	| 4971 |	6457
 Test | Active | 306	| 231	| 785	| 305	| 793	| 350	| 186	| 958	| 265	| 378	| 927	| 425
 
+### MUV
+link: https://jcheminf.springeropen.com/articles/10.1186/1758-2946-5-26
 
+Class | MUV-466 | MUV-548 | MUV-600 | MUV-644 | MUV-652 | MUV-689 | MUV-692 | MUV-712 | MUV-713 | MUV-733 | MUV-737 | MUV-810 | MUV-832 | MUV-846 | MUV-852 | MUV-858 | MUV-859
+--- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+Inactive | 15000 | 15001 | 15000 | 14998 | 15001 | 14994 | 15001 | 14995 | 14991 | 14994 | 14997 | 14999 | 15001 | 14989 | 14992 | 15001 | 15000
+Active | 30 | 30 | 30 | 30 | 30 | 30 | 30 | 30 | 30 | 30 | 30 | 30 | 30 | 30 | 30 | 30 | 30
 
+### HIV
+link: http://moleculenet.ai/datasets-1/
 
+Class | Activity
+--- | ---
+Inactive | 39684
+Active | 1443
 
 ## Install <a name="install"></a>
 - Linux

@@ -137,3 +137,11 @@
 
 ### 07.01.18
 - better hyperparams for regression (with visualization)
+
+### 08.01.18
+- correct datasets
+- README updated - data info
+
+### 09.01.18
+- RandomizedSearchCV results to csv
+- parallelize rdkit features extraction

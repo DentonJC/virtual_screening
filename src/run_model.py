@@ -186,7 +186,14 @@ def script(args_list, random_state=False, p_rparams=False):
 
     if options.gridsearch and not p_rparams:
         rparams = model.best_params_
-    
+
+    if options.gridsearch:
+        try:
+            grid = pd.DataFrame(model.cv_results_).sort_values(by='mean_test_score', ascending = False)
+            grid.to_csv(options.output + "gridsearch.csv")
+        except AttributeError:
+            logger.info("Can not save RandomizedSearchCV results")
+
     if options.gridsearch:
         try:
             keys = list(gparams.keys())

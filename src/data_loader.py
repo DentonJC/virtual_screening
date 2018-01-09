@@ -2,11 +2,13 @@
 
 import os
 import logging
+import multiprocessing
 import numpy as np
 import pandas as pd
 from rdkit.Chem import AllChem
 from rdkit import Chem
 from rdkit.Chem import MACCSkeys
+from joblib import Parallel, delayed  
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, LabelEncoder, normalize
 from src._desc_rdkit import smiles_to_desc_rdkit
@@ -47,7 +49,29 @@ def featurization(logger, filename, DUMMY, fingerprint, nBits, path):
         
         l_headers = list(data)
         physic_smiles = pd.Series(smiles)
-        physic_data, missing = smiles_to_desc_rdkit(physic_smiles)
+        
+        num_cores = multiprocessing.cpu_count()
+        physic = np.array_split(physic_smiles, num_cores)
+        physic = np.array(physic)
+        
+        parallel = []
+        parallel.append(Parallel(n_jobs=num_cores, verbose=5)(delayed(smiles_to_desc_rdkit)(pd.Series(p)) for (p) in physic))
+        parallel = np.array(parallel)
+
+        physic_data = parallel[0][0][0].T
+        missing = np.array(parallel[0][0][1])
+        for i in range(1, num_cores):
+            print("HERE")
+            physic_data = np.c_[physic_data, parallel[0][i][0].T]
+            missing = np.append(missing, parallel[0][i][1])
+            print(parallel[0][i][1])
+        
+        physic_data = physic_data.T
+        print(physic_data.shape)
+        print(missing)
+
+        #physic_data, missing = smiles_to_desc_rdkit(physic_smiles)
+
         smiles = np.array(smiles)
         smiles = np.delete(smiles, missing)
         data = np.array(data)    
@@ -162,7 +186,6 @@ def get_data(logger, train_addr, test_addr, DUMMY, fingerprint, nBits, set_targe
     features, labels = processing(logger, train_addr, nBits, set_targets, set_features, DUMMY, fingerprint, path)
     if test_addr:
         logger.info("Test data")
-        print(test_addr)
         x_test, y_test = processing(logger, test_addr, nBits, set_targets, set_features, DUMMY, fingerprint, path)
         x_train, y_train = features, labels
     else:
