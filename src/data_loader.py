@@ -61,14 +61,11 @@ def featurization(logger, filename, DUMMY, fingerprint, nBits, path):
         physic_data = parallel[0][0][0].T
         missing = np.array(parallel[0][0][1])
         for i in range(1, num_cores):
-            print("HERE")
             physic_data = np.c_[physic_data, parallel[0][i][0].T]
             missing = np.append(missing, parallel[0][i][1])
-            print(parallel[0][i][1])
         
         physic_data = physic_data.T
-        print(physic_data.shape)
-        print(missing)
+
 
         #physic_data, missing = smiles_to_desc_rdkit(physic_smiles)
 
