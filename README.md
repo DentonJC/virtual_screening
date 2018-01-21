@@ -73,6 +73,23 @@ Class | Activity
 Inactive | 39604
 Active | 1441
 
+### BACE
+link: http://moleculenet.ai/datasets-1/
+
+Set | Class | Activity
+--- | --- | ---
+Train | Inactive | 103
+Train | Active | 145
+Test | Inactive | 719
+Test | Active | 546
+
+#### After RDKit featurization
+Set | Class | Activity
+--- | --- | ---
+Train | Inactive | 103
+Train | Active | 145
+Test | Inactive | 719
+Test | Active | 546
 
 ## Install <a name="install"></a>
 - Linux

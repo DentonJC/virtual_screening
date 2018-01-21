@@ -113,7 +113,7 @@
 ### 25.12.17
 - fix normalization for physical features
 - if the number of iterations of RandomizedSearchCV is grater then combinations of gparams, replace it
-- start experimets with different normalizations
+- start experiments with different normalizations
 
 ### 28.12.17
 - set all random_states in run.py
@@ -145,3 +145,49 @@
 ### 09.01.18
 - RandomizedSearchCV results to csv
 - parallelize rdkit features extraction
+
+### 10.01.18
+- round() results in table
+- add rparams to results table
+- better names of result folders
+- BACE
+
+### 11.01.18
+- drop rows instead of cols in physical extraction
+  - testing: results are better now
+- saving data in .csv.gz after featurization
+
+### 12.01.18
+- add validation again
+- add val sets to plot_auc
+
+### 13.01.18
+- 1d visualization of hyperparams
+- tuning
+
+### 14.01.18
+- fix Residual model
+- RNN model
+- LSTM model
+
+### 15.01.18
+- cleaning
+
+### 16.01.18
+- add validation set to experiments table
+- better plots
+- fix report
+- fix models
+
+### 17.01.18
+- save fingerprint names
+
+### 18.01.18
+- DATASET IN DATA CONFIG.ini
+- nothing works
+
+### 19.01.18
+- fix using config.ini for loading datasets
+
+### 21.01.18
+- create/add addresses to data config.ini after featurization

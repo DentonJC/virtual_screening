@@ -1,15 +1,24 @@
 #!/usr/bin/python3
 
+"""
+Building dataset from the results of experiments https://jcheminf.springeropen.com/articles/10.1186/1758-2946-5-26.
+
+First, a list of unique SMILES is compiled, and then each two files from the f_list form one dataset column,
+if the value of SMILES is in the file with the end of "decoys", then its activity is 0, if in the "actives" - 1, else - nan.
+"""
+
 import pandas as pd
 import numpy as np
 import os
 
 output = "muv.csv"
 
-#f_list = os.listdir(os.path.dirname(os.path.realpath(__file__)))
-#f_list.remove("create_muv.py")
-#f_list.remove(output)
+# unsorted
+# f_list = os.listdir(os.path.dirname(os.path.realpath(__file__)))
+# f_list.remove("create_muv.py")
+# f_list.remove(output)
 
+# sorted
 f_list = [
 'cmp_list_MUV_466_actives.dat', 
 'cmp_list_MUV_466_decoys.dat', 
@@ -46,10 +55,11 @@ f_list = [
 'cmp_list_MUV_859_actives.dat', 
 'cmp_list_MUV_859_decoys.dat'
 ]
-print(f_list)
+
 print("Creating list of smiles")
 
 smiles = []
+
 for f in f_list:
     print(f)
     data = pd.read_csv(f, sep='\t')
@@ -57,13 +67,11 @@ for f in f_list:
     for d in data[:,2]:
         if d not in smiles:
             smiles.append(d)
-            #print(d)
 
 np_smiles = np.array(smiles)
-#np.savetxt("smiles.csv", np_smiles, delimiter=",")
-#smiles = pd.read_csv("smiles.csv")
+
 print("Creating dataset")
-table = np.zeros(shape=(len(smiles),int(len(f_list)/2)))
+table = np.zeros(shape=(len(smiles), int(len(f_list) / 2)))
 table.fill(np.nan)
 table = np.c_[np_smiles, table]
 

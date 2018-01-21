@@ -1,0 +1,9 @@
+Model,Data config,Load model,Section,Features,Metric,Split,Output,Configs,Fingerprint,n_bits,n_cv,n_jobs,Patience,Gridsearch,Dummy,n_iter,recall 0,recall 1,ROC AUC test,ROC AUC val,rparams
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,,,,morgan,32,10,-1,10000,,,5,0.3713,0.8223,0.5968,0.3295,"{'solver': 'saga', 'max_iter': 10000, 'class_weight': 'balanced', 'C': 0.001}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,,,,morgan,32,10,-1,10000,,,5,0.3713,0.8223,0.5968,0.3295,"{'solver': 'saga', 'max_iter': 10000, 'class_weight': 'balanced', 'C': 0.001}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,,,,morgan,64,10,-1,10000,,,5,0.4868,0.7399,0.6134,0.2841,"{'solver': 'saga', 'max_iter': 10000, 'class_weight': 'balanced', 'C': 0.001}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,,,,morgan,64,10,-1,10000,,,5,0.4868,0.7399,0.6134,0.2841,"{'solver': 'saga', 'max_iter': 10000, 'class_weight': 'balanced', 'C': 0.001}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,,,,morgan,32,10,-1,10000,True,,100,0.8,1.0,0.9,0.7188,"{'solver': 'saga', 'max_iter': 10000, 'class_weight': 'balanced', 'C': 0.001}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,,,,morgan,2048,10,-1,10000,True,,5,0.5271,0.8974,0.7123,0.7045,"{'solver': 'saga', 'max_iter': 100000000, 'class_weight': None, 'C': 1}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,,,,morgan,2048,10,-1,10000,True,,100,0.5174,0.8956,0.7065,0.1932,"{'solver': 'newton-cg', 'max_iter': 200, 'class_weight': 'balanced', 'C': 0.1}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,,,,morgan,4096,10,-1,10000,True,,5,0.5146,0.8755,0.695,0.1818,"{'solver': 'saga', 'max_iter': 10, 'class_weight': None, 'C': 1500}"

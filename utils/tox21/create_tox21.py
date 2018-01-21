@@ -1,4 +1,11 @@
-#!/usr/bin/python3
+#!/usr/bin/env python
+
+"""
+Building dataset from the results of experiments https://tripod.nih.gov/tox21/challenge/data.jsp.
+
+First, a list of unique SMILES is compiled, and then each file from the f_list form one dataset column,
+the activity values are transferred to the corresponding SMILES positions.
+"""
 
 import pandas as pd
 import numpy as np
@@ -20,8 +27,6 @@ for f in f_list:
         if d not in smiles:
             smiles.append(d)
 
-#np.savetxt("smiles.csv", np_smiles, delimiter=",")
-#smiles = pd.read_csv("smiles.csv")
 print("Creating dataset")
 table = np.zeros(shape=(len(smiles),int(len(f_list))))
 table.fill(np.nan)
