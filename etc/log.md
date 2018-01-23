@@ -191,3 +191,6 @@
 
 ### 21.01.18
 - create/add addresses to data config.ini after featurization
+
+### 23.01.18
+- fix error when there is a nonexistent address in config.ini

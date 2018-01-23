@@ -231,7 +231,7 @@ def get_data(logger, data_config, DUMMY, fingerprint, n_bits, set_targets, set_f
     filename, filename_test, filename_val, labels_train, labels_test, labels_val, physical_train, physical_test, physical_val, fingerprint_train, fingerprint_test, fingerprint_val = read_data_config(data_config, str(fingerprint) + "_" + str(n_bits))
 
     logger.info("Train data")
-    if fingerprint_train and physical_train and labels_train:       
+    if os.path.isfile(path+fingerprint_train) and os.path.isfile(path+physical_train) and os.path.isfile(path+labels_train):
         labels, physical, fingerprints = download_data(path+labels_train, path+physical_train, path+fingerprint_train)
         physical, fingerprints, labels = preprocessing(logger, physical, fingerprints, labels)
         x_train, y_train = compile_data(labels, physical, fingerprints, set_targets, set_features)
@@ -243,12 +243,12 @@ def get_data(logger, data_config, DUMMY, fingerprint, n_bits, set_targets, set_f
         x_train, y_train = drop_nan(x_train, y_train)
 
     logger.info("Test data") 
-    if fingerprint_test and physical_test and labels_test:
+    if os.path.isfile(path+fingerprint_test) and os.path.isfile(path+physical_test) and os.path.isfile(path+labels_test):
         labels, physical, fingerprints = download_data(path+labels_test, path+physical_test, path+fingerprint_test)
         physical, fingerprints, labels = preprocessing(logger, physical, fingerprints, labels)
         x_test, y_test = compile_data(labels, physical, fingerprints, set_targets, set_features)
         x_test, y_test = drop_nan(x_test, y_test)
-    elif filename_test:
+    elif os.path.isfile(path+filename_test):
         fingerprints, physical, labels = featurization(logger, path+filename_test, DUMMY, fingerprint, n_bits, path, data_config)
         physical, fingerprints, labels = preprocessing(logger, physical, fingerprints, labels)
         x_test, y_test = compile_data(labels, physical, fingerprints, set_targets, set_features)
@@ -257,12 +257,12 @@ def get_data(logger, data_config, DUMMY, fingerprint, n_bits, set_targets, set_f
         x_train, x_test, y_train, y_test = train_test_split(x_train, y_train, test_size=split, stratify=labels, random_state=random_state)
         
     logger.info("Val data") 
-    if fingerprint_val and physical_val and labels_val:
+    if os.path.isfile(path+fingerprint_val) and os.path.isfile(path+physical_val) and os.path.isfile(path+labels_val):
         labels, physical, fingerprints = download_data(path+labels_val, path+physical_val, path+fingerprint_val)
         physical, fingerprints, labels = preprocessing(logger, physical, fingerprints, labels)
         x_val, y_val = compile_data(labels, physical, fingerprints, set_targets, set_features)
         x_val, y_val = drop_nan(x_val, y_val)
-    elif filename_val:
+    elif os.path.isfile(path+filename_val):
         fingerprints, physical, labels = featurization(logger, path+filename_val, DUMMY, fingerprint, n_bits, path, data_config)
         physical, fingerprints, labels = preprocessing(logger, physical, fingerprints, labels)
         x_val, y_val = compile_data(labels, physical, fingerprints, set_targets, set_features)
