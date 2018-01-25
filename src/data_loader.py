@@ -23,7 +23,7 @@ def create_physical(logger, smiles, verbose=5):
     physic = np.array(physic)
 
     parallel = []
-    parallel.append(Parallel(n_jobs=num_cores, verbose=5)(delayed(smiles_to_desc_rdkit)(pd.Series(p)) for (p) in physic))
+    parallel.append(Parallel(n_jobs=num_cores, verbose=verbose)(delayed(smiles_to_desc_rdkit)(pd.Series(p)) for (p) in physic))
 
     p_headers = parallel[0][0][0].columns.values.tolist()
 
@@ -38,16 +38,10 @@ def create_physical(logger, smiles, verbose=5):
     return missing, physic_data.T, p_headers
     
 
-def featurization(logger, filename, DUMMY, fingerprint, n_bits, path, data_config):
-    Dummy_n = 3000
+def featurization(logger, filename, fingerprint, n_bits, path, data_config, verbose):
     n_physical = 196
-    if '.gz' in filename:
-        data = pd.read_csv(filename, compression='gzip')
-    else:
-        data = pd.read_csv(filename)
+    data = pd.read_csv(filename)
     smiles = []
-    if DUMMY:
-        data = data[:Dummy_n]
 
     logger.info("Loading data")
     
@@ -58,7 +52,7 @@ def featurization(logger, filename, DUMMY, fingerprint, n_bits, path, data_confi
         
     l_headers = list(data)
     
-    missing, physic_data, p_headers = create_physical(logger, smiles)
+    missing, physic_data, p_headers = create_physical(logger, smiles, verbose)
     
     smiles = np.array(smiles)
     smiles = np.delete(smiles, missing)
@@ -139,32 +133,9 @@ def featurization(logger, filename, DUMMY, fingerprint, n_bits, path, data_confi
 
     with open(data_config, 'w') as configfile:
         config.write(configfile)
-
-    if DUMMY:
-        fingerprints = np.array(fingerprints[:Dummy_n])
-        physical = np.array(physical[:Dummy_n])
-        labels = np.array(labels[:Dummy_n])
         
     return fingerprints, physical, labels
-    
-    
-def download_data(labels_addr, physical_addr, fingerprint_addr):
-    if '.gz' in labels_addr:
-        labels = pd.read_csv(labels_addr, compression='gzip', index_col=0, header=0)
-    else:
-        labels = pd.read_csv(labels_addr)
-        
-    if '.gz' in physical_addr:
-        physical = pd.read_csv(physical_addr, compression='gzip', index_col=0, header=0)
-    else:
-        physical = pd.read_csv(physical_addr)
 
-    if '.gz' in fingerprint_addr:
-        fingerprint = pd.read_csv(fingerprint_addr, compression='gzip', index_col=0, header=0)
-    else:
-        fingerprint = pd.read_csv(fingerprint_addr)
-        
-    return labels, physical, fingerprint
     
 def compile_data(labels, physical, fingerprint, set_targets, set_features):
     labels = np.array(labels)
@@ -180,6 +151,7 @@ def compile_data(labels, physical, fingerprint, set_targets, set_features):
     elif set_features in ['all', 'a']:
         x = np.c_[fingerprint, physical] 
     return x, y
+
 
 def preprocessing(logger, physical, fingerprints, labels):
     logger.info("Preprocessing")
@@ -197,78 +169,60 @@ def preprocessing(logger, physical, fingerprints, labels):
     physical = physical.T
     physical = pd.DataFrame(physical)
     physical.drop(physical.index[list(set(remove_rows))], inplace=True)
-    #physical = np.array(physical)
-    
+   
     fingerprints.drop(fingerprints.index[list(set(remove_rows))], inplace=True)
     labels.drop(labels.index[list(set(remove_rows))], inplace=True)
     
-
-    ################
     physical = normalize(physical)
-    #features[n_bits:-85] = normalize(features[n_bits:-85])
-    #features = normalize(features)
-    #physical = physical.T
     return physical, fingerprints, labels
-    #np.savetxt("out.csv", features, delimiter=",", fmt='%3f')
+
+
+def load_data(logger, path, filename, fingerprint_addr, physical_addr, labels_addr, set_targets, set_features, fingerprint, n_bits, data_config, verbose):  
+    x, y = [], []
+    if fingerprint_addr and physical_addr and labels_addr and os.path.isfile(path+fingerprint_addr) and os.path.isfile(path+physical_addr) and os.path.isfile(path+labels_addr):
+        fingerprints = pd.read_csv(path+fingerprint_addr,index_col=0, header=0)
+        physical = pd.read_csv(path+physical_addr,index_col=0, header=0)
+        labels  = pd.read_csv(path+labels_addr,index_col=0, header=0)
+        physical, fingerprints, labels = preprocessing(logger, physical, fingerprints, labels)
+        x, y = compile_data(labels, physical, fingerprints, set_targets, set_features)
+        x, y = drop_nan(x, y)
+    elif filename:
+        if os.path.isfile(path+filename):
+            fingerprints, physical, labels = featurization(logger, path+filename, fingerprint, n_bits, path, data_config, verbose)
+            physical, fingerprints, labels = preprocessing(logger, physical, fingerprints, labels)
+            x, y = compile_data(labels, physical, fingerprints, set_targets, set_features)
+            x, y = drop_nan(x, y)
+    else:
+        print("Can not load data")
+    return x, y
+
     
-    
-def get_data(logger, data_config, DUMMY, fingerprint, n_bits, set_targets, set_features, random_state, split):
+def get_data(logger, data_config, fingerprint, n_bits, set_targets, set_features, random_state, split, verbose):
     if fingerprint in ['MACCS', 'maccs', 'Maccs', 'maccs (167)']:
-        n_bits = 167
+        n_bits = 167 # constant for maccs fingerprint
 
     path = os.path.dirname(os.path.realpath(__file__)).replace("/src", "")
-    if not os.path.exists(path+"/data/"):
-        os.makedirs(path+"/data/")
-    if not os.path.exists(path+"/data/preprocessed/"):
-        os.makedirs(path+"/data/preprocessed/")
-    if not os.path.exists(path+"/data/preprocessed/labels"):
-        os.makedirs(path+"/data/preprocessed/labels")
-    if not os.path.exists(path+"/data/preprocessed/morgan"):
-        os.makedirs(path+"/data/preprocessed/morgan")
-    if not os.path.exists(path+"/data/preprocessed/physical"):
-        os.makedirs(path+"/data/preprocessed/physical")
-        
-    filename, filename_test, filename_val, labels_train, labels_test, labels_val, physical_train, physical_test, physical_val, fingerprint_train, fingerprint_test, fingerprint_val = read_data_config(data_config, str(fingerprint) + "_" + str(n_bits))
+    dirs = ["/data/", "/data/preprocessed/", "/data/preprocessed/labels", "/data/preprocessed/morgan", "/data/preprocessed/physical"]
+    for d in dirs:
+        if not os.path.exists(path+d):
+            os.makedirs(path+d)
+
+    filename_train, filename_test, filename_val, labels_train, labels_test, labels_val, physical_train, physical_test, physical_val, fingerprint_train, fingerprint_test, fingerprint_val = read_data_config(data_config, str(fingerprint) + "_" + str(n_bits))
+    
+    print(filename_train, filename_test, filename_val)
 
     logger.info("Train data")
-    if os.path.isfile(path+fingerprint_train) and os.path.isfile(path+physical_train) and os.path.isfile(path+labels_train):
-        labels, physical, fingerprints = download_data(path+labels_train, path+physical_train, path+fingerprint_train)
-        physical, fingerprints, labels = preprocessing(logger, physical, fingerprints, labels)
-        x_train, y_train = compile_data(labels, physical, fingerprints, set_targets, set_features)
-        x_train, y_train = drop_nan(x_train, y_train)
-    else:
-        fingerprints, physical, labels = featurization(logger, path+filename, DUMMY, fingerprint, n_bits, path, data_config)
-        physical, fingerprints, labels = preprocessing(logger, physical, fingerprints, labels)
-        x_train, y_train = compile_data(labels, physical, fingerprints, set_targets, set_features)
-        x_train, y_train = drop_nan(x_train, y_train)
-
+    x_train, y_train = load_data(logger, path, filename_train, fingerprint_train, physical_train, labels_train, set_targets, set_features, fingerprint, n_bits, data_config, verbose)
+    
     logger.info("Test data") 
-    if os.path.isfile(path+fingerprint_test) and os.path.isfile(path+physical_test) and os.path.isfile(path+labels_test):
-        labels, physical, fingerprints = download_data(path+labels_test, path+physical_test, path+fingerprint_test)
-        physical, fingerprints, labels = preprocessing(logger, physical, fingerprints, labels)
-        x_test, y_test = compile_data(labels, physical, fingerprints, set_targets, set_features)
-        x_test, y_test = drop_nan(x_test, y_test)
-    elif os.path.isfile(path+filename_test):
-        fingerprints, physical, labels = featurization(logger, path+filename_test, DUMMY, fingerprint, n_bits, path, data_config)
-        physical, fingerprints, labels = preprocessing(logger, physical, fingerprints, labels)
-        x_test, y_test = compile_data(labels, physical, fingerprints, set_targets, set_features)
-        x_test, y_test = drop_nan(x_test, y_test)
-    else:
-        x_train, x_test, y_train, y_test = train_test_split(x_train, y_train, test_size=split, stratify=labels, random_state=random_state)
-        
+    x_test, y_test = load_data(logger, path, filename_test, fingerprint_test, physical_test, labels_test, set_targets, set_features, fingerprint, n_bits, data_config, verbose)
+    if len(x_train) < 1 or len(y_train) < 1:
+        x_train, x_test, y_train, y_test = train_test_split(x_train, y_train, test_size=split, stratify=y_train, random_state=random_state)
+
     logger.info("Val data") 
-    if os.path.isfile(path+fingerprint_val) and os.path.isfile(path+physical_val) and os.path.isfile(path+labels_val):
-        labels, physical, fingerprints = download_data(path+labels_val, path+physical_val, path+fingerprint_val)
-        physical, fingerprints, labels = preprocessing(logger, physical, fingerprints, labels)
-        x_val, y_val = compile_data(labels, physical, fingerprints, set_targets, set_features)
-        x_val, y_val = drop_nan(x_val, y_val)
-    elif os.path.isfile(path+filename_val):
-        fingerprints, physical, labels = featurization(logger, path+filename_val, DUMMY, fingerprint, n_bits, path, data_config)
-        physical, fingerprints, labels = preprocessing(logger, physical, fingerprints, labels)
-        x_val, y_val = compile_data(labels, physical, fingerprints, set_targets, set_features)
-        x_val, y_val = drop_nan(x_val, y_val)
-    else:
-        x_test, x_val, y_test, y_val = train_test_split(x_test, y_test, test_size=split, stratify=labels, random_state=random_state)
+    x_val, y_val = load_data(logger, path, filename_val, fingerprint_val, physical_val, labels_val, set_targets, set_features, fingerprint, n_bits, data_config, verbose)
+    if len(x_val) < 1 or len(y_val) < 1:
+        x_test, x_val, y_test, y_val = train_test_split(x_test, y_test, test_size=split, stratify=y_test, random_state=random_state)
 
     logger.info("X_train: %s", str(x_train.shape))
     logger.info("Y_train: %s", str(y_train.shape))
@@ -278,10 +232,6 @@ def get_data(logger, data_config, DUMMY, fingerprint, n_bits, set_targets, set_f
     logger.info("Y_test: %s", str(y_test.shape))
     _, input_shape = x_train.shape
     _, output_shape = y_train.shape
-    
-    ##############
-    #np.savetxt("x_train "+set_features+".csv", x_train, delimiter=",", fmt='%3f')
-    #np.savetxt("y_train "+set_features+".csv", y_train, delimiter=",", fmt='%3f')
 
     return x_train, x_test, x_val, y_val, y_train, y_test, input_shape, output_shape
 
@@ -290,10 +240,14 @@ if __name__ == "__main__":
     """
     Process dataset.
     """
-    filename = os.path.dirname(os.path.realpath(__file__)).replace("/src", "") + "/data/HIV.csv"
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.INFO)
+    formatter = logging.Formatter('%(asctime)s [%(name)s] %(levelname)s: %(message)s')
+    data_config = os.path.dirname(os.path.realpath(__file__)).replace("/src", "") + "/data/data_configs/bace.ini"
     fingerprint = 'morgan'
     n_bits = 256
-    DUMMY = False
     set_targets = [0]
     set_features = 'all'
-    get_data(filename, DUMMY, fingerprint, n_bits, set_targets, set_features)
+    split = 0.2
+    random_state = 13
+    get_data(logger, data_config, fingerprint, n_bits, set_targets, set_features, random_state, split)

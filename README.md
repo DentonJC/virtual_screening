@@ -98,11 +98,11 @@ Test | Active | 546
 ### with Conda <a name="conda"></a>
 - Conda (https://www.anaconda.com/download/#linux)
 - conda install --file requirements
-- (optional) conda install -c akode xgboost
+- conda install -c akode xgboost
 - conda install -c rdkit rdkit
 ### with Pip <a name="pip"></a>
 - Packages from requirements
-- (optional) xgboost
+- pip install xgboost
 - RDKit (https://github.com/rdkit/rdkit)
 
 ## Usage <a name="usage"></a>

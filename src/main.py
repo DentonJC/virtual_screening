@@ -15,15 +15,13 @@ from datetime import datetime
 from shutil import copyfile, copytree
 from sklearn.metrics import accuracy_score, recall_score, roc_auc_score, f1_score, matthews_corrcoef, make_scorer
 from src.report_formatter import create_report, plot_auc
-model_config = configparser.ConfigParser()
-data_config = configparser.ConfigParser()
-
 # evaluate
 # get_latest_file
 # read_data_config
 
 
 def read_model_config(config_path, section):
+    model_config = configparser.ConfigParser()
     model_config.read(config_path)
     def_config = model_config['DEFAULT']
     epochs = eval(def_config['epochs'])
@@ -34,6 +32,7 @@ def read_model_config(config_path, section):
 
 
 def read_data_config(config_path, section):
+    data_config = configparser.ConfigParser()
     data_config.read(config_path)
 
     dataset_train = data_config.get('DEFAULT', 'dataset_train')
@@ -97,14 +96,12 @@ def read_data_config(config_path, section):
     return dataset_train, dataset_test, dataset_val, labels_train, labels_test, labels_val, physical_train, physical_test, physical_val, fingerprint_train, fingerprint_test, fingerprint_val
 
 
-def start_log(logger, DUMMY, GRID_SEARCH, fingerprint, nBits, config_path, section):
+def start_log(logger, GRID_SEARCH, fingerprint, nBits, config_path, section):
     logger.info("Script adderss: %s", str(sys.argv[0]))
     logger.info("Fingerprint: %s", str(fingerprint))
     logger.info("n_bits: %s", str(nBits))
     logger.info("Config file: %s", str(config_path))
     logger.info("Section: %s", str(section))
-    if DUMMY:
-        logger.info("Dummy")
     if GRID_SEARCH:
         logger.info("Grid search")
 

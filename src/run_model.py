@@ -20,20 +20,7 @@ from src.report_formatter import plot_grid_search
 from src.models.keras_models import create_callbacks
 from src.models.keras_models import Perceptron, Residual, LSTM, MLSTM, RNN, MRNN, GRU
 from keras.wrappers.scikit_learn import KerasClassifier
-
-
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-formatter = logging.Formatter('%(asctime)s [%(name)s] %(levelname)s: %(message)s')
-
-xgb_flag = False
-try:
-    import xgboost as xgb
-    xgb_flag = True
-except ImportError:
-    logger.info("xgboost is not available")
-
-n_physical = 196
+import xgboost as xgb
 
 
 def get_options():
@@ -44,15 +31,14 @@ def get_options():
     parser.add_argument('--load_model',  help='path to model .sav'),
     parser.add_argument('--features', default='all', choices=['all', 'a', 'fingerprint', 'f', 'physical', 'p'], help='take features: all, fingerptint or physical'),
     parser.add_argument('--output', default=os.path.dirname(os.path.realpath(__file__)).replace("/src", "") + "/tmp/" + str(datetime.now()) + '/', help='path to output directory'),
-    parser.add_argument('--model_config', default=os.path.dirname(os.path.realpath(__file__)).replace("/src", "") + "/data/model_configs/configs.ini", help='path to config file'),
+    parser.add_argument('--model_config', default="/data/model_configs/bace.ini", help='path to config file'),
     parser.add_argument('--fingerprint', default='morgan', choices=['morgan', 'maccs'], help='maccs (167) or morgan (n)'),
     parser.add_argument('--n_bits', default=256, type=int, help='number of bits in Morgan fingerprint'),
-    parser.add_argument('--n_cv', default=5, type=float, help='number of splits in RandomizedSearchCV'),
+    parser.add_argument('--n_cv', default=5, type=int, help='number of splits in RandomizedSearchCV'),
     parser.add_argument('--n_iter', default=6, type=int, help='number of iterations in RandomizedSearchCV'),
     parser.add_argument('--n_jobs', default=1, type=int, help='number of jobs'),
     parser.add_argument('--patience', '-p' , default=100, type=int, help='patience of fit'),
     parser.add_argument('--gridsearch', '-g', action='store_true', default=False, help='use gridsearch'),
-    parser.add_argument('--dummy', '-d', action='store_true', default=False, help='use only first 1000 rows of dataset'),
     parser.add_argument('--metric', default='accuracy', choices=['accuracy', 'roc_auc', 'f1', 'matthews'],  help='metric for RandomizedSearchCV'),
     parser.add_argument('--split', default=0.2, type=float, help='train-test split'),
     parser.add_argument('--targets', '-t', default=0, type=int, help='set number of target column'),
@@ -60,7 +46,13 @@ def get_options():
     return parser
 
     
-def script(args_list, random_state=False, p_rparams=False):
+def script(args_list, random_state=False, p_rparams=False, verbose=0):
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.INFO)
+    formatter = logging.Formatter('%(asctime)s [%(name)s] %(levelname)s: %(message)s')
+
+    args_list= list(map(str, args_list))
+    print(args_list)
     time_start = datetime.now()
     if len(sys.argv) > 1:
         options = get_options().parse_args()
@@ -81,9 +73,9 @@ def script(args_list, random_state=False, p_rparams=False):
     logger.addHandler(handler)
 
     #logging.basicConfig(filename=options.output+'main.log', level=logging.INFO)
-    start_log(logger, options.dummy, options.gridsearch, options.fingerprint, options.n_bits, options.model_config, options.section[0])
-    epochs, rparams, gparams = read_model_config(options.model_config, options.section[0])
-    x_train, x_test, x_val, y_val, y_train, y_test, input_shape, output_shape = get_data(logger, os.path.dirname(os.path.realpath(__file__)).replace("/src", "")+options.data_config[0], options.dummy, options.fingerprint, options.n_bits, options.targets, options.features, random_state, options.split)
+    start_log(logger, options.gridsearch, options.fingerprint, options.n_bits, options.model_config, options.section[0])
+    epochs, rparams, gparams = read_model_config(os.path.dirname(os.path.realpath(__file__)).replace("/src", "")+options.model_config, options.section[0])
+    x_train, x_test, x_val, y_val, y_train, y_test, input_shape, output_shape = get_data(logger, os.path.dirname(os.path.realpath(__file__)).replace("/src", "")+options.data_config[0], options.fingerprint, options.n_bits, options.targets, options.features, random_state, options.split, verbose)
     
     #scoring = {'accuracy': 'accuracy', 'MCC': make_scorer(matthews_corrcoef)}
     scoring = make_scoring(options.metric)
@@ -101,22 +93,22 @@ def script(args_list, random_state=False, p_rparams=False):
         if options.load_model:
             model = pickle.load(open(options.load_model, 'rb'))
         elif options.select_model[0] == "logreg":
-            model = RandomizedSearchCV(LogisticRegression(**rparams), gparams, n_iter=options.n_iter, n_jobs=options.n_jobs, cv=int(options.n_cv), verbose=10, 
+            model = RandomizedSearchCV(LogisticRegression(**rparams), gparams, n_iter=options.n_iter, n_jobs=options.n_jobs, cv=options.n_cv, verbose=verbose, 
                                        scoring=scoring, random_state=random_state)
         elif options.select_model[0] == "knn":
-            model = RandomizedSearchCV(KNeighborsClassifier(**rparams), gparams, n_iter=options.n_iter, n_jobs=options.n_jobs, cv=int(options.n_cv), verbose=10,
+            model = RandomizedSearchCV(KNeighborsClassifier(**rparams), gparams, n_iter=options.n_iter, n_jobs=options.n_jobs, cv=options.n_cv, verbose=verbose,
                                        scoring=scoring, random_state=random_state)
         elif options.select_model[0] == "xgb" and xgb_flag:
-            model = RandomizedSearchCV(xgb.XGBClassifier(**rparams), gparams, n_iter=options.n_iter, n_jobs=options.n_jobs, cv=int(options.n_cv), verbose=10, 
+            model = RandomizedSearchCV(xgb.XGBClassifier(**rparams), gparams, n_iter=options.n_iter, n_jobs=options.n_jobs, cv=options.n_cv, verbose=verbose, 
                                        scoring=scoring, random_state=random_state)
         elif options.select_model[0] == "svc":
-            model = RandomizedSearchCV(SVC(**rparams), gparams, n_iter=options.n_iter, n_jobs=options.n_jobs, cv=int(options.n_cv), verbose=10, 
+            model = RandomizedSearchCV(SVC(**rparams), gparams, n_iter=options.n_iter, n_jobs=options.n_jobs, cv=options.n_cv, verbose=verbose, 
                                        scoring=scoring, random_state=random_state)
         elif options.select_model[0] == "rf":
-            model = RandomizedSearchCV(RandomForestClassifier(**rparams), gparams, n_iter=options.n_iter, n_jobs=options.n_jobs, cv=int(options.n_cv), verbose=10, 
+            model = RandomizedSearchCV(RandomForestClassifier(**rparams), gparams, n_iter=options.n_iter, n_jobs=options.n_jobs, cv=options.n_cv, verbose=verbose, 
                                        scoring=scoring, random_state=random_state)
         elif options.select_model[0] == "if":
-            model = RandomizedSearchCV(IsolationForest(**rparams), gparams, n_iter=options.n_iter, n_jobs=options.n_jobs, cv=int(options.n_cv), verbose=10, 
+            model = RandomizedSearchCV(IsolationForest(**rparams), gparams, n_iter=options.n_iter, n_jobs=options.n_jobs, cv=options.n_cv, verbose=verbose, 
                                        scoring=scoring, random_state=random_state)
                                        
                                        
@@ -130,9 +122,9 @@ def script(args_list, random_state=False, p_rparams=False):
                                     estimator=search_model, 
                                     param_distributions=gparams, 
                                     n_jobs=options.n_jobs, 
-                                    cv=int(options.n_cv), 
+                                    cv=options.n_cv, 
                                     n_iter=options.n_iter, 
-                                    verbose=10,
+                                    verbose=verbose,
                                     scoring=scoring, 
                                     random_state=random_state
                                     )
@@ -143,9 +135,9 @@ def script(args_list, random_state=False, p_rparams=False):
                                     estimator=search_model, 
                                     param_distributions=gparams, 
                                     n_jobs=options.n_jobs, 
-                                    cv=int(options.n_cv), 
+                                    cv=options.n_cv, 
                                     n_iter=options.n_iter, 
-                                    verbose=10, 
+                                    verbose=verbose, 
                                     scoring=scoring, 
                                     random_state=random_state
                                     )
@@ -156,9 +148,9 @@ def script(args_list, random_state=False, p_rparams=False):
                                     estimator=search_model, 
                                     param_distributions=gparams, 
                                     n_jobs=options.n_jobs, 
-                                    cv=int(options.n_cv), 
+                                    cv=options.n_cv, 
                                     n_iter=options.n_iter, 
-                                    verbose=10, 
+                                    verbose=verbose, 
                                     scoring=scoring, 
                                     random_state=random_state
                                     )
@@ -169,9 +161,9 @@ def script(args_list, random_state=False, p_rparams=False):
                                     estimator=search_model, 
                                     param_distributions=gparams, 
                                     n_jobs=options.n_jobs, 
-                                    cv=int(options.n_cv), 
+                                    cv=options.n_cv, 
                                     n_iter=options.n_iter, 
-                                    verbose=10, 
+                                    verbose=verbose, 
                                     scoring=scoring, 
                                     random_state=random_state
                                     )
@@ -182,9 +174,9 @@ def script(args_list, random_state=False, p_rparams=False):
                                     estimator=search_model, 
                                     param_distributions=gparams, 
                                     n_jobs=options.n_jobs, 
-                                    cv=int(options.n_cv), 
+                                    cv=options.n_cv, 
                                     n_iter=options.n_iter, 
-                                    verbose=10, 
+                                    verbose=verbose, 
                                     scoring=scoring, 
                                     random_state=random_state
                                     )
@@ -215,7 +207,7 @@ def script(args_list, random_state=False, p_rparams=False):
                                     param_distributions=gparams, 
                                     n_jobs=options.n_jobs, 
                                     n_iter=options.n_iter, 
-                                    verbose=10, 
+                                    verbose=verbose, 
                                     scoring=scoring, 
                                     random_state=random_state
                                     )
@@ -247,7 +239,7 @@ def script(args_list, random_state=False, p_rparams=False):
                                     param_distributions=gparams, 
                                     n_jobs=options.n_jobs,
                                     n_iter=options.n_iter, 
-                                    verbose=10, 
+                                    verbose=verbose, 
                                     scoring=scoring, 
                                     random_state=random_state
                                     )
@@ -303,7 +295,7 @@ def script(args_list, random_state=False, p_rparams=False):
         elif options.select_model[0] == "lstm":
             model = LSTM(input_shape, output_shape, activation=rparams.get("activation"),
                                      loss=rparams.get("loss", 'binary_crossentropy'), metrics=rparams.get("metrics", ['accuracy']),
-                                     optimizer=rparams.get("optimizer", 'Adam'), layers=rparams.get("layers", 0), neurons_1=rparams.get("neurons_1", 256), 
+                                     optimizer=rparams.get("optimizer", 'Adam'), neurons_1=rparams.get("neurons_1", 256), 
                                      neurons_2=rparams.get("neurons_2", 512), embedding_length=rparams.get("embedding_length", 32), batch_size=rparams.get("batch_size",32))
         else:
             logger.info("Model name is not found or xgboost import error.")
@@ -315,7 +307,7 @@ def script(args_list, random_state=False, p_rparams=False):
             if not rparams.get("class_weight"):
                 y = [item for sublist in y_train for item in sublist]
                 class_weight = cw.compute_class_weight("balanced", np.unique(y), y)
-            history = model.fit(x_train, np.ravel(y_train), batch_size=rparams.get("batch_size"), epochs=epochs, shuffle=True, verbose=1, callbacks=callbacks, class_weight=class_weight)
+            history = model.fit(x_train, np.ravel(y_train), batch_size=rparams.get("batch_size"), epochs=epochs, shuffle=True, verbose=verbose, callbacks=callbacks, class_weight=class_weight)
         else:
             history = model.fit(x_train, np.ravel(y_train))
     
@@ -341,5 +333,4 @@ def script(args_list, random_state=False, p_rparams=False):
     
 
 if __name__ == "__main__":
-    args_list = ['data/preprocessed/tox21_morgan_256.csv', 'LOGREG_TOX21', '--features', 'p', '--fingerprint', 'morgan', '--n_bits', '256', '--n_jobs', '-1', '-p', '200', '-t', '0']
-    script(args_list)
+    script()

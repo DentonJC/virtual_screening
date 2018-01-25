@@ -194,3 +194,13 @@
 
 ### 23.01.18
 - fix error when there is a nonexistent address in config.ini
+
+### 24.01.18
+- remove DUMMY
+- verbose in run.py parameters
+- reading models configs from experiment table
+
+### 25.01.18
+- correct type of hyperparams from experiment table
+- fix data loading
+  - problem with rereading config
