@@ -34,11 +34,9 @@ def read_model_config(config_path, section):
 
     model_config = configparser.ConfigParser()
     model_config.read(config_path)
-    def_config = model_config['DEFAULT']
-    epochs = eval(def_config['epochs'])
-    section_config = model_config[section]
-    rparams = eval(section_config['rparams'])
-    gparams = eval(section_config['gparams'])
+    epochs = eval(model_config.get('DEFAULT', 'epochs'))   
+    rparams = eval(model_config.get(section, 'rparams'))
+    gparams = eval(model_config.get(section, 'gparams'))
     return epochs, rparams, gparams
 
 
