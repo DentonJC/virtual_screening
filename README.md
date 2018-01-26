@@ -173,7 +173,7 @@ Done <br />
 Results path /tmp/2017-12-01 17:45:27.798223 logreg tox21 all 0.913/ <br />
 
 ## Processing the experiment table  <a name="table"></a>
-  1. Fill in the table with experiments parameters (examples in /etc, False = empty cell)
+  1. Fill in the table with experiments parameters (examples in /etc, False = empty cell), UTF-8
   2. Run run.py with Python, seriously
   3. Experiments will be performed one by one and fill in the columns with the results
 

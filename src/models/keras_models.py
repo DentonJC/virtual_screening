@@ -70,6 +70,21 @@ def Perceptron(input_shape, output_shape, activation='softmax', loss='binary_cro
     optimizer = compile_optimizer(optimizer, learning_rate, momentum)
     model.compile(loss=loss, metrics=metrics, optimizer=optimizer)
     return model
+    
+def MultilayerPerceptron(input_shape, output_shape, activation_1='softmax', activation_2='softmax', loss='binary_crossentropy', metrics=['accuracy'], optimizer='Adam', learning_rate=0.01, momentum=0, init_mode='uniform', layers=3, neurons_1=10, neurons_2=10):
+    """
+    Logistic regression model definition
+    """
+    model = Sequential()
+    model.add(Dense(input_shape=(input_shape, ), kernel_initializer=init_mode, activation=activation_1, units=neurons_1))
+
+    for _ in range(layers):
+        model.add(Dense(kernel_initializer=init_mode, activation=activation_1, units=neurons_2))
+
+    model.add(Dense(kernel_initializer=init_mode, activation=activation_2, units=output_shape))
+    optimizer = compile_optimizer(optimizer, learning_rate, momentum)
+    model.compile(loss=loss, metrics=metrics, optimizer=optimizer)
+    return model
 
 
 def Residual(input_shape, output_shape, activation_0='relu', activation_1='softmax', activation_2='sigmoid', loss='binary_crossentropy',

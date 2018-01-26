@@ -18,7 +18,7 @@ from src.main import read_model_config, evaluate, start_log, make_scoring
 from src.data_loader import get_data
 from src.report_formatter import plot_grid_search
 from src.models.keras_models import create_callbacks
-from src.models.keras_models import Perceptron, Residual, LSTM, MLSTM, RNN, MRNN, GRU
+from src.models.keras_models import Perceptron, Residual, LSTM, MLSTM, RNN, MRNN, GRU, MultilayerPerceptron
 from keras.wrappers.scikit_learn import KerasClassifier
 import xgboost as xgb
 
@@ -180,6 +180,17 @@ def script(args_list, random_state=False, p_rparams=False, verbose=0):
                                     scoring=scoring, 
                                     random_state=random_state
                                     )
+
+        elif options.select_model[0] == "mperceptron":
+            search_model = KerasClassifier(build_fn=MultilayerPerceptron,
+                                           input_shape=input_shape,
+                                           output_shape=output_shape)
+            model = RandomizedSearchCV(estimator=search_model,
+                                      param_distributions=gparams,
+                                      n_jobs=options.n_jobs,
+                                      cv=options.n_cv,
+                                      n_iter=options.n_iter,
+                                      verbose=10)
 
         elif options.select_model[0] == "mlstm":
             batch_size = 64 # tune it
