@@ -19,7 +19,10 @@ def create_report(logger, path, accuracy_test, accuracy_train, rec, auc, f1, tim
     Create .pdf with information about experiment.
     """
     logger.info("Creating report")
-    os.makedirs(path+"img/")
+    try:
+        os.makedirs(path+"img/")
+    except FileExistsError:
+        pass
     report_path = os.path.join(path, "report " + str(round(accuracy_test, 2)) + ".pdf")
     doc = SimpleDocTemplate(report_path, pagesize=letter, rightMargin=72, leftMargin=72, topMargin=72, bottomMargin=18)
 

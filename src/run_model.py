@@ -328,9 +328,12 @@ def script(args_list, random_state=False, p_rparams=False, verbose=0):
         #    pass
 
     logger.info("EVALUATE")
-    accuracy_test, accuracy_train, rec, auc, auc_val, f1 = evaluate(logger, options, random_state, options.output, model, x_train, x_test, x_val, y_val, y_train, y_test, time_start, rparams, history, options.section[0], options.features[0], options.n_jobs, score)
+    accuracy_test, accuracy_train, rec, auc, auc_val, f1 = evaluate(logger, options, random_state, options.output, model, x_train, 
+                                                                    x_test, x_val, y_val, y_train, y_test, time_start, rparams, history, 
+                                                                    options.section[0], options.features[0], options.n_jobs, score)
     return accuracy_test, accuracy_train, rec, auc, auc_val, f1, rparams
     
 
 if __name__ == "__main__":
-    script()
+    args_list = ['logreg', '/data/data_configs/bace.ini']
+    script(args_list)

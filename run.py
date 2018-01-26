@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
 """
-An additional script to run a series of experiments described in the .csv file.
+An additional script to run a series of experiments described in table like etc/experiments.csv
+ where columns are hyperparameters and rows are experiments.
 """
 import os
 import sys
@@ -18,7 +19,7 @@ def isnan(x):
 
 def main(experiments_file, common_gridsearch, random_state, result_cols, keys, params, pos_params, verbose):
     """
-    Checks the rows of experiments_file in a loop. If there are no results in the row (empty fields after len(cols)), 
+    Check the rows of experiments_file in a loop. If there are no results in the row (empty fields after len(cols)), 
     it takes all values in this row and calls the experiment function until all result fields are filled with step len(result_cols).
     
     Params
@@ -69,7 +70,6 @@ def main(experiments_file, common_gridsearch, random_state, result_cols, keys, p
             accuracy_test = accuracy_train = rec = auc = f1 = '-'
             command.append("-t")
             command.append(int(j))
-            #command_f = command.split()
             print(command)
             if isnan(table.iloc[i, j*len(result_cols) + len(params) + len(pos_params)]):    
                 if common_gridsearch:
