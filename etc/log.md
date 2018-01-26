@@ -204,3 +204,9 @@
 - correct type of hyperparams from experiment table
 - fix data loading
   - problem with rereading config
+
+### 26.01.18
+- compatibility with COBS
+- compatibility with Python2
+- keras models fix
+- t-SNE

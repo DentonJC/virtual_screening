@@ -24,8 +24,6 @@ else:
 # evaluate
 # get_latest_file
 # read_data_config
-
-
 def read_model_config(config_path, section):
     if sys.version_info[0] == 2:
         model_config = ConfigParser.ConfigParser()
@@ -259,11 +257,11 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
     copyfile(sys.argv[0], path + os.path.basename(sys.argv[0]))
     try:
         copytree('src/models', path + 'models')
-    except FileNotFoundError:
+    except:  # FileNotFoundError not comp python2
         pass
 
     path_old = path[:-1]
-    
+
     try:
         print(path_old)
         print(path)

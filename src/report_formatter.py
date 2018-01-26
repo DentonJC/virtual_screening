@@ -13,6 +13,10 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
 from sklearn.metrics import roc_auc_score, roc_curve
 
+from sklearn.manifold import TSNE
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
 
 def create_report(logger, path, accuracy_test, accuracy_train, rec, auc, f1, timer, rparams, tstart, history, random_state, options, x_train, y_train, x_test, y_test, x_val, y_val, pred_train, pred_test, pred_val, score):
     """
@@ -102,6 +106,14 @@ def create_report(logger, path, accuracy_test, accuracy_train, rec, auc, f1, tim
     except:
         logger.info("Can't plot gridsearch for this experiment")
 
+    # Too slow!
+    # concat train, test, val
+    # try:
+    #     plot_TSNE(x_train, y_train, path)
+    # except TypeError:
+    #     y_train = [item for sublist in y_train for item in sublist]
+    #     plot_TSNE(x_train, y_train, path)
+
     doc.build(Report)
     logger.info("Report complete, you can see it in the results folder")
 
@@ -131,6 +143,8 @@ def plot_history(history, path):
     plt.legend(['train', 'validate'], loc='upper left')
     plt.savefig(path+'img/history.png')
     plt.clf()
+    plt.cla()
+    plt.close()
 
 
 def plot_auc(pred_train, pred_test, pred_val, y_train, y_test, y_val, path):
@@ -169,6 +183,9 @@ def plot_auc(pred_train, pred_test, pred_val, y_train, y_test, y_val, path):
     plt.title('Receiver operating characteristic')
     plt.legend(loc="lower right")
     plt.savefig(path+'img/auc.png', dpi=100)
+    plt.clf()
+    plt.cla()
+    plt.close()
 
 
 def plot_grid_search(score, path):
@@ -197,6 +214,40 @@ def plot_grid_search(score, path):
         plt.clf()
         plt.cla()
         plt.close()
+
+
+def plot_TSNE(features, labels, path):
+    label = sorted(list(set(labels)))
+
+    print("t-SNE 2D fitting")
+    tsne2 = TSNE(n_components=2, random_state=0)
+    X2 = tsne2.fit_transform(features)
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    for l in label:
+        ax.scatter(X2[labels==l, 0], X2[labels==l, 1])
+
+    plt.title("t-SNE")
+    plt.savefig(path+'img/t-SNE 2D.png', dpi=1000)
+    plt.clf()
+    plt.cla()
+    plt.close()
+
+    print("t-SNE 3D fitting")
+    tsne3 = TSNE(n_components=3, random_state=0)
+    X3 = tsne3.fit_transform(features)
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    for l in label:
+        ax.scatter(X3[labels==l, 0], X3[labels==l, 1], X3[labels==l, 2])
+
+    plt.title("t-SNE")
+    plt.savefig(path+'img/t-SNE 3D.png', dpi=1000)
+    plt.clf()
+    plt.cla()
+    plt.close()
 
 
 if __name__ == "__main__":
