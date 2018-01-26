@@ -3,7 +3,6 @@
 import os
 import logging
 import multiprocessing
-import configparser
 import numpy as np
 import pandas as pd
 from rdkit.Chem import AllChem
@@ -14,6 +13,12 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, LabelEncoder, normalize
 from src._desc_rdkit import smiles_to_desc_rdkit
 from src.main import drop_nan, read_data_config
+
+import sys
+if sys.version_info[0] == 2:
+    import ConfigParser
+else:
+    import configparser
 
 
 def create_physical(logger, smiles, verbose=5):    
@@ -118,7 +123,11 @@ def featurization(logger, filename, fingerprint, n_bits, path, data_config, verb
     if "_test" in name: name = "test"
     if "_val" in name: name = "val"
 
-    config = configparser.ConfigParser()
+    if sys.version_info[0] == 2:
+        config = ConfigParser.ConfigParser()
+    else:
+        config = configparser.ConfigParser()
+
     config.read(data_config)
     
     config['DEFAULT']["labels_" + str(name)] = str(filename_labels.replace(path, '') + '.gz')

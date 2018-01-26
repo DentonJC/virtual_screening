@@ -8,19 +8,30 @@ import math
 import pickle
 import getopt
 import logging
-import configparser
 import numpy as np
 import pandas as pd
 from datetime import datetime
 from shutil import copyfile, copytree
 from sklearn.metrics import accuracy_score, recall_score, roc_auc_score, f1_score, matthews_corrcoef, make_scorer
 from src.report_formatter import create_report, plot_auc
+
+if sys.version_info[0] == 2:
+    import ConfigParser
+else:
+    import configparser
+
+
 # evaluate
 # get_latest_file
 # read_data_config
 
 
 def read_model_config(config_path, section):
+    if sys.version_info[0] == 2:
+        model_config = ConfigParser.ConfigParser()
+    else:
+        model_config = configparser.ConfigParser()
+
     model_config = configparser.ConfigParser()
     model_config.read(config_path)
     def_config = model_config['DEFAULT']
@@ -32,7 +43,11 @@ def read_model_config(config_path, section):
 
 
 def read_data_config(config_path, section):
-    data_config = configparser.ConfigParser()
+    if sys.version_info[0] == 2:
+        data_config = ConfigParser.ConfigParser()
+    else:
+        data_config = configparser.ConfigParser()
+
     data_config.read(config_path)
 
     dataset_train = data_config.get('DEFAULT', 'dataset_train')
@@ -188,17 +203,31 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
         accuracy_train = accuracy_score(y_train, y_pred_train)*100
         logger.info("Accuracy test: %.2f%%" % (accuracy_test))
     except:
-        pickle.dump(model, open(path+"model.sav", 'wb'))
+        try:
+            pickle.dump(model, open(path+"model.sav", 'wb'))
+        except TypeError:
+            logger.info("Can not pickle this model")
         y_pred_test = model.predict(x_test)
-        result = [round(value) for value in y_pred_test]
+        
+        try:
+            result = [round(value) for value in y_pred_test]
+        except TypeError:
+            y_pred_test = [item for sublist in y_pred_test for item in sublist]
+            result = [round(value) for value in y_pred_test]
         
         save_labels(result, path + "y_pred_test.csv")
-
-        y_pred_train = model.predict(x_train)
-        y_pred_train = [round(value) for value in y_pred_train]
         
-        y_pred_val = model.predict(x_val)
-        y_pred_val = [round(value) for value in y_pred_val]
+        try:
+            y_pred_train = [round(value) for value in y_pred_train]
+        except TypeError:
+            y_pred_train = [item for sublist in y_pred_train for item in sublist]
+            y_pred_train = [round(value) for value in y_pred_train]
+
+        try:
+            y_pred_val = [round(value) for value in y_pred_val]
+        except TypeError:
+            y_pred_val = [item for sublist in y_pred_val for item in sublist]
+            y_pred_val = [round(value) for value in y_pred_val]
         
         save_labels(y_pred_val, path + "y_pred_val.csv")
         #save_labels(y_val, path + "y_val.csv")

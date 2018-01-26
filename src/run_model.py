@@ -245,8 +245,8 @@ def script(args_list, random_state=False, p_rparams=False, verbose=0):
                                     )
                                                      
         else:
-            logger.info("Model name is not found or xgboost import error.")
-            return 0, 0
+            logger.info("Model name is not found.")
+            return 0, 0, 0, 0, 0, 0
 
         logger.info("FIT")
         try:
