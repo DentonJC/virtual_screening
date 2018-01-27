@@ -122,7 +122,7 @@ def Residual(input_shape, output_shape, activation_0='relu', activation_1='softm
     return model
 
 
-def LSTM_OLD(input_shape, output_shape, input_length, embedding_length=64, neurons=256, activation='softmax', loss='binary_crossentropy', metrics=['accuracy'], optimizer='Adam'):
+def LSTM(input_shape, output_shape, input_length, embedding_length=64, neurons=256, activation='softmax', loss='binary_crossentropy', metrics=['accuracy'], optimizer='Adam'):
     model = Sequential()
     model.add(Embedding(input_shape, embedding_length, input_length=input_length))
     model.add(LSTM_layer(neurons))
@@ -134,7 +134,7 @@ def LSTM_OLD(input_shape, output_shape, input_length, embedding_length=64, neuro
 
 #X shape=(number_of_documents, n_rows, n_cols)
 #Y shape=(number_of_documents, num_categories)
-def LSTM(input_shape, output_shape, input_length, embedding_length=64, neurons=256, activation='softmax', loss='binary_crossentropy', metrics=['accuracy'], optimizer='Adam'):
+def LSTM2(input_shape, output_shape, input_length, embedding_length=64, neurons=256, activation='softmax', loss='binary_crossentropy', metrics=['accuracy'], optimizer='Adam'):
     model = Sequential()
 
     model.add(LSTM(int(embedding_length), input_shape=input_shape)) #(n_rows, n_cols)))
@@ -143,8 +143,6 @@ def LSTM(input_shape, output_shape, input_length, embedding_length=64, neurons=2
     model.add(Activation(activation))
 
     model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
-
-
 
 
 def MLSTM(input_shape, output_shape, batch_size, layers=3, neurons_1=256, neurons_2=512, activation='softmax', loss='binary_crossentropy', metrics=['accuracy'], optimizer='Adam'):

@@ -74,7 +74,7 @@ def main(experiments_file, common_gridsearch, random_state, result_cols, keys, p
             if isnan(table.iloc[i, j*len(result_cols) + len(params) + len(pos_params)]):    
                 if common_gridsearch:
                     rparams = False
-                
+
                 accuracy_test, accuracy_train, rec, auc, auc_val, f1, rparams = script(command, random_state, rparams, verbose)
                 accuracy_test, accuracy_train, rec, auc, auc_val, f1 = round(accuracy_test, 4), round(accuracy_train, 4), (round(rec[0], 4), round(rec[1], 4)), round(auc, 4), round(auc_val, 4), (round(f1[0], 4), round(f1[1], 4))
                 gparams = str(rparams)
