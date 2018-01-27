@@ -217,8 +217,6 @@ def get_data(logger, data_config, fingerprint, n_bits, set_targets, set_features
             os.makedirs(path+d)
 
     filename_train, filename_test, filename_val, labels_train, labels_test, labels_val, physical_train, physical_test, physical_val, fingerprint_train, fingerprint_test, fingerprint_val = read_data_config(data_config, str(fingerprint) + "_" + str(n_bits))
-    
-    print(filename_train, filename_test, filename_val)
 
     logger.info("Train data")
     x_train, y_train = load_data(logger, path, filename_train, fingerprint_train, physical_train, labels_train, set_targets, set_features, fingerprint, n_bits, data_config, verbose)

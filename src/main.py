@@ -30,7 +30,6 @@ def read_model_config(config_path, section):
     else:
         model_config = configparser.ConfigParser()
 
-    model_config = configparser.ConfigParser()
     model_config.read(config_path)
     epochs = eval(model_config.get('DEFAULT', 'epochs'))   
     rparams = eval(model_config.get(section, 'rparams'))

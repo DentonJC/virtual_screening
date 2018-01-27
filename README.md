@@ -94,16 +94,22 @@ Test | Active | 546
 ## Install <a name="install"></a>
 - Linux
 - Python 3.6+ (Python 2.7 unstable)
-- run env.sh
+- source env.sh
 ### with Conda <a name="conda"></a>
 - Conda (https://www.anaconda.com/download/#linux)
 - conda install --file requirements
 - conda install -c akode xgboost
-- conda install -c rdkit rdkit
+- conda install -c omnia rdkit
+- Python3: pip install configparser
+- Python2: pip install ConfigParser
+- pip install argparse
 ### with Pip <a name="pip"></a>
 - Packages from requirements
 - pip install xgboost
 - RDKit (https://github.com/rdkit/rdkit)
+- Python3: pip install configparser
+- Python2: pip install ConfigParser
+- pip install argparse
 
 ## Usage <a name="usage"></a>
     usage: logreg.py data section [-h]
