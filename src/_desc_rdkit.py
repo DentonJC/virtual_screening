@@ -13,6 +13,7 @@ import numpy as np
 import re
 from rdkit import Chem
 from rdkit.Chem import Descriptors, AllChem
+from mordred import Calculator, descriptors
 
 
 def _camel_to_snail(s):
@@ -94,8 +95,54 @@ def smiles_to_desc_rdkit(x):
 
     if len(set(features.index)) != len(x):
         print("Missed compounds")
-
+    
     return features, missing
+    
+    
+def smiles_to_desc_mordred(x):
+    """
+    Featurizes pd Series of smiles using mordred.Calculator
+
+    Params
+    ------
+    x: pd.Series
+        Each value is smiles
+
+    Returns
+    -------
+    output: pd.DataFrame
+    """
+    assert isinstance(x, pd.Series)
+    
+    missing = []
+    features_index = []
+    features_values = []
+    molecule_values = []
+
+    for key, smi in tqdm.tqdm(x.items(), total=len(x)):
+        try:
+            m = Chem.MolFromSmiles(smi)
+            if m:
+                features_index.append(key)
+                molecule_values.append(m)
+            else:
+                missing.append(key)
+        except:
+            missing.append(key)
+        
+    calc = Calculator(descriptors)
+        
+    features = calc.pandas(molecule_values)
+    features = features.reindex(features.index.union(missing))
+    #mask = features.applymap(lambda x: isinstance(x, (int, float))).values
+    #features = features.where(mask)
+    #features = features.dropna(axis=1,how='all')
+    # features = features.convert_objects(convert_numeric=True) # string to NaN
+
+    if len(set(features.index)) != len(x):
+        print("Missed compounds")
+    
+    return features, missing#, calc.descriptors
 
 
 if __name__ == "__main__":

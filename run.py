@@ -87,9 +87,9 @@ def main(experiments_file, common_gridsearch, random_state, result_cols, keys, p
 
 
 if __name__ == "__main__":
-    keys = ["--load_model", "--output", "--model_config", "--fingerprint", "--n_bits", "--n_cv", 
+    keys = ["--load_model", "--output", "--model_config", "--descriptor", "--fingerprint", "--n_bits", "--n_cv", 
             "--n_jobs", "-p", "-g", "--n_iter", "--features", "--metric", "--split"]
-    params = ["Load model", "Output", "Model config", "Fingerprint", "n_bits", "n_cv", "n_jobs", "Patience", 
+    params = ["Load model", "Output", "Model config", "Descriptor", "Fingerprint", "n_bits", "n_cv", "n_jobs", "Patience", 
             "Gridsearch", "n_iter", "Features", "Metric", "Split"]
     pos_params = ['Model', 'Data config', 'Section']
     result_cols = ['rec[0]', 'rec[1]', 'auc', 'auc_val', 'gparams']

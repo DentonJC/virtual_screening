@@ -37,7 +37,7 @@ def read_model_config(config_path, section):
     return epochs, rparams, gparams
 
 
-def read_data_config(config_path, section):
+def read_data_config(config_path, section, descriptor):
     if sys.version_info[0] == 2:
         data_config = ConfigParser.ConfigParser()
     else:
@@ -72,18 +72,18 @@ def read_data_config(config_path, section):
     else:
         labels_val = False
         
-    if data_config.has_option('DEFAULT', 'physical_train'):
-        physical_train = data_config.get('DEFAULT', 'physical_train')
+    if data_config.has_option(descriptor, 'physical_train'):
+        physical_train = data_config.get(descriptor, 'physical_train')
     else:
         physical_train = False
         
-    if data_config.has_option('DEFAULT', 'physical_test'):
-        physical_test = data_config.get('DEFAULT', 'physical_test')
+    if data_config.has_option(descriptor, 'physical_test'):
+        physical_test = data_config.get(descriptor, 'physical_test')
     else:
         physical_test = False
         
-    if data_config.has_option('DEFAULT', 'physical_val'):
-        physical_val = data_config.get('DEFAULT', 'physical_val')
+    if data_config.has_option(descriptor, 'physical_val'):
+        physical_val = data_config.get(descriptor, 'physical_val')
     else:
         physical_val = False
         

@@ -29,6 +29,7 @@ def get_options():
     parser.add_argument('data_config', nargs='+', help='path to dataset config file'),
     parser.add_argument('section', nargs='+', help='name of section in model config file'),
     parser.add_argument('--load_model',  help='path to model .sav'),
+    parser.add_argument('--descriptor', default='mordred', choices=['mordred', 'rdkit'], help='descriptor of molecules'),
     parser.add_argument('--features', default='all', choices=['all', 'a', 'fingerprint', 'f', 'physical', 'p'], help='take features: all, fingerptint or physical'),
     parser.add_argument('--output', default=os.path.dirname(os.path.realpath(__file__)).replace("/src", "") + "/tmp/" + str(datetime.now()) + '/', help='path to output directory'),
     parser.add_argument('--model_config', default="/data/model_configs/bace.ini", help='path to config file'),
@@ -75,7 +76,7 @@ def script(args_list, random_state=False, p_rparams=False, verbose=0):
     #logging.basicConfig(filename=options.output+'main.log', level=logging.INFO)
     start_log(logger, options.gridsearch, options.fingerprint, options.n_bits, options.model_config, options.section[0])
     epochs, rparams, gparams = read_model_config(os.path.dirname(os.path.realpath(__file__)).replace("/src", "")+options.model_config, options.section[0])
-    x_train, x_test, x_val, y_val, y_train, y_test, input_shape, output_shape = get_data(logger, os.path.dirname(os.path.realpath(__file__)).replace("/src", "")+options.data_config[0], options.fingerprint, options.n_bits, options.targets, options.features, random_state, options.split, verbose)
+    x_train, x_test, x_val, y_val, y_train, y_test, input_shape, output_shape = get_data(logger, os.path.dirname(os.path.realpath(__file__)).replace("/src", "")+options.data_config[0], options.fingerprint, options.n_bits, options.targets, options.features, random_state, options.split, verbose, options.descriptor)
     
     #scoring = {'accuracy': 'accuracy', 'MCC': make_scorer(matthews_corrcoef)}
     scoring = make_scoring(options.metric)
