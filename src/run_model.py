@@ -41,7 +41,8 @@ def get_options():
     parser.add_argument('--patience', '-p' , default=100, type=int, help='patience of fit'),
     parser.add_argument('--gridsearch', '-g', action='store_true', default=False, help='use gridsearch'),
     parser.add_argument('--metric', default='accuracy', choices=['accuracy', 'roc_auc', 'f1', 'matthews'],  help='metric for RandomizedSearchCV'),
-    parser.add_argument('--split', default=0.2, type=float, help='train-test split'),
+    parser.add_argument('--split_type', choices=['stratified', 'scaffold', 'random', 'time'], default='stratified', type=str, help='type of train-test split'),
+    parser.add_argument('--split_s', default=0.2, type=float, help='size of test and valid splits'),
     parser.add_argument('--targets', '-t', default=0, type=int, help='set number of target column'),
     parser.add_argument('--experiments_file', '-e', default='experiments.csv', help='where to write results of experiments')
     return parser
@@ -76,7 +77,7 @@ def script(args_list, random_state=False, p_rparams=False, verbose=0):
     #logging.basicConfig(filename=options.output+'main.log', level=logging.INFO)
     start_log(logger, options.gridsearch, options.fingerprint, options.n_bits, options.model_config, options.section[0])
     epochs, rparams, gparams = read_model_config(os.path.dirname(os.path.realpath(__file__)).replace("/src", "")+options.model_config, options.section[0])
-    x_train, x_test, x_val, y_val, y_train, y_test, input_shape, output_shape = get_data(logger, os.path.dirname(os.path.realpath(__file__)).replace("/src", "")+options.data_config[0], options.fingerprint, options.n_bits, options.targets, options.features, random_state, options.split, verbose, options.descriptor)
+    x_train, x_test, x_val, y_val, y_train, y_test, input_shape, output_shape = get_data(logger, os.path.dirname(os.path.realpath(__file__)).replace("/src", "")+options.data_config[0], options.fingerprint, options.n_bits, options.targets, options.features, random_state, options.split_type, options.split_s, verbose, options.descriptor)
     
     #scoring = {'accuracy': 'accuracy', 'MCC': make_scorer(matthews_corrcoef)}
     scoring = make_scoring(options.metric)
@@ -265,10 +266,9 @@ def script(args_list, random_state=False, p_rparams=False, verbose=0):
             history = model.fit(x_train, np.ravel(y_train), callbacks=callbacks, validation_data=(x_val, np.ravel(y_val)))
         except TypeError:
             history = model.fit(x_train, np.ravel(y_train))
-    logger.info("HERE")
+
     if not options.gridsearch:
         score = False
-        logger.info("HERE INSIDE")
         if p_rparams:
             rparams = p_rparams
         if options.load_model:

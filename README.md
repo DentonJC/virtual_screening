@@ -100,6 +100,7 @@ Test | Active | 546
 - conda install --file requirements
 - conda install -c akode xgboost
 - conda install -c omnia rdkit
+- conda install -c mordred-descriptor mordred
 - Python3: pip install configparser
 - Python2: pip install ConfigParser
 - pip install argparse
@@ -107,6 +108,7 @@ Test | Active | 546
 - Packages from requirements
 - pip install xgboost
 - RDKit (https://github.com/rdkit/rdkit)
+- pip install mordred
 - Python3: pip install configparser
 - Python2: pip install ConfigParser
 - pip install argparse

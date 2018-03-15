@@ -52,7 +52,6 @@ def create_physical(logger, smiles, verbose, descriptor):
     
 
 def featurization(logger, filename, fingerprint, n_bits, path, data_config, verbose, descriptor):
-    n_physical = 196
     data = pd.read_csv(filename)
     smiles = []
 
@@ -66,27 +65,28 @@ def featurization(logger, filename, fingerprint, n_bits, path, data_config, verb
     l_headers = list(data)
     
     missing, physic_data = create_physical(logger, smiles, verbose, descriptor)
+    n_physical = physic_data.shape[1]
     
     smiles = np.array(smiles)
     smiles = np.delete(smiles, missing)
     data = np.array(data)
     data = np.delete(data, missing, axis=0)
     _, cols = data.shape
-    
-    
-    l = []
-        
-    for i in range(cols):
-        if isinstance(data[i][0], str):
-            le = LabelEncoder()
-            le.fit(data[:,i])
-            c = le.transform(data[:,i])
-            l.append(c)
-        else:
-            l.append(data[:, i])
-        
-    labels = np.array(l).T
-    labels = np.delete(labels, missing, axis=0) #?
+
+    labels = data    
+    if (data.dtype != np.dtype('int64')) and (data.dtype != np.dtype('int')):
+        l = []            
+        for i in range(cols):
+            if isinstance(data[i][0], str):
+                le = LabelEncoder()
+                le.fit(data[:,i])
+                c = le.transform(data[:,i])
+                l.append(c)
+            else:
+                l.append(data[:, i])
+        labels = np.array(l).T
+
+    #labels = np.delete(labels, missing, axis=0)
 
     logger.info("Featurization")
     ms = [Chem.MolFromSmiles(x) for x in smiles]
@@ -124,8 +124,7 @@ def featurization(logger, filename, fingerprint, n_bits, path, data_config, verb
     physic_data.to_csv(filename_physical+".gz", compression="gzip", sep=",")
     labels = pd.DataFrame(labels)
     labels.to_csv(filename_labels+".gz", compression="gzip", sep=",")
-    
-        
+
     head, _sep, tail = filename.rpartition('/')
     name = tail.replace(".csv", "")
     
@@ -182,37 +181,19 @@ def compile_data(labels, physical, fingerprint, set_targets, set_features):
     return x, y
 
 
-def find_wrong_columns(x):
-    
-    remove_rows = []
+def preprocessing(x):
     x = np.array(x)
 
     for j, col in enumerate(x):
         for i, row in enumerate(col):
             if not isinstance(row, (int, float, np.int64, np.float64)):
-                row = np.NaN
-            if row == np.NaN:
-                remove_rows.append(i)
-            if not np.isfinite(row):
-                remove_rows.append(i)
-    return remove_rows
-
-def preprocessing(x, remove_rows):
-    #print(set(remove_rows))
-    x = x.T
-    
-    x = pd.DataFrame(x)
-    x.drop(x.index[list(set(remove_rows))], inplace=True)
-    
-    x = x.T
-    
-    mask = x.applymap(lambda l: isinstance(l, (int, float))).values
-    x = x.where(mask)
-    x = x.dropna(axis=0,how='any')
-  
-
+                x[j][i] = 0
+            if x[j][i] == np.NaN: # do NOT remove
+                x[j][i] = 0
+            if not np.isfinite(x[j][i]): # do NOT remove
+                x[j][i] = 0
+                
     x = normalize(x)
-    
     return x
 
 
@@ -223,30 +204,33 @@ def load_data(logger, path, filename, fingerprint_addr, physical_addr, labels_ad
         fingerprints = pd.read_csv(path+fingerprint_addr,index_col=0, header=0)
         physical = pd.read_csv(path+physical_addr,index_col=0, header=0)
         labels  = pd.read_csv(path+labels_addr,index_col=0, header=0)
-        #physical, fingerprints, labels = preprocessing(logger, physical, fingerprints, labels)
-        x, y = compile_data(labels, physical, fingerprints, set_targets, set_features)
-        #if descriptor == "rdkit":
         
-        print(x.shape)
-        print(y.shape)
-        x, y = drop_nan(x, y)
+        #physical, fingerprints, labels = preprocessing(physical), preprocessing(fingerprints), preprocessing(labels)
+        x, y = compile_data(labels, physical, fingerprints, set_targets, set_features)
+        x, y = drop_nan(x, y) # becouse labels can be NaN in column
 
     elif filename:
         if os.path.isfile(path+filename):
             fingerprints, physical, labels = featurization(logger, path+filename, fingerprint, n_bits, path, data_config, verbose, descriptor)
-            #physical, fingerprints, labels = preprocessing(logger, physical, fingerprints, labels)
+            
+            #physical, fingerprints, labels = preprocessing(physical), preprocessing(fingerprints), preprocessing(labels)
             x, y = compile_data(labels, physical, fingerprints, set_targets, set_features)
-            #if descriptor == "rdkit":
             x, y = drop_nan(x, y)
+
     else:
         print("Can not load data")
+        
+    #print('f',fingerprints.shape)
+    #print('p',physical.shape)
+    #print('l',labels.shape)
+    
     return x, y
 
     
-def get_data(logger, data_config, fingerprint, n_bits, set_targets, set_features, random_state, split, verbose, descriptor):
+def get_data(logger, data_config, fingerprint, n_bits, set_targets, set_features, random_state, split_type, split_size, verbose, descriptor):
     if fingerprint in ['MACCS', 'maccs', 'Maccs', 'maccs (167)']:
         n_bits = 167 # constant for maccs fingerprint
-
+    
     path = os.path.dirname(os.path.realpath(__file__)).replace("/src", "")
     dirs = ["/data/", "/data/preprocessed/", "/data/preprocessed/labels", "/data/preprocessed/morgan", "/data/preprocessed/rdkit", "/data/preprocessed/mordred"]
     for d in dirs:
@@ -254,52 +238,48 @@ def get_data(logger, data_config, fingerprint, n_bits, set_targets, set_features
             os.makedirs(path+d)
 
     filename_train, filename_test, filename_val, labels_train, labels_test, labels_val, physical_train, physical_test, physical_val, fingerprint_train, fingerprint_test, fingerprint_val = read_data_config(data_config, str(fingerprint) + "_" + str(n_bits), descriptor)
-
-    logger.info("Train data")
+    logger.info("Load train data")
     x_train, y_train = load_data(logger, path, filename_train, fingerprint_train, physical_train, labels_train, set_targets, set_features, fingerprint, n_bits, data_config, verbose, descriptor)
-    
-    logger.info("Test data")
+    logger.info("Load test data")
     x_test, y_test = load_data(logger, path, filename_test, fingerprint_test, physical_test, labels_test, set_targets, set_features, fingerprint, n_bits, data_config, verbose, descriptor)
-    if len(x_train) < 1 or len(y_train) < 1:
-        x_train, x_test, y_train, y_test = train_test_split(x_train, y_train, test_size=split, stratify=y_train, random_state=random_state)
-
-    logger.info("Val data") 
+    logger.info("Load val data")
     x_val, y_val = load_data(logger, path, filename_val, fingerprint_val, physical_val, labels_val, set_targets, set_features, fingerprint, n_bits, data_config, verbose, descriptor)
-    if len(x_val) < 1 or len(y_val) < 1:
-        x_test, x_val, y_test, y_val = train_test_split(x_test, y_test, test_size=split, stratify=y_test, random_state=random_state)
-        
-    remove_rows = []
-    for i in find_wrong_columns(x_train):
-        remove_rows.append(i)
-    for i in find_wrong_columns(x_test):
-        remove_rows.append(i)
-    for i in find_wrong_columns(x_val):
-        remove_rows.append(i)
-    
-    """
-    y_train_tmp = []
-    for i in y_train:
-        y_train_tmp.append(int(i))
-    y_train = np.array(y_train_tmp[:])
-    
-    y_test_tmp = []
-    for i in y_test:
-        y_test_tmp.append(int(i))
-    y_test = np.array(y_test_tmp[:])
-    
-    y_val_tmp = []
-    for i in y_val:
-        y_val_tmp.append(int(i))
-    y_val = np.array(y_val_tmp[:])
-    """
 
-    x_train = preprocessing(x_train, remove_rows)
-    x_test = preprocessing(x_test, remove_rows)
-    x_val = preprocessing(x_val, remove_rows)
+    if split_type == "random":
+        if (len(x_test) < 1 or len(y_test) < 1) and (len(x_val) < 1 or len(y_val) < 1):
+            logger.info("Split test and val data")
+            x_train, x_test, y_train, y_test = train_test_split(x_train, y_train, test_size=split_size*2, random_state=random_state, shuffle=True)
+            x_test, x_val, y_test, y_val = train_test_split(x_test, y_test, test_size=0.5, random_state=random_state, shuffle=True)
+        
+        elif len(x_test) < 1 or len(y_test) < 1:
+            logger.info("Split test data")
+            x_train, x_test, y_train, y_test = train_test_split(x_train, y_train, test_size=split_size, random_state=random_state, shuffle=True)
+        
+        elif len(x_val) < 1 or len(y_val) < 1:
+            logger.info("Split val data")
+            x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=split_size, random_state=random_state, shuffle=True)
+
+    elif split_type == "stratified":
+        if (len(x_test) < 1 or len(y_test) < 1) and (len(x_val) < 1 or len(y_val) < 1):
+            logger.info("Split test and val data")
+            x_train, x_test, y_train, y_test = train_test_split(x_train, y_train, test_size=split_size*2, stratify=y_train, random_state=random_state)
+            x_test, x_val, y_test, y_val = train_test_split(x_test, y_test, test_size=0.5, stratify=y_test, random_state=random_state)
+        
+        elif len(x_test) < 1 or len(y_test) < 1:
+            logger.info("Split test data")
+            x_train, x_test, y_train, y_test = train_test_split(x_train, y_train, test_size=split_size, stratify=y_train, random_state=random_state)
+        
+        elif len(x_val) < 1 or len(y_val) < 1:
+            logger.info("Split val data")
+            x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=split_size, stratify=y_train, random_state=random_state)
     
-    #y_train  = pd.read_csv(path+labels_train,index_col=0, header=0)
-    #y_test  = pd.read_csv(path+labels_test,index_col=0, header=0)
-    #y_val  = pd.read_csv(path+labels_val,index_col=0, header=0)
+    x_train = preprocessing(x_train)
+    x_test = preprocessing(x_test)
+    x_val = preprocessing(x_val)
+    
+    y_train = np.asarray(y_train, dtype=int)
+    y_test = np.asarray(y_test, dtype=int)
+    y_val = np.asarray(y_val, dtype=int)
     
     logger.info("X_train: %s", str(x_train.shape))
     logger.info("Y_train: %s", str(y_train.shape))

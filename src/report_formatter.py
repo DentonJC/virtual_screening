@@ -45,45 +45,51 @@ def create_report(logger, path, accuracy_test, accuracy_train, rec, auc, f1, tim
     cmd = cmd.replace("]", "")
     cmd = cmd.replace(",", " ")
     cmd = cmd.replace("'", "")
+    
+    options = str(options)
+    options = options.replace("Namespace(", '<br />\n')
+    options = options.replace(", ", '<br />\n')
+    options = options.replace(",\t", '<br />\n')
+    options = options.replace(")", "")
 
-    ptext = '<font size=12> Command line input: %s </font>' % cmd
+    ptext = '<font size=12> <b> Command line input: </b> %s </font>' % cmd
     Report.append(Paragraph(ptext, styles["Justify"]))
-    ptext = '<font size=12> Arguments: %s </font>' % str(options)
+    ptext = '<font size=12> <b> Arguments: </b> %s </font>' % str(options)
     Report.append(Paragraph(ptext, styles["Justify"]))
-    ptext = '<font size=12> Parameters: %s </font>' % rparams
+    ptext = '<font size=12> <b> Parameters: </b> %s </font>' % rparams
     Report.append(Paragraph(ptext, styles["Justify"]))
-    ptext = '<font size=12> Random state: %s </font>' % str(random_state)
-    Report.append(Paragraph(ptext, styles["Justify"]))
-
-    ptext = '<font size=12> X_train shape: %s</font>' % str(x_train.shape)
-    Report.append(Paragraph(ptext, styles["Justify"]))
-    ptext = '<font size=12> Y_train shape: %s</font>' % str(y_train.shape)
-    Report.append(Paragraph(ptext, styles["Justify"]))
-    ptext = '<font size=12> X_val shape: %s</font>' % str(x_val.shape)
-    Report.append(Paragraph(ptext, styles["Justify"]))
-    ptext = '<font size=12> Y_val shape: %s</font>' % str(y_val.shape)
-    Report.append(Paragraph(ptext, styles["Justify"]))
-    ptext = '<font size=12> X_test shape: %s</font>' % str(x_test.shape)
-    Report.append(Paragraph(ptext, styles["Justify"]))
-    ptext = '<font size=12> Y_test shape: %s</font>' % str(y_test.shape)
+    ptext = '<font size=12> <b> Random state: </b> %s </font>' % str(random_state)
     Report.append(Paragraph(ptext, styles["Justify"]))
 
-    ptext = '<font size=12> Accuracy test: %s </font>' % accuracy_test
+    ptext = '<font size=12> <b> X_train shape: </b> %s</font>' % str(x_train.shape)
     Report.append(Paragraph(ptext, styles["Justify"]))
-    ptext = '<font size=12> Accuracy train: %s </font>' % accuracy_train
+    ptext = '<font size=12> <b> Y_train shape: </b> %s</font>' % str(y_train.shape)
     Report.append(Paragraph(ptext, styles["Justify"]))
-    ptext = '<font size=12> Recall: %s </font>' % rec
+    ptext = '<font size=12> <b> X_val shape: </b> %s</font>' % str(x_val.shape)
     Report.append(Paragraph(ptext, styles["Justify"]))
-    ptext = '<font size=12> ROC AUC score: %s </font>' % auc
+    ptext = '<font size=12> <b> Y_val shape: </b> %s</font>' % str(y_val.shape)
     Report.append(Paragraph(ptext, styles["Justify"]))
-    ptext = '<font size=12> f1 score: %s </font>' % f1
+    ptext = '<font size=12> <b> X_test shape: </b> %s</font>' % str(x_test.shape)
+    Report.append(Paragraph(ptext, styles["Justify"]))
+    ptext = '<font size=12> <b> Y_test shape: </b> %s</font>' % str(y_test.shape)
     Report.append(Paragraph(ptext, styles["Justify"]))
 
-    ptext = '<font size=12> Started at: %s </font>' % tstart
+    ptext = '<font size=12> <b> Accuracy test: </b> %s </font>' % accuracy_test
     Report.append(Paragraph(ptext, styles["Justify"]))
-    ptext = '<font size=12> Time required: %s </font>' % timer
+    ptext = '<font size=12> <b> Accuracy train: </b> %s </font>' % accuracy_train
     Report.append(Paragraph(ptext, styles["Justify"]))
-    ptext = '<font size=12> Host name: %s </font>' % socket.gethostname()
+    ptext = '<font size=12> <b> Recall: </b> %s </font>' % rec
+    Report.append(Paragraph(ptext, styles["Justify"]))
+    ptext = '<font size=12> <b> ROC AUC score: </b> %s </font>' % auc
+    Report.append(Paragraph(ptext, styles["Justify"]))
+    ptext = '<font size=12> <b> f1 score: </b> %s </font>' % f1
+    Report.append(Paragraph(ptext, styles["Justify"]))
+
+    ptext = '<font size=12> <b> Started at: </b> %s </font>' % tstart
+    Report.append(Paragraph(ptext, styles["Justify"]))
+    ptext = '<font size=12> <b> Time required: </b> %s </font>' % timer
+    Report.append(Paragraph(ptext, styles["Justify"]))
+    ptext = '<font size=12> <b> Host name: </b> %s </font>' % socket.gethostname()
     Report.append(Paragraph(ptext, styles["Justify"]))
     Report.append(Spacer(1, 12))
 

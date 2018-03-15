@@ -42,7 +42,7 @@ def main(experiments_file, common_gridsearch, random_state, result_cols, keys, p
     if not random_state and not isinstance(random_state, int): random_state = random.randint(1, 100)
 
     table = pd.read_csv(experiments_file)
-
+    
     for i in range(table.shape[0]):
         rparams = False
         command = []
@@ -88,13 +88,13 @@ def main(experiments_file, common_gridsearch, random_state, result_cols, keys, p
 
 if __name__ == "__main__":
     keys = ["--load_model", "--output", "--model_config", "--descriptor", "--fingerprint", "--n_bits", "--n_cv", 
-            "--n_jobs", "-p", "-g", "--n_iter", "--features", "--metric", "--split"]
+            "--n_jobs", "-p", "-g", "--n_iter", "--features", "--metric", "--split_type", "--split_s"]
     params = ["Load model", "Output", "Model config", "Descriptor", "Fingerprint", "n_bits", "n_cv", "n_jobs", "Patience", 
-            "Gridsearch", "n_iter", "Features", "Metric", "Split"]
+            "Gridsearch", "n_iter", "Features", "Metric", "Split type", "Split size"]
     pos_params = ['Model', 'Data config', 'Section']
     result_cols = ['rec[0]', 'rec[1]', 'auc', 'auc_val', 'gparams']
     common_gridsearch = True
     random_state = 42
-    experiments_file = 'etc/test.csv'
+    experiments_file = 'etc/experiments_HIV.csv'
     verbose = 10
     main(experiments_file, common_gridsearch, random_state, result_cols, keys, params, pos_params, verbose)
