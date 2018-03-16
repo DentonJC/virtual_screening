@@ -1,18 +1,18 @@
 Model,Data config,Load model,Section,Features,Metric,Split type,Split size,Output,Model config,Descriptor,Fingerprint,n_bits,n_cv,n_jobs,Patience,Gridsearch,n_iter,recall 0,recall 1,ROC AUC test,ROC AUC val,rparams
 logreg,/data/data_configs/hiv.ini,,LOGREG_HIV,all,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,32,5,-1,10000,True,10,0.2568,0.8543,0.5556,0.5753,"{'solver': 'lbfgs', 'max_iter': 30000, 'fit_intercept': False, 'class_weight': 'balanced', 'C': 100.0}"
 logreg,/data/data_configs/hiv.ini,,LOGREG_HIV,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,32,5,-1,10000,True,10,0.7403,0.5329,0.6366,0.6795,"{'solver': 'newton-cg', 'max_iter': 30000, 'fit_intercept': True, 'class_weight': 'balanced', 'C': 100.0}"
-logreg,/data/data_configs/hiv.ini,,LOGREG_HIV,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,32,10,-1,10000,True,400,,,,,
-logreg,/data/data_configs/hiv.ini,,LOGREG_HIV,physical,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,32,10,-1,10000,True,400,,,,,
-logreg,/data/data_configs/hiv.ini,,LOGREG_HIV,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,64,10,-1,10000,True,400,,,,,
-logreg,/data/data_configs/hiv.ini,,LOGREG_HIV,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,64,10,-1,10000,True,400,,,,,
-logreg,/data/data_configs/hiv.ini,,LOGREG_HIV,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,256,10,-1,10000,True,400,,,,,
-logreg,/data/data_configs/hiv.ini,,LOGREG_HIV,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,256,10,-1,10000,True,400,,,,,
-logreg,/data/data_configs/hiv.ini,,LOGREG_HIV,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,512,10,-1,10000,True,400,,,,,
-logreg,/data/data_configs/hiv.ini,,LOGREG_HIV,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,512,10,-1,10000,True,400,,,,,
-logreg,/data/data_configs/hiv.ini,,LOGREG_HIV,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,1024,10,-1,10000,True,400,,,,,
-logreg,/data/data_configs/hiv.ini,,LOGREG_HIV,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,1024,10,-1,10000,True,400,,,,,
-logreg,/data/data_configs/hiv.ini,,LOGREG_HIV,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,maccs,167,10,-1,10000,True,400,,,,,
-logreg,/data/data_configs/hiv.ini,,LOGREG_HIV,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,maccs,167,10,-1,10000,True,400,,,,,
+logreg,/data/data_configs/hiv.ini,,LOGREG_HIV,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,32,10,-1,10000,True,400,0.5143,0.625,0.5697,0.5497,"{'solver': 'lbfgs', 'max_iter': 30000, 'fit_intercept': True, 'class_weight': 'balanced', 'C': 10.0}"
+logreg,/data/data_configs/hiv.ini,,LOGREG_HIV,physical,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,32,10,-1,10000,True,400,0.7402,0.5329,0.6365,0.6794,"{'solver': 'lbfgs', 'max_iter': 30000, 'fit_intercept': True, 'class_weight': 'balanced', 'C': 100.0}"
+logreg,/data/data_configs/hiv.ini,,LOGREG_HIV,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,64,10,-1,10000,True,400,0.7490000000000001,0.5294,0.6392,0.6737,"{'solver': 'lbfgs', 'max_iter': 30000, 'fit_intercept': True, 'class_weight': 'balanced', 'C': 100.0}"
+logreg,/data/data_configs/hiv.ini,,LOGREG_HIV,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,64,10,-1,10000,True,400,0.623,0.6354,0.6292,0.5856,"{'solver': 'lbfgs', 'max_iter': 30000, 'fit_intercept': True, 'class_weight': 'balanced', 'C': 1.0}"
+logreg,/data/data_configs/hiv.ini,,LOGREG_HIV,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,256,10,-1,10000,True,400,0.7403,0.5329,0.6366,0.6795,"{'solver': 'newton-cg', 'max_iter': 30000, 'fit_intercept': True, 'class_weight': 'balanced', 'C': 100.0}"
+logreg,/data/data_configs/hiv.ini,,LOGREG_HIV,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,256,10,-1,10000,True,400,0.7494,0.6007,0.675,0.6757,"{'solver': 'newton-cg', 'max_iter': 30000, 'fit_intercept': True, 'class_weight': 'balanced', 'C': 0.1}"
+logreg,/data/data_configs/hiv.ini,,LOGREG_HIV,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,512,10,-1,10000,True,400,0.74,0.5294,0.6347,0.6795,"{'solver': 'lbfgs', 'max_iter': 30000, 'fit_intercept': True, 'class_weight': 'balanced', 'C': 100.0}"
+logreg,/data/data_configs/hiv.ini,,LOGREG_HIV,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,512,10,-1,10000,True,400,0.8149,0.5938,0.7043,0.7014,"{'solver': 'newton-cg', 'max_iter': 30000, 'fit_intercept': True, 'class_weight': 'balanced', 'C': 0.1}"
+logreg,/data/data_configs/hiv.ini,,LOGREG_HIV,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,1024,10,-1,10000,True,400,0.7403,0.5329,0.6366,0.6795,"{'solver': 'newton-cg', 'max_iter': 30000, 'fit_intercept': True, 'class_weight': 'balanced', 'C': 100.0}"
+logreg,/data/data_configs/hiv.ini,,LOGREG_HIV,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,1024,10,-1,10000,True,400,0.8481,0.5729,0.7105,0.7136,"{'solver': 'newton-cg', 'max_iter': 30000, 'fit_intercept': True, 'class_weight': 'balanced', 'C': 1.0}"
+logreg,/data/data_configs/hiv.ini,,LOGREG_HIV,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,maccs,167,10,-1,10000,True,400,0.7397,0.5329,0.6363,0.6794,"{'solver': 'lbfgs', 'max_iter': 30000, 'fit_intercept': True, 'class_weight': 'balanced', 'C': 100.0}"
+logreg,/data/data_configs/hiv.ini,,LOGREG_HIV,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,maccs,167,10,-1,10000,True,400,0.7512,0.6493,0.7002,0.7082,"{'solver': 'liblinear', 'max_iter': 30000, 'fit_intercept': True, 'class_weight': 'balanced', 'C': 10.0}"
 logreg,/data/data_configs/hiv.ini,,LOGREG_HIV,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,32,10,-1,10000,True,400,,,,,
 logreg,/data/data_configs/hiv.ini,,LOGREG_HIV,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,32,10,-1,10000,True,400,,,,,
 logreg,/data/data_configs/hiv.ini,,LOGREG_HIV,physical,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,32,10,-1,10000,True,400,,,,,

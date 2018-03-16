@@ -95,6 +95,6 @@ if __name__ == "__main__":
     result_cols = ['rec[0]', 'rec[1]', 'auc', 'auc_val', 'gparams']
     common_gridsearch = True
     random_state = 42
-    experiments_file = 'etc/experiments_HIV.csv'
+    experiments_file = 'etc/experiments_bace.csv'
     verbose = 10
     main(experiments_file, common_gridsearch, random_state, result_cols, keys, params, pos_params, verbose)

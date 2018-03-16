@@ -13,6 +13,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, LabelEncoder, normalize
 from src._desc_rdkit import smiles_to_desc_rdkit, smiles_to_desc_mordred
 from src.main import drop_nan, read_data_config
+from src.splitters import scaffold_split
 
 import sys
 if sys.version_info[0] == 2:
@@ -116,13 +117,16 @@ def featurization(logger, filename, fingerprint, n_bits, path, data_config, verb
     filename_labels = filename.replace(".csv", "_labels.csv")
     head, _sep, tail = filename_labels.rpartition('/')
     filename_labels = path + "/data/preprocessed/labels/" + tail
-
+       
     fingerprints = pd.DataFrame(fingerprints)
-    fingerprints.to_csv(filename_fingerprint+".gz", compression="gzip", sep=",")
-    #physical = pd.DataFrame(physic_data)
-    
-    physic_data.to_csv(filename_physical+".gz", compression="gzip", sep=",")
     labels = pd.DataFrame(labels)
+    
+    physic_data['smiles'] = smiles
+    fingerprints['smiles'] = smiles
+    labels['smiles'] = smiles
+    
+    fingerprints.to_csv(filename_fingerprint+".gz", compression="gzip", sep=",")   
+    physic_data.to_csv(filename_physical+".gz", compression="gzip", sep=",")
     labels.to_csv(filename_labels+".gz", compression="gzip", sep=",")
 
     head, _sep, tail = filename.rpartition('/')
@@ -198,12 +202,22 @@ def preprocessing(x):
 
 
 def load_data(logger, path, filename, fingerprint_addr, physical_addr, labels_addr, set_targets, set_features, fingerprint, n_bits, data_config, verbose, descriptor):  
-    x, y = [], []
+    x, y, smiles = [], [], []
     
     if fingerprint_addr and physical_addr and labels_addr and os.path.isfile(path+fingerprint_addr) and os.path.isfile(path+physical_addr) and os.path.isfile(path+labels_addr):
         fingerprints = pd.read_csv(path+fingerprint_addr,index_col=0, header=0)
         physical = pd.read_csv(path+physical_addr,index_col=0, header=0)
         labels  = pd.read_csv(path+labels_addr,index_col=0, header=0)
+        
+        if 'smiles' in labels.columns:
+            smiles = labels["smiles"]
+            labels = labels.drop("smiles", 1)
+        if 'smiles' in fingerprints.columns:
+            smiles = fingerprints["smiles"]
+            fingerprints = fingerprints.drop("smiles", 1)
+        if 'smiles' in physical.columns:
+            smiles = physical["smiles"]
+            physical = physical.drop("smiles", 1)
         
         #physical, fingerprints, labels = preprocessing(physical), preprocessing(fingerprints), preprocessing(labels)
         x, y = compile_data(labels, physical, fingerprints, set_targets, set_features)
@@ -212,6 +226,11 @@ def load_data(logger, path, filename, fingerprint_addr, physical_addr, labels_ad
     elif filename:
         if os.path.isfile(path+filename):
             fingerprints, physical, labels = featurization(logger, path+filename, fingerprint, n_bits, path, data_config, verbose, descriptor)
+            
+            smiles = labels["smiles"]
+            labels = labels.drop("smiles", 1)
+            fingerprints = fingerprints.drop("smiles", 1)
+            physical = physical.drop("smiles", 1)
             
             #physical, fingerprints, labels = preprocessing(physical), preprocessing(fingerprints), preprocessing(labels)
             x, y = compile_data(labels, physical, fingerprints, set_targets, set_features)
@@ -224,7 +243,7 @@ def load_data(logger, path, filename, fingerprint_addr, physical_addr, labels_ad
     #print('p',physical.shape)
     #print('l',labels.shape)
     
-    return x, y
+    return x, y, smiles
 
     
 def get_data(logger, data_config, fingerprint, n_bits, set_targets, set_features, random_state, split_type, split_size, verbose, descriptor):
@@ -239,39 +258,52 @@ def get_data(logger, data_config, fingerprint, n_bits, set_targets, set_features
 
     filename_train, filename_test, filename_val, labels_train, labels_test, labels_val, physical_train, physical_test, physical_val, fingerprint_train, fingerprint_test, fingerprint_val = read_data_config(data_config, str(fingerprint) + "_" + str(n_bits), descriptor)
     logger.info("Load train data")
-    x_train, y_train = load_data(logger, path, filename_train, fingerprint_train, physical_train, labels_train, set_targets, set_features, fingerprint, n_bits, data_config, verbose, descriptor)
+    x_train, y_train, smiles = load_data(logger, path, filename_train, fingerprint_train, physical_train, labels_train, set_targets, set_features, fingerprint, n_bits, data_config, verbose, descriptor)
     logger.info("Load test data")
-    x_test, y_test = load_data(logger, path, filename_test, fingerprint_test, physical_test, labels_test, set_targets, set_features, fingerprint, n_bits, data_config, verbose, descriptor)
+    x_test, y_test, smiles_test = load_data(logger, path, filename_test, fingerprint_test, physical_test, labels_test, set_targets, set_features, fingerprint, n_bits, data_config, verbose, descriptor)
     logger.info("Load val data")
-    x_val, y_val = load_data(logger, path, filename_val, fingerprint_val, physical_val, labels_val, set_targets, set_features, fingerprint, n_bits, data_config, verbose, descriptor)
+    x_val, y_val, smiles_val = load_data(logger, path, filename_val, fingerprint_val, physical_val, labels_val, set_targets, set_features, fingerprint, n_bits, data_config, verbose, descriptor)
 
-    if split_type == "random":
+    if split_type == "scaffold":        
         if (len(x_test) < 1 or len(y_test) < 1) and (len(x_val) < 1 or len(y_val) < 1):
             logger.info("Split test and val data")
-            x_train, x_test, y_train, y_test = train_test_split(x_train, y_train, test_size=split_size*2, random_state=random_state, shuffle=True)
-            x_test, x_val, y_test, y_val = train_test_split(x_test, y_test, test_size=0.5, random_state=random_state, shuffle=True)
-        
+            train, test = scaffold_split(smiles, frac_train=1-split_size*2)
+            x_train, x_test, y_train, y_test = x_train[train], x_train[test], y_train[train], y_train[test]
+            test, val = scaffold_split(smiles[test], frac_train=0.5)
+            x_test, x_val, y_test, y_val = x_test[test], x_test[val], y_test[test], y_test[val]
+            
         elif len(x_test) < 1 or len(y_test) < 1:
             logger.info("Split test data")
-            x_train, x_test, y_train, y_test = train_test_split(x_train, y_train, test_size=split_size, random_state=random_state, shuffle=True)
-        
+            train, test = scaffold_split(smiles, frac_train=1-split_size)
+            x_train, x_test, y_train, y_test = x_train[train], x_train[test], y_train[train], y_train[test]
+            
         elif len(x_val) < 1 or len(y_val) < 1:
             logger.info("Split val data")
-            x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=split_size, random_state=random_state, shuffle=True)
-
-    elif split_type == "stratified":
+            train, val = scaffold_split(smiles, frac_train=1-split_size)
+            x_train, x_val, y_train, y_val = x_train[train], x_train[val], y_train[train], y_train[val]
+        
+    else:
+        if split_type == "random":
+            shuffle = True
+            stratify = False
+        elif split_type == "stratified":
+            shuffle = True
+            stratify = y_train            
+        
+        
         if (len(x_test) < 1 or len(y_test) < 1) and (len(x_val) < 1 or len(y_val) < 1):
             logger.info("Split test and val data")
-            x_train, x_test, y_train, y_test = train_test_split(x_train, y_train, test_size=split_size*2, stratify=y_train, random_state=random_state)
-            x_test, x_val, y_test, y_val = train_test_split(x_test, y_test, test_size=0.5, stratify=y_test, random_state=random_state)
-        
+            x_train, x_test, y_train, y_test = train_test_split(x_train, y_train, test_size=split_size*2, stratify=stratify, random_state=random_state, shuffle=shuffle)
+            x_test, x_val, y_test, y_val = train_test_split(x_test, y_test, test_size=0.5, stratify=stratify, random_state=random_state, shuffle=shuffle)
+            
         elif len(x_test) < 1 or len(y_test) < 1:
             logger.info("Split test data")
-            x_train, x_test, y_train, y_test = train_test_split(x_train, y_train, test_size=split_size, stratify=y_train, random_state=random_state)
-        
+            x_train, x_test, y_train, y_test = train_test_split(x_train, y_train, test_size=split_size, stratify=stratify, random_state=random_state, shuffle=shuffle)
+            
         elif len(x_val) < 1 or len(y_val) < 1:
             logger.info("Split val data")
-            x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=split_size, stratify=y_train, random_state=random_state)
+            x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=split_size, stratify=stratify, random_state=random_state, shuffle=shuffle)
+            
     
     x_train = preprocessing(x_train)
     x_test = preprocessing(x_test)
