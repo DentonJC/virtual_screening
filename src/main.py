@@ -233,25 +233,29 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
     
     
     rec = recall_score(y_test, result, average=None)
-    try:        
-        auc = roc_auc_score(y_test, result)
-        auc_val = roc_auc_score(y_val, y_pred_val)
+    try:
+        auc_train = roc_auc_score(y_train, model.predict_proba(x_train)[:,1])
+        auc_test = roc_auc_score(y_test, model.predict_proba(x_test)[:,1])
+        auc_val = roc_auc_score(y_val, model.predict_proba(x_val)[:,1])
     except ValueError:
-        auc = '-'
+        auc_train = '-'
+        auc_test = '-'
         auc_val = '-'
+        
+    #print("HERE", model.predict_proba(x_test))
+    #return 0
     f1 = f1_score(y_test, result, average=None)
     
     # find how long the program was running
     tstop = datetime.now()
     timer = tstop - time_start
-    print(timer)
     logger.info(timer)
 
     # create report, prediction and save script and all current models
     try:
-        create_report(logger, path, accuracy_test, accuracy_train, rec, auc, f1, timer, rparams, time_start, history, random_state, options, x_train, y_train, x_test, y_test, x_val, y_val, y_pred_train, y_pred_test, y_pred_val, score)
+        create_report(logger, path, accuracy_test, accuracy_train, rec, auc_train, auc_test, auc_val, f1, timer, rparams, time_start, history, random_state, options, x_train, y_train, x_test, y_test, x_val, y_val, y_pred_train, y_pred_test, y_pred_val, score)
     except:
-        create_report(logger, path, accuracy_test, accuracy_train, rec, auc, f1, timer, rparams, time_start, None, random_state, options, x_train, y_train, x_test, y_test, x_val, y_val, y_pred_train, y_pred_test, y_pred_val, score)
+        create_report(logger, path, accuracy_test, accuracy_train, rec, auc_train, auc_test, auc_val, f1, timer, rparams, time_start, None, random_state, options, x_train, y_train, x_test, y_test, x_val, y_val, y_pred_train, y_pred_test, y_pred_val, score)
 
     copyfile(sys.argv[0], path + os.path.basename(sys.argv[0]))
     try:
@@ -262,8 +266,6 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
     path_old = path[:-1]
 
     try:
-        print(path_old)
-        print(path)
         path = (path[:-8] + '_' + section +  '_' + features +  '_' + str(round(accuracy_test, 3)) +'/').replace(" ", "_")
         os.rename(path_old, path)
     except TypeError:
@@ -272,4 +274,4 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
     logger.info("Done")
     logger.info("Results path: %s", path)
 
-    return accuracy_test, accuracy_train, rec, auc, auc_val, f1
+    return accuracy_test, accuracy_train, rec, auc_test, auc_val, f1

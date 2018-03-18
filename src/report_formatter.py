@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
 
-def create_report(logger, path, accuracy_test, accuracy_train, rec, auc, f1, timer, rparams, tstart, history, random_state, options, x_train, y_train, x_test, y_test, x_val, y_val, pred_train, pred_test, pred_val, score):
+def create_report(logger, path, accuracy_test, accuracy_train, rec, auc_train, auc_test, auc_val, f1, timer, rparams, tstart, history, random_state, options, x_train, y_train, x_test, y_test, x_val, y_val, pred_train, pred_test, pred_val, score):
     """
     Create .pdf with information about experiment.
     """
@@ -80,7 +80,7 @@ def create_report(logger, path, accuracy_test, accuracy_train, rec, auc, f1, tim
     Report.append(Paragraph(ptext, styles["Justify"]))
     ptext = '<font size=12> <b> Recall: </b> %s </font>' % rec
     Report.append(Paragraph(ptext, styles["Justify"]))
-    ptext = '<font size=12> <b> ROC AUC score: </b> %s </font>' % auc
+    ptext = '<font size=12> <b> ROC AUC score: </b> %s </font>' % auc_test
     Report.append(Paragraph(ptext, styles["Justify"]))
     ptext = '<font size=12> <b> f1 score: </b> %s </font>' % f1
     Report.append(Paragraph(ptext, styles["Justify"]))
@@ -101,7 +101,7 @@ def create_report(logger, path, accuracy_test, accuracy_train, rec, auc, f1, tim
         logger.info("Can't create history plot for this experiment")
 
     try:
-        plot_auc(pred_train, pred_test, pred_val, y_train, y_test, y_val, path)
+        plot_auc(pred_train, pred_test, pred_val, y_train, y_test, y_val, path, auc_train, auc_test, auc_val)
         im = Image(path+'img/auc.png')
         Report.append(im)
     except:
@@ -153,17 +153,10 @@ def plot_history(history, path):
     plt.close()
 
 
-def plot_auc(pred_train, pred_test, pred_val, y_train, y_test, y_val, path):
+def plot_auc(pred_train, pred_test, pred_val, y_train, y_test, y_val, path, auc_train, auc_test, auc_val):
     """
     https://www.wildcardconsulting.dk/useful-information/a-deep-tox21-neural-network-with-rdkit-and-keras/
-    """
-    auc_train = roc_auc_score(y_train, pred_train)
-    try:
-        auc_val = roc_auc_score(y_val, pred_val)
-    except:
-        pass
-    auc_test = roc_auc_score(y_test, pred_test)
- 
+    """ 
     fpr_train, tpr_train, _ =roc_curve(y_train, pred_train, pos_label=1)
     try:
         fpr_val, tpr_val, _ = roc_curve(y_val, pred_val, pos_label=1)

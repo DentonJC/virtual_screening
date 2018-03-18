@@ -1,0 +1,275 @@
+Model,Data config,Load model,Section,Features,Metric,Split type,Split size,Output,Model config,Descriptor,Fingerprint,n_bits,n_cv,n_jobs,Patience,Gridsearch,n_iter,recall 0,recall 1,ROC AUC test,ROC AUC val,rparams
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,32,5,-1,10000,True,400,0.5122,0.7986,0.6554,0.644,"{'solver': 'lbfgs', 'max_iter': 50, 'class_weight': 'balanced', 'C': 10000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,physical,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,32,5,-1,10000,True,400,0.4329,0.7554,0.5942,0.5721,"{'solver': 'newton-cg', 'max_iter': 100000000, 'class_weight': None, 'C': 5000000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,64,5,-1,10000,True,400,0.1892,0.8696,0.5294,0.5517,"{'solver': 'newton-cg', 'max_iter': 40, 'class_weight': 'balanced', 'C': 5000000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,64,5,-1,10000,True,400,0.5135,0.7565,0.635,0.6533,"{'solver': 'liblinear', 'max_iter': 1000000, 'class_weight': 'balanced', 'C': 100000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,256,5,-1,10000,True,400,0.1892,0.8696,0.5294,0.5517,"{'solver': 'newton-cg', 'max_iter': 1000000000, 'class_weight': 'balanced', 'C': 5000000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,256,5,-1,10000,True,400,0.7297,0.7739,0.7518,0.7374,"{'solver': 'newton-cg', 'max_iter': 1000000, 'class_weight': 'balanced', 'C': 10.0}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,512,5,-1,10000,True,400,0.1892,0.8696,0.5294,0.5517,"{'solver': 'newton-cg', 'max_iter': 1000000000, 'class_weight': 'balanced', 'C': 5000000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,512,5,-1,10000,True,400,0.6757,0.7739,0.7248,0.7279,"{'solver': 'newton-cg', 'max_iter': 1000000, 'class_weight': 'balanced', 'C': 10.0}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,1024,5,-1,10000,True,400,0.1892,0.8696,0.5294,0.5517,"{'solver': 'newton-cg', 'max_iter': 1000000000, 'class_weight': 'balanced', 'C': 5000000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,1024,5,-1,10000,True,400,0.7027,0.7217,0.7122,0.7472,"{'solver': 'lbfgs', 'max_iter': 50000000, 'class_weight': 'balanced', 'C': 30}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,maccs,167,5,-1,10000,True,400,0.1892,0.8696,0.5294,0.5517,"{'solver': 'liblinear', 'max_iter': 50, 'class_weight': 'balanced', 'C': 5000000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,maccs,167,5,-1,10000,True,400,0.7297,0.8,0.7649,0.7124,"{'solver': 'saga', 'max_iter': 30, 'class_weight': 'balanced', 'C': 200.0}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,32,5,-1,10000,True,100,0.1622,0.8957,0.5289,0.5419,"{'solver': 'lbfgs', 'max_iter': 60, 'class_weight': 'balanced', 'C': 100000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,32,5,-1,10000,True,100,0.4595,0.8261,0.6428,0.6788,"{'solver': 'lbfgs', 'max_iter': 60, 'class_weight': 'balanced', 'C': 100000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,physical,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,32,5,-1,10000,True,100,0.1622,0.8957,0.5289,0.5615,"{'solver': 'lbfgs', 'max_iter': 60, 'class_weight': 'balanced', 'C': 100000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,64,5,-1,10000,True,100,0.1622,0.8957,0.5289,0.5615,"{'solver': 'lbfgs', 'max_iter': 60, 'class_weight': 'balanced', 'C': 100000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,64,5,-1,10000,True,100,0.5135,0.7565,0.635,0.6533,"{'solver': 'liblinear', 'max_iter': 1000000, 'class_weight': 'balanced', 'C': 100000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,256,5,-1,10000,True,100,0.1622,0.8957,0.5289,0.5469,"{'solver': 'lbfgs', 'max_iter': 60, 'class_weight': 'balanced', 'C': 100000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,256,5,-1,10000,True,100,0.7297,0.7739,0.7518,0.7374,"{'solver': 'newton-cg', 'max_iter': 1000000, 'class_weight': 'balanced', 'C': 10.0}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,512,5,-1,10000,True,100,0.1622,0.8957,0.5289,0.5469,"{'solver': 'lbfgs', 'max_iter': 60, 'class_weight': 'balanced', 'C': 100000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,512,5,-1,10000,True,100,0.6757,0.7739,0.7248,0.7279,"{'solver': 'newton-cg', 'max_iter': 1000000, 'class_weight': 'balanced', 'C': 10.0}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,1024,5,-1,10000,True,100,0.1622,0.8957,0.5289,0.5469,"{'solver': 'lbfgs', 'max_iter': 60, 'class_weight': 'balanced', 'C': 100000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,1024,5,-1,10000,True,100,0.7027,0.7217,0.7122,0.7472,"{'solver': 'lbfgs', 'max_iter': 50000000, 'class_weight': 'balanced', 'C': 30}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,maccs,167,5,-1,10000,True,100,0.1622,0.8957,0.5289,0.5469,"{'solver': 'lbfgs', 'max_iter': 60, 'class_weight': 'balanced', 'C': 100000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,maccs,167,5,-1,10000,True,100,0.7297,0.8,0.7649,0.7124,"{'solver': 'saga', 'max_iter': 30, 'class_weight': 'balanced', 'C': 200.0}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,32,5,-1,10000,True,10,0.1622,0.9217,0.542,0.557,"{'solver': 'liblinear', 'max_iter': 150, 'class_weight': 'balanced', 'C': 5000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,32,5,-1,10000,True,10,0.4324,0.8261,0.6293,0.6839,"{'solver': 'liblinear', 'max_iter': 10000, 'class_weight': 'balanced', 'C': 1500}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,physical,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,32,5,-1,10000,True,10,0.1622,0.9217,0.542,0.557,"{'solver': 'liblinear', 'max_iter': 150, 'class_weight': 'balanced', 'C': 5000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,64,5,-1,10000,True,10,0.1622,0.9217,0.542,0.557,"{'solver': 'liblinear', 'max_iter': 150, 'class_weight': 'balanced', 'C': 5000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,64,5,-1,10000,True,10,0.5405,0.7826,0.6616,0.6583,"{'solver': 'saga', 'max_iter': 1000000000, 'class_weight': 'balanced', 'C': 100000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,256,5,-1,10000,True,10,0.1622,0.9304,0.5463,0.5772,"{'solver': 'liblinear', 'max_iter': 10000, 'class_weight': 'balanced', 'C': 1500}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,256,5,-1,10000,True,10,0.7568,0.7217,0.7392,0.7314,"{'solver': 'saga', 'max_iter': 10, 'class_weight': None, 'C': 1500}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,512,5,-1,10000,True,10,0.1622,0.9304,0.5463,0.5772,"{'solver': 'liblinear', 'max_iter': 10000, 'class_weight': 'balanced', 'C': 1500}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,512,5,-1,10000,True,10,0.6757,0.7304,0.7031,0.7121,"{'solver': 'saga', 'max_iter': 10, 'class_weight': None, 'C': 1500}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,1024,5,-1,10000,True,10,0.1622,0.9304,0.5463,0.5772,"{'solver': 'liblinear', 'max_iter': 10000, 'class_weight': 'balanced', 'C': 1500}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,1024,5,-1,10000,True,10,0.7838,0.7043,0.7441,0.7175,"{'solver': 'newton-cg', 'max_iter': 150, 'class_weight': 'balanced', 'C': 105}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,maccs,167,5,-1,10000,True,10,0.1622,0.9304,0.5463,0.5772,"{'solver': 'liblinear', 'max_iter': 10000, 'class_weight': 'balanced', 'C': 1500}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,maccs,167,5,-1,10000,True,10,0.6757,0.8174,0.7465,0.7175,"{'solver': 'newton-cg', 'max_iter': 150, 'class_weight': 'balanced', 'C': 105}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,32,5,-1,10000,True,200,0.1892,0.8696,0.5294,0.5517,"{'solver': 'newton-cg', 'max_iter': 1000000000, 'class_weight': 'balanced', 'C': 5000000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,32,5,-1,10000,True,200,0.4595,0.8261,0.6428,0.6788,"{'solver': 'lbfgs', 'max_iter': 60, 'class_weight': 'balanced', 'C': 100000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,physical,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,32,5,-1,10000,True,200,0.1892,0.8696,0.5294,0.5517,"{'solver': 'newton-cg', 'max_iter': 1000000000, 'class_weight': 'balanced', 'C': 5000000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,64,5,-1,10000,True,200,0.1892,0.8696,0.5294,0.5517,"{'solver': 'newton-cg', 'max_iter': 1000000000, 'class_weight': 'balanced', 'C': 5000000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,64,5,-1,10000,True,200,0.5135,0.7565,0.635,0.6533,"{'solver': 'liblinear', 'max_iter': 1000000, 'class_weight': 'balanced', 'C': 100000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,256,5,-1,10000,True,200,0.1892,0.8696,0.5294,0.5517,"{'solver': 'newton-cg', 'max_iter': 1000000000, 'class_weight': 'balanced', 'C': 5000000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,256,5,-1,10000,True,200,0.7297,0.7739,0.7518,0.7374,"{'solver': 'newton-cg', 'max_iter': 1000000, 'class_weight': 'balanced', 'C': 10.0}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,512,5,-1,10000,True,200,0.1892,0.8696,0.5294,0.5517,"{'solver': 'newton-cg', 'max_iter': 1000000000, 'class_weight': 'balanced', 'C': 5000000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,512,5,-1,10000,True,200,0.6757,0.7739,0.7248,0.7279,"{'solver': 'newton-cg', 'max_iter': 1000000, 'class_weight': 'balanced', 'C': 10.0}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,1024,5,-1,10000,True,200,0.1892,0.8696,0.5294,0.5517,"{'solver': 'newton-cg', 'max_iter': 1000000000, 'class_weight': 'balanced', 'C': 5000000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,1024,5,-1,10000,True,200,0.7027,0.7217,0.7122,0.7472,"{'solver': 'lbfgs', 'max_iter': 50000000, 'class_weight': 'balanced', 'C': 30}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,maccs,167,5,-1,10000,True,200,0.1892,0.8696,0.5294,0.5517,"{'solver': 'newton-cg', 'max_iter': 1000000000, 'class_weight': 'balanced', 'C': 5000000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,maccs,167,5,-1,10000,True,200,0.7027,0.8,0.7514,0.7124,"{'solver': 'saga', 'max_iter': 30, 'class_weight': 'balanced', 'C': 200.0}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,32,5,-1,10000,True,400,0.4595,0.9129999999999999,0.6863,0.6845,"{'solver': 'liblinear', 'max_iter': 50, 'class_weight': 'balanced', 'C': 1000000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,32,5,-1,10000,True,400,0.4595,0.8261,0.6428,0.6788,"{'solver': 'lbfgs', 'max_iter': 60, 'class_weight': 'balanced', 'C': 100000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,physical,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,32,5,-1,10000,True,400,0.4324,0.9217,0.6771,0.6993,"{'solver': 'liblinear', 'max_iter': 50, 'class_weight': 'balanced', 'C': 1000000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,64,5,-1,10000,True,400,0.4054,0.9478,0.6766,0.6895,"{'solver': 'liblinear', 'max_iter': 50, 'class_weight': 'balanced', 'C': 1000000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,64,5,-1,10000,True,400,0.5135,0.7565,0.635,0.6533,"{'solver': 'liblinear', 'max_iter': 1000000, 'class_weight': 'balanced', 'C': 100000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,256,5,-1,10000,True,400,0.4865,0.887,0.6867,0.7142,"{'solver': 'newton-cg', 'max_iter': 40, 'class_weight': 'balanced', 'C': 5000000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,256,5,-1,10000,True,400,0.7297,0.7739,0.7518,0.7374,"{'solver': 'newton-cg', 'max_iter': 1000000, 'class_weight': 'balanced', 'C': 10.0}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,512,5,-1,10000,True,400,0.4054,0.8957,0.6505,0.7044,"{'solver': 'liblinear', 'max_iter': 50, 'class_weight': 'balanced', 'C': 1000000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,512,5,-1,10000,True,400,0.6757,0.7739,0.7248,0.7279,"{'solver': 'newton-cg', 'max_iter': 1000000, 'class_weight': 'balanced', 'C': 10.0}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,1024,5,-1,10000,True,400,0.4595,0.887,0.6732,0.7142,"{'solver': 'newton-cg', 'max_iter': 40, 'class_weight': 'balanced', 'C': 5000000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,1024,5,-1,10000,True,400,0.7027,0.7217,0.7122,0.7472,"{'solver': 'lbfgs', 'max_iter': 50000000, 'class_weight': 'balanced', 'C': 30}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,maccs,167,5,-1,10000,True,400,0.4865,0.887,0.6867,0.7142,"{'solver': 'newton-cg', 'max_iter': 40, 'class_weight': 'balanced', 'C': 5000000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,maccs,167,5,-1,10000,True,400,0.7297,0.8,0.7649,0.7124,"{'solver': 'saga', 'max_iter': 30, 'class_weight': 'balanced', 'C': 200.0}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,32,5,-1,10000,True,100,0.3784,0.9391,0.6588,0.6797,"{'solver': 'liblinear', 'max_iter': 1000000, 'class_weight': 'balanced', 'C': 100000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,32,5,-1,10000,True,100,0.4595,0.8261,0.6428,0.6788,"{'solver': 'lbfgs', 'max_iter': 60, 'class_weight': 'balanced', 'C': 100000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,physical,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,32,5,-1,10000,True,100,0.3784,0.9391,0.6588,0.6797,"{'solver': 'liblinear', 'max_iter': 1000000, 'class_weight': 'balanced', 'C': 100000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,64,5,-1,10000,True,100,0.3784,0.9391,0.6588,0.6797,"{'solver': 'liblinear', 'max_iter': 1000000, 'class_weight': 'balanced', 'C': 100000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,64,5,-1,10000,True,100,0.5135,0.7565,0.635,0.6533,"{'solver': 'liblinear', 'max_iter': 1000000, 'class_weight': 'balanced', 'C': 100000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,256,5,-1,10000,True,100,0.3784,0.9391,0.6588,0.6797,"{'solver': 'liblinear', 'max_iter': 1000000, 'class_weight': 'balanced', 'C': 100000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,256,5,-1,10000,True,100,0.7297,0.7739,0.7518,0.7374,"{'solver': 'newton-cg', 'max_iter': 1000000, 'class_weight': 'balanced', 'C': 10.0}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,512,5,-1,10000,True,100,0.3784,0.9391,0.6588,0.6797,"{'solver': 'liblinear', 'max_iter': 1000000, 'class_weight': 'balanced', 'C': 100000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,512,5,-1,10000,True,100,0.6757,0.7739,0.7248,0.7279,"{'solver': 'newton-cg', 'max_iter': 1000000, 'class_weight': 'balanced', 'C': 10.0}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,1024,5,-1,10000,True,100,0.3784,0.9391,0.6588,0.6797,"{'solver': 'liblinear', 'max_iter': 1000000, 'class_weight': 'balanced', 'C': 100000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,1024,5,-1,10000,True,100,0.7027,0.7217,0.7122,0.7472,"{'solver': 'lbfgs', 'max_iter': 50000000, 'class_weight': 'balanced', 'C': 30}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,maccs,167,5,-1,10000,True,100,0.3784,0.9391,0.6588,0.6797,"{'solver': 'liblinear', 'max_iter': 1000000, 'class_weight': 'balanced', 'C': 100000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,maccs,167,5,-1,10000,True,100,0.7297,0.8,0.7649,0.7124,"{'solver': 'saga', 'max_iter': 30, 'class_weight': 'balanced', 'C': 200.0}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,32,5,-1,10000,True,10,0.2703,0.9652,0.6177,0.631,"{'solver': 'saga', 'max_iter': 1000000000, 'class_weight': 'balanced', 'C': 100000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,32,5,-1,10000,True,10,0.4324,0.8261,0.6293,0.6839,"{'solver': 'liblinear', 'max_iter': 10000, 'class_weight': 'balanced', 'C': 1500}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,physical,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,32,5,-1,10000,True,10,0.2703,0.9652,0.6177,0.631,"{'solver': 'saga', 'max_iter': 1000000000, 'class_weight': 'balanced', 'C': 100000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,64,5,-1,10000,True,10,0.2703,0.9652,0.6177,0.631,"{'solver': 'saga', 'max_iter': 1000000000, 'class_weight': 'balanced', 'C': 100000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,64,5,-1,10000,True,10,0.5405,0.7826,0.6616,0.6583,"{'solver': 'saga', 'max_iter': 1000000000, 'class_weight': 'balanced', 'C': 100000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,256,5,-1,10000,True,10,0.2703,0.9652,0.6177,0.631,"{'solver': 'saga', 'max_iter': 1000000000, 'class_weight': 'balanced', 'C': 100000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,256,5,-1,10000,True,10,0.7568,0.713,0.7349,0.7317,"{'solver': 'saga', 'max_iter': 10, 'class_weight': None, 'C': 1500}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,512,5,-1,10000,True,10,0.2703,0.9652,0.6177,0.631,"{'solver': 'saga', 'max_iter': 1000000000, 'class_weight': 'balanced', 'C': 100000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,512,5,-1,10000,True,10,0.6757,0.7043,0.69,0.7219,"{'solver': 'saga', 'max_iter': 10, 'class_weight': None, 'C': 1500}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,1024,5,-1,10000,True,10,0.2703,0.9652,0.6177,0.631,"{'solver': 'saga', 'max_iter': 1000000000, 'class_weight': 'balanced', 'C': 100000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,1024,5,-1,10000,True,10,0.7838,0.7043,0.7441,0.7175,"{'solver': 'newton-cg', 'max_iter': 150, 'class_weight': 'balanced', 'C': 105}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,maccs,167,5,-1,10000,True,10,0.2703,0.9652,0.6177,0.631,"{'solver': 'saga', 'max_iter': 1000000000, 'class_weight': 'balanced', 'C': 100000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,maccs,167,5,-1,10000,True,10,0.6757,0.8174,0.7465,0.7175,"{'solver': 'newton-cg', 'max_iter': 150, 'class_weight': 'balanced', 'C': 105}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,32,5,-1,10000,True,200,0.4595,0.913,0.6863,0.6845,"{'solver': 'liblinear', 'max_iter': 50, 'class_weight': 'balanced', 'C': 1000000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,32,5,-1,10000,True,200,0.4595,0.8261,0.6428,0.6788,"{'solver': 'lbfgs', 'max_iter': 60, 'class_weight': 'balanced', 'C': 100000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,32,15,-1,10000,True,500,0.1892,0.8696,0.5294,0.5517,"{'solver': 'liblinear', 'max_iter': 50, 'class_weight': 'balanced', 'C': 5000000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,32,15,-1,10000,True,500,0.4324,0.8261,0.6293,0.6839,"{'solver': 'lbfgs', 'max_iter': 150, 'class_weight': 'balanced', 'C': 500}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,physical,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,32,15,-1,10000,True,500,0.1892,0.8696,0.5294,0.5517,"{'solver': 'newton-cg', 'max_iter': 1000000000, 'class_weight': 'balanced', 'C': 5000000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,64,15,-1,10000,True,500,0.1892,0.8696,0.5294,0.5419,"{'solver': 'liblinear', 'max_iter': 50, 'class_weight': 'balanced', 'C': 5000000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,64,15,-1,10000,True,500,0.5135,0.7565,0.635,0.6783,"{'solver': 'lbfgs', 'max_iter': 50, 'class_weight': 'balanced', 'C': 80.0}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,256,15,-1,10000,True,500,0.1892,0.8696,0.5294,0.5517,"{'solver': 'liblinear', 'max_iter': 500000000, 'class_weight': 'balanced', 'C': 5000000}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,256,15,-1,10000,True,500,0.7297,0.7739,0.7518,0.7374,"{'solver': 'newton-cg', 'max_iter': 1000000, 'class_weight': 'balanced', 'C': 10.0}"
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,512,15,-1,10000,True,500,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,512,15,-1,10000,True,500,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,2048,15,-1,10000,True,500,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,2048,15,-1,10000,True,500,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,maccs,167,15,-1,10000,True,500,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,maccs,167,15,-1,10000,True,500,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,32,15,-1,10000,True,100,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,32,15,-1,10000,True,100,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,physical,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,32,15,-1,10000,True,100,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,64,15,-1,10000,True,100,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,64,15,-1,10000,True,100,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,256,15,-1,10000,True,100,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,256,15,-1,10000,True,100,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,512,15,-1,10000,True,100,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,512,15,-1,10000,True,100,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,2048,15,-1,10000,True,100,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,2048,15,-1,10000,True,100,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,maccs,167,15,-1,10000,True,100,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,maccs,167,15,-1,10000,True,100,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,32,15,-1,10000,True,10,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,32,15,-1,10000,True,10,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,physical,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,32,15,-1,10000,True,10,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,64,15,-1,10000,True,10,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,64,15,-1,10000,True,10,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,256,15,-1,10000,True,10,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,256,15,-1,10000,True,10,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,512,15,-1,10000,True,10,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,512,15,-1,10000,True,10,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,2048,15,-1,10000,True,10,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,morgan,2048,15,-1,10000,True,10,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,maccs,167,15,-1,10000,True,10,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,rdkit,maccs,167,15,-1,10000,True,10,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,32,15,-1,10000,True,500,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,32,15,-1,10000,True,500,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,physical,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,32,15,-1,10000,True,500,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,64,15,-1,10000,True,500,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,64,15,-1,10000,True,500,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,256,15,-1,10000,True,500,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,256,15,-1,10000,True,500,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,512,15,-1,10000,True,500,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,512,15,-1,10000,True,500,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,2048,15,-1,10000,True,500,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,2048,15,-1,10000,True,500,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,maccs,167,15,-1,10000,True,500,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,maccs,167,15,-1,10000,True,500,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,32,15,-1,10000,True,100,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,32,15,-1,10000,True,100,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,physical,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,32,15,-1,10000,True,100,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,64,15,-1,10000,True,100,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,64,15,-1,10000,True,100,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,256,15,-1,10000,True,100,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,256,15,-1,10000,True,100,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,512,15,-1,10000,True,100,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,512,15,-1,10000,True,100,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,2048,15,-1,10000,True,100,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,2048,15,-1,10000,True,100,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,maccs,167,15,-1,10000,True,100,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,maccs,167,15,-1,10000,True,100,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,32,15,-1,10000,True,10,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,32,15,-1,10000,True,10,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,physical,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,32,15,-1,10000,True,10,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,64,15,-1,10000,True,10,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,64,15,-1,10000,True,10,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,256,15,-1,10000,True,10,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,256,15,-1,10000,True,10,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,512,15,-1,10000,True,10,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,512,15,-1,10000,True,10,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,2048,15,-1,10000,True,10,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,morgan,2048,15,-1,10000,True,10,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,all,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,maccs,167,15,-1,10000,True,10,,,,,
+logreg,/data/data_configs/bace.ini,,LOGREG_BACE,fingerprint,roc_auc,scaffold,0.1,,/data/model_configs/configs.ini,mordred,maccs,167,15,-1,10000,True,10,,,,,
+rf,/data/data_configs/bace.ini,,RF_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,32,15,-1,10000,True,400,,,,,
+rf,/data/data_configs/bace.ini,,RF_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,32,15,-1,10000,True,400,,,,,
+rf,/data/data_configs/bace.ini,,RF_BACE,physical,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,32,15,-1,10000,True,400,,,,,
+rf,/data/data_configs/bace.ini,,RF_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,64,15,-1,10000,True,400,,,,,
+rf,/data/data_configs/bace.ini,,RF_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,64,15,-1,10000,True,400,,,,,
+rf,/data/data_configs/bace.ini,,RF_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,256,15,-1,10000,True,400,,,,,
+rf,/data/data_configs/bace.ini,,RF_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,256,15,-1,10000,True,400,,,,,
+rf,/data/data_configs/bace.ini,,RF_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,512,15,-1,10000,True,400,,,,,
+rf,/data/data_configs/bace.ini,,RF_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,512,15,-1,10000,True,400,,,,,
+rf,/data/data_configs/bace.ini,,RF_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,2048,15,-1,10000,True,400,,,,,
+rf,/data/data_configs/bace.ini,,RF_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,2048,15,-1,10000,True,400,,,,,
+rf,/data/data_configs/bace.ini,,RF_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,rdkit,maccs,167,15,-1,10000,True,400,,,,,
+rf,/data/data_configs/bace.ini,,RF_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,rdkit,maccs,167,15,-1,10000,True,400,,,,,
+knn,/data/data_configs/bace.ini,,KNN_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,32,15,-1,10000,True,400,,,,,
+knn,/data/data_configs/bace.ini,,KNN_BACE,physical,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,32,15,-1,10000,True,400,,,,,
+knn,/data/data_configs/bace.ini,,KNN_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,32,15,-1,10000,True,400,,,,,
+knn,/data/data_configs/bace.ini,,KNN_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,64,15,-1,10000,True,400,,,,,
+knn,/data/data_configs/bace.ini,,KNN_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,64,15,-1,10000,True,400,,,,,
+knn,/data/data_configs/bace.ini,,KNN_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,256,15,-1,10000,True,400,,,,,
+knn,/data/data_configs/bace.ini,,KNN_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,256,15,-1,10000,True,400,,,,,
+knn,/data/data_configs/bace.ini,,KNN_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,512,15,-1,10000,True,400,,,,,
+knn,/data/data_configs/bace.ini,,KNN_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,512,15,-1,10000,True,400,,,,,
+knn,/data/data_configs/bace.ini,,KNN_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,2048,15,-1,10000,True,400,,,,,
+knn,/data/data_configs/bace.ini,,KNN_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,2048,15,-1,10000,True,400,,,,,
+knn,/data/data_configs/bace.ini,,KNN_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,rdkit,maccs,167,15,-1,10000,True,400,,,,,
+knn,/data/data_configs/bace.ini,,KNN_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,rdkit,maccs,167,15,-1,10000,True,400,,,,,
+svc,/data/data_configs/bace.ini,,SVC_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,32,15,-1,10000,True,400,,,,,
+svc,/data/data_configs/bace.ini,,SVC_BACE,physical,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,32,15,-1,10000,True,400,,,,,
+svc,/data/data_configs/bace.ini,,SVC_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,32,15,-1,10000,True,400,,,,,
+svc,/data/data_configs/bace.ini,,SVC_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,64,15,-1,10000,True,400,,,,,
+svc,/data/data_configs/bace.ini,,SVC_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,64,15,-1,10000,True,400,,,,,
+svc,/data/data_configs/bace.ini,,SVC_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,256,15,-1,10000,True,400,,,,,
+svc,/data/data_configs/bace.ini,,SVC_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,256,15,-1,10000,True,400,,,,,
+svc,/data/data_configs/bace.ini,,SVC_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,512,15,-1,10000,True,400,,,,,
+svc,/data/data_configs/bace.ini,,SVC_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,512,15,-1,10000,True,400,,,,,
+svc,/data/data_configs/bace.ini,,SVC_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,2048,15,-1,10000,True,400,,,,,
+svc,/data/data_configs/bace.ini,,SVC_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,2048,15,-1,10000,True,400,,,,,
+svc,/data/data_configs/bace.ini,,SVC_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,rdkit,maccs,167,15,-1,10000,True,400,,,,,
+svc,/data/data_configs/bace.ini,,SVC_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,rdkit,maccs,167,15,-1,10000,True,400,,,,,
+xgb,/data/data_configs/bace.ini,,XGB_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,32,15,-1,10000,True,400,,,,,
+xgb,/data/data_configs/bace.ini,,XGB_BACE,physical,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,32,15,-1,10000,True,400,,,,,
+xgb,/data/data_configs/bace.ini,,XGB_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,32,15,-1,10000,True,400,,,,,
+xgb,/data/data_configs/bace.ini,,XGB_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,64,15,-1,10000,True,400,,,,,
+xgb,/data/data_configs/bace.ini,,XGB_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,64,15,-1,10000,True,400,,,,,
+xgb,/data/data_configs/bace.ini,,XGB_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,256,15,-1,10000,True,400,,,,,
+xgb,/data/data_configs/bace.ini,,XGB_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,256,15,-1,10000,True,400,,,,,
+xgb,/data/data_configs/bace.ini,,XGB_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,512,15,-1,10000,True,400,,,,,
+xgb,/data/data_configs/bace.ini,,XGB_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,512,15,-1,10000,True,400,,,,,
+xgb,/data/data_configs/bace.ini,,XGB_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,2048,15,-1,10000,True,400,,,,,
+xgb,/data/data_configs/bace.ini,,XGB_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,rdkit,morgan,2048,15,-1,10000,True,400,,,,,
+xgb,/data/data_configs/bace.ini,,XGB_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,rdkit,maccs,167,15,-1,10000,True,400,,,,,
+xgb,/data/data_configs/bace.ini,,XGB_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,rdkit,maccs,167,15,-1,10000,True,400,,,,,
+rf,/data/data_configs/bace.ini,,RF_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,32,15,-1,10000,True,400,,,,,
+rf,/data/data_configs/bace.ini,,RF_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,32,15,-1,10000,True,400,,,,,
+rf,/data/data_configs/bace.ini,,RF_BACE,physical,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,32,15,-1,10000,True,400,,,,,
+rf,/data/data_configs/bace.ini,,RF_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,64,15,-1,10000,True,400,,,,,
+rf,/data/data_configs/bace.ini,,RF_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,64,15,-1,10000,True,400,,,,,
+rf,/data/data_configs/bace.ini,,RF_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,256,15,-1,10000,True,400,,,,,
+rf,/data/data_configs/bace.ini,,RF_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,256,15,-1,10000,True,400,,,,,
+rf,/data/data_configs/bace.ini,,RF_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,512,15,-1,10000,True,400,,,,,
+rf,/data/data_configs/bace.ini,,RF_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,512,15,-1,10000,True,400,,,,,
+rf,/data/data_configs/bace.ini,,RF_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,2048,15,-1,10000,True,400,,,,,
+rf,/data/data_configs/bace.ini,,RF_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,2048,15,-1,10000,True,400,,,,,
+rf,/data/data_configs/bace.ini,,RF_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,maccs,167,15,-1,10000,True,400,,,,,
+rf,/data/data_configs/bace.ini,,RF_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,maccs,167,15,-1,10000,True,400,,,,,
+knn,/data/data_configs/bace.ini,,KNN_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,32,15,-1,10000,True,400,,,,,
+knn,/data/data_configs/bace.ini,,KNN_BACE,physical,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,32,15,-1,10000,True,400,,,,,
+knn,/data/data_configs/bace.ini,,KNN_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,32,15,-1,10000,True,400,,,,,
+knn,/data/data_configs/bace.ini,,KNN_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,64,15,-1,10000,True,400,,,,,
+knn,/data/data_configs/bace.ini,,KNN_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,64,15,-1,10000,True,400,,,,,
+knn,/data/data_configs/bace.ini,,KNN_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,256,15,-1,10000,True,400,,,,,
+knn,/data/data_configs/bace.ini,,KNN_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,256,15,-1,10000,True,400,,,,,
+knn,/data/data_configs/bace.ini,,KNN_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,512,15,-1,10000,True,400,,,,,
+knn,/data/data_configs/bace.ini,,KNN_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,512,15,-1,10000,True,400,,,,,
+knn,/data/data_configs/bace.ini,,KNN_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,2048,15,-1,10000,True,400,,,,,
+knn,/data/data_configs/bace.ini,,KNN_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,2048,15,-1,10000,True,400,,,,,
+knn,/data/data_configs/bace.ini,,KNN_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,maccs,167,15,-1,10000,True,400,,,,,
+knn,/data/data_configs/bace.ini,,KNN_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,maccs,167,15,-1,10000,True,400,,,,,
+svc,/data/data_configs/bace.ini,,SVC_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,32,15,-1,10000,True,400,,,,,
+svc,/data/data_configs/bace.ini,,SVC_BACE,physical,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,32,15,-1,10000,True,400,,,,,
+svc,/data/data_configs/bace.ini,,SVC_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,32,15,-1,10000,True,400,,,,,
+svc,/data/data_configs/bace.ini,,SVC_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,64,15,-1,10000,True,400,,,,,
+svc,/data/data_configs/bace.ini,,SVC_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,64,15,-1,10000,True,400,,,,,
+svc,/data/data_configs/bace.ini,,SVC_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,256,15,-1,10000,True,400,,,,,
+svc,/data/data_configs/bace.ini,,SVC_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,256,15,-1,10000,True,400,,,,,
+svc,/data/data_configs/bace.ini,,SVC_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,512,15,-1,10000,True,400,,,,,
+svc,/data/data_configs/bace.ini,,SVC_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,512,15,-1,10000,True,400,,,,,
+svc,/data/data_configs/bace.ini,,SVC_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,2048,15,-1,10000,True,400,,,,,
+svc,/data/data_configs/bace.ini,,SVC_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,2048,15,-1,10000,True,400,,,,,
+svc,/data/data_configs/bace.ini,,SVC_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,maccs,167,15,-1,10000,True,400,,,,,
+svc,/data/data_configs/bace.ini,,SVC_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,maccs,167,15,-1,10000,True,400,,,,,
+xgb,/data/data_configs/bace.ini,,XGB_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,32,15,-1,10000,True,400,,,,,
+xgb,/data/data_configs/bace.ini,,XGB_BACE,physical,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,32,15,-1,10000,True,400,,,,,
+xgb,/data/data_configs/bace.ini,,XGB_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,32,15,-1,10000,True,400,,,,,
+xgb,/data/data_configs/bace.ini,,XGB_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,64,15,-1,10000,True,400,,,,,
+xgb,/data/data_configs/bace.ini,,XGB_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,64,15,-1,10000,True,400,,,,,
+xgb,/data/data_configs/bace.ini,,XGB_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,256,15,-1,10000,True,400,,,,,
+xgb,/data/data_configs/bace.ini,,XGB_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,256,15,-1,10000,True,400,,,,,
+xgb,/data/data_configs/bace.ini,,XGB_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,512,15,-1,10000,True,400,,,,,
+xgb,/data/data_configs/bace.ini,,XGB_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,512,15,-1,10000,True,400,,,,,
+xgb,/data/data_configs/bace.ini,,XGB_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,2048,15,-1,10000,True,400,,,,,
+xgb,/data/data_configs/bace.ini,,XGB_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,morgan,2048,15,-1,10000,True,400,,,,,
+xgb,/data/data_configs/bace.ini,,XGB_BACE,all,roc_auc,,,,/data/model_configs/configs.ini,mordred,maccs,167,15,-1,10000,True,400,,,,,
+xgb,/data/data_configs/bace.ini,,XGB_BACE,fingerprint,roc_auc,,,,/data/model_configs/configs.ini,mordred,maccs,167,15,-1,10000,True,400,,,,,
