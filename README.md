@@ -99,7 +99,7 @@ Test | Active | 546
 - Conda (https://www.anaconda.com/download/#linux)
 - conda install --file requirements
 - conda install -c akode xgboost
-- conda install -c omnia rdkit
+- conda install -c rdkit rdkit
 - conda install -c mordred-descriptor mordred
 - Python3: pip install configparser
 - Python2: pip install ConfigParser
@@ -154,6 +154,7 @@ Test | Active | 546
 
 ## Dataset <a name="dataset"></a>
 A csv format file is required, in which one of the headers will be "smiles", and the rest - the names of the experiments(targets). The column "mol_id" will be dropped if exist. After processing, the names of the targets are saved, and instead of the "smiles", columns of fingerprints 'f' and physical representations 'p' are added.
+<b>Attention:</b> Please, add '\_train', '\_test' and '\_val' to the end of files if you want to run the experiment table. This is not a bug, it is a feature.
 
 ## Example input <a name="input"></a>
 python src/run_model.py logreg data/tox21.csv LOGREG_TOX21 --features all --fingerprint morgan --n_bits 1024 --n_jobs -1 -p 2000 -t 0 --n_iter 10

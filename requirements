@@ -4,6 +4,5 @@ keras
 scikit-learn
 matplotlib
 reportlab
-tqdm
 seaborn
 joblib

@@ -10,11 +10,9 @@ See main for example usage.
 import tqdm
 import pandas as pd
 import numpy as np
-import re
 from rdkit import Chem
 from rdkit.Chem import Descriptors, AllChem
-from mordred import Calculator, descriptors
-
+import re
 
 def _camel_to_snail(s):
     """ Convert CamelCase to snail_case. """
@@ -34,7 +32,7 @@ def _rdkit_transform(mol):
     return np.array(res)
 
 
-def smiles_to_desc_rdkit(x):
+def smiles_to_rdkit(x):
     """
     Featurizes pd Series of smiles using rdkit.Descriptors
 
@@ -93,58 +91,12 @@ def smiles_to_desc_rdkit(x):
     features.columns = DESCRIPTORS.keys()
     features.reindex(features.index.union(missing))
 
-    if len(set(features.index)) != len(x):
-        print("Missed compounds")
-    
-    return features, missing
-    
-    
-def smiles_to_desc_mordred(x):
-    """
-    Featurizes pd Series of smiles using mordred.Calculator
+    # if len(set(features.index)) != len(x):
+    #    print("Missed compounds")
 
-    Params
-    ------
-    x: pd.Series
-        Each value is smiles
-
-    Returns
-    -------
-    output: pd.DataFrame
-    """
-    assert isinstance(x, pd.Series)
-    
-    missing = []
-    features_index = []
-    features_values = []
-    molecule_values = []
-
-    for key, smi in tqdm.tqdm(x.items(), total=len(x)):
-        try:
-            m = Chem.MolFromSmiles(smi)
-            if m:
-                features_index.append(key)
-                molecule_values.append(m)
-            else:
-                missing.append(key)
-        except:
-            missing.append(key)
-        
-    calc = Calculator(descriptors)
-        
-    features = calc.pandas(molecule_values)
-    features = features.reindex(features.index.union(missing))
-    #mask = features.applymap(lambda x: isinstance(x, (int, float))).values
-    #features = features.where(mask)
-    #features = features.dropna(axis=1,how='all')
-    # features = features.convert_objects(convert_numeric=True) # string to NaN
-
-    if len(set(features.index)) != len(x):
-        print("Missed compounds")
-    
-    return features, missing#, calc.descriptors
+    return [features, missing]
 
 
 if __name__ == "__main__":
-    features = smiles_to_desc_rdkit(pd.Series({"lol": "CC", "lol2": "CCN"}))
+    features = smiles_to_rdkit(pd.Series({"lol": "CC", "lol2": "CCN"}))
     print(features)

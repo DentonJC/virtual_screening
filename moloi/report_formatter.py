@@ -12,13 +12,13 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
 from sklearn.metrics import roc_auc_score, roc_curve
-
+from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
 
-def create_report(logger, path, accuracy_test, accuracy_train, rec, auc_train, auc_test, auc_val, f1, timer, rparams, tstart, history, random_state, options, x_train, y_train, x_test, y_test, x_val, y_val, pred_train, pred_test, pred_val, score):
+def create_report(logger, path, accuracy_test, accuracy_train, rec, auc_train, auc_test, auc_val, train_proba, test_proba, val_proba, f1, timer, rparams, tstart, history, random_state, options, x_train, y_train, x_test, y_test, x_val, y_val, pred_train, pred_test, pred_val, score):
     """
     Create .pdf with information about experiment.
     """
@@ -46,11 +46,14 @@ def create_report(logger, path, accuracy_test, accuracy_train, rec, auc_train, a
     cmd = cmd.replace(",", " ")
     cmd = cmd.replace("'", "")
     
+    if type(options.n_cv) is not int:
+        options.n_cv = "indices"
     options = str(options)
     options = options.replace("Namespace(", '<br />\n')
     options = options.replace(", ", '<br />\n')
     options = options.replace(",\t", '<br />\n')
     options = options.replace(")", "")
+    
 
     ptext = '<font size=12> <b> Command line input: </b> %s </font>' % cmd
     Report.append(Paragraph(ptext, styles["Justify"]))
@@ -92,20 +95,21 @@ def create_report(logger, path, accuracy_test, accuracy_train, rec, auc_train, a
     ptext = '<font size=12> <b> Host name: </b> %s </font>' % socket.gethostname()
     Report.append(Paragraph(ptext, styles["Justify"]))
     Report.append(Spacer(1, 12))
-
+    
     try:
         plot_history(history, path)
-        im = Image(path+'img/history.png')
-        Report.append(im)
     except:
-        logger.info("Can't create history plot for this experiment")
+        logger.info("Can not create history plot for this experiment")
+
 
     try:
-        plot_auc(pred_train, pred_test, pred_val, y_train, y_test, y_val, path, auc_train, auc_test, auc_val)
+        plot_auc(x_train, x_test, x_val, y_train, y_test, y_val, path, train_proba, test_proba, val_proba, auc_train, auc_test, auc_val)
         im = Image(path+'img/auc.png')
         Report.append(im)
     except:
-        logger.info("Can't create AUC plot for this experiment")
+        logger.info("Can't plot ROC AUC for this experiment")
+        pass
+
     
     try:
         plot_grid_search(score, path)
@@ -120,6 +124,7 @@ def create_report(logger, path, accuracy_test, accuracy_train, rec, auc_train, a
     #     y_train = [item for sublist in y_train for item in sublist]
     #     plot_TSNE(x_train, y_train, path)
 
+    
     doc.build(Report)
     logger.info("Report complete, you can see it in the results folder")
 
@@ -128,42 +133,42 @@ def plot_history(history, path):
     """
     Create plot of model fitting history and save in path.
     """
-    plt.figure(1)
-    plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=1)
-    plt.subplot(211)
-
     keys = list(history.history.keys())
-
-    plt.plot(history.history[keys[3]], color='r')
-    plt.plot(history.history[keys[1]], color='g')
-    plt.title('model accuracy')
-    plt.ylabel('accuracy')
-    plt.xlabel('epoch')
-    plt.legend(['train', 'validate'], loc='upper left')
-    plt.subplot(212)
-    plt.plot(history.history[keys[2]], color='r')
-    plt.plot(history.history[keys[0]], color='g')
-    plt.title('model loss')
-    plt.ylabel('loss')
-    plt.xlabel('epoch')
-    plt.legend(['train', 'validate'], loc='upper left')
+    
+    plt.figure(figsize=(10, 4*len(keys)))
+    plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=0.2)
+    
+    colors = ['r','g','b']
+    for i in range(len(keys)):
+        plt.subplot(len(keys)*100 + 10 + i + 1)
+        plt.plot(history.history[keys[i]], color=colors[i%len(colors)])
+        plt.title(str(keys[i]))
+        #plt.ylabel(str(keys[i]))
+        #plt.xlabel('epoch')
     plt.savefig(path+'img/history.png')
     plt.clf()
     plt.cla()
     plt.close()
 
 
-def plot_auc(pred_train, pred_test, pred_val, y_train, y_test, y_val, path, auc_train, auc_test, auc_val):
+def plot_auc(x_train, x_test, x_val, y_train, y_test, y_val, path, train_proba, test_proba, val_proba, auc_train, auc_test, auc_val):
     """
     https://www.wildcardconsulting.dk/useful-information/a-deep-tox21-neural-network-with-rdkit-and-keras/
     """ 
-    fpr_train, tpr_train, _ =roc_curve(y_train, pred_train, pos_label=1)
     try:
-        fpr_val, tpr_val, _ = roc_curve(y_val, pred_val, pos_label=1)
+        train_proba = train_proba[:,1]
+        val_proba = val_proba[:,1]
+        test_proba = test_proba[:,1]
     except:
         pass
-    fpr_test, tpr_test, _ = roc_curve(y_test, pred_test, pos_label=1)
- 
+    
+    fpr_train, tpr_train, _ =roc_curve(y_train, train_proba, pos_label=1)
+    try:
+        fpr_val, tpr_val, _ = roc_curve(y_val, val_proba, pos_label=1)
+    except:
+        pass
+    fpr_test, tpr_test, _ = roc_curve(y_test, test_proba, pos_label=1)
+
     plt.figure()
     lw = 2
     
@@ -215,35 +220,41 @@ def plot_grid_search(score, path):
         plt.close()
 
 
-def plot_TSNE(features, labels, path):
-    label = sorted(list(set(labels)))
-
-    print("t-SNE 2D fitting")
-    tsne2 = TSNE(n_components=2, random_state=0)
-    X2 = tsne2.fit_transform(features)
-
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-    for l in label:
-        ax.scatter(X2[labels==l, 0], X2[labels==l, 1])
+def plot_TSNE(x, y, path, n_components=2):
+    print("t-SNE fitting")
+    tsne = TSNE(n_components=n_components)
+    coordinates = tsne.fit_transform(x)
+    
+    plt.scatter(coordinates[np.where(y==0)[0],0],
+            coordinates[np.where(y==0)[0],1],
+            c="red", s=50, alpha=0.4, label="inactive")
+    plt.scatter(coordinates[np.where(y==1)[0],0],
+            coordinates[np.where(y==1)[0],1],
+            c="blue", s=50, alpha=0.4, label="active")
 
     plt.title("t-SNE")
-    plt.savefig(path+'img/t-SNE 2D.png', dpi=1000)
+    plt.legend()
+    plt.savefig(path+'img/t-SNE.png', dpi=1000)
     plt.clf()
     plt.cla()
     plt.close()
+    
 
-    print("t-SNE 3D fitting")
-    tsne3 = TSNE(n_components=3, random_state=0)
-    X3 = tsne3.fit_transform(features)
-
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-    for l in label:
-        ax.scatter(X3[labels==l, 0], X3[labels==l, 1], X3[labels==l, 2])
+def plot_PCA(x, y, path, n_components=2):
+    print("PCA fitting")
+    pca = PCA(n_components=n_components)
+    coordinates = pca.fit_transform(x)
+    
+    plt.scatter(coordinates[np.where(y==0)[0],0],
+            coordinates[np.where(y==0)[0],1],
+            c="red", s=50, alpha=0.4, label="inactive")
+    plt.scatter(coordinates[np.where(y==1)[0],0],
+            coordinates[np.where(y==1)[0],1],
+            c="blue", s=50, alpha=0.4, label="active")
 
     plt.title("t-SNE")
-    plt.savefig(path+'img/t-SNE 3D.png', dpi=1000)
+    plt.legend()
+    plt.savefig(path+'img/t-SNE.png', dpi=1000)
     plt.clf()
     plt.cla()
     plt.close()
@@ -257,7 +268,7 @@ if __name__ == "__main__":
     logger.setLevel(logging.INFO)
     formatter = logging.Formatter('%(asctime)s [%(name)s] %(levelname)s: %(message)s')
 
-    path = os.path.dirname(os.path.realpath(__file__)).replace("/src", "") + "/tmp"
+    path = os.path.dirname(os.path.realpath(__file__)).replace("/moloi", "") + "/tmp"
     accuracy_test = 0
     accuracy_train = 0
     rec = auc = f1 = [0,0]
@@ -276,9 +287,9 @@ if __name__ == "__main__":
     y_test = np.array([1, 0, 0, 0, 0, 0, 0, 1, 0, 1])
     y_val = np.array([1, 0, 1, 1, 0, 0, 0, 1, 0, 0])
     
-    x_train = np.array([1, 1, 1, 1, 0, 0, 0, 1, 0, 1])
-    x_test = np.array([1, 0, 0, 0, 0, 0, 0, 1, 0, 1])
-    x_val = np.array([1, 0, 1, 1, 0, 0, 0, 1, 0, 0])
+    x_train = np.array([[1, 1, 1, 1, 0, 0, 0, 1, 0, 1], [1, 0, 0, 0, 0, 0, 0, 1, 0, 1]])
+    x_test = np.array([[1, 0, 0, 0, 0, 0, 0, 1, 0, 1], [1, 0, 0, 0, 0, 0, 0, 1, 0, 1]])
+    x_val = np.array([[1, 0, 1, 1, 0, 0, 0, 1, 0, 0], [1, 0, 0, 0, 0, 0, 0, 1, 0, 1]])
     
     create_report(logger, path, accuracy_test, accuracy_train, rec, auc, f1, timer, rparams, tstart, history, random_state, options, 
                 x_train, y_train, x_test, y_test, x_val, y_val, pred_train, pred_test, pred_val, score)

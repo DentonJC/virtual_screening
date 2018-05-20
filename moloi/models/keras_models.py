@@ -10,17 +10,13 @@ from keras.layers import Dense, Dropout, Input, Embedding, Merge, TimeDistribute
 from keras.layers import GRU as GRU_layer
 from keras.layers import LSTM as LSTM_layer
 from keras.callbacks import ModelCheckpoint, EarlyStopping, CSVLogger
+from keras.regularizers import l2 as l2_reg
 
 
-def create_callbacks(output, patience, section):
-    if not os.path.exists(output):
-        os.makedirs(output)
-    if not os.path.exists(output+"results/*"):
-        os.makedirs(output+"results/")
-            
+def create_callbacks(output, patience, section):           
     filepath = output + "results/weights-improvement.hdf5"
     ## error when just acc
-    #checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='min')
+    checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='min')
     stopping = EarlyStopping(monitor='val_acc', min_delta=0, patience=patience, verbose=0, mode='auto')
 
     csv_logger = CSVLogger(output + 'history_' + os.path.basename(sys.argv[0]).replace(".py", "") +
@@ -188,6 +184,16 @@ def GRU(input_shape, output_shape, input_length, embedding_length=64, neurons=25
     
     model.add(Dense(1, activation=activation))
     model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
+    return model
+    
+
+def Logreg(input_shape, output_shape, l2=0.0, lr=0.1, momentum=0.9, metrics=['binary_crossentropy', 'accuracy'], loss='binary_crossentropy'):
+    """
+    Logistic regression model definition
+    """
+    model = Sequential()
+    model.add(Dense(input_shape=(input_shape, ), activation="sigmoid", kernel_regularizer=l2_reg(l2), units=output_shape))
+    model.compile(loss=loss, optimizer=SGD(lr=lr, momentum=momentum), metrics=metrics)
     return model
 
 
