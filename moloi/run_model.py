@@ -16,7 +16,6 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier, IsolationForest 
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV, PredefinedSplit
-from dask_ml.model_selection import RandomizedSearchCV as dRandomizedSearchCV
 from keras.wrappers.scikit_learn import KerasClassifier
 from keras.models import model_from_json
 from moloi.main import read_model_config, cv_splits_save, cv_splits_load, evaluate, start_log, make_scoring
@@ -150,13 +149,13 @@ def get_options():
     
 def script(args_list, random_state=False, p_rparams=False, verbose=0):
     time_start = datetime.now()
-
     # processing parameters
     args_list= list(map(str, args_list))
     if len(sys.argv) > 1:
         options = get_options().parse_args()
     else:
         options = get_options().parse_args(args_list)
+    targets = options.targets
     if options.targets is not list:
         options.targets = [options.targets]
     descriptors = options.descriptors
@@ -192,7 +191,16 @@ def script(args_list, random_state=False, p_rparams=False, verbose=0):
                                                                                                 options.targets, random_state, options.split_type, options.split_s, 
                                                                                                 verbose, options.descriptors, options.n_jobs)
 
-    if len(np.unique(y_train)) != 2 or len(np.unique(y_test)) != 2 or len(np.unique(y_val)) != 2 and "roc_auc" in options.metric:
+    if len(np.unique(y_train)) == 1:
+        logger.error("Multiclass data: only one class in y_train")
+        sys.exit(0)
+    if len(np.unique(y_test)) == 1:
+        logger.error("Multiclass data: only one class in y_test")
+        sys.exit(0)
+    if len(np.unique(y_val)) == 1:
+        logger.error("Multiclass data: only one class in y_val")
+        sys.exit(0)
+    if len(np.unique(y_train)) > 2 or len(np.unique(y_test)) > 2 or len(np.unique(y_val)) > 2 and "roc_auc" in options.metric:
         logger.error("Multiclass data: can not use ROC AUC metric")
         sys.exit(0)
 
@@ -200,6 +208,7 @@ def script(args_list, random_state=False, p_rparams=False, verbose=0):
     model_loaded = False
 
     if options.load_model:
+        logger.info("Model loaded") 
         model, model_loaded = load_model(options.load_model, logger)
 
     if options.gridsearch and not p_rparams and not model_loaded:
@@ -207,13 +216,13 @@ def script(args_list, random_state=False, p_rparams=False, verbose=0):
         #scoring = {'accuracy': 'accuracy', 'MCC': make_scorer(matthews_corrcoef)}
         scoring = make_scoring(options.metric)
         ####
-        loaded_cv = cv_splits_load(options.split_type, root_address+options.data_config)
+        loaded_cv = cv_splits_load(options.split_type, root_address+options.data_config, targets)
         if loaded_cv is False:
             options.n_cv = create_cv(smiles, options.split_type, options.n_cv, random_state)
         else:
             options.n_cv = eval(loaded_cv)
 
-        cv_splits_save(options.split_type, options.n_cv, root_address+options.data_config)
+        cv_splits_save(options.split_type, options.n_cv, root_address+options.data_config, targets)
         f = open(options.output+'n_cv', 'w')
         f.write(str(options.n_cv))
         f.close()
@@ -326,9 +335,9 @@ def script(args_list, random_state=False, p_rparams=False, verbose=0):
         logger.info("Model name is not found or xgboost import error.")
         sys.exit(0)
 
+    
     logger.info("MODEL FIT")
     try:
-        print("NORMAL FITTING")
         callbacks = create_callbacks(options.output, options.patience, options.section)
         history = model.fit(x_train, np.ravel(y_train), batch_size=rparams.get("batch_size"), epochs=epochs, shuffle=False, verbose=verbose, callbacks=callbacks, validation_data=(x_val, y_val))
     except:

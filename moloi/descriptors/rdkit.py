@@ -78,18 +78,28 @@ def smiles_to_rdkit(x):
 
             if ret != 0:
                 missing.append(key)
+                features_index.append(key)
+                features_values.append(np.asarray([0]*200))
             else:
                 features_index.append(key)
                 features_values.append(_rdkit_transform(m))
         except:
             missing.append(key)
+            features_index.append(key)
+            features_values.append(np.asarray([0]*200))
 
     print("Serialized {} out of {} compounds to sdf".format(len(x) - len(missing), len(x)))
 
     # Featurize and fill with NaNs
-    features = pd.DataFrame(features_values, index=features_index)
+    #print(features_values)
+    #try:
+    #    print(len(features_values))
+    #except:
+    #    print(features_values.shape)
+    features_values = np.asarray(features_values)
+    features = pd.DataFrame(features_values)#, index=features_index)
     features.columns = DESCRIPTORS.keys()
-    features.reindex(features.index.union(missing))
+    #features.reindex(features.index.union(missing))
 
     # if len(set(features.index)) != len(x):
     #    print("Missed compounds")

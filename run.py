@@ -64,26 +64,27 @@ def main(experiments_file, common_gridsearch, random_state, result_cols, keys, p
         
         command.append("-e")
         command.append(experiments_file)
-        
+
         for j in range(int(((table.shape[1] - len(params)) / len(result_cols)))):
             accuracy_test = accuracy_train = rec = auc = f1 = '-'
-            command.append("-t")
-            command.append(int(j))
-            print(command)
+            final_command = command + ["-t"] + [int(j)]
+            print(final_command)
             if isnan(table.iloc[i, j*len(result_cols) + len(params)]):    
                 if not common_gridsearch:
                     rparams = False
-
-                accuracy_test, accuracy_train, rec, auc, auc_val, f1, rparams, model_address = script(command, random_state, rparams, verbose)
+                accuracy_test, accuracy_train, rec, auc, auc_val, f1, rparams, model_address = script(final_command, random_state, rparams, verbose)
                 accuracy_test, accuracy_train, rec, auc, auc_val, f1 = round(accuracy_test, 4), round(accuracy_train, 4), (round(rec[0], 4), round(rec[1], 4)), round(auc, 4), round(auc_val, 4), (round(f1[0], 4), round(f1[1], 4))
                 gparams = str(rparams)
                 table = pd.read_csv(experiments_file)
 
                 for p, r in enumerate(result_cols):
                     table.iloc[i, j * len(result_cols) + len(params) + p] = eval(r)
-                
+
                 if model_address:
                     table.iloc[i, 5] = str(model_address) # set on Load model column
+                    if "--load_model" not in command:
+                        command.append("--load_model")
+                        command.append(model_address)
                 
                 table.to_csv(experiments_file, index=False)
 
@@ -93,7 +94,7 @@ if __name__ == "__main__":
             "--n_jobs", "-p", "-g", "--n_iter", "--metric", "--split_type", "--split_s", '--select_model', '--data_config', '--section']
     params = ["Load model", "Output", "Model config", "Descriptors", "n_bits", "n_cv", "n_jobs", "Patience", 
             "Gridsearch", "n_iter", "Metric", "Split type", "Split size", 'Model', 'Data config', 'Section']
-    result_cols = ['rec[0]', 'rec[1]', 'auc', 'auc_val', 'gparams']
+    result_cols = ['rec[0]', 'rec[1]', 'auc', 'auc_val']#, 'gparams']
     common_gridsearch = True
     random_state = 1337
     experiments_file = 'etc/experiments_bace.csv'

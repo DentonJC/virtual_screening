@@ -101,7 +101,7 @@ def read_data_config(config_path, descriptors, n_bits, split_type=False):
     return dataset_train, dataset_test, dataset_val, labels_train, labels_test, labels_val, maccs_train, maccs_test, maccs_val, morgan_train, morgan_test, morgan_val, spectrophore_train, spectrophore_test, spectrophore_val, mordred_train, mordred_test, mordred_val, rdkit_train, rdkit_test, rdkit_val
 
 
-def cv_splits_load(split_type, data_config):
+def cv_splits_load(split_type, data_config, targets):
     loaded_cv = False
     cv_config = ConfigParser.ConfigParser()
     cv_config.read(data_config)
@@ -111,21 +111,21 @@ def cv_splits_load(split_type, data_config):
     if split_type not in cv_config.sections():
         split_type = 'DEFAULT'
     
-    if cv_config.has_option(split_type, 'cv'): loaded_cv = cv_config.get(split_type, 'cv')   
+    if cv_config.has_option(split_type, 'cv_' + str(targets)): loaded_cv = cv_config.get(split_type, 'cv_' + str(targets))  
     return loaded_cv
     
     
-def cv_splits_save(split_type, n_cv, data_config):
+def cv_splits_save(split_type, n_cv, data_config, targets):
     sv_config = ConfigParser.ConfigParser()
 
     sv_config.read(data_config)
     try:
-        sv_config[split_type]["cv"] = str(n_cv)
+        sv_config[split_type]['cv_' + str(targets)] = str(n_cv)
     except:
         with open(data_config, "a") as ini:
             ini.write('[' + split_type + ']')
         sv_config.read(data_config)
-        sv_config[split_type]["cv"] = str(n_cv)
+        sv_config[split_type]['cv_' + str(targets)] = str(n_cv)
     with open(data_config, 'w') as configfile:
         sv_config.write(configfile)
 

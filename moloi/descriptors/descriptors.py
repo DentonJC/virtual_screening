@@ -16,6 +16,10 @@ def descriptor_rdkit(logger, smiles, verbose, n_jobs):
     logger.info("RDKit data extraction")
     if n_jobs == -1:
         n_jobs = multiprocessing.cpu_count()
+        
+    if len(smiles) < n_jobs:
+        n_jobs = len(smiles)
+
     physic = np.array_split(pd.Series(smiles), n_jobs)
     parallel = []
     parallel.append(Parallel(n_jobs=n_jobs, verbose=verbose)(delayed(smiles_to_rdkit)(pd.Series(p)) for (p) in physic))
@@ -35,6 +39,9 @@ def descriptor_mordred(logger, smiles, verbose, n_jobs):
     logger.info("Mordred data extraction")
     if n_jobs == -1:
         n_jobs = multiprocessing.cpu_count()
+        
+    if len(smiles) < n_jobs:
+        n_jobs = len(smiles)
     physic = np.array_split(pd.Series(smiles), n_jobs)
     parallel = []
     parallel.append(Parallel(n_jobs=n_jobs, verbose=verbose)(delayed(smiles_to_mordred)(pd.Series(p)) for (p) in physic))
