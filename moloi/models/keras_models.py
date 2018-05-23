@@ -13,15 +13,14 @@ from keras.callbacks import ModelCheckpoint, EarlyStopping, CSVLogger
 from keras.regularizers import l2 as l2_reg
 
 
-def create_callbacks(output, patience, section):           
+def create_callbacks(output, patience, section, monitor='val_acc', mode='max'):           
     filepath = output + "results/weights-improvement.hdf5"
-    ## error when just acc
-    checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='min')
-    stopping = EarlyStopping(monitor='val_acc', min_delta=0, patience=patience, verbose=0, mode='auto')
-
-    csv_logger = CSVLogger(output + 'history_' + os.path.basename(sys.argv[0]).replace(".py", "") +
-                           "_" + str(section) + '.csv', append=True, separator=';')
-    callbacks_list = [stopping, csv_logger] #checkpoint
+    path = output + 'history_' + os.path.basename(sys.argv[0]).replace(".py", "") + "_" + str(section) + '.csv'
+    
+    checkpoint = ModelCheckpoint(filepath, monitor=monitor, verbose=1, save_best_only=True, mode=mode)
+    stopping = EarlyStopping(monitor=monitor, min_delta=0.00001, patience=patience, verbose=0, mode=mode)
+    csv_logger = CSVLogger(path, append=True, separator=';')
+    callbacks_list = [stopping, csv_logger, checkpoint]
     return callbacks_list
 
 
@@ -42,34 +41,19 @@ def compile_optimizer(optimizer, learning_rate=0.1, momentum=0.1):
         return SGD(lr=learning_rate, momentum=momentum)
 
 
-class residual_block(Wrapper):
-    def build(self, input_shape):
-        output_shape = input_shape
-        if not self.layer.built:
-            self.layer.build(input_shape)
-            self.layer.built = True
-        self.input_spec = [InputSpec(shape=input_shape)]
-        super(residual_block, self).build()
-
-    def call(self, x, mask=None):
-        layer_output = self.layer.call(x, mask)
-        output = keras.layers.Add()([x, layer_output])
-        return output
-
-
-def Perceptron(input_shape, output_shape, activation='softmax', loss='binary_crossentropy', metrics=['accuracy'], optimizer='Adam', learning_rate=0.01, momentum=0, init_mode='uniform'):
+def Logreg(input_shape, output_shape, l2=0.0, lr=0.1, momentum=0.9, metrics=['binary_crossentropy', 'accuracy'], loss='binary_crossentropy'):
     """
     Logistic regression model definition
     """
     model = Sequential()
-    model.add(Dense(input_shape=(input_shape, ), kernel_initializer=init_mode, activation=activation, units=output_shape))
-    optimizer = compile_optimizer(optimizer, learning_rate, momentum)
-    model.compile(loss=loss, metrics=metrics, optimizer=optimizer)
+    model.add(Dense(input_shape=(input_shape, ), activation="sigmoid", kernel_regularizer=l2_reg(l2), units=output_shape))
+    model.compile(loss=loss, optimizer=SGD(lr=lr, momentum=momentum), metrics=metrics)
     return model
-    
-def MultilayerPerceptron(input_shape, output_shape, activation_1='softmax', activation_2='softmax', loss='binary_crossentropy', metrics=['accuracy'], optimizer='Adam', learning_rate=0.01, momentum=0, init_mode='uniform', layers=3, neurons_1=10, neurons_2=10):
+
+
+def MultilayerPerceptron(input_shape, output_shape, activation_1='sigmoid', activation_2='sigmoid', loss='binary_crossentropy', metrics=['accuracy'], optimizer='Adam', learning_rate=0.01, momentum=0, init_mode='uniform', layers=3, neurons_1=10, neurons_2=10):
     """
-    Logistic regression model definition
+    Multilayer perceptron model definition
     """
     model = Sequential()
     model.add(Dense(input_shape=(input_shape, ), kernel_initializer=init_mode, activation=activation_1, units=neurons_1))
@@ -83,38 +67,25 @@ def MultilayerPerceptron(input_shape, output_shape, activation_1='softmax', acti
     return model
 
 
-def Residual(input_shape, output_shape, activation_0='relu', activation_1='softmax', activation_2='sigmoid', loss='binary_crossentropy',
-                         metrics=['accuracy'], optimizer='Adam', learning_rate=0.01, momentum=0, init_mode='uniform', dropout=0, layers=3):
-    """
-    Fully connected residual model definition
-    """
-    inp = Input(shape=(input_shape, ))
-    #embedded = Embedding(input_shape, input_shape)(inp)
-
-    def get_model():
-        inputs = Input(shape=(input_shape, ))
-        x = Dense(input_shape, activation=activation_0, kernel_initializer=init_mode)(inputs)
-        x = Dense(input_shape, activation=activation_0, kernel_initializer=init_mode)(x)
-        predictions = Dense(units=input_shape, activation=activation_1, kernel_initializer=init_mode)(x)
-        return Model(inputs, predictions)
-
-    resnet = residual_block(get_model())(inp)
-    #resnet = residual_block(get_model())(embedded)
-    for _ in range(layers):
-        resnet = residual_block(get_model())(resnet)
-
-    # maxpool = Lambda(lambda x: K.max(x, axis=1, keepdims=False), output_shape=lambda x: (x[0], x[2]))(resnet)
-    dropout = Dropout(dropout)(resnet)
-
-    output = Dense(output_shape, activation=activation_2, kernel_initializer=init_mode)(dropout)
-    mod = Model(inputs=inp, outputs=output)
-    
-    model = Sequential()
-    model.add(mod)
-    
-    optimizer = compile_optimizer(optimizer, learning_rate, momentum)
-
-    model.compile(optimizer=optimizer, loss=loss, metrics=metrics)
+def FCNN(input_shape, output_shape, inference=False, input_dropout=0.0, l2=0.0, hidden_dims=[100, 100], activation="relu", bn=True, dropouts=[0.3, 0.3]):
+    input = Input(shape=(input_shape,))
+    x = Dropout(input_dropout)(input, training=not inference)
+    for h_id, (hd, drop) in enumerate(zip(hidden_dims, dropouts)):
+        x = Dense(hd, name="dense_" + str(h_id), kernel_regularizer=l2_reg(l2))(x)
+        if bn:
+            x = BatchNormalization(name="bn_" + str(h_id))(x)
+        x = Dropout(drop, name="drop_" + str(h_id))(x) #, training=not inference)
+        x = Activation(activation, name="act_" + str(h_id))(x)
+    # TODO: Refactor
+    if output_shape == 1:
+        output = Dense(input_shape=(input_shape,), activation="sigmoid", units=1, name="final_softmax",
+            kernel_regularizer=l2_reg(l2))(x)
+    else:
+        output = Dense(input_shape=(input_shape,), activation="softmax", units=output_shape, name="final_softmax",
+            kernel_regularizer=l2_reg(l2))(x)
+    model = Model(inputs=[input], outputs=[output])
+    model.summary()
+    setattr(model, "steerable_variables", {})
     return model
 
 
@@ -126,75 +97,6 @@ def LSTM(input_shape, output_shape, input_length, embedding_length=64, neurons=2
     model.add(Dense(output_shape, activation=activation))
     model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
     return model
-    
-
-#X shape=(number_of_documents, n_rows, n_cols)
-#Y shape=(number_of_documents, num_categories)
-def LSTM2(input_shape, output_shape, input_length, embedding_length=64, neurons=256, activation='softmax', loss='binary_crossentropy', metrics=['accuracy'], optimizer='Adam'):
-    model = Sequential()
-
-    model.add(LSTM(int(embedding_length), input_shape=input_shape)) #(n_rows, n_cols)))
-    model.add(Dropout(0.3))
-    model.add(Dense(output_shape))
-    model.add(Activation(activation))
-
-    model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
-
-
-def MLSTM(input_shape, output_shape, batch_size, layers=3, neurons_1=256, neurons_2=512, activation='softmax', loss='binary_crossentropy', metrics=['accuracy'], optimizer='Adam'):
-    model = Sequential()
-    model.add(LSTM(neurons_1, return_sequences=True, stateful=True, 
-               batch_input_shape=(batch_size, 1, input_shape)))
-    for _ in range(layers):
-        model.add(LSTM(neurons_2, return_sequences=True, stateful=True))
-    model.add(LSTM(neurons_1, stateful=True))
-
-    model.add(Dense(output_shape, activation=activation))
-    model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
-    return model
-    
-    
-def RNN(input_shape, output_shape, input_length, embedding_length=64, neurons=256, activation='softmax', loss='binary_crossentropy', metrics=['accuracy'], optimizer='Adam'):
-    model = Sequential()
-    model.add(Embedding(input_shape, embedding_length, input_length=input_length))
-    model.add(SimpleRNN(neurons))
-    
-    model.add(Dense(output_shape, activation=activation))
-    model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
-    return model
-
-
-def MRNN(input_shape, output_shape, batch_size, layers=3, neurons_1=256, neurons_2=512, activation='softmax', loss='binary_crossentropy', metrics=['accuracy'], optimizer='Adam'):
-    model = Sequential()
-    model.add(SimpleRNN(neurons_1, return_sequences=True, stateful=True, 
-               batch_input_shape=(batch_size, 1, input_shape)))
-    for _ in range(layers):
-        model.add(SimpleRNN(neurons_2, return_sequences=True, stateful=True))
-    model.add(SimpleRNN(neurons_1, stateful=True))
-
-    model.add(Dense(output_shape, activation=activation))
-    model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
-    return model
-
-
-def GRU(input_shape, output_shape, input_length, embedding_length=64, neurons=256, activation='softmax', loss='binary_crossentropy', metrics=['accuracy'], optimizer='Adam'):
-    model = Sequential()
-    model.add(Embedding(input_shape, embedding_length, input_length=input_length))
-    model.add(GRU_layer(neurons))
-    
-    model.add(Dense(1, activation=activation))
-    model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
-    return model
-    
-
-def Logreg(input_shape, output_shape, l2=0.0, lr=0.1, momentum=0.9, metrics=['binary_crossentropy', 'accuracy'], loss='binary_crossentropy'):
-    """
-    Logistic regression model definition
-    """
-    model = Sequential()
-    model.add(Dense(input_shape=(input_shape, ), activation="sigmoid", kernel_regularizer=l2_reg(l2), units=output_shape))
-    model.compile(loss=loss, optimizer=SGD(lr=lr, momentum=momentum), metrics=metrics)
-    return model
 
 
 if __name__ == "__main__":
@@ -205,22 +107,18 @@ if __name__ == "__main__":
     output_shape = 2
     input_length = 128
     
-    print("Residual")
-    model = Residual(input_shape, output_shape)
-    print(model.summary())
-   
-    print("Perceptron")
-    model = Perceptron(input_shape, output_shape)
+    print("Logreg")
+    model = Logreg(input_shape, output_shape)
     print(model.summary())
     
-    print("RNN")
-    model = RNN(input_shape, output_shape, input_length) 
+    print("MultilayerPerceptron")
+    model = MultilayerPerceptron(input_shape, output_shape)
     print(model.summary())
-        
-    print("GRU")
-    model = GRU(input_shape, output_shape, input_length)  
+    
+    print("FCNN")
+    model = FCNN(input_shape, output_shape)
     print(model.summary())
-        
+
     print("LSTM")
     model = LSTM(input_shape, output_shape, input_length)  
     print(model.summary())

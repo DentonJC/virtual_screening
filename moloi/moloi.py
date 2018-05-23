@@ -3,8 +3,6 @@
 import os
 import sys
 import time
-import pickle
-from sklearn.externals import joblib
 import logging
 import argparse
 import numpy as np
@@ -17,113 +15,15 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier, IsolationForest 
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV, PredefinedSplit
 from keras.wrappers.scikit_learn import KerasClassifier
-from keras.models import model_from_json
-from moloi.main import read_model_config, cv_splits_save, cv_splits_load, evaluate, start_log, make_scoring
-from moloi.data_loader import get_data
-from moloi.report_formatter import plot_grid_search
-from moloi.models.keras_models import Perceptron, Residual, LSTM, MLSTM, RNN, MRNN, GRU, MultilayerPerceptron, Logreg, create_callbacks
-from moloi.splits.scaffold_split import scaffold_split
-from moloi.splits.cluster_split import cluster_split
+from moloi.config_processing import read_model_config, cv_splits_save, cv_splits_load
+from moloi.evaluation import evaluate, make_scoring
+from moloi.splits.cv import create_cv
+from moloi.data_processing import get_data
+from moloi.models.keras_models import FCNN, LSTM, MultilayerPerceptron, Logreg, create_callbacks
+from moloi.model_processing import load_model, save_model
 import xgboost as xgb
 
 
-def load_model(load_model, logger):
-    model_loaded, model = False, False
-    if True:
-    #try:
-        if type(eval(load_model)) is int or type(eval(load_model)) is float:
-            fp = open(os.path.dirname(os.path.realpath(__file__)).replace("/moloi", "") + "/tmp/addresses")
-            for i, line in enumerate(fp):
-                if i == eval(load_model) - 1:
-                    load_model = eval(line)
-                    break
-            fp.close()
-        else:
-            load_model = eval(load_model)
-        if load_model[1] == False:
-            #model = pickle.load(open(options.load_model, 'rb'))
-            model = joblib.load(load_model[0])
-        else:
-            # load json and create model
-            json_file = open(load_model[0], 'r')
-            loaded_model_json = json_file.read()
-            json_file.close()
-            model = model_from_json(loaded_model_json)
-            # load weights into new model
-            model.load_weights(load_model[1])
-            compile_params = [line.rstrip('\n') for line in open(load_model[2])]
-            model.compile(loss=compile_params[0], metrics=eval(compile_params[1]), optimizer=compile_params[2])
-        model_loaded = True
-        logger.info("Model loaded")
-    #except:
-    #    model_loaded = False
-    #    logger.info("Model not loaded")
-    return model, model_loaded
-
-    
-def save_model(model, path, logger):
-    model_address = False
-    try:
-        # pickle.dump(model, open(options.output+"model.sav", 'wb'))
-        joblib.dump(model, path+"model.sav")
-        model_address = [path+"model.sav", False, False]
-        f = open(path+'addresses', 'w')
-        f.write(str(model_address))
-        f.close()
-        
-        f = open(os.path.dirname(os.path.realpath(__file__)).replace("/moloi", "") + "/tmp/addresses", 'a')
-        f.write(str(model_address)+'\n')
-        f.close()
-        model_address = sum(1 for line in open(os.path.dirname(os.path.realpath(__file__)).replace("/moloi", "") + "/tmp/addresses"))
-
-    except TypeError:
-        try:
-            # serialize model to JSON
-            model_json = model.to_json()
-            with open(path+"model.json", "w") as json_file:
-                json_file.write(model_json)
-            # serialize weights to HDF5
-            model.save_weights(path+"model.h5")
-
-            loss=rparams.get("loss", 'binary_crossentropy')
-            metrics=rparams.get("metrics", ['accuracy'])
-            optimizer=rparams.get("optimizer", 'Adam')
-            f = open(path+'compile', 'w')
-            f.write(loss+'\n'+str(metrics)+'\n'+optimizer)
-            f.close()
-            model_address = [path+"model.json", path+"model.h5", path+'compile']
-            f = open(path+'addresses', 'w')
-            f.write(str(model_address))
-            f.close()
-
-            f = open(os.path.dirname(os.path.realpath(__file__)).replace("/moloi", "") + "/tmp/addresses", 'a')
-            f.write(str(model_address)+'\n')
-            f.close()
-            model_address = sum(1 for line in open(os.path.dirname(os.path.realpath(__file__)).replace("/moloi", "") + "/tmp/addresses"))
-        except:
-            logger.info("Can not save this model")
-    return model_address
-            
-
-def create_cv(smiles, split_type, n_cv, random_state):
-    if split_type == "scaffold":
-        count = n_cv
-        n_cv = [([], []) for _ in range(count)]
-        for i in range(count):
-            train, test = scaffold_split(smiles, frac_train = 1 - ((len(smiles) / count) / (len(smiles)/100))/100, seed=random_state)
-            n_cv[i][0].append(train)
-            n_cv[i][1].append(test)
-    
-    if split_type == "cluster":
-        count = n_cv        
-        n_cv = [([], []) for _ in range(count)]
-        for i in range(count):
-            train, test = cluster_split(smiles, test_cluster_id=i, n_splits=count)
-            n_cv[i][0].append(train)
-            n_cv[i][1].append(test)
-    return n_cv
-
-    
 def get_options():
     parser = argparse.ArgumentParser(prog="model data section")
     parser.add_argument('--select_model', help='name of the model, select from list in README'),
@@ -147,7 +47,7 @@ def get_options():
     return parser
 
     
-def script(args_list, random_state=False, p_rparams=False, verbose=0):
+def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger_flag=False):
     time_start = datetime.now()
     # processing parameters
     args_list= list(map(str, args_list))
@@ -178,12 +78,19 @@ def script(args_list, random_state=False, p_rparams=False, verbose=0):
     handler.setFormatter(formatter)
     logger.addHandler(handler)
 
-    # writing log to terminal (for stdout `stream=sys.stdout`)
-    handler = logging.StreamHandler()
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
+    if not logger_flag:
+        # writing log to terminal (for stdout `stream=sys.stdout`)
+        handler = logging.StreamHandler()
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
 
-    start_log(logger, options.gridsearch, options.n_bits, options.model_config, options.section, options.descriptors)
+    logger.info("Script adderss: %s", str(sys.argv[0]))
+    logger.info("Descriptors: %s", str(options.descriptors))
+    logger.info("n_bits: %s", str(options.n_bits))
+    logger.info("Config file: %s", str(options.model_config))
+    logger.info("Section: %s", str(options.section))
+    if options.gridsearch:
+        logger.info("Grid search")
     # load data and configs
     root_address = os.path.dirname(os.path.realpath(__file__)).replace("/moloi", "")
     epochs, rparams, gparams = read_model_config(root_address+options.model_config, options.section)
@@ -206,9 +113,9 @@ def script(args_list, random_state=False, p_rparams=False, verbose=0):
 
     history = False
     model_loaded = False
+    grid = False
 
     if options.load_model:
-        logger.info("Model loaded") 
         model, model_loaded = load_model(options.load_model, logger)
 
     if options.gridsearch and not p_rparams and not model_loaded:
@@ -218,7 +125,18 @@ def script(args_list, random_state=False, p_rparams=False, verbose=0):
         ####
         loaded_cv = cv_splits_load(options.split_type, root_address+options.data_config, targets)
         if loaded_cv is False:
-            options.n_cv = create_cv(smiles, options.split_type, options.n_cv, random_state)
+            for i in range(10):
+                count = 0
+                options.n_cv = create_cv(smiles, options.split_type, options.n_cv, random_state)
+                for j in options.n_cv:
+                    if len(np.unique(j)) > 1:
+                        count += 1
+                if count == len(options.n_cv):
+                    break
+            if count != len(options.n_cv):
+                logger.info("Can not create a good split cv. Try another random_seed or check the dataset.")
+                sys.exit(0)
+
         else:
             options.n_cv = eval(loaded_cv)
 
@@ -270,18 +188,21 @@ def script(args_list, random_state=False, p_rparams=False, verbose=0):
         elif options.select_model == "regression":
             search_model = KerasClassifier(build_fn=Logreg, input_shape=input_shape, output_shape=output_shape)
             model = RandomizedSearchCV(estimator=search_model, **randomized_params)
-        elif options.select_model == "residual":
-            search_model = KerasClassifier(build_fn=Residual, input_shape=input_shape, output_shape=output_shape)
+        elif options.select_model == "fcnn":
+            search_model = KerasClassifier(build_fn=FCNN, input_shape=input_shape, output_shape=output_shape)
             model = RandomizedSearchCV(estimator=search_model, **randomized_params)                                    
         elif options.select_model == "lstm":
             search_model = KerasClassifier(build_fn=LSTM, input_shape=input_shape, output_shape=output_shape, input_length=x_train.shape[1])
-            model = RandomizedSearchCV(estimator=search_model, **randomized_params)                                    
-        elif options.select_model == "rnn":
-            search_model = KerasClassifier(build_fn=RNN, input_shape=input_shape, output_shape=output_shape, input_length=x_train.shape[1])
-            model = RandomizedSearchCV(estimator=search_model, **randomized_params)        
-        elif options.select_model == "gru":
-            search_model = KerasClassifier(build_fn=GRU, input_shape=input_shape, output_shape=output_shape, input_length=x_train.shape[1])
             model = RandomizedSearchCV(estimator=search_model, **randomized_params)
+        elif options.select_model == "multilayer_perceptron":
+            search_model = KerasClassifier(build_fn=MultilayerPerceptron, input_shape=input_shape, output_shape=output_shape, input_length=x_train.shape[1])
+            model = RandomizedSearchCV(estimator=search_model, **randomized_params)   
+        # elif options.select_model == "rnn":
+        #     search_model = KerasClassifier(build_fn=RNN, input_shape=input_shape, output_shape=output_shape, input_length=x_train.shape[1])
+        #     model = RandomizedSearchCV(estimator=search_model, **randomized_params)        
+        # elif options.select_model == "gru":
+        #     search_model = KerasClassifier(build_fn=GRU, input_shape=input_shape, output_shape=output_shape, input_length=x_train.shape[1])
+        #     model = RandomizedSearchCV(estimator=search_model, **randomized_params)
         else:
             logger.info("Model name is not found.")
             sys.exit(0)
@@ -308,7 +229,8 @@ def script(args_list, random_state=False, p_rparams=False, verbose=0):
 
     if p_rparams:
         rparams = p_rparams
-    elif options.select_model == "logreg":
+    
+    if options.select_model == "logreg":
         model = LogisticRegression(**rparams)
     elif options.select_model == "knn":
         model = KNeighborsClassifier(**rparams)
@@ -321,24 +243,30 @@ def script(args_list, random_state=False, p_rparams=False, verbose=0):
     elif options.select_model == "if":
         model = IsolationForest(**rparams)
 
-    elif options.select_model == "residual":
-        model = Residual(input_shape, output_shape, **rparams)
+    elif options.select_model == "fcnn":
+        model = FCNN(input_shape, output_shape, **rparams)
     elif options.select_model == "regression":
         model = Logreg(input_shape, output_shape, **rparams)
-    elif options.select_model == "rnn":
-        model = RNN(input_shape, output_shape, **rparams)
-    elif options.select_model == "gru":
-        model = GRU(input_shape, output_shape, **rparams)
+    elif options.select_model == "multilayer_perceptron":
+        model = MultilayerPerceptron(input_shape, output_shape, **rparams)
+    # elif options.select_model == "rnn":
+    #     model = RNN(input_shape, output_shape, **rparams)
+    # elif options.select_model == "gru":
+    #     model = GRU(input_shape, output_shape, **rparams)
     elif options.select_model == "lstm":
         model = LSTM(input_shape, output_shape, **rparams)
     else:
         logger.info("Model name is not found or xgboost import error.")
         sys.exit(0)
 
-    
     logger.info("MODEL FIT")
     try:
-        callbacks = create_callbacks(options.output, options.patience, options.section)
+        monitor = 'binary_crossentropy' # This is a binary classification problem, come on, I don't want to get this from config
+        mode = 'min'
+        #if monitor is False:
+        #    monitor = 'val_acc'
+        #    mode = 'max'
+        callbacks = create_callbacks(options.output, options.patience, options.section, monitor="val_" + monitor, mode=mode)
         history = model.fit(x_train, np.ravel(y_train), batch_size=rparams.get("batch_size"), epochs=epochs, shuffle=False, verbose=verbose, callbacks=callbacks, validation_data=(x_val, y_val))
     except:
         model.fit(x_train, np.ravel(y_train))
@@ -346,7 +274,7 @@ def script(args_list, random_state=False, p_rparams=False, verbose=0):
     logger.info("EVALUATE")
     accuracy_test, accuracy_train, rec, auc, auc_val, f1, path = evaluate(logger, options, random_state, options.output, model, x_train, 
                                                                     x_test, x_val, y_val, y_train, y_test, time_start, rparams, history, 
-                                                                    options.section, options.n_jobs, descriptors)
+                                                                    options.section, options.n_jobs, descriptors, grid)
     model_address = save_model(model, path, logger)
 
     logger.info("Done")

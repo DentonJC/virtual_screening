@@ -10,7 +10,7 @@ import math
 import random
 import pandas as pd
 import numpy as np
-from moloi.run_model import script
+from moloi.moloi import experiment
 # import tensorflow as tf
 
 
@@ -39,6 +39,7 @@ def main(experiments_file, common_gridsearch, random_state, result_cols, keys, p
     experiments_file: string
         path to experiments table
     """
+    logger_flag = False
     if not random_state and not isinstance(random_state, int): random_state = random.randint(1, 100)
     np.random.seed(random_state)
     # tf.set_random_seed(random_state)
@@ -72,8 +73,9 @@ def main(experiments_file, common_gridsearch, random_state, result_cols, keys, p
             if isnan(table.iloc[i, j*len(result_cols) + len(params)]):    
                 if not common_gridsearch:
                     rparams = False
-                accuracy_test, accuracy_train, rec, auc, auc_val, f1, rparams, model_address = script(final_command, random_state, rparams, verbose)
+                accuracy_test, accuracy_train, rec, auc, auc_val, f1, rparams, model_address = experiment(final_command, random_state, rparams, verbose, logger_flag)
                 accuracy_test, accuracy_train, rec, auc, auc_val, f1 = round(accuracy_test, 4), round(accuracy_train, 4), (round(rec[0], 4), round(rec[1], 4)), round(auc, 4), round(auc_val, 4), (round(f1[0], 4), round(f1[1], 4))
+                balanced_accuracy = (rec[0] + rec[1]) / 2
                 gparams = str(rparams)
                 table = pd.read_csv(experiments_file)
 
@@ -82,11 +84,12 @@ def main(experiments_file, common_gridsearch, random_state, result_cols, keys, p
 
                 if model_address:
                     table.iloc[i, 5] = str(model_address) # set on Load model column
-                    if "--load_model" not in command:
+                    if "--load_model" not in command and common_gridsearch:
                         command.append("--load_model")
                         command.append(model_address)
                 
                 table.to_csv(experiments_file, index=False)
+                logger_flag = True
 
 
 if __name__ == "__main__":
@@ -94,7 +97,7 @@ if __name__ == "__main__":
             "--n_jobs", "-p", "-g", "--n_iter", "--metric", "--split_type", "--split_s", '--select_model', '--data_config', '--section']
     params = ["Load model", "Output", "Model config", "Descriptors", "n_bits", "n_cv", "n_jobs", "Patience", 
             "Gridsearch", "n_iter", "Metric", "Split type", "Split size", 'Model', 'Data config', 'Section']
-    result_cols = ['rec[0]', 'rec[1]', 'auc', 'auc_val']#, 'gparams']
+    result_cols = ['balanced_accuracy', 'auc', 'auc_val']#, 'gparams']
     common_gridsearch = True
     random_state = 1337
     experiments_file = 'etc/experiments_bace.csv'
