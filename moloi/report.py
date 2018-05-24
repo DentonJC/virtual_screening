@@ -40,8 +40,9 @@ def create_report(logger, path, accuracy_test, accuracy_train, rec, auc_train, a
     cmd = cmd.replace(",", " ")
     cmd = cmd.replace("'", "")
     
-    if type(options.n_cv) is not int:
-        options.n_cv = "indices"
+    if options:
+        if type(options.n_cv) is not int:
+            options.n_cv = "indices"
     options = str(options)
     options = options.replace("Namespace(", '<br />\n')
     options = options.replace(", ", '<br />\n')

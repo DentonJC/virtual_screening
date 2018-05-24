@@ -39,6 +39,7 @@ def featurization(logger, filename, n_bits, path, data_config, verbose, descript
     # Now it is necessary to calculate both physical descriptors, because they may lose the molecules that will affect the other descriptors and labels.
     missing = []
 
+    logger.info("After processing shapes:")
     if 'mordred' in descriptors or not config.has_option(split_type, 'mordred_'+name):
         mordred_missing, mordred_features = descriptor_mordred(logger, smiles, verbose, n_jobs)
         
@@ -46,6 +47,7 @@ def featurization(logger, filename, n_bits, path, data_config, verbose, descript
         head, _sep, tail = mordred_address.rpartition('/')
         mordred_address = path + "/data/preprocessed/mordred/" + tail
         missing.append(mordred_missing)
+        logger.info("mordred_features shape: %s", str(np.array(mordred_features).shape))
 
     if 'rdkit' in descriptors or not config.has_option(split_type, 'rdkit_'+name):
         rdkit_missing, rdkit_features = descriptor_rdkit(logger, smiles, verbose, n_jobs)
@@ -54,22 +56,30 @@ def featurization(logger, filename, n_bits, path, data_config, verbose, descript
         head, _sep, tail = rdkit_address.rpartition('/')
         rdkit_address = path + "/data/preprocessed/rdkit/" + tail
         missing.append(rdkit_missing)
+        logger.info("rdkit_features shape: %s", str(np.array(rdkit_features).shape))
 
     smiles = np.array(smiles)
     missing = np.array(missing)
     if len(missing) > 1: # if missing in both rdkit and mordred
         missing = np.concatenate([missing[0],missing[1]])
+
+    
+
+    logger.info("After cleaning shapes:")
     
     if 'rdkit' in descriptors or not config.has_option(split_type, 'rdkit_'+name):
         rdkit_features = np.array(rdkit_features)
         rdkit_features = np.delete(rdkit_features, missing, axis=0)
         rdkit_features = pd.DataFrame(rdkit_features)
         rdkit_features.to_csv(rdkit_address+".gz", compression="gzip", sep=",", index=False)
+        logger.info("rdkit_features shape: %s", str(np.array(rdkit_features).shape))
+    
     if 'mordred' in descriptors or not config.has_option(split_type, 'mordred_'+name):
-        mordred_features = np.array(rdkit_features)
+        mordred_features = np.array(mordred_features)
         mordred_features = np.delete(mordred_features, missing, axis=0)
-        mordred_features = pd.DataFrame(rdkit_features)
+        mordred_features = pd.DataFrame(mordred_features)
         mordred_features.to_csv(mordred_address+".gz", compression="gzip", sep=",", index=False)
+        logger.info("mordred_features shape: %s", str(np.array(mordred_features).shape))
 
     smiles = np.delete(smiles, missing)
 
@@ -108,6 +118,7 @@ def featurization(logger, filename, n_bits, path, data_config, verbose, descript
             maccs_address = path + "/data/preprocessed/maccs/" + tail
             maccs_fingerprints = pd.DataFrame(maccs_fingerprints)
             maccs_fingerprints.to_csv(maccs_address+".gz", compression="gzip", sep=",", index=False)
+            logger.info("maccs_fingerprints shape: %s", str(np.array(maccs_fingerprints).shape))
 
     for i in ['MORGAN', 'Morgan', 'morgan', 'morgan (n)', 'ECFP']:
         if i in descriptors:
@@ -117,6 +128,7 @@ def featurization(logger, filename, n_bits, path, data_config, verbose, descript
             morgan_address = path + "/data/preprocessed/morgan/" + tail
             morgan_fingerprints = pd.DataFrame(morgan_fingerprints)
             morgan_fingerprints.to_csv(morgan_address+".gz", compression="gzip", sep=",", index=False)
+            logger.info("morgan_fingerprints shape: %s", str(np.array(morgan_fingerprints).shape))
 
     for i in ['spectrophore']:
         if i in descriptors:
@@ -126,7 +138,7 @@ def featurization(logger, filename, n_bits, path, data_config, verbose, descript
             spectrophore_address = path + "/data/preprocessed/spectrophore/" + tail
             spectrophore_fingerprints = pd.DataFrame(spectrophore_fingerprints)
             spectrophore_fingerprints.to_csv(spectrophore_address+".gz", compression="gzip", sep=",", index=False)
-
+            logger.info("spectrophore_fingerprints shape: %s", str(np.array(spectrophore_fingerprints).shape))
 
     # Filling config
     head, _sep, tail = filename.rpartition('/')
@@ -256,7 +268,7 @@ def preprocessing(x):
     return x
 
 
-def load_data(logger, path, filename, labels_addr, maccs_addr, morgan_addr, spectrophore_addr, mordred_addr, rdkit_addr, set_targets, n_bits, data_config, verbose, descriptors, n_jobs, split_type):
+def load_data(logger, path, filename, labels_addr, maccs_addr, morgan_addr, spectrophore_addr, mordred_addr, rdkit_addr, set_targets, n_bits, data_config, verbose, descriptors, n_jobs, split_type, do_featurization=True):
     x, y, smiles, labels, full_smiles = [], [], [], [], []
     t_descriptors = descriptors[:]
     t_descriptors.append('labels')
@@ -298,7 +310,10 @@ def load_data(logger, path, filename, labels_addr, maccs_addr, morgan_addr, spec
         logger.info("Data loaded from config")
     elif filename:
         if os.path.isfile(path+filename):
-            t_labels, t_mordred, t_rdkit, t_maccs, t_morgan, t_spectrophore = featurization(logger, path+filename, n_bits, path, data_config, verbose, t_descriptors, n_jobs, split_type)
+            if do_featurization:
+                t_labels, t_mordred, t_rdkit, t_maccs, t_morgan, t_spectrophore = featurization(logger, path+filename, n_bits, path, data_config, verbose, t_descriptors, n_jobs, split_type)
+            else:
+                t_labels, t_mordred, t_rdkit, t_maccs, t_morgan, t_spectrophore = [], [], [], [], [], []
             if labels is False:
                 labels = t_labels
             if mordred is False:
@@ -360,27 +375,33 @@ def load_data(logger, path, filename, labels_addr, maccs_addr, morgan_addr, spec
     return x, y, smiles, labels, full_smiles
 
 
-def split_test_val(split_type, x_train, y_train, smiles_train, labels_train, smiles_train_full, split_size):
-    x_test, y_test, x_train, y_train, smiles_test, smiles_train, labels_test, labels_train, smiles_test_full, smiles_train_full = split(split_type, x_train, y_train, smiles_train, labels_train, smiles_train_full, split_size=1-split_size*2)
+def split_test_val(split_type, x_train, y_train, smiles_train, labels_train, smiles_train_full, split_size, random_state):
+    split_size=1-split_size*2
+    x_train, y_train, x_test, y_test, smiles_train, smiles_test, labels_train, labels_test, smiles_train_full, smiles_test_full = split(split_type, x_train, y_train, smiles_train, labels_train, smiles_train_full, split_size, random_state)
 
     smiles_test = np.array(smiles_test)
     x_test = np.array(x_test)
 
-    x_train, y_train, x_val, y_val, smiles_train, smiles_val, labels_train, labels_val, smiles_train_full, smiles_val_full = split(split_type, x_test, y_test, smiles_test, labels_test, smiles_test_full, split_size=0.5)
+    split_size=0.5
+    x_test, y_test, x_val, y_val, smiles_test, smiles_val, labels_test, labels_val, smiles_test_full, smiles_val_full = split(split_type, x_test, y_test, smiles_test, labels_test, smiles_test_full, split_size, random_state)
     return x_test, y_test, x_train, y_train, x_val, y_val, smiles_test, smiles_train, smiles_val, labels_test, labels_train, labels_val, smiles_test_full, smiles_train_full, smiles_val_full
 
 
-def split(split_type, x_train, y_train, smiles_train, labels_train, smiles_train_full, split_size):
+def split(split_type, x_train, y_train, smiles_train, labels_train, smiles_train_full, split_size, random_state):
     if split_type == "scaffold":
-        train, test = scaffold_split(smiles_train, frac_train=split_size)
+        train, test = scaffold_split(smiles_train, frac_train=1-split_size)
     elif split_type == "cluster":
         train, test = cluster_split(smiles_train, test_cluster_id=1, n_splits=2)
     elif split_type == "random":
         shuffle = True
         stratify = None
+        idx = [i for i in range(len(smiles_train))]
+        train, test = train_test_split(idx, test_size=split_size, stratify=stratify, shuffle=shuffle, random_state=random_state)
     elif split_type == "stratified":
         shuffle = True
         stratify = y_train
+        idx = [i for i in range(len(smiles_train))]
+        train, test = train_test_split(idx, test_size=split_size, stratify=stratify, shuffle=shuffle, random_state=random_state)
     else:
         print("Wrong split type")
         sys.exit(0)
@@ -399,8 +420,8 @@ def split(split_type, x_train, y_train, smiles_train, labels_train, smiles_train
 
 
 def get_data(logger, data_config, n_bits, set_targets, random_state, split_type, split_size, verbose, descriptors, n_jobs):
-    if ['MACCS', 'maccs', 'Maccs', 'maccs (167)'] in descriptors:
-        n_bits = 167 # constant for maccs fingerprint
+    #if ['MACCS', 'maccs', 'Maccs', 'maccs (167)'] in descriptors:
+    #    n_bits = 167 # constant for maccs fingerprint
     
     path = os.path.dirname(os.path.realpath(__file__)).replace("/moloi", "")
     dirs = ["/data/", "/data/preprocessed/", "/data/preprocessed/labels", "/data/preprocessed/morgan", "/data/preprocessed/maccs", "/data/preprocessed/spectrophore", "/data/preprocessed/rdkit", "/data/preprocessed/mordred"]
@@ -415,83 +436,46 @@ def get_data(logger, data_config, n_bits, set_targets, random_state, split_type,
     x_test, y_test, smiles_test, labels_test, smiles_test_full = load_data(logger, path, filename_test, labels_test, maccs_test, morgan_test, spectrophore_test, mordred_test, rdkit_test, set_targets, n_bits, data_config, verbose, descriptors, n_jobs, split_type)
     logger.info("Load val data")
     x_val, y_val, smiles_val, labels_val, smiles_val_full = load_data(logger, path, filename_val, labels_val, maccs_val, morgan_val, spectrophore_val, mordred_val, rdkit_val, set_targets, n_bits, data_config, verbose, descriptors, n_jobs, split_type)
+    
+    logger.info("Loaded from config")
+    logger.info("x_train shape: %s", str(np.array(x_train).shape))
+    logger.info("x_test shape: %s", str(np.array(x_test).shape))
+    logger.info("x_val shape: %s", str(np.array(x_val).shape))
+    logger.info("y_train shape: %s", str(np.array(y_train).shape))
+    logger.info("y_test shape: %s", str(np.array(y_test).shape))
+    logger.info("y_val shape: %s", str(np.array(y_val).shape))
 
     if len(x_train) > 1 and len(x_test) > 1 and len(x_val) > 1 and len(y_train) > 1 and len(y_test) > 1 and len(y_val) > 1:
         split_type = False
 
-    if split_type == "scaffold":
-        if (len(x_test) < 1 or len(y_test) < 1) and (len(x_val) < 1 or len(y_val) < 1):
-            logger.info("Split test and val data")
-            x_test, y_test, x_train, y_train, x_val, y_val, smiles_test, smiles_train, smiles_val, labels_test, labels_train, labels_val, smiles_test_full, smiles_train_full, smiles_val_full = split_test_val(split_type, x_train, y_train, smiles_train, labels_train, smiles_train_full, split_size)
+    #if split_type == "scaffold":
+    if split_type:
+        for i in range(100):
+            count = 0
+            if (len(x_test) < 1 or len(y_test) < 1) and (len(x_val) < 1 or len(y_val) < 1):
+                logger.info("Split test and val data")
+                x_test, y_test, x_train, y_train, x_val, y_val, smiles_test, smiles_train, smiles_val, labels_test, labels_train, labels_val, smiles_test_full, smiles_train_full, smiles_val_full = split_test_val(split_type, x_train, y_train, smiles_train, labels_train, smiles_train_full, split_size, random_state)
             
-        elif len(x_test) < 1 or len(y_test) < 1:
-            logger.info("Split test data")
-            x_test, y_test, x_train, y_train, smiles_test, smiles_train, labels_test, labels_train, smiles_test_full, smiles_train_full = split(split_type, x_train, y_train, smiles_train, labels_train, smiles_train_full, 1-split_size)
+            elif len(x_test) < 1 or len(y_test) < 1:
+                logger.info("Split test data")
+                x_test, y_test, x_train, y_train, smiles_test, smiles_train, labels_test, labels_train, smiles_test_full, smiles_train_full = split(split_type, x_train, y_train, smiles_train, labels_train, smiles_train_full, split_size, random_state)
             
-        elif len(x_val) < 1 or len(y_val) < 1:
-            logger.info("Split val data")
-            x_train, y_train, x_val, y_val, smiles_train, smiles_val, labels_train, labels_val, smiles_train_full, smiles_val_full = split(split_type, x_train, y_train, smiles_train, labels_train, smiles_train_full, 1-split_size)
+            elif len(x_val) < 1 or len(y_val) < 1:
+                logger.info("Split val data")
+                x_train, y_train, x_val, y_val, smiles_train, smiles_val, labels_train, labels_val, smiles_train_full, smiles_val_full = split(split_type, x_train, y_train, smiles_train, labels_train, smiles_train_full, split_size, random_state)
 
-    
-    elif split_type == "cluster":          
-        if (len(x_test) < 1 or len(y_test) < 1) and (len(x_val) < 1 or len(y_val) < 1):
-            logger.info("Split test and val data")
-            x_test, y_test, x_train, y_train, x_val, y_val, smiles_test, smiles_train, smiles_val, labels_test, labels_train, labels_val, smiles_test_full, smiles_train_full, smiles_val_full = split_test_val(split_type, x_train, y_train, smiles_train, labels_train, smiles_train_full, split_size)
+            for j in [y_train, y_val, y_test]:
+                if len(np.unique(j)) > 1:
+                    count += 1
 
-        elif len(x_test) < 1 or len(y_test) < 1:
-            logger.info("Split test data")
-            x_test, y_test, x_train, y_train, smiles_test, smiles_train, labels_test, labels_train, smiles_test_full, smiles_train_full = split(split_type, x_train, y_train, smiles_train, labels_train, smiles_train_full, 1-split_size)
-            
-        elif len(x_val) < 1 or len(y_val) < 1:
-            logger.info("Split val data")
-            x_train, y_train, x_val, y_val, smiles_train, smiles_val, labels_train, labels_val, smiles_train_full, smiles_val_full = split(split_type, x_train, y_train, smiles_train, labels_train, smiles_train_full, 1-split_size)
+            if count == 3:
+                break
+            random_state += 1
 
-    elif split_type == "random" or split_type == "stratified":
-        if split_type == "random":
-            shuffle = True
-            stratify = None
-        elif split_type == "stratified":
-            shuffle = True
-            stratify = y_train            
-        
-        smiles_train = smiles_train.reshape(-1, 1)
-        smiles_train_full = smiles_train_full.reshape(-1, 1)
-        train_shape = x_train.shape[1]
-        smiles_train = np.c_[smiles_train, smiles_train_full]
-        x_train = np.c_[smiles_train, x_train]
-        x_train = np.c_[x_train, labels_train]
-        #y_train = list(np.ravel(y_train))
-        
-        if (len(x_test) < 1 or len(y_test) < 1) and (len(x_val) < 1 or len(y_val) < 1):
-            logger.info("Split test and val data")
-            x_train, x_test, y_train, y_test = train_test_split(x_train, y_train, test_size=split_size*2, stratify=stratify, random_state=random_state, shuffle=shuffle)
-            if stratify is not False:
-                stratify = y_test
-            x_test, x_val, y_test, y_val = train_test_split(x_test, y_test, test_size=0.5, stratify=stratify, random_state=random_state, shuffle=shuffle)
-            
-        elif len(x_test) < 1 or len(y_test) < 1:
-            logger.info("Split test data")
-            x_train, x_test, y_train, y_test = train_test_split(x_train, y_train, test_size=split_size, stratify=stratify, random_state=random_state, shuffle=shuffle)
-            
-        elif len(x_val) < 1 or len(y_val) < 1:
-            logger.info("Split val data")
-            x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=split_size, stratify=stratify, random_state=random_state, shuffle=shuffle)
-        
-        smiles_train = x_train[:,0]
-        smiles_train_full = x_train[:,1]
-        labels_train = x_train[:,train_shape:]
-        x_train = x_train[:,2:train_shape]
-        
-        smiles_test = x_test[:,0]
-        smiles_test_full = x_test[:,1]
-        labels_test = x_test[:,train_shape:]
-        x_test = x_test[:,2:train_shape]
-        
-        smiles_val = x_val[:,0]
-        smiles_val_full = x_val[:,1]
-        labels_val = x_val[:,train_shape:]
-        x_val = x_val[:,2:train_shape]
-    
+        if count != 3:
+            logger.info("Can not create a good data split.")
+            sys.exit(0)
+
     if split_type:
         names = ["smiles"] + ["label"]*labels_train.shape[1]       
         train = pd.DataFrame(np.c_[smiles_train_full, labels_train], columns=names)
@@ -519,10 +503,6 @@ def get_data(logger, data_config, n_bits, set_targets, random_state, split_type,
             files_config[split_type]["dataset_val"] = filename_train.replace("_train.csv","_"+split_type+"_val.csv")
         with open(data_config, 'w') as configfile:
             files_config.write(configfile)
-
-    x_train = preprocessing(x_train)
-    x_test = preprocessing(x_test)
-    x_val = preprocessing(x_val)
     
     y_train = np.asarray(y_train, dtype=int)
     y_test = np.asarray(y_test, dtype=int)

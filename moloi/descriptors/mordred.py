@@ -48,7 +48,7 @@ def smiles_to_mordred(x, embed=True):
                 # Taken from https://programtalk.com/python-examples/rdkit.Chem.AllChem.EmbedMolecule/
                 success = AllChem.EmbedMolecule(m, useRandomCoords=False, ignoreSmoothingFailures=True)
                 if success == -1:  # Failed
-                    print("Failed 1st embedding trial for " + smi)
+                    #print("Failed 1st embedding trial for " + smi)
                     success = AllChem.EmbedMolecule(m, useRandomCoords=True)
                 if success == 0:
                     for maxIters in [200, 2000, 20000, 200000, 2000000, 20000000, 2000000000]:
@@ -56,7 +56,7 @@ def smiles_to_mordred(x, embed=True):
                         if ret == 0:
                             break
                 else:
-                    print("Failed 2nd and last embedding trial for " + smi)
+                    #print("Failed 2nd and last embedding trial for " + smi)
                     missing.append(key)
         except:
             missing.append(key)

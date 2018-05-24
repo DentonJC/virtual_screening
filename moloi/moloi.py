@@ -18,7 +18,7 @@ from keras.wrappers.scikit_learn import KerasClassifier
 from moloi.config_processing import read_model_config, cv_splits_save, cv_splits_load
 from moloi.evaluation import evaluate, make_scoring
 from moloi.splits.cv import create_cv
-from moloi.data_processing import get_data
+from moloi.data_processing import get_data, preprocessing
 from moloi.models.keras_models import FCNN, LSTM, MultilayerPerceptron, Logreg, create_callbacks
 from moloi.model_processing import load_model, save_model
 import xgboost as xgb
@@ -98,6 +98,10 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
                                                                                                 options.targets, random_state, options.split_type, options.split_s, 
                                                                                                 verbose, options.descriptors, options.n_jobs)
 
+    x_train = preprocessing(x_train)
+    x_test = preprocessing(x_test)
+    x_val = preprocessing(x_val)
+
     if len(np.unique(y_train)) == 1:
         logger.error("Multiclass data: only one class in y_train")
         sys.exit(0)
@@ -125,14 +129,15 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
         ####
         loaded_cv = cv_splits_load(options.split_type, root_address+options.data_config, targets)
         if loaded_cv is False:
-            for i in range(10):
+            for i in range(100):
                 count = 0
-                options.n_cv = create_cv(smiles, options.split_type, options.n_cv, random_state)
+                options.n_cv = create_cv(smiles, options.split_type, options.n_cv, random_state, y_train)
                 for j in options.n_cv:
                     if len(np.unique(j)) > 1:
                         count += 1
                 if count == len(options.n_cv):
                     break
+                random_state += 1
             if count != len(options.n_cv):
                 logger.info("Can not create a good split cv. Try another random_seed or check the dataset.")
                 sys.exit(0)
@@ -153,23 +158,24 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
         if options.n_iter > n_iter:
             options.n_iter = n_iter
 
-        sklearn_params = {'param_distributions':gparams, 
-                         'n_iter':options.n_iter, 
-                         'n_jobs':options.n_jobs, 
-                         'cv':options.n_cv, 
-                         'verbose':verbose, 
-                         'scoring':scoring, 
-                         'random_state':random_state}
+        sklearn_params = {'param_distributions': gparams,
+                         'n_iter': options.n_iter,
+                         'n_jobs': options.n_jobs,
+                         'cv': options.n_cv,
+                         'verbose': verbose,
+                         'scoring': scoring,
+                         'return_train_score': True,
+                         'random_state': random_state}
 
-        randomized_params = {'param_distributions':gparams, 
-                            'n_jobs':options.n_jobs, 
-                            'cv':options.n_cv, 
-                            'n_iter':options.n_iter, 
-                            'verbose':verbose, 
-                            'scoring':scoring, 
-                            'random_state':random_state,
-                            'return_train_score':True,
-                            'pre_dispatch':n_cv}
+        keras_params = {'param_distributions': gparams,
+                            'n_jobs': options.n_jobs,
+                            'cv': options.n_cv,
+                            'n_iter': options.n_iter,
+                            'verbose': verbose,
+                            'scoring': scoring,
+                            'random_state': random_state,
+                            'return_train_score': True,
+                            'pre_dispatch': n_cv}
 
         # sklearn models
         if options.select_model == "logreg":
@@ -187,22 +193,22 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
         # keras models        
         elif options.select_model == "regression":
             search_model = KerasClassifier(build_fn=Logreg, input_shape=input_shape, output_shape=output_shape)
-            model = RandomizedSearchCV(estimator=search_model, **randomized_params)
+            model = RandomizedSearchCV(estimator=search_model, **keras_params)
         elif options.select_model == "fcnn":
             search_model = KerasClassifier(build_fn=FCNN, input_shape=input_shape, output_shape=output_shape)
-            model = RandomizedSearchCV(estimator=search_model, **randomized_params)                                    
+            model = RandomizedSearchCV(estimator=search_model, **keras_params)                                    
         elif options.select_model == "lstm":
             search_model = KerasClassifier(build_fn=LSTM, input_shape=input_shape, output_shape=output_shape, input_length=x_train.shape[1])
-            model = RandomizedSearchCV(estimator=search_model, **randomized_params)
+            model = RandomizedSearchCV(estimator=search_model, **keras_params)
         elif options.select_model == "multilayer_perceptron":
-            search_model = KerasClassifier(build_fn=MultilayerPerceptron, input_shape=input_shape, output_shape=output_shape, input_length=x_train.shape[1])
-            model = RandomizedSearchCV(estimator=search_model, **randomized_params)   
+            search_model = KerasClassifier(build_fn=MultilayerPerceptron, input_shape=input_shape, output_shape=output_shape)
+            model = RandomizedSearchCV(estimator=search_model, **keras_params)   
         # elif options.select_model == "rnn":
         #     search_model = KerasClassifier(build_fn=RNN, input_shape=input_shape, output_shape=output_shape, input_length=x_train.shape[1])
-        #     model = RandomizedSearchCV(estimator=search_model, **randomized_params)        
+        #     model = RandomizedSearchCV(estimator=search_model, **keras_params)        
         # elif options.select_model == "gru":
         #     search_model = KerasClassifier(build_fn=GRU, input_shape=input_shape, output_shape=output_shape, input_length=x_train.shape[1])
-        #     model = RandomizedSearchCV(estimator=search_model, **randomized_params)
+        #     model = RandomizedSearchCV(estimator=search_model, **keras_params)
         else:
             logger.info("Model name is not found.")
             sys.exit(0)
@@ -254,7 +260,7 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
     # elif options.select_model == "gru":
     #     model = GRU(input_shape, output_shape, **rparams)
     elif options.select_model == "lstm":
-        model = LSTM(input_shape, output_shape, **rparams)
+       model = LSTM(input_shape, output_shape, **rparams)
     else:
         logger.info("Model name is not found or xgboost import error.")
         sys.exit(0)
@@ -262,7 +268,7 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
     logger.info("MODEL FIT")
     try:
         monitor = 'binary_crossentropy' # This is a binary classification problem, come on, I don't want to get this from config
-        mode = 'min'
+        mode = 'auto'
         #if monitor is False:
         #    monitor = 'val_acc'
         #    mode = 'max'

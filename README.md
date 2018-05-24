@@ -1,12 +1,26 @@
 # Virtual screening
-The project allows to use supervised learning on molecules written in the SMILES format by the training on maccs/morgan fingerprints and physical features (rdkit descriptors) using the following models:
+It is better to use Theano backend.
+Descriptors:
+- MACCS
+- morgan (ECFP)
+- RDKit
+- mordred
+- spectrophore
+
+Models:
 - KNN
 - Logistic regression
-- Linear regression
 - RandomForestClassifier
 - SVC
 - XGBClassifier
 - Isolation Forest
+- FCNN
+
+Splits:
+- random
+- stratified
+- scaffold
+- cluster
 
 Use src/config.ini to configure the models.
 
@@ -95,10 +109,12 @@ Test | Active | 546
 - Linux
 - Python 3.6+ (Python 2.7 unstable)
 - source env.sh
+- pip install git+git://github.com/DentonJC/virtual_screening
 ### with Conda <a name="conda"></a>
 - Conda (https://www.anaconda.com/download/#linux)
 - conda install --file requirements
-- conda install -c akode xgboost
+- conda install -c conda-forge xgboost
+- conda install -c openbabel openbabel
 - conda install -c rdkit rdkit
 - conda install -c mordred-descriptor mordred
 - Python3: pip install configparser

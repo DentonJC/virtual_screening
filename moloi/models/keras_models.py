@@ -6,21 +6,23 @@ import keras
 from keras.optimizers import Adam, Nadam, Adamax, RMSprop, Adagrad, Adadelta, SGD
 from keras.engine import InputSpec
 from keras.models import Model, Sequential
-from keras.layers import Dense, Dropout, Input, Embedding, Merge, TimeDistributed, merge, SimpleRNN, RepeatVector, Wrapper
+from keras.layers import Dense, Dropout, Input, Embedding, Merge, TimeDistributed, merge, SimpleRNN, RepeatVector, Wrapper, BatchNormalization, Activation
 from keras.layers import GRU as GRU_layer
 from keras.layers import LSTM as LSTM_layer
-from keras.callbacks import ModelCheckpoint, EarlyStopping, CSVLogger
+from keras.callbacks import ModelCheckpoint, EarlyStopping, CSVLogger, RemoteMonitor, ReduceLROnPlateau
 from keras.regularizers import l2 as l2_reg
 
 
-def create_callbacks(output, patience, section, monitor='val_acc', mode='max'):           
+def create_callbacks(output, patience, section, monitor='val_acc', mode='auto', callbacks="[stopping, csv_logger, checkpoint, remote, lr]", factor=0.1):           
     filepath = output + "results/weights-improvement.hdf5"
     path = output + 'history_' + os.path.basename(sys.argv[0]).replace(".py", "") + "_" + str(section) + '.csv'
     
     checkpoint = ModelCheckpoint(filepath, monitor=monitor, verbose=1, save_best_only=True, mode=mode)
-    stopping = EarlyStopping(monitor=monitor, min_delta=0.00001, patience=patience, verbose=0, mode=mode)
+    stopping = EarlyStopping(monitor=monitor, min_delta=0.00001, patience=patience, verbose=1, mode=mode)
     csv_logger = CSVLogger(path, append=True, separator=';')
-    callbacks_list = [stopping, csv_logger, checkpoint]
+    remote = RemoteMonitor(root='http://localhost:8080', path=output, field='data', headers=None)
+    lr = ReduceLROnPlateau(monitor=monitor, factor=factor, patience=int(patience/3), verbose=1, mode=mode, cooldown=0, min_lr=0)
+    callbacks_list = eval(callbacks)
     return callbacks_list
 
 
@@ -67,7 +69,9 @@ def MultilayerPerceptron(input_shape, output_shape, activation_1='sigmoid', acti
     return model
 
 
-def FCNN(input_shape, output_shape, inference=False, input_dropout=0.0, l2=0.0, hidden_dims=[100, 100], activation="relu", bn=True, dropouts=[0.3, 0.3]):
+def FCNN(input_shape, output_shape, inference=False, input_dropout=0.0, l2=0.0, hidden_dim_1=100, hidden_dim_2=100, activation="relu", bn=True, dropout_1=0.3, dropout_2=0.3, loss='binary_crossentropy', metrics=['accuracy'], optimizer='Adam'):
+    dropouts = [dropout_1, dropout_2]
+    hidden_dims = [hidden_dim_1, hidden_dim_2]
     input = Input(shape=(input_shape,))
     x = Dropout(input_dropout)(input, training=not inference)
     for h_id, (hd, drop) in enumerate(zip(hidden_dims, dropouts)):
@@ -84,7 +88,8 @@ def FCNN(input_shape, output_shape, inference=False, input_dropout=0.0, l2=0.0, 
         output = Dense(input_shape=(input_shape,), activation="softmax", units=output_shape, name="final_softmax",
             kernel_regularizer=l2_reg(l2))(x)
     model = Model(inputs=[input], outputs=[output])
-    model.summary()
+    model.compile(loss=loss, metrics=metrics, optimizer=optimizer)
+    #model.summary()
     setattr(model, "steerable_variables", {})
     return model
 
@@ -122,4 +127,3 @@ if __name__ == "__main__":
     print("LSTM")
     model = LSTM(input_shape, output_shape, input_length)  
     print(model.summary())
-

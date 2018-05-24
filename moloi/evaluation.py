@@ -86,10 +86,13 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
         auc_train = roc_auc_score(y_train, train_proba)
         auc_test = roc_auc_score(y_test, test_proba)
         auc_val = roc_auc_score(y_val, val_proba)
-    except ValueError:
-        auc_train = '-'
-        auc_test = '-'
-        auc_val = '-'
+    except:
+        auc_train = False
+        auc_test = False
+        auc_val = False
+        train_proba = False
+        test_proba = False
+        val_proba = False
 
     f1 = f1_score(y_test, y_pred_test, average=None)
     """
