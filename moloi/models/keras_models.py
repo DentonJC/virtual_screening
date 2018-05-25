@@ -20,7 +20,7 @@ def create_callbacks(output, patience, section, monitor='val_acc', mode='auto', 
     checkpoint = ModelCheckpoint(filepath, monitor=monitor, verbose=1, save_best_only=True, mode=mode)
     stopping = EarlyStopping(monitor=monitor, min_delta=0.00001, patience=patience, verbose=1, mode=mode)
     csv_logger = CSVLogger(path, append=True, separator=';')
-    remote = RemoteMonitor(root='http://localhost:8080', path=output, field='data', headers=None)
+    remote = RemoteMonitor(root='http://localhost:9000')
     lr = ReduceLROnPlateau(monitor=monitor, factor=factor, patience=int(patience/3), verbose=1, mode=mode, cooldown=0, min_lr=0)
     callbacks_list = eval(callbacks)
     return callbacks_list
@@ -43,17 +43,17 @@ def compile_optimizer(optimizer, learning_rate=0.1, momentum=0.1):
         return SGD(lr=learning_rate, momentum=momentum)
 
 
-def Logreg(input_shape, output_shape, l2=0.0, lr=0.1, momentum=0.9, metrics=['binary_crossentropy', 'accuracy'], loss='binary_crossentropy'):
+def Logreg(input_shape, output_shape, l2=0.0, lr=0.1, momentum=0.9, metrics=['binary_crossentropy', 'accuracy'], loss='binary_crossentropy', activation='sigmoid'):
     """
     Logistic regression model definition
     """
     model = Sequential()
-    model.add(Dense(input_shape=(input_shape, ), activation="sigmoid", kernel_regularizer=l2_reg(l2), units=output_shape))
+    model.add(Dense(input_shape=(input_shape, ), activation=activation, kernel_regularizer=l2_reg(l2), units=output_shape))
     model.compile(loss=loss, optimizer=SGD(lr=lr, momentum=momentum), metrics=metrics)
     return model
 
 
-def MultilayerPerceptron(input_shape, output_shape, activation_1='sigmoid', activation_2='sigmoid', loss='binary_crossentropy', metrics=['accuracy'], optimizer='Adam', learning_rate=0.01, momentum=0, init_mode='uniform', layers=3, neurons_1=10, neurons_2=10):
+def MLP(input_shape, output_shape, activation_1='relu', activation_2='sigmoid', loss='binary_crossentropy', metrics=['accuracy'], optimizer='Adam', learning_rate=0.01, momentum=0, init_mode='uniform', layers=3, neurons_1=10, neurons_2=10):
     """
     Multilayer perceptron model definition
     """

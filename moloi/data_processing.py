@@ -63,8 +63,6 @@ def featurization(logger, filename, n_bits, path, data_config, verbose, descript
     if len(missing) > 1: # if missing in both rdkit and mordred
         missing = np.concatenate([missing[0],missing[1]])
 
-    
-
     logger.info("After cleaning shapes:")
     
     if 'rdkit' in descriptors or not config.has_option(split_type, 'rdkit_'+name):
@@ -249,7 +247,7 @@ def drop_nan(x, y):
     return x, y
 
 
-def preprocessing(x):
+def clean_data(x):
     x = np.array(x)
 
     for j, col in enumerate(x):
@@ -260,11 +258,6 @@ def preprocessing(x):
                 x[j][i] = 0
             if not np.isfinite(x[j][i]): # do NOT remove
                 x[j][i] = 0
-    
-    # Normalize
-    transformer_X = StandardScaler().fit(x)
-    x = transformer_X.transform(x)
-
     return x
 
 

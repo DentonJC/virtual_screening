@@ -1,1181 +1,346 @@
-2018-05-23 20:13:09,317 [__main__] INFO: Dataset: bace
-2018-05-23 20:13:09,317 [__main__] INFO: Descriptors ['rdkit', 'morgan', 'mordred', 'maccs']
-2018-05-23 20:13:09,317 [__main__] INFO: Split: scaffold
-2018-05-23 20:13:09,317 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/bace.ini
-2018-05-23 20:13:09,318 [__main__] INFO: Split size: 0.1
-2018-05-23 20:13:09,319 [__main__] INFO: Load train data
-2018-05-23 20:13:10,084 [__main__] INFO: Data loaded from config
-2018-05-23 20:13:10,559 [__main__] INFO: Load test data
-2018-05-23 20:13:10,713 [__main__] INFO: Data loaded from config
-2018-05-23 20:13:10,755 [__main__] INFO: Load val data
-2018-05-23 20:13:10,914 [__main__] INFO: Data loaded from config
-2018-05-23 20:13:10,960 [__main__] INFO: Loaded from config
-2018-05-23 20:13:10,978 [__main__] INFO: x_train shape: (1207, 2223)
-2018-05-23 20:13:10,980 [__main__] INFO: x_test shape: (152, 2223)
-2018-05-23 20:13:10,982 [__main__] INFO: x_val hape: (154, 2223)
-2018-05-23 20:13:10,982 [__main__] INFO: y_train shape: (1207, 1)
-2018-05-23 20:13:10,982 [__main__] INFO: y_test shape: (152, 1)
-2018-05-23 20:13:10,982 [__main__] INFO: y_val shape: (154, 1)
-2018-05-23 20:13:10,982 [__main__] INFO: Data after splitting:
-2018-05-23 20:13:10,998 [__main__] INFO: x_train shape: (1207, 2223)
-2018-05-23 20:13:11,000 [__main__] INFO: x_test shape: (152, 2223)
-2018-05-23 20:13:11,002 [__main__] INFO: x_val hape: (154, 2223)
-2018-05-23 20:13:11,002 [__main__] INFO: y_train shape: (1207, 1)
-2018-05-23 20:13:11,002 [__main__] INFO: y_test shape: (152, 1)
-2018-05-23 20:13:11,002 [__main__] INFO: y_val shape: (154, 1)
-2018-05-23 20:13:11,002 [__main__] INFO: X_train: (1207, 2223)
-2018-05-23 20:13:11,002 [__main__] INFO: Y_train: (1207, 1)
-2018-05-23 20:13:11,002 [__main__] INFO: X_val: (154, 2223)
-2018-05-23 20:13:11,002 [__main__] INFO: Y_val: (154, 1)
-2018-05-23 20:13:11,003 [__main__] INFO: X_test: (152, 2223)
-2018-05-23 20:13:11,003 [__main__] INFO: Y_test: (152, 1)
-2018-05-23 20:13:19,573 [__main__] INFO: Shapes in generate_plots script: bace
-2018-05-23 20:13:19,573 [__main__] INFO: SMILES shape: (1207,)
-2018-05-23 20:13:19,573 [__main__] INFO: x_train shape: (1207, 2223)
-2018-05-23 20:13:19,573 [__main__] INFO: x_test shape: (152, 2223)
-2018-05-23 20:13:19,573 [__main__] INFO: x_val hape: (154, 2223)
-2018-05-23 20:13:19,574 [__main__] INFO: y_train shape: (1207, 1)
-2018-05-23 20:13:19,574 [__main__] INFO: y_test shape: (152, 1)
-2018-05-23 20:13:19,574 [__main__] INFO: y_val shape: (154, 1)
-2018-05-23 20:13:19,574 [__main__] INFO: X shape: (2223, 1513)
-2018-05-23 20:13:19,574 [__main__] INFO: Y shape: (1, 1513)
+2018-05-25 21:23:08,853 [__main__] INFO: Dataset: bace
+2018-05-25 21:23:08,854 [__main__] INFO: Descriptors ['rdkit', 'morgan', 'mordred', 'maccs']
+2018-05-25 21:23:08,854 [__main__] INFO: Split: scaffold
+2018-05-25 21:23:08,854 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/bace.ini
+2018-05-25 21:23:08,854 [__main__] INFO: Split size: 0.1
+2018-05-25 21:23:08,855 [__main__] INFO: Load train data
+2018-05-25 21:23:09,632 [__main__] INFO: Data loaded from config
+2018-05-25 21:23:10,110 [__main__] INFO: Load test data
+2018-05-25 21:23:10,263 [__main__] INFO: Data loaded from config
+2018-05-25 21:23:10,310 [__main__] INFO: Load val data
+2018-05-25 21:23:10,467 [__main__] INFO: Data loaded from config
+2018-05-25 21:23:10,515 [__main__] INFO: Loaded from config
+2018-05-25 21:23:10,535 [__main__] INFO: x_train shape: (1207, 2223)
+2018-05-25 21:23:10,536 [__main__] INFO: x_test shape: (152, 2223)
+2018-05-25 21:23:10,538 [__main__] INFO: x_val shape: (154, 2223)
+2018-05-25 21:23:10,539 [__main__] INFO: y_train shape: (1207, 1)
+2018-05-25 21:23:10,539 [__main__] INFO: y_test shape: (152, 1)
+2018-05-25 21:23:10,539 [__main__] INFO: y_val shape: (154, 1)
+2018-05-25 21:23:10,539 [__main__] INFO: X_train: (1207, 2223)
+2018-05-25 21:23:10,539 [__main__] INFO: Y_train: (1207, 1)
+2018-05-25 21:23:10,539 [__main__] INFO: X_val: (154, 2223)
+2018-05-25 21:23:10,539 [__main__] INFO: Y_val: (154, 1)
+2018-05-25 21:23:10,539 [__main__] INFO: X_test: (152, 2223)
+2018-05-25 21:23:10,539 [__main__] INFO: Y_test: (152, 1)
+2018-05-25 21:23:18,303 [__main__] INFO: Shapes in generate_plots script: bace
+2018-05-25 21:23:18,303 [__main__] INFO: SMILES shape: (1207,)
+2018-05-25 21:23:18,303 [__main__] INFO: x_train shape: (1207, 2223)
+2018-05-25 21:23:18,303 [__main__] INFO: x_test shape: (152, 2223)
+2018-05-25 21:23:18,303 [__main__] INFO: x_val hape: (154, 2223)
+2018-05-25 21:23:18,303 [__main__] INFO: y_train shape: (1207, 1)
+2018-05-25 21:23:18,303 [__main__] INFO: y_test shape: (152, 1)
+2018-05-25 21:23:18,303 [__main__] INFO: y_val shape: (154, 1)
+2018-05-25 21:23:18,303 [__main__] INFO: X shape: (2223, 1513)
+2018-05-25 21:23:18,303 [__main__] INFO: Y shape: (1, 1513)
 
-2018-05-23 20:14:15,646 [__main__] INFO: Dataset: bace
-2018-05-23 20:14:15,646 [__main__] INFO: Descriptors ['rdkit', 'morgan', 'mordred', 'maccs']
-2018-05-23 20:14:15,646 [__main__] INFO: Split: cluster
-2018-05-23 20:14:15,646 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/bace.ini
-2018-05-23 20:14:15,646 [__main__] INFO: Split size: 0.1
-2018-05-23 20:14:15,647 [__main__] INFO: Load train data
-2018-05-23 20:14:16,145 [__main__] INFO: Data loaded from config
-2018-05-23 20:14:16,405 [__main__] INFO: Load test data
-2018-05-23 20:14:16,709 [__main__] INFO: Data loaded from config
-2018-05-23 20:14:16,857 [__main__] INFO: Load val data
-2018-05-23 20:14:17,095 [__main__] INFO: Data loaded from config
-2018-05-23 20:14:17,202 [__main__] INFO: Loaded from config
-2018-05-23 20:14:17,213 [__main__] INFO: x_train shape: (757, 2223)
-2018-05-23 20:14:17,219 [__main__] INFO: x_test shape: (442, 2223)
-2018-05-23 20:14:17,223 [__main__] INFO: x_val hape: (314, 2223)
-2018-05-23 20:14:17,223 [__main__] INFO: y_train shape: (757, 1)
-2018-05-23 20:14:17,223 [__main__] INFO: y_test shape: (442, 1)
-2018-05-23 20:14:17,223 [__main__] INFO: y_val shape: (314, 1)
-2018-05-23 20:14:17,223 [__main__] INFO: Data after splitting:
-2018-05-23 20:14:17,233 [__main__] INFO: x_train shape: (757, 2223)
-2018-05-23 20:14:17,239 [__main__] INFO: x_test shape: (442, 2223)
-2018-05-23 20:14:17,243 [__main__] INFO: x_val hape: (314, 2223)
-2018-05-23 20:14:17,243 [__main__] INFO: y_train shape: (757, 1)
-2018-05-23 20:14:17,243 [__main__] INFO: y_test shape: (442, 1)
-2018-05-23 20:14:17,243 [__main__] INFO: y_val shape: (314, 1)
-2018-05-23 20:14:17,244 [__main__] INFO: X_train: (757, 2223)
-2018-05-23 20:14:17,244 [__main__] INFO: Y_train: (757, 1)
-2018-05-23 20:14:17,244 [__main__] INFO: X_val: (314, 2223)
-2018-05-23 20:14:17,244 [__main__] INFO: Y_val: (314, 1)
-2018-05-23 20:14:17,244 [__main__] INFO: X_test: (442, 2223)
-2018-05-23 20:14:17,244 [__main__] INFO: Y_test: (442, 1)
-2018-05-23 20:14:25,663 [__main__] INFO: Shapes in generate_plots script: bace
-2018-05-23 20:14:25,663 [__main__] INFO: SMILES shape: (757,)
-2018-05-23 20:14:25,663 [__main__] INFO: x_train shape: (757, 2223)
-2018-05-23 20:14:25,664 [__main__] INFO: x_test shape: (442, 2223)
-2018-05-23 20:14:25,664 [__main__] INFO: x_val hape: (314, 2223)
-2018-05-23 20:14:25,664 [__main__] INFO: y_train shape: (757, 1)
-2018-05-23 20:14:25,664 [__main__] INFO: y_test shape: (442, 1)
-2018-05-23 20:14:25,664 [__main__] INFO: y_val shape: (314, 1)
-2018-05-23 20:14:25,664 [__main__] INFO: X shape: (2223, 1513)
-2018-05-23 20:14:25,664 [__main__] INFO: Y shape: (1, 1513)
+2018-05-25 21:24:10,808 [__main__] INFO: Dataset: bace
+2018-05-25 21:24:10,808 [__main__] INFO: Descriptors ['rdkit', 'morgan', 'mordred', 'maccs']
+2018-05-25 21:24:10,808 [__main__] INFO: Split: cluster
+2018-05-25 21:24:10,808 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/bace.ini
+2018-05-25 21:24:10,808 [__main__] INFO: Split size: 0.1
+2018-05-25 21:24:10,809 [__main__] INFO: Load train data
+2018-05-25 21:24:11,306 [__main__] INFO: Data loaded from config
+2018-05-25 21:24:11,563 [__main__] INFO: Load test data
+2018-05-25 21:24:11,866 [__main__] INFO: Data loaded from config
+2018-05-25 21:24:12,009 [__main__] INFO: Load val data
+2018-05-25 21:24:12,247 [__main__] INFO: Data loaded from config
+2018-05-25 21:24:12,348 [__main__] INFO: Loaded from config
+2018-05-25 21:24:12,359 [__main__] INFO: x_train shape: (757, 2223)
+2018-05-25 21:24:12,365 [__main__] INFO: x_test shape: (442, 2223)
+2018-05-25 21:24:12,369 [__main__] INFO: x_val shape: (314, 2223)
+2018-05-25 21:24:12,369 [__main__] INFO: y_train shape: (757, 1)
+2018-05-25 21:24:12,369 [__main__] INFO: y_test shape: (442, 1)
+2018-05-25 21:24:12,369 [__main__] INFO: y_val shape: (314, 1)
+2018-05-25 21:24:12,369 [__main__] INFO: X_train: (757, 2223)
+2018-05-25 21:24:12,369 [__main__] INFO: Y_train: (757, 1)
+2018-05-25 21:24:12,369 [__main__] INFO: X_val: (314, 2223)
+2018-05-25 21:24:12,369 [__main__] INFO: Y_val: (314, 1)
+2018-05-25 21:24:12,369 [__main__] INFO: X_test: (442, 2223)
+2018-05-25 21:24:12,369 [__main__] INFO: Y_test: (442, 1)
+2018-05-25 21:24:20,233 [__main__] INFO: Shapes in generate_plots script: bace
+2018-05-25 21:24:20,233 [__main__] INFO: SMILES shape: (757,)
+2018-05-25 21:24:20,233 [__main__] INFO: x_train shape: (757, 2223)
+2018-05-25 21:24:20,233 [__main__] INFO: x_test shape: (442, 2223)
+2018-05-25 21:24:20,233 [__main__] INFO: x_val hape: (314, 2223)
+2018-05-25 21:24:20,233 [__main__] INFO: y_train shape: (757, 1)
+2018-05-25 21:24:20,233 [__main__] INFO: y_test shape: (442, 1)
+2018-05-25 21:24:20,233 [__main__] INFO: y_val shape: (314, 1)
+2018-05-25 21:24:20,233 [__main__] INFO: X shape: (2223, 1513)
+2018-05-25 21:24:20,233 [__main__] INFO: Y shape: (1, 1513)
 
-2018-05-23 20:15:20,414 [__main__] INFO: Dataset: bace
-2018-05-23 20:15:20,414 [__main__] INFO: Descriptors ['rdkit', 'morgan', 'mordred', 'maccs']
-2018-05-23 20:15:20,414 [__main__] INFO: Split: random
-2018-05-23 20:15:20,415 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/bace.ini
-2018-05-23 20:15:20,415 [__main__] INFO: Split size: 0.1
-2018-05-23 20:15:20,416 [__main__] INFO: Load train data
-2018-05-23 20:15:21,171 [__main__] INFO: Data loaded from config
-2018-05-23 20:15:21,604 [__main__] INFO: Load test data
-2018-05-23 20:15:21,756 [__main__] INFO: Data loaded from config
-2018-05-23 20:15:21,799 [__main__] INFO: Load val data
-2018-05-23 20:15:21,951 [__main__] INFO: Data loaded from config
-2018-05-23 20:15:21,994 [__main__] INFO: Loaded from config
-2018-05-23 20:15:22,010 [__main__] INFO: x_train shape: (1211, 2223)
-2018-05-23 20:15:22,012 [__main__] INFO: x_test shape: (151, 2223)
-2018-05-23 20:15:22,014 [__main__] INFO: x_val hape: (151, 2223)
-2018-05-23 20:15:22,014 [__main__] INFO: y_train shape: (1211, 1)
-2018-05-23 20:15:22,014 [__main__] INFO: y_test shape: (151, 1)
-2018-05-23 20:15:22,014 [__main__] INFO: y_val shape: (151, 1)
-2018-05-23 20:15:22,014 [__main__] INFO: Data after splitting:
-2018-05-23 20:15:22,030 [__main__] INFO: x_train shape: (1211, 2223)
-2018-05-23 20:15:22,033 [__main__] INFO: x_test shape: (151, 2223)
-2018-05-23 20:15:22,035 [__main__] INFO: x_val hape: (151, 2223)
-2018-05-23 20:15:22,035 [__main__] INFO: y_train shape: (1211, 1)
-2018-05-23 20:15:22,035 [__main__] INFO: y_test shape: (151, 1)
-2018-05-23 20:15:22,035 [__main__] INFO: y_val shape: (151, 1)
-2018-05-23 20:15:22,035 [__main__] INFO: X_train: (1211, 2223)
-2018-05-23 20:15:22,035 [__main__] INFO: Y_train: (1211, 1)
-2018-05-23 20:15:22,035 [__main__] INFO: X_val: (151, 2223)
-2018-05-23 20:15:22,036 [__main__] INFO: Y_val: (151, 1)
-2018-05-23 20:15:22,036 [__main__] INFO: X_test: (151, 2223)
-2018-05-23 20:15:22,036 [__main__] INFO: Y_test: (151, 1)
-2018-05-23 20:15:30,451 [__main__] INFO: Shapes in generate_plots script: bace
-2018-05-23 20:15:30,451 [__main__] INFO: SMILES shape: (1211,)
-2018-05-23 20:15:30,451 [__main__] INFO: x_train shape: (1211, 2223)
-2018-05-23 20:15:30,451 [__main__] INFO: x_test shape: (151, 2223)
-2018-05-23 20:15:30,451 [__main__] INFO: x_val hape: (151, 2223)
-2018-05-23 20:15:30,451 [__main__] INFO: y_train shape: (1211, 1)
-2018-05-23 20:15:30,451 [__main__] INFO: y_test shape: (151, 1)
-2018-05-23 20:15:30,451 [__main__] INFO: y_val shape: (151, 1)
-2018-05-23 20:15:30,451 [__main__] INFO: X shape: (2223, 1513)
-2018-05-23 20:15:30,451 [__main__] INFO: Y shape: (1, 1513)
+2018-05-25 21:25:06,687 [__main__] INFO: Dataset: bace
+2018-05-25 21:25:06,688 [__main__] INFO: Descriptors ['rdkit', 'morgan', 'mordred', 'maccs']
+2018-05-25 21:25:06,688 [__main__] INFO: Split: random
+2018-05-25 21:25:06,688 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/bace.ini
+2018-05-25 21:25:06,688 [__main__] INFO: Split size: 0.1
+2018-05-25 21:25:06,689 [__main__] INFO: Load train data
+2018-05-25 21:25:07,444 [__main__] INFO: Data loaded from config
+2018-05-25 21:25:07,875 [__main__] INFO: Load test data
+2018-05-25 21:25:08,027 [__main__] INFO: Data loaded from config
+2018-05-25 21:25:08,070 [__main__] INFO: Load val data
+2018-05-25 21:25:08,224 [__main__] INFO: Data loaded from config
+2018-05-25 21:25:08,268 [__main__] INFO: Loaded from config
+2018-05-25 21:25:08,285 [__main__] INFO: x_train shape: (1211, 2223)
+2018-05-25 21:25:08,286 [__main__] INFO: x_test shape: (151, 2223)
+2018-05-25 21:25:08,288 [__main__] INFO: x_val shape: (151, 2223)
+2018-05-25 21:25:08,288 [__main__] INFO: y_train shape: (1211, 1)
+2018-05-25 21:25:08,288 [__main__] INFO: y_test shape: (151, 1)
+2018-05-25 21:25:08,289 [__main__] INFO: y_val shape: (151, 1)
+2018-05-25 21:25:08,289 [__main__] INFO: X_train: (1211, 2223)
+2018-05-25 21:25:08,289 [__main__] INFO: Y_train: (1211, 1)
+2018-05-25 21:25:08,289 [__main__] INFO: X_val: (151, 2223)
+2018-05-25 21:25:08,289 [__main__] INFO: Y_val: (151, 1)
+2018-05-25 21:25:08,289 [__main__] INFO: X_test: (151, 2223)
+2018-05-25 21:25:08,289 [__main__] INFO: Y_test: (151, 1)
+2018-05-25 21:25:16,133 [__main__] INFO: Shapes in generate_plots script: bace
+2018-05-25 21:25:16,133 [__main__] INFO: SMILES shape: (1211,)
+2018-05-25 21:25:16,133 [__main__] INFO: x_train shape: (1211, 2223)
+2018-05-25 21:25:16,133 [__main__] INFO: x_test shape: (151, 2223)
+2018-05-25 21:25:16,133 [__main__] INFO: x_val hape: (151, 2223)
+2018-05-25 21:25:16,133 [__main__] INFO: y_train shape: (1211, 1)
+2018-05-25 21:25:16,133 [__main__] INFO: y_test shape: (151, 1)
+2018-05-25 21:25:16,133 [__main__] INFO: y_val shape: (151, 1)
+2018-05-25 21:25:16,133 [__main__] INFO: X shape: (2223, 1513)
+2018-05-25 21:25:16,133 [__main__] INFO: Y shape: (1, 1513)
 
-2018-05-23 20:16:27,198 [__main__] INFO: Dataset: bace
-2018-05-23 20:16:27,198 [__main__] INFO: Descriptors ['rdkit', 'morgan', 'mordred', 'maccs']
-2018-05-23 20:16:27,198 [__main__] INFO: Split: stratified
-2018-05-23 20:16:27,198 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/bace.ini
-2018-05-23 20:16:27,198 [__main__] INFO: Split size: 0.1
-2018-05-23 20:16:27,199 [__main__] INFO: Load train data
-2018-05-23 20:16:27,199 [__main__] INFO: Loading data
-2018-05-23 20:16:27,202 [__main__] INFO: After processing shapes:
-2018-05-23 20:16:27,202 [__main__] INFO: Mordred data extraction
-2018-05-23 20:20:30,859 [__main__] INFO: mordred_features shape: (1211, 1824)
-2018-05-23 20:20:30,859 [__main__] INFO: RDKit data extraction
-2018-05-23 20:20:45,704 [__main__] INFO: rdkit_features shape: (1211, 200)
-2018-05-23 20:20:45,704 [__main__] INFO: After cleaning shapes:
-2018-05-23 20:20:46,118 [__main__] INFO: rdkit_features shape: (1211, 200)
-2018-05-23 20:20:50,509 [__main__] INFO: mordred_features shape: (1211, 1824)
-2018-05-23 20:20:50,523 [__main__] INFO: Maccs data extraction
-2018-05-23 20:20:54,169 [__main__] INFO: maccs_fingerprints shape: (1211, 167)
-2018-05-23 20:20:54,169 [__main__] INFO: Morgan data extraction
-2018-05-23 20:20:54,725 [__main__] INFO: morgan_fingerprints shape: (1211, 32)
-2018-05-23 20:20:55,218 [__main__] INFO: Load test data
-2018-05-23 20:20:55,218 [__main__] INFO: Loading data
-2018-05-23 20:20:55,221 [__main__] INFO: After processing shapes:
-2018-05-23 20:20:55,221 [__main__] INFO: Mordred data extraction
-2018-05-23 20:21:26,234 [__main__] INFO: mordred_features shape: (151, 1824)
-2018-05-23 20:21:26,234 [__main__] INFO: RDKit data extraction
-2018-05-23 20:21:28,685 [__main__] INFO: rdkit_features shape: (151, 200)
-2018-05-23 20:21:28,685 [__main__] INFO: After cleaning shapes:
-2018-05-23 20:21:28,738 [__main__] INFO: rdkit_features shape: (151, 200)
-2018-05-23 20:21:29,266 [__main__] INFO: mordred_features shape: (151, 1824)
-2018-05-23 20:21:29,269 [__main__] INFO: Maccs data extraction
-2018-05-23 20:21:29,723 [__main__] INFO: maccs_fingerprints shape: (151, 167)
-2018-05-23 20:21:29,724 [__main__] INFO: Morgan data extraction
-2018-05-23 20:21:29,786 [__main__] INFO: morgan_fingerprints shape: (151, 32)
-2018-05-23 20:21:29,825 [__main__] INFO: Load val data
-2018-05-23 20:21:29,825 [__main__] INFO: Loading data
-2018-05-23 20:21:29,827 [__main__] INFO: After processing shapes:
-2018-05-23 20:21:29,827 [__main__] INFO: Mordred data extraction
-2018-05-23 20:22:00,766 [__main__] INFO: mordred_features shape: (151, 1824)
-2018-05-23 20:22:00,766 [__main__] INFO: RDKit data extraction
-2018-05-23 20:22:03,034 [__main__] INFO: rdkit_features shape: (151, 200)
-2018-05-23 20:22:03,034 [__main__] INFO: After cleaning shapes:
-2018-05-23 20:22:03,086 [__main__] INFO: rdkit_features shape: (151, 200)
-2018-05-23 20:22:03,610 [__main__] INFO: mordred_features shape: (151, 1824)
-2018-05-23 20:22:03,613 [__main__] INFO: Maccs data extraction
-2018-05-23 20:22:04,064 [__main__] INFO: maccs_fingerprints shape: (151, 167)
-2018-05-23 20:22:04,064 [__main__] INFO: Morgan data extraction
-2018-05-23 20:22:04,125 [__main__] INFO: morgan_fingerprints shape: (151, 32)
-2018-05-23 20:22:04,166 [__main__] INFO: Loaded from config
-2018-05-23 20:22:04,219 [__main__] INFO: x_train shape: (1211, 2223)
-2018-05-23 20:22:04,224 [__main__] INFO: x_test shape: (151, 2223)
-2018-05-23 20:22:04,227 [__main__] INFO: x_val hape: (151, 2223)
-2018-05-23 20:22:04,227 [__main__] INFO: y_train shape: (1211, 1)
-2018-05-23 20:22:04,227 [__main__] INFO: y_test shape: (151, 1)
-2018-05-23 20:22:04,227 [__main__] INFO: y_val shape: (151, 1)
-2018-05-23 20:22:04,227 [__main__] INFO: Data after splitting:
-2018-05-23 20:22:04,266 [__main__] INFO: x_train shape: (1211, 2223)
-2018-05-23 20:22:04,270 [__main__] INFO: x_test shape: (151, 2223)
-2018-05-23 20:22:04,273 [__main__] INFO: x_val hape: (151, 2223)
-2018-05-23 20:22:04,273 [__main__] INFO: y_train shape: (1211, 1)
-2018-05-23 20:22:04,273 [__main__] INFO: y_test shape: (151, 1)
-2018-05-23 20:22:04,273 [__main__] INFO: y_val shape: (151, 1)
-2018-05-23 20:22:04,273 [__main__] INFO: X_train: (1211, 2223)
-2018-05-23 20:22:04,273 [__main__] INFO: Y_train: (1211, 1)
-2018-05-23 20:22:04,273 [__main__] INFO: X_val: (151, 2223)
-2018-05-23 20:22:04,273 [__main__] INFO: Y_val: (151, 1)
-2018-05-23 20:22:04,273 [__main__] INFO: X_test: (151, 2223)
-2018-05-23 20:22:04,274 [__main__] INFO: Y_test: (151, 1)
-2018-05-23 20:22:12,889 [__main__] INFO: Shapes in generate_plots script: bace
-2018-05-23 20:22:12,889 [__main__] INFO: SMILES shape: (1211,)
-2018-05-23 20:22:12,889 [__main__] INFO: x_train shape: (1211, 2223)
-2018-05-23 20:22:12,889 [__main__] INFO: x_test shape: (151, 2223)
-2018-05-23 20:22:12,889 [__main__] INFO: x_val hape: (151, 2223)
-2018-05-23 20:22:12,889 [__main__] INFO: y_train shape: (1211, 1)
-2018-05-23 20:22:12,889 [__main__] INFO: y_test shape: (151, 1)
-2018-05-23 20:22:12,889 [__main__] INFO: y_val shape: (151, 1)
-2018-05-23 20:22:12,889 [__main__] INFO: X shape: (2223, 1513)
-2018-05-23 20:22:12,889 [__main__] INFO: Y shape: (1, 1513)
+2018-05-25 21:26:08,416 [__main__] INFO: Dataset: bace
+2018-05-25 21:26:08,416 [__main__] INFO: Descriptors ['rdkit', 'morgan', 'mordred', 'maccs']
+2018-05-25 21:26:08,416 [__main__] INFO: Split: stratified
+2018-05-25 21:26:08,416 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/bace.ini
+2018-05-25 21:26:08,416 [__main__] INFO: Split size: 0.1
+2018-05-25 21:26:08,418 [__main__] INFO: Load train data
+2018-05-25 21:26:09,177 [__main__] INFO: Data loaded from config
+2018-05-25 21:26:09,604 [__main__] INFO: Load test data
+2018-05-25 21:26:09,757 [__main__] INFO: Data loaded from config
+2018-05-25 21:26:09,801 [__main__] INFO: Load val data
+2018-05-25 21:26:09,957 [__main__] INFO: Data loaded from config
+2018-05-25 21:26:10,003 [__main__] INFO: Loaded from config
+2018-05-25 21:26:10,020 [__main__] INFO: x_train shape: (1211, 2223)
+2018-05-25 21:26:10,022 [__main__] INFO: x_test shape: (151, 2223)
+2018-05-25 21:26:10,024 [__main__] INFO: x_val shape: (151, 2223)
+2018-05-25 21:26:10,024 [__main__] INFO: y_train shape: (1211, 1)
+2018-05-25 21:26:10,024 [__main__] INFO: y_test shape: (151, 1)
+2018-05-25 21:26:10,024 [__main__] INFO: y_val shape: (151, 1)
+2018-05-25 21:26:10,024 [__main__] INFO: X_train: (1211, 2223)
+2018-05-25 21:26:10,024 [__main__] INFO: Y_train: (1211, 1)
+2018-05-25 21:26:10,024 [__main__] INFO: X_val: (151, 2223)
+2018-05-25 21:26:10,024 [__main__] INFO: Y_val: (151, 1)
+2018-05-25 21:26:10,024 [__main__] INFO: X_test: (151, 2223)
+2018-05-25 21:26:10,024 [__main__] INFO: Y_test: (151, 1)
+2018-05-25 21:26:17,881 [__main__] INFO: Shapes in generate_plots script: bace
+2018-05-25 21:26:17,882 [__main__] INFO: SMILES shape: (1211,)
+2018-05-25 21:26:17,882 [__main__] INFO: x_train shape: (1211, 2223)
+2018-05-25 21:26:17,882 [__main__] INFO: x_test shape: (151, 2223)
+2018-05-25 21:26:17,882 [__main__] INFO: x_val hape: (151, 2223)
+2018-05-25 21:26:17,882 [__main__] INFO: y_train shape: (1211, 1)
+2018-05-25 21:26:17,882 [__main__] INFO: y_test shape: (151, 1)
+2018-05-25 21:26:17,882 [__main__] INFO: y_val shape: (151, 1)
+2018-05-25 21:26:17,882 [__main__] INFO: X shape: (2223, 1513)
+2018-05-25 21:26:17,882 [__main__] INFO: Y shape: (1, 1513)
 
-2018-05-23 20:23:09,227 [__main__] INFO: Dataset: bace
-2018-05-23 20:23:09,227 [__main__] INFO: Descriptors ['rdkit']
-2018-05-23 20:23:09,228 [__main__] INFO: Split: scaffold
-2018-05-23 20:23:09,228 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/bace.ini
-2018-05-23 20:23:09,228 [__main__] INFO: Split size: 0.1
-2018-05-23 20:23:09,230 [__main__] INFO: Load train data
-2018-05-23 20:23:09,285 [__main__] INFO: Data loaded from config
-2018-05-23 20:23:09,304 [__main__] INFO: Load test data
-2018-05-23 20:23:09,317 [__main__] INFO: Data loaded from config
-2018-05-23 20:23:09,320 [__main__] INFO: Load val data
-2018-05-23 20:23:09,332 [__main__] INFO: Data loaded from config
-2018-05-23 20:23:09,335 [__main__] INFO: Loaded from config
-2018-05-23 20:23:09,337 [__main__] INFO: x_train shape: (1207, 200)
-2018-05-23 20:23:09,337 [__main__] INFO: x_test shape: (152, 200)
-2018-05-23 20:23:09,338 [__main__] INFO: x_val hape: (154, 200)
-2018-05-23 20:23:09,338 [__main__] INFO: y_train shape: (1207, 1)
-2018-05-23 20:23:09,338 [__main__] INFO: y_test shape: (152, 1)
-2018-05-23 20:23:09,338 [__main__] INFO: y_val shape: (154, 1)
-2018-05-23 20:23:09,338 [__main__] INFO: Data after splitting:
-2018-05-23 20:23:09,339 [__main__] INFO: x_train shape: (1207, 200)
-2018-05-23 20:23:09,340 [__main__] INFO: x_test shape: (152, 200)
-2018-05-23 20:23:09,340 [__main__] INFO: x_val hape: (154, 200)
-2018-05-23 20:23:09,340 [__main__] INFO: y_train shape: (1207, 1)
-2018-05-23 20:23:09,340 [__main__] INFO: y_test shape: (152, 1)
-2018-05-23 20:23:09,340 [__main__] INFO: y_val shape: (154, 1)
-2018-05-23 20:23:09,340 [__main__] INFO: X_train: (1207, 200)
-2018-05-23 20:23:09,340 [__main__] INFO: Y_train: (1207, 1)
-2018-05-23 20:23:09,340 [__main__] INFO: X_val: (154, 200)
-2018-05-23 20:23:09,340 [__main__] INFO: Y_val: (154, 1)
-2018-05-23 20:23:09,340 [__main__] INFO: X_test: (152, 200)
-2018-05-23 20:23:09,340 [__main__] INFO: Y_test: (152, 1)
-2018-05-23 20:23:10,036 [__main__] INFO: Shapes in generate_plots script: bace
-2018-05-23 20:23:10,036 [__main__] INFO: SMILES shape: (1207,)
-2018-05-23 20:23:10,036 [__main__] INFO: x_train shape: (1207, 200)
-2018-05-23 20:23:10,036 [__main__] INFO: x_test shape: (152, 200)
-2018-05-23 20:23:10,036 [__main__] INFO: x_val hape: (154, 200)
-2018-05-23 20:23:10,036 [__main__] INFO: y_train shape: (1207, 1)
-2018-05-23 20:23:10,036 [__main__] INFO: y_test shape: (152, 1)
-2018-05-23 20:23:10,036 [__main__] INFO: y_val shape: (154, 1)
-2018-05-23 20:23:10,036 [__main__] INFO: X shape: (200, 1513)
-2018-05-23 20:23:10,036 [__main__] INFO: Y shape: (1, 1513)
+2018-05-25 21:27:11,131 [__main__] INFO: Dataset: tox21
+2018-05-25 21:27:11,131 [__main__] INFO: Descriptors ['rdkit', 'morgan', 'mordred', 'maccs']
+2018-05-25 21:27:11,131 [__main__] INFO: Split: scaffold
+2018-05-25 21:27:11,131 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/tox21.ini
+2018-05-25 21:27:11,131 [__main__] INFO: Split size: 0.1
+2018-05-25 21:27:11,132 [__main__] INFO: Load train data
+2018-05-25 21:27:11,681 [__main__] INFO: Data loaded from config
+2018-05-25 21:27:11,930 [__main__] INFO: Load test data
+2018-05-25 21:27:12,503 [__main__] INFO: Data loaded from config
+2018-05-25 21:27:12,776 [__main__] INFO: Load val data
+2018-05-25 21:27:16,681 [__main__] INFO: Data loaded from config
+2018-05-25 21:27:19,202 [__main__] INFO: Loaded from config
+2018-05-25 21:27:19,213 [__main__] INFO: x_train shape: (551, 2223)
+2018-05-25 21:27:19,225 [__main__] INFO: x_test shape: (566, 2223)
+2018-05-25 21:27:19,348 [__main__] INFO: x_val shape: (4951, 2223)
+2018-05-25 21:27:19,348 [__main__] INFO: y_train shape: (551, 1)
+2018-05-25 21:27:19,348 [__main__] INFO: y_test shape: (566, 1)
+2018-05-25 21:27:19,348 [__main__] INFO: y_val shape: (4951, 1)
+2018-05-25 21:27:19,348 [__main__] INFO: X_train: (551, 2223)
+2018-05-25 21:27:19,348 [__main__] INFO: Y_train: (551, 1)
+2018-05-25 21:27:19,348 [__main__] INFO: X_val: (4951, 2223)
+2018-05-25 21:27:19,348 [__main__] INFO: Y_val: (4951, 1)
+2018-05-25 21:27:19,348 [__main__] INFO: X_test: (566, 2223)
+2018-05-25 21:27:19,349 [__main__] INFO: Y_test: (566, 1)
+2018-05-25 21:27:56,798 [__main__] INFO: Shapes in generate_plots script: tox21
+2018-05-25 21:27:56,798 [__main__] INFO: SMILES shape: (551,)
+2018-05-25 21:27:56,798 [__main__] INFO: x_train shape: (551, 2223)
+2018-05-25 21:27:56,798 [__main__] INFO: x_test shape: (566, 2223)
+2018-05-25 21:27:56,798 [__main__] INFO: x_val hape: (4951, 2223)
+2018-05-25 21:27:56,798 [__main__] INFO: y_train shape: (551, 1)
+2018-05-25 21:27:56,798 [__main__] INFO: y_test shape: (566, 1)
+2018-05-25 21:27:56,798 [__main__] INFO: y_val shape: (4951, 1)
+2018-05-25 21:27:56,798 [__main__] INFO: X shape: (2223, 6068)
+2018-05-25 21:27:56,798 [__main__] INFO: Y shape: (1, 6068)
 
-2018-05-23 20:23:56,745 [__main__] INFO: Dataset: bace
-2018-05-23 20:23:56,745 [__main__] INFO: Descriptors ['rdkit']
-2018-05-23 20:23:56,745 [__main__] INFO: Split: cluster
-2018-05-23 20:23:56,745 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/bace.ini
-2018-05-23 20:23:56,745 [__main__] INFO: Split size: 0.1
-2018-05-23 20:23:56,746 [__main__] INFO: Load train data
-2018-05-23 20:23:56,780 [__main__] INFO: Data loaded from config
-2018-05-23 20:23:56,789 [__main__] INFO: Load test data
-2018-05-23 20:23:56,812 [__main__] INFO: Data loaded from config
-2018-05-23 20:23:56,818 [__main__] INFO: Load val data
-2018-05-23 20:23:56,834 [__main__] INFO: Data loaded from config
-2018-05-23 20:23:56,838 [__main__] INFO: Loaded from config
-2018-05-23 20:23:56,839 [__main__] INFO: x_train shape: (757, 200)
-2018-05-23 20:23:56,840 [__main__] INFO: x_test shape: (442, 200)
-2018-05-23 20:23:56,840 [__main__] INFO: x_val hape: (314, 200)
-2018-05-23 20:23:56,840 [__main__] INFO: y_train shape: (757, 1)
-2018-05-23 20:23:56,840 [__main__] INFO: y_test shape: (442, 1)
-2018-05-23 20:23:56,840 [__main__] INFO: y_val shape: (314, 1)
-2018-05-23 20:23:56,840 [__main__] INFO: Data after splitting:
-2018-05-23 20:23:56,841 [__main__] INFO: x_train shape: (757, 200)
-2018-05-23 20:23:56,842 [__main__] INFO: x_test shape: (442, 200)
-2018-05-23 20:23:56,842 [__main__] INFO: x_val hape: (314, 200)
-2018-05-23 20:23:56,842 [__main__] INFO: y_train shape: (757, 1)
-2018-05-23 20:23:56,842 [__main__] INFO: y_test shape: (442, 1)
-2018-05-23 20:23:56,842 [__main__] INFO: y_val shape: (314, 1)
-2018-05-23 20:23:56,842 [__main__] INFO: X_train: (757, 200)
-2018-05-23 20:23:56,842 [__main__] INFO: Y_train: (757, 1)
-2018-05-23 20:23:56,842 [__main__] INFO: X_val: (314, 200)
-2018-05-23 20:23:56,842 [__main__] INFO: Y_val: (314, 1)
-2018-05-23 20:23:56,842 [__main__] INFO: X_test: (442, 200)
-2018-05-23 20:23:56,842 [__main__] INFO: Y_test: (442, 1)
-2018-05-23 20:23:57,537 [__main__] INFO: Shapes in generate_plots script: bace
-2018-05-23 20:23:57,537 [__main__] INFO: SMILES shape: (757,)
-2018-05-23 20:23:57,537 [__main__] INFO: x_train shape: (757, 200)
-2018-05-23 20:23:57,537 [__main__] INFO: x_test shape: (442, 200)
-2018-05-23 20:23:57,537 [__main__] INFO: x_val hape: (314, 200)
-2018-05-23 20:23:57,537 [__main__] INFO: y_train shape: (757, 1)
-2018-05-23 20:23:57,537 [__main__] INFO: y_test shape: (442, 1)
-2018-05-23 20:23:57,537 [__main__] INFO: y_val shape: (314, 1)
-2018-05-23 20:23:57,537 [__main__] INFO: X shape: (200, 1513)
-2018-05-23 20:23:57,537 [__main__] INFO: Y shape: (1, 1513)
+2018-05-25 21:34:39,460 [__main__] INFO: Dataset: tox21
+2018-05-25 21:34:39,461 [__main__] INFO: Descriptors ['rdkit', 'morgan', 'mordred', 'maccs']
+2018-05-25 21:34:39,461 [__main__] INFO: Split: cluster
+2018-05-25 21:34:39,461 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/tox21.ini
+2018-05-25 21:34:39,461 [__main__] INFO: Split size: 0.1
+2018-05-25 21:34:39,461 [__main__] INFO: Load train data
+2018-05-25 21:34:39,568 [__main__] INFO: Loading data
+2018-05-25 21:34:39,574 [__main__] INFO: After processing shapes:
+2018-05-25 21:34:39,574 [__main__] INFO: Mordred data extraction
+2018-05-25 21:40:27,505 [__main__] INFO: mordred_features shape: (3398, 1824)
+2018-05-25 21:40:27,505 [__main__] INFO: After cleaning shapes:
+2018-05-25 21:40:41,610 [__main__] INFO: mordred_features shape: (3397, 1824)
+2018-05-25 21:40:41,669 [__main__] INFO: Maccs data extraction
+2018-05-25 21:40:48,154 [__main__] INFO: maccs_fingerprints shape: (3397, 167)
+2018-05-25 21:40:48,155 [__main__] INFO: Morgan data extraction
+2018-05-25 21:40:49,138 [__main__] INFO: morgan_fingerprints shape: (3397, 32)
+2018-05-25 21:40:50,993 [__main__] INFO: Load test data
+2018-05-25 21:40:51,582 [__main__] INFO: Data loaded from config
+2018-05-25 21:40:51,921 [__main__] INFO: Load val data
+2018-05-25 21:40:52,038 [__main__] INFO: Loading data
+2018-05-25 21:40:52,044 [__main__] INFO: After processing shapes:
+2018-05-25 21:40:52,044 [__main__] INFO: Mordred data extraction
+2018-05-25 21:47:49,519 [__main__] INFO: mordred_features shape: (3659, 1824)
+2018-05-25 21:47:49,519 [__main__] INFO: After cleaning shapes:
+2018-05-25 21:48:04,466 [__main__] INFO: mordred_features shape: (3659, 1824)
+2018-05-25 21:48:04,541 [__main__] INFO: Maccs data extraction
+2018-05-25 21:48:12,443 [__main__] INFO: maccs_fingerprints shape: (3659, 167)
+2018-05-25 21:48:12,443 [__main__] INFO: Morgan data extraction
+2018-05-25 21:48:13,603 [__main__] INFO: morgan_fingerprints shape: (3659, 32)
+2018-05-25 21:48:15,608 [__main__] INFO: Loaded from config
+2018-05-25 21:48:15,778 [__main__] INFO: x_train shape: (3307, 2223)
+2018-05-25 21:48:15,793 [__main__] INFO: x_test shape: (566, 2223)
+2018-05-25 21:48:15,958 [__main__] INFO: x_val shape: (3568, 2223)
+2018-05-25 21:48:15,959 [__main__] INFO: y_train shape: (3307, 1)
+2018-05-25 21:48:15,959 [__main__] INFO: y_test shape: (566, 1)
+2018-05-25 21:48:15,959 [__main__] INFO: y_val shape: (3568, 1)
+2018-05-25 21:48:15,960 [__main__] INFO: X_train: (3307, 2223)
+2018-05-25 21:48:15,960 [__main__] INFO: Y_train: (3307, 1)
+2018-05-25 21:48:15,960 [__main__] INFO: X_val: (3568, 2223)
+2018-05-25 21:48:15,960 [__main__] INFO: Y_val: (3568, 1)
+2018-05-25 21:48:15,960 [__main__] INFO: X_test: (566, 2223)
+2018-05-25 21:48:15,960 [__main__] INFO: Y_test: (566, 1)
+2018-05-25 21:49:01,070 [__main__] INFO: Shapes in generate_plots script: tox21
+2018-05-25 21:49:01,070 [__main__] INFO: SMILES shape: (3307,)
+2018-05-25 21:49:01,070 [__main__] INFO: x_train shape: (3307, 2223)
+2018-05-25 21:49:01,070 [__main__] INFO: x_test shape: (566, 2223)
+2018-05-25 21:49:01,070 [__main__] INFO: x_val hape: (3568, 2223)
+2018-05-25 21:49:01,070 [__main__] INFO: y_train shape: (3307, 1)
+2018-05-25 21:49:01,070 [__main__] INFO: y_test shape: (566, 1)
+2018-05-25 21:49:01,070 [__main__] INFO: y_val shape: (3568, 1)
+2018-05-25 21:49:01,070 [__main__] INFO: X shape: (2223, 7441)
+2018-05-25 21:49:01,071 [__main__] INFO: Y shape: (1, 7441)
 
-2018-05-23 20:24:42,293 [__main__] INFO: Dataset: bace
-2018-05-23 20:24:42,293 [__main__] INFO: Descriptors ['rdkit']
-2018-05-23 20:24:42,293 [__main__] INFO: Split: random
-2018-05-23 20:24:42,293 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/bace.ini
-2018-05-23 20:24:42,293 [__main__] INFO: Split size: 0.1
-2018-05-23 20:24:42,296 [__main__] INFO: Load train data
-2018-05-23 20:24:42,347 [__main__] INFO: Data loaded from config
-2018-05-23 20:24:42,371 [__main__] INFO: Load test data
-2018-05-23 20:24:42,383 [__main__] INFO: Data loaded from config
-2018-05-23 20:24:42,386 [__main__] INFO: Load val data
-2018-05-23 20:24:42,398 [__main__] INFO: Data loaded from config
-2018-05-23 20:24:42,401 [__main__] INFO: Loaded from config
-2018-05-23 20:24:42,402 [__main__] INFO: x_train shape: (1211, 200)
-2018-05-23 20:24:42,403 [__main__] INFO: x_test shape: (151, 200)
-2018-05-23 20:24:42,403 [__main__] INFO: x_val hape: (151, 200)
-2018-05-23 20:24:42,403 [__main__] INFO: y_train shape: (1211, 1)
-2018-05-23 20:24:42,403 [__main__] INFO: y_test shape: (151, 1)
-2018-05-23 20:24:42,403 [__main__] INFO: y_val shape: (151, 1)
-2018-05-23 20:24:42,403 [__main__] INFO: Data after splitting:
-2018-05-23 20:24:42,405 [__main__] INFO: x_train shape: (1211, 200)
-2018-05-23 20:24:42,405 [__main__] INFO: x_test shape: (151, 200)
-2018-05-23 20:24:42,405 [__main__] INFO: x_val hape: (151, 200)
-2018-05-23 20:24:42,405 [__main__] INFO: y_train shape: (1211, 1)
-2018-05-23 20:24:42,405 [__main__] INFO: y_test shape: (151, 1)
-2018-05-23 20:24:42,405 [__main__] INFO: y_val shape: (151, 1)
-2018-05-23 20:24:42,406 [__main__] INFO: X_train: (1211, 200)
-2018-05-23 20:24:42,406 [__main__] INFO: Y_train: (1211, 1)
-2018-05-23 20:24:42,406 [__main__] INFO: X_val: (151, 200)
-2018-05-23 20:24:42,406 [__main__] INFO: Y_val: (151, 1)
-2018-05-23 20:24:42,406 [__main__] INFO: X_test: (151, 200)
-2018-05-23 20:24:42,406 [__main__] INFO: Y_test: (151, 1)
-2018-05-23 20:24:43,112 [__main__] INFO: Shapes in generate_plots script: bace
-2018-05-23 20:24:43,112 [__main__] INFO: SMILES shape: (1211,)
-2018-05-23 20:24:43,113 [__main__] INFO: x_train shape: (1211, 200)
-2018-05-23 20:24:43,113 [__main__] INFO: x_test shape: (151, 200)
-2018-05-23 20:24:43,113 [__main__] INFO: x_val hape: (151, 200)
-2018-05-23 20:24:43,113 [__main__] INFO: y_train shape: (1211, 1)
-2018-05-23 20:24:43,113 [__main__] INFO: y_test shape: (151, 1)
-2018-05-23 20:24:43,113 [__main__] INFO: y_val shape: (151, 1)
-2018-05-23 20:24:43,113 [__main__] INFO: X shape: (200, 1513)
-2018-05-23 20:24:43,113 [__main__] INFO: Y shape: (1, 1513)
+2018-05-25 21:58:20,706 [__main__] INFO: Dataset: tox21
+2018-05-25 21:58:20,706 [__main__] INFO: Descriptors ['rdkit', 'morgan', 'mordred', 'maccs']
+2018-05-25 21:58:20,706 [__main__] INFO: Split: random
+2018-05-25 21:58:20,706 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/tox21.ini
+2018-05-25 21:58:20,706 [__main__] INFO: Split size: 0.1
+2018-05-25 21:58:20,707 [__main__] INFO: Load train data
+2018-05-25 21:58:20,707 [__main__] INFO: Loading data
+2018-05-25 21:58:20,711 [__main__] INFO: After processing shapes:
+2018-05-25 21:58:20,711 [__main__] INFO: Mordred data extraction
+2018-05-25 21:59:33,122 [__main__] INFO: mordred_features shape: (706, 1824)
+2018-05-25 21:59:33,122 [__main__] INFO: RDKit data extraction
+2018-05-25 21:59:37,325 [__main__] INFO: rdkit_features shape: (706, 200)
+2018-05-25 21:59:37,326 [__main__] INFO: After cleaning shapes:
+2018-05-25 21:59:37,567 [__main__] INFO: rdkit_features shape: (706, 200)
+2018-05-25 21:59:40,438 [__main__] INFO: mordred_features shape: (706, 1824)
+2018-05-25 21:59:40,453 [__main__] INFO: Maccs data extraction
+2018-05-25 21:59:41,893 [__main__] INFO: maccs_fingerprints shape: (706, 167)
+2018-05-25 21:59:41,893 [__main__] INFO: Morgan data extraction
+2018-05-25 21:59:42,101 [__main__] INFO: morgan_fingerprints shape: (706, 32)
+2018-05-25 21:59:42,393 [__main__] INFO: Load test data
+2018-05-25 21:59:42,978 [__main__] INFO: Data loaded from config
+2018-05-25 21:59:43,262 [__main__] INFO: Load val data
+2018-05-25 21:59:43,262 [__main__] INFO: Loading data
+2018-05-25 21:59:43,272 [__main__] INFO: After processing shapes:
+2018-05-25 21:59:43,272 [__main__] INFO: Mordred data extraction
+2018-05-25 22:11:03,840 [__main__] INFO: mordred_features shape: (6351, 1824)
+2018-05-25 22:11:03,840 [__main__] INFO: RDKit data extraction
+2018-05-25 22:12:13,700 [__main__] INFO: rdkit_features shape: (6351, 200)
+2018-05-25 22:12:13,701 [__main__] INFO: After cleaning shapes:
+2018-05-25 22:12:15,839 [__main__] INFO: rdkit_features shape: (6350, 200)
+2018-05-25 22:12:42,180 [__main__] INFO: mordred_features shape: (6350, 1824)
+2018-05-25 22:12:42,317 [__main__] INFO: Maccs data extraction
+2018-05-25 22:12:55,213 [__main__] INFO: maccs_fingerprints shape: (6350, 167)
+2018-05-25 22:12:55,214 [__main__] INFO: Morgan data extraction
+2018-05-25 22:12:57,179 [__main__] INFO: morgan_fingerprints shape: (6350, 32)
+2018-05-25 22:13:00,795 [__main__] INFO: Loaded from config
+2018-05-25 22:13:00,822 [__main__] INFO: x_train shape: (692, 2223)
+2018-05-25 22:13:00,835 [__main__] INFO: x_test shape: (566, 2223)
+2018-05-25 22:13:01,136 [__main__] INFO: x_val shape: (6183, 2223)
+2018-05-25 22:13:01,137 [__main__] INFO: y_train shape: (692, 1)
+2018-05-25 22:13:01,137 [__main__] INFO: y_test shape: (566, 1)
+2018-05-25 22:13:01,137 [__main__] INFO: y_val shape: (6183, 1)
+2018-05-25 22:13:01,138 [__main__] INFO: X_train: (692, 2223)
+2018-05-25 22:13:01,138 [__main__] INFO: Y_train: (692, 1)
+2018-05-25 22:13:01,138 [__main__] INFO: X_val: (6183, 2223)
+2018-05-25 22:13:01,138 [__main__] INFO: Y_val: (6183, 1)
+2018-05-25 22:13:01,138 [__main__] INFO: X_test: (566, 2223)
+2018-05-25 22:13:01,138 [__main__] INFO: Y_test: (566, 1)
+2018-05-25 22:13:46,768 [__main__] INFO: Shapes in generate_plots script: tox21
+2018-05-25 22:13:46,768 [__main__] INFO: SMILES shape: (692,)
+2018-05-25 22:13:46,768 [__main__] INFO: x_train shape: (692, 2223)
+2018-05-25 22:13:46,768 [__main__] INFO: x_test shape: (566, 2223)
+2018-05-25 22:13:46,768 [__main__] INFO: x_val hape: (6183, 2223)
+2018-05-25 22:13:46,768 [__main__] INFO: y_train shape: (692, 1)
+2018-05-25 22:13:46,768 [__main__] INFO: y_test shape: (566, 1)
+2018-05-25 22:13:46,768 [__main__] INFO: y_val shape: (6183, 1)
+2018-05-25 22:13:46,768 [__main__] INFO: X shape: (2223, 7441)
+2018-05-25 22:13:46,768 [__main__] INFO: Y shape: (1, 7441)
 
-2018-05-23 20:25:30,221 [__main__] INFO: Dataset: bace
-2018-05-23 20:25:30,221 [__main__] INFO: Descriptors ['rdkit']
-2018-05-23 20:25:30,221 [__main__] INFO: Split: stratified
-2018-05-23 20:25:30,221 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/bace.ini
-2018-05-23 20:25:30,221 [__main__] INFO: Split size: 0.1
-2018-05-23 20:25:30,224 [__main__] INFO: Load train data
-2018-05-23 20:25:30,274 [__main__] INFO: Data loaded from config
-2018-05-23 20:25:30,296 [__main__] INFO: Load test data
-2018-05-23 20:25:30,309 [__main__] INFO: Data loaded from config
-2018-05-23 20:25:30,312 [__main__] INFO: Load val data
-2018-05-23 20:25:30,324 [__main__] INFO: Data loaded from config
-2018-05-23 20:25:30,327 [__main__] INFO: Loaded from config
-2018-05-23 20:25:30,328 [__main__] INFO: x_train shape: (1211, 200)
-2018-05-23 20:25:30,328 [__main__] INFO: x_test shape: (151, 200)
-2018-05-23 20:25:30,328 [__main__] INFO: x_val hape: (151, 200)
-2018-05-23 20:25:30,329 [__main__] INFO: y_train shape: (1211, 1)
-2018-05-23 20:25:30,329 [__main__] INFO: y_test shape: (151, 1)
-2018-05-23 20:25:30,329 [__main__] INFO: y_val shape: (151, 1)
-2018-05-23 20:25:30,329 [__main__] INFO: Data after splitting:
-2018-05-23 20:25:30,330 [__main__] INFO: x_train shape: (1211, 200)
-2018-05-23 20:25:30,330 [__main__] INFO: x_test shape: (151, 200)
-2018-05-23 20:25:30,331 [__main__] INFO: x_val hape: (151, 200)
-2018-05-23 20:25:30,331 [__main__] INFO: y_train shape: (1211, 1)
-2018-05-23 20:25:30,331 [__main__] INFO: y_test shape: (151, 1)
-2018-05-23 20:25:30,331 [__main__] INFO: y_val shape: (151, 1)
-2018-05-23 20:25:30,331 [__main__] INFO: X_train: (1211, 200)
-2018-05-23 20:25:30,331 [__main__] INFO: Y_train: (1211, 1)
-2018-05-23 20:25:30,331 [__main__] INFO: X_val: (151, 200)
-2018-05-23 20:25:30,331 [__main__] INFO: Y_val: (151, 1)
-2018-05-23 20:25:30,331 [__main__] INFO: X_test: (151, 200)
-2018-05-23 20:25:30,331 [__main__] INFO: Y_test: (151, 1)
-2018-05-23 20:25:31,038 [__main__] INFO: Shapes in generate_plots script: bace
-2018-05-23 20:25:31,039 [__main__] INFO: SMILES shape: (1211,)
-2018-05-23 20:25:31,039 [__main__] INFO: x_train shape: (1211, 200)
-2018-05-23 20:25:31,039 [__main__] INFO: x_test shape: (151, 200)
-2018-05-23 20:25:31,039 [__main__] INFO: x_val hape: (151, 200)
-2018-05-23 20:25:31,039 [__main__] INFO: y_train shape: (1211, 1)
-2018-05-23 20:25:31,039 [__main__] INFO: y_test shape: (151, 1)
-2018-05-23 20:25:31,039 [__main__] INFO: y_val shape: (151, 1)
-2018-05-23 20:25:31,039 [__main__] INFO: X shape: (200, 1513)
-2018-05-23 20:25:31,039 [__main__] INFO: Y shape: (1, 1513)
+2018-05-25 22:23:44,701 [__main__] INFO: Dataset: tox21
+2018-05-25 22:23:44,701 [__main__] INFO: Descriptors ['rdkit', 'morgan', 'mordred', 'maccs']
+2018-05-25 22:23:44,701 [__main__] INFO: Split: stratified
+2018-05-25 22:23:44,701 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/tox21.ini
+2018-05-25 22:23:44,701 [__main__] INFO: Split size: 0.1
+2018-05-25 22:23:44,703 [__main__] INFO: Load train data
+2018-05-25 22:23:44,703 [__main__] INFO: Loading data
+2018-05-25 22:23:44,707 [__main__] INFO: After processing shapes:
+2018-05-25 22:23:44,707 [__main__] INFO: Mordred data extraction
+2018-05-25 22:25:04,523 [__main__] INFO: mordred_features shape: (706, 1824)
+2018-05-25 22:25:04,523 [__main__] INFO: RDKit data extraction
+2018-05-25 22:25:08,832 [__main__] INFO: rdkit_features shape: (706, 200)
+2018-05-25 22:25:08,832 [__main__] INFO: After cleaning shapes:
+2018-05-25 22:25:09,074 [__main__] INFO: rdkit_features shape: (706, 200)
+2018-05-25 22:25:11,898 [__main__] INFO: mordred_features shape: (706, 1824)
+2018-05-25 22:25:11,912 [__main__] INFO: Maccs data extraction
+2018-05-25 22:25:13,336 [__main__] INFO: maccs_fingerprints shape: (706, 167)
+2018-05-25 22:25:13,336 [__main__] INFO: Morgan data extraction
+2018-05-25 22:25:13,543 [__main__] INFO: morgan_fingerprints shape: (706, 32)
+2018-05-25 22:25:13,833 [__main__] INFO: Load test data
+2018-05-25 22:25:14,424 [__main__] INFO: Data loaded from config
+2018-05-25 22:25:14,710 [__main__] INFO: Load val data
+2018-05-25 22:25:14,710 [__main__] INFO: Loading data
+2018-05-25 22:25:14,720 [__main__] INFO: After processing shapes:
+2018-05-25 22:25:14,720 [__main__] INFO: Mordred data extraction
+2018-05-25 22:36:50,146 [__main__] INFO: mordred_features shape: (6351, 1824)
+2018-05-25 22:36:50,147 [__main__] INFO: RDKit data extraction
+2018-05-25 22:38:02,127 [__main__] INFO: rdkit_features shape: (6351, 200)
+2018-05-25 22:38:02,127 [__main__] INFO: After cleaning shapes:
+2018-05-25 22:38:04,288 [__main__] INFO: rdkit_features shape: (6351, 200)
+2018-05-25 22:38:30,992 [__main__] INFO: mordred_features shape: (6351, 1824)
+2018-05-25 22:38:31,130 [__main__] INFO: Maccs data extraction
+2018-05-25 22:38:44,122 [__main__] INFO: maccs_fingerprints shape: (6351, 167)
+2018-05-25 22:38:44,122 [__main__] INFO: Morgan data extraction
+2018-05-25 22:38:46,091 [__main__] INFO: morgan_fingerprints shape: (6351, 32)
+2018-05-25 22:38:49,730 [__main__] INFO: Loaded from config
+2018-05-25 22:38:49,757 [__main__] INFO: x_train shape: (685, 2223)
+2018-05-25 22:38:49,770 [__main__] INFO: x_test shape: (566, 2223)
+2018-05-25 22:38:50,076 [__main__] INFO: x_val shape: (6191, 2223)
+2018-05-25 22:38:50,077 [__main__] INFO: y_train shape: (685, 1)
+2018-05-25 22:38:50,077 [__main__] INFO: y_test shape: (566, 1)
+2018-05-25 22:38:50,077 [__main__] INFO: y_val shape: (6191, 1)
+2018-05-25 22:38:50,078 [__main__] INFO: X_train: (685, 2223)
+2018-05-25 22:38:50,078 [__main__] INFO: Y_train: (685, 1)
+2018-05-25 22:38:50,078 [__main__] INFO: X_val: (6191, 2223)
+2018-05-25 22:38:50,078 [__main__] INFO: Y_val: (6191, 1)
+2018-05-25 22:38:50,078 [__main__] INFO: X_test: (566, 2223)
+2018-05-25 22:38:50,078 [__main__] INFO: Y_test: (566, 1)
+2018-05-25 22:39:53,001 [__main__] INFO: Shapes in generate_plots script: tox21
+2018-05-25 22:39:53,001 [__main__] INFO: SMILES shape: (685,)
+2018-05-25 22:39:53,001 [__main__] INFO: x_train shape: (685, 2223)
+2018-05-25 22:39:53,001 [__main__] INFO: x_test shape: (566, 2223)
+2018-05-25 22:39:53,001 [__main__] INFO: x_val hape: (6191, 2223)
+2018-05-25 22:39:53,001 [__main__] INFO: y_train shape: (685, 1)
+2018-05-25 22:39:53,001 [__main__] INFO: y_test shape: (566, 1)
+2018-05-25 22:39:53,001 [__main__] INFO: y_val shape: (6191, 1)
+2018-05-25 22:39:53,001 [__main__] INFO: X shape: (2223, 7442)
+2018-05-25 22:39:53,001 [__main__] INFO: Y shape: (1, 7442)
 
-2018-05-23 20:26:18,784 [__main__] INFO: Dataset: bace
-2018-05-23 20:26:18,784 [__main__] INFO: Descriptors ['morgan']
-2018-05-23 20:26:18,784 [__main__] INFO: Split: scaffold
-2018-05-23 20:26:18,784 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/bace.ini
-2018-05-23 20:26:18,784 [__main__] INFO: Split size: 0.1
-2018-05-23 20:26:18,785 [__main__] INFO: Load train data
-2018-05-23 20:26:18,792 [__main__] INFO: Data loaded from config
-2018-05-23 20:26:18,796 [__main__] INFO: Load test data
-2018-05-23 20:26:18,799 [__main__] INFO: Data loaded from config
-2018-05-23 20:26:18,801 [__main__] INFO: Load val data
-2018-05-23 20:26:18,803 [__main__] INFO: Data loaded from config
-2018-05-23 20:26:18,805 [__main__] INFO: Loaded from config
-2018-05-23 20:26:18,805 [__main__] INFO: x_train shape: (1207, 32)
-2018-05-23 20:26:18,805 [__main__] INFO: x_test shape: (152, 32)
-2018-05-23 20:26:18,805 [__main__] INFO: x_val hape: (154, 32)
-2018-05-23 20:26:18,805 [__main__] INFO: y_train shape: (1207, 1)
-2018-05-23 20:26:18,805 [__main__] INFO: y_test shape: (152, 1)
-2018-05-23 20:26:18,805 [__main__] INFO: y_val shape: (154, 1)
-2018-05-23 20:26:18,805 [__main__] INFO: Data after splitting:
-2018-05-23 20:26:18,806 [__main__] INFO: x_train shape: (1207, 32)
-2018-05-23 20:26:18,806 [__main__] INFO: x_test shape: (152, 32)
-2018-05-23 20:26:18,806 [__main__] INFO: x_val hape: (154, 32)
-2018-05-23 20:26:18,806 [__main__] INFO: y_train shape: (1207, 1)
-2018-05-23 20:26:18,806 [__main__] INFO: y_test shape: (152, 1)
-2018-05-23 20:26:18,806 [__main__] INFO: y_val shape: (154, 1)
-2018-05-23 20:26:18,806 [__main__] INFO: X_train: (1207, 32)
-2018-05-23 20:26:18,806 [__main__] INFO: Y_train: (1207, 1)
-2018-05-23 20:26:18,806 [__main__] INFO: X_val: (154, 32)
-2018-05-23 20:26:18,806 [__main__] INFO: Y_val: (154, 1)
-2018-05-23 20:26:18,806 [__main__] INFO: X_test: (152, 32)
-2018-05-23 20:26:18,806 [__main__] INFO: Y_test: (152, 1)
-2018-05-23 20:26:18,925 [__main__] INFO: Shapes in generate_plots script: bace
-2018-05-23 20:26:18,925 [__main__] INFO: SMILES shape: (1207,)
-2018-05-23 20:26:18,925 [__main__] INFO: x_train shape: (1207, 32)
-2018-05-23 20:26:18,925 [__main__] INFO: x_test shape: (152, 32)
-2018-05-23 20:26:18,925 [__main__] INFO: x_val hape: (154, 32)
-2018-05-23 20:26:18,925 [__main__] INFO: y_train shape: (1207, 1)
-2018-05-23 20:26:18,925 [__main__] INFO: y_test shape: (152, 1)
-2018-05-23 20:26:18,925 [__main__] INFO: y_val shape: (154, 1)
-2018-05-23 20:26:18,925 [__main__] INFO: X shape: (32, 1513)
-2018-05-23 20:26:18,925 [__main__] INFO: Y shape: (1, 1513)
-
-2018-05-23 20:27:02,079 [__main__] INFO: Dataset: bace
-2018-05-23 20:27:02,080 [__main__] INFO: Descriptors ['morgan']
-2018-05-23 20:27:02,080 [__main__] INFO: Split: cluster
-2018-05-23 20:27:02,080 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/bace.ini
-2018-05-23 20:27:02,080 [__main__] INFO: Split size: 0.1
-2018-05-23 20:27:02,082 [__main__] INFO: Load train data
-2018-05-23 20:27:02,090 [__main__] INFO: Data loaded from config
-2018-05-23 20:27:02,095 [__main__] INFO: Load test data
-2018-05-23 20:27:02,101 [__main__] INFO: Data loaded from config
-2018-05-23 20:27:02,103 [__main__] INFO: Load val data
-2018-05-23 20:27:02,106 [__main__] INFO: Data loaded from config
-2018-05-23 20:27:02,108 [__main__] INFO: Loaded from config
-2018-05-23 20:27:02,108 [__main__] INFO: x_train shape: (757, 32)
-2018-05-23 20:27:02,109 [__main__] INFO: x_test shape: (442, 32)
-2018-05-23 20:27:02,109 [__main__] INFO: x_val hape: (314, 32)
-2018-05-23 20:27:02,109 [__main__] INFO: y_train shape: (757, 1)
-2018-05-23 20:27:02,109 [__main__] INFO: y_test shape: (442, 1)
-2018-05-23 20:27:02,109 [__main__] INFO: y_val shape: (314, 1)
-2018-05-23 20:27:02,109 [__main__] INFO: Data after splitting:
-2018-05-23 20:27:02,109 [__main__] INFO: x_train shape: (757, 32)
-2018-05-23 20:27:02,109 [__main__] INFO: x_test shape: (442, 32)
-2018-05-23 20:27:02,109 [__main__] INFO: x_val hape: (314, 32)
-2018-05-23 20:27:02,109 [__main__] INFO: y_train shape: (757, 1)
-2018-05-23 20:27:02,109 [__main__] INFO: y_test shape: (442, 1)
-2018-05-23 20:27:02,109 [__main__] INFO: y_val shape: (314, 1)
-2018-05-23 20:27:02,109 [__main__] INFO: X_train: (757, 32)
-2018-05-23 20:27:02,109 [__main__] INFO: Y_train: (757, 1)
-2018-05-23 20:27:02,109 [__main__] INFO: X_val: (314, 32)
-2018-05-23 20:27:02,110 [__main__] INFO: Y_val: (314, 1)
-2018-05-23 20:27:02,110 [__main__] INFO: X_test: (442, 32)
-2018-05-23 20:27:02,110 [__main__] INFO: Y_test: (442, 1)
-2018-05-23 20:27:02,227 [__main__] INFO: Shapes in generate_plots script: bace
-2018-05-23 20:27:02,227 [__main__] INFO: SMILES shape: (757,)
-2018-05-23 20:27:02,227 [__main__] INFO: x_train shape: (757, 32)
-2018-05-23 20:27:02,227 [__main__] INFO: x_test shape: (442, 32)
-2018-05-23 20:27:02,227 [__main__] INFO: x_val hape: (314, 32)
-2018-05-23 20:27:02,228 [__main__] INFO: y_train shape: (757, 1)
-2018-05-23 20:27:02,228 [__main__] INFO: y_test shape: (442, 1)
-2018-05-23 20:27:02,228 [__main__] INFO: y_val shape: (314, 1)
-2018-05-23 20:27:02,228 [__main__] INFO: X shape: (32, 1513)
-2018-05-23 20:27:02,228 [__main__] INFO: Y shape: (1, 1513)
-
-2018-05-23 20:27:45,022 [__main__] INFO: Dataset: bace
-2018-05-23 20:27:45,023 [__main__] INFO: Descriptors ['morgan']
-2018-05-23 20:27:45,023 [__main__] INFO: Split: random
-2018-05-23 20:27:45,023 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/bace.ini
-2018-05-23 20:27:45,023 [__main__] INFO: Split size: 0.1
-2018-05-23 20:27:45,024 [__main__] INFO: Load train data
-2018-05-23 20:27:45,031 [__main__] INFO: Data loaded from config
-2018-05-23 20:27:45,034 [__main__] INFO: Load test data
-2018-05-23 20:27:45,037 [__main__] INFO: Data loaded from config
-2018-05-23 20:27:45,039 [__main__] INFO: Load val data
-2018-05-23 20:27:45,042 [__main__] INFO: Data loaded from config
-2018-05-23 20:27:45,043 [__main__] INFO: Loaded from config
-2018-05-23 20:27:45,043 [__main__] INFO: x_train shape: (1211, 32)
-2018-05-23 20:27:45,044 [__main__] INFO: x_test shape: (151, 32)
-2018-05-23 20:27:45,044 [__main__] INFO: x_val hape: (151, 32)
-2018-05-23 20:27:45,044 [__main__] INFO: y_train shape: (1211, 1)
-2018-05-23 20:27:45,044 [__main__] INFO: y_test shape: (151, 1)
-2018-05-23 20:27:45,044 [__main__] INFO: y_val shape: (151, 1)
-2018-05-23 20:27:45,044 [__main__] INFO: Data after splitting:
-2018-05-23 20:27:45,044 [__main__] INFO: x_train shape: (1211, 32)
-2018-05-23 20:27:45,044 [__main__] INFO: x_test shape: (151, 32)
-2018-05-23 20:27:45,044 [__main__] INFO: x_val hape: (151, 32)
-2018-05-23 20:27:45,044 [__main__] INFO: y_train shape: (1211, 1)
-2018-05-23 20:27:45,044 [__main__] INFO: y_test shape: (151, 1)
-2018-05-23 20:27:45,044 [__main__] INFO: y_val shape: (151, 1)
-2018-05-23 20:27:45,044 [__main__] INFO: X_train: (1211, 32)
-2018-05-23 20:27:45,044 [__main__] INFO: Y_train: (1211, 1)
-2018-05-23 20:27:45,044 [__main__] INFO: X_val: (151, 32)
-2018-05-23 20:27:45,044 [__main__] INFO: Y_val: (151, 1)
-2018-05-23 20:27:45,044 [__main__] INFO: X_test: (151, 32)
-2018-05-23 20:27:45,045 [__main__] INFO: Y_test: (151, 1)
-2018-05-23 20:27:45,160 [__main__] INFO: Shapes in generate_plots script: bace
-2018-05-23 20:27:45,160 [__main__] INFO: SMILES shape: (1211,)
-2018-05-23 20:27:45,160 [__main__] INFO: x_train shape: (1211, 32)
-2018-05-23 20:27:45,160 [__main__] INFO: x_test shape: (151, 32)
-2018-05-23 20:27:45,160 [__main__] INFO: x_val hape: (151, 32)
-2018-05-23 20:27:45,160 [__main__] INFO: y_train shape: (1211, 1)
-2018-05-23 20:27:45,160 [__main__] INFO: y_test shape: (151, 1)
-2018-05-23 20:27:45,160 [__main__] INFO: y_val shape: (151, 1)
-2018-05-23 20:27:45,160 [__main__] INFO: X shape: (32, 1513)
-2018-05-23 20:27:45,160 [__main__] INFO: Y shape: (1, 1513)
-
-2018-05-23 20:28:28,729 [__main__] INFO: Dataset: bace
-2018-05-23 20:28:28,729 [__main__] INFO: Descriptors ['morgan']
-2018-05-23 20:28:28,729 [__main__] INFO: Split: stratified
-2018-05-23 20:28:28,729 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/bace.ini
-2018-05-23 20:28:28,729 [__main__] INFO: Split size: 0.1
-2018-05-23 20:28:28,730 [__main__] INFO: Load train data
-2018-05-23 20:28:28,738 [__main__] INFO: Data loaded from config
-2018-05-23 20:28:28,741 [__main__] INFO: Load test data
-2018-05-23 20:28:28,744 [__main__] INFO: Data loaded from config
-2018-05-23 20:28:28,746 [__main__] INFO: Load val data
-2018-05-23 20:28:28,749 [__main__] INFO: Data loaded from config
-2018-05-23 20:28:28,751 [__main__] INFO: Loaded from config
-2018-05-23 20:28:28,751 [__main__] INFO: x_train shape: (1211, 32)
-2018-05-23 20:28:28,752 [__main__] INFO: x_test shape: (151, 32)
-2018-05-23 20:28:28,752 [__main__] INFO: x_val hape: (151, 32)
-2018-05-23 20:28:28,752 [__main__] INFO: y_train shape: (1211, 1)
-2018-05-23 20:28:28,752 [__main__] INFO: y_test shape: (151, 1)
-2018-05-23 20:28:28,752 [__main__] INFO: y_val shape: (151, 1)
-2018-05-23 20:28:28,752 [__main__] INFO: Data after splitting:
-2018-05-23 20:28:28,752 [__main__] INFO: x_train shape: (1211, 32)
-2018-05-23 20:28:28,752 [__main__] INFO: x_test shape: (151, 32)
-2018-05-23 20:28:28,752 [__main__] INFO: x_val hape: (151, 32)
-2018-05-23 20:28:28,752 [__main__] INFO: y_train shape: (1211, 1)
-2018-05-23 20:28:28,752 [__main__] INFO: y_test shape: (151, 1)
-2018-05-23 20:28:28,752 [__main__] INFO: y_val shape: (151, 1)
-2018-05-23 20:28:28,752 [__main__] INFO: X_train: (1211, 32)
-2018-05-23 20:28:28,752 [__main__] INFO: Y_train: (1211, 1)
-2018-05-23 20:28:28,752 [__main__] INFO: X_val: (151, 32)
-2018-05-23 20:28:28,753 [__main__] INFO: Y_val: (151, 1)
-2018-05-23 20:28:28,753 [__main__] INFO: X_test: (151, 32)
-2018-05-23 20:28:28,753 [__main__] INFO: Y_test: (151, 1)
-2018-05-23 20:28:28,868 [__main__] INFO: Shapes in generate_plots script: bace
-2018-05-23 20:28:28,868 [__main__] INFO: SMILES shape: (1211,)
-2018-05-23 20:28:28,868 [__main__] INFO: x_train shape: (1211, 32)
-2018-05-23 20:28:28,868 [__main__] INFO: x_test shape: (151, 32)
-2018-05-23 20:28:28,868 [__main__] INFO: x_val hape: (151, 32)
-2018-05-23 20:28:28,868 [__main__] INFO: y_train shape: (1211, 1)
-2018-05-23 20:28:28,868 [__main__] INFO: y_test shape: (151, 1)
-2018-05-23 20:28:28,868 [__main__] INFO: y_val shape: (151, 1)
-2018-05-23 20:28:28,868 [__main__] INFO: X shape: (32, 1513)
-2018-05-23 20:28:28,868 [__main__] INFO: Y shape: (1, 1513)
-
-2018-05-23 20:29:11,831 [__main__] INFO: Dataset: bace
-2018-05-23 20:29:11,831 [__main__] INFO: Descriptors ['mordred']
-2018-05-23 20:29:11,831 [__main__] INFO: Split: scaffold
-2018-05-23 20:29:11,831 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/bace.ini
-2018-05-23 20:29:11,832 [__main__] INFO: Split size: 0.1
-2018-05-23 20:29:11,833 [__main__] INFO: Load train data
-2018-05-23 20:29:12,530 [__main__] INFO: Data loaded from config
-2018-05-23 20:29:12,858 [__main__] INFO: Load test data
-2018-05-23 20:29:12,988 [__main__] INFO: Data loaded from config
-2018-05-23 20:29:13,021 [__main__] INFO: Load val data
-2018-05-23 20:29:13,158 [__main__] INFO: Data loaded from config
-2018-05-23 20:29:13,193 [__main__] INFO: Loaded from config
-2018-05-23 20:29:13,207 [__main__] INFO: x_train shape: (1207, 1824)
-2018-05-23 20:29:13,208 [__main__] INFO: x_test shape: (152, 1824)
-2018-05-23 20:29:13,210 [__main__] INFO: x_val hape: (154, 1824)
-2018-05-23 20:29:13,210 [__main__] INFO: y_train shape: (1207, 1)
-2018-05-23 20:29:13,210 [__main__] INFO: y_test shape: (152, 1)
-2018-05-23 20:29:13,210 [__main__] INFO: y_val shape: (154, 1)
-2018-05-23 20:29:13,210 [__main__] INFO: Data after splitting:
-2018-05-23 20:29:13,224 [__main__] INFO: x_train shape: (1207, 1824)
-2018-05-23 20:29:13,225 [__main__] INFO: x_test shape: (152, 1824)
-2018-05-23 20:29:13,227 [__main__] INFO: x_val hape: (154, 1824)
-2018-05-23 20:29:13,227 [__main__] INFO: y_train shape: (1207, 1)
-2018-05-23 20:29:13,227 [__main__] INFO: y_test shape: (152, 1)
-2018-05-23 20:29:13,227 [__main__] INFO: y_val shape: (154, 1)
-2018-05-23 20:29:13,227 [__main__] INFO: X_train: (1207, 1824)
-2018-05-23 20:29:13,227 [__main__] INFO: Y_train: (1207, 1)
-2018-05-23 20:29:13,227 [__main__] INFO: X_val: (154, 1824)
-2018-05-23 20:29:13,227 [__main__] INFO: Y_val: (154, 1)
-2018-05-23 20:29:13,227 [__main__] INFO: X_test: (152, 1824)
-2018-05-23 20:29:13,227 [__main__] INFO: Y_test: (152, 1)
-2018-05-23 20:29:20,519 [__main__] INFO: Shapes in generate_plots script: bace
-2018-05-23 20:29:20,519 [__main__] INFO: SMILES shape: (1207,)
-2018-05-23 20:29:20,519 [__main__] INFO: x_train shape: (1207, 1824)
-2018-05-23 20:29:20,519 [__main__] INFO: x_test shape: (152, 1824)
-2018-05-23 20:29:20,519 [__main__] INFO: x_val hape: (154, 1824)
-2018-05-23 20:29:20,519 [__main__] INFO: y_train shape: (1207, 1)
-2018-05-23 20:29:20,520 [__main__] INFO: y_test shape: (152, 1)
-2018-05-23 20:29:20,520 [__main__] INFO: y_val shape: (154, 1)
-2018-05-23 20:29:20,520 [__main__] INFO: X shape: (1824, 1513)
-2018-05-23 20:29:20,520 [__main__] INFO: Y shape: (1, 1513)
-
-2018-05-23 20:30:15,111 [__main__] INFO: Dataset: bace
-2018-05-23 20:30:15,111 [__main__] INFO: Descriptors ['mordred']
-2018-05-23 20:30:15,111 [__main__] INFO: Split: cluster
-2018-05-23 20:30:15,111 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/bace.ini
-2018-05-23 20:30:15,111 [__main__] INFO: Split size: 0.1
-2018-05-23 20:30:15,112 [__main__] INFO: Load train data
-2018-05-23 20:30:15,568 [__main__] INFO: Data loaded from config
-2018-05-23 20:30:15,770 [__main__] INFO: Load test data
-2018-05-23 20:30:16,048 [__main__] INFO: Data loaded from config
-2018-05-23 20:30:16,161 [__main__] INFO: Load val data
-2018-05-23 20:30:16,373 [__main__] INFO: Data loaded from config
-2018-05-23 20:30:16,447 [__main__] INFO: Loaded from config
-2018-05-23 20:30:16,456 [__main__] INFO: x_train shape: (757, 1824)
-2018-05-23 20:30:16,461 [__main__] INFO: x_test shape: (442, 1824)
-2018-05-23 20:30:16,464 [__main__] INFO: x_val hape: (314, 1824)
-2018-05-23 20:30:16,465 [__main__] INFO: y_train shape: (757, 1)
-2018-05-23 20:30:16,465 [__main__] INFO: y_test shape: (442, 1)
-2018-05-23 20:30:16,465 [__main__] INFO: y_val shape: (314, 1)
-2018-05-23 20:30:16,465 [__main__] INFO: Data after splitting:
-2018-05-23 20:30:16,473 [__main__] INFO: x_train shape: (757, 1824)
-2018-05-23 20:30:16,478 [__main__] INFO: x_test shape: (442, 1824)
-2018-05-23 20:30:16,482 [__main__] INFO: x_val hape: (314, 1824)
-2018-05-23 20:30:16,482 [__main__] INFO: y_train shape: (757, 1)
-2018-05-23 20:30:16,482 [__main__] INFO: y_test shape: (442, 1)
-2018-05-23 20:30:16,482 [__main__] INFO: y_val shape: (314, 1)
-2018-05-23 20:30:16,482 [__main__] INFO: X_train: (757, 1824)
-2018-05-23 20:30:16,482 [__main__] INFO: Y_train: (757, 1)
-2018-05-23 20:30:16,482 [__main__] INFO: X_val: (314, 1824)
-2018-05-23 20:30:16,482 [__main__] INFO: Y_val: (314, 1)
-2018-05-23 20:30:16,482 [__main__] INFO: X_test: (442, 1824)
-2018-05-23 20:30:16,483 [__main__] INFO: Y_test: (442, 1)
-2018-05-23 20:30:23,558 [__main__] INFO: Shapes in generate_plots script: bace
-2018-05-23 20:30:23,558 [__main__] INFO: SMILES shape: (757,)
-2018-05-23 20:30:23,558 [__main__] INFO: x_train shape: (757, 1824)
-2018-05-23 20:30:23,558 [__main__] INFO: x_test shape: (442, 1824)
-2018-05-23 20:30:23,558 [__main__] INFO: x_val hape: (314, 1824)
-2018-05-23 20:30:23,558 [__main__] INFO: y_train shape: (757, 1)
-2018-05-23 20:30:23,558 [__main__] INFO: y_test shape: (442, 1)
-2018-05-23 20:30:23,558 [__main__] INFO: y_val shape: (314, 1)
-2018-05-23 20:30:23,558 [__main__] INFO: X shape: (1824, 1513)
-2018-05-23 20:30:23,558 [__main__] INFO: Y shape: (1, 1513)
-
-2018-05-23 20:31:16,280 [__main__] INFO: Dataset: bace
-2018-05-23 20:31:16,280 [__main__] INFO: Descriptors ['mordred']
-2018-05-23 20:31:16,280 [__main__] INFO: Split: random
-2018-05-23 20:31:16,280 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/bace.ini
-2018-05-23 20:31:16,280 [__main__] INFO: Split size: 0.1
-2018-05-23 20:31:16,281 [__main__] INFO: Load train data
-2018-05-23 20:31:16,993 [__main__] INFO: Data loaded from config
-2018-05-23 20:31:17,322 [__main__] INFO: Load test data
-2018-05-23 20:31:17,452 [__main__] INFO: Data loaded from config
-2018-05-23 20:31:17,483 [__main__] INFO: Load val data
-2018-05-23 20:31:17,614 [__main__] INFO: Data loaded from config
-2018-05-23 20:31:17,645 [__main__] INFO: Loaded from config
-2018-05-23 20:31:17,659 [__main__] INFO: x_train shape: (1211, 1824)
-2018-05-23 20:31:17,660 [__main__] INFO: x_test shape: (151, 1824)
-2018-05-23 20:31:17,662 [__main__] INFO: x_val hape: (151, 1824)
-2018-05-23 20:31:17,662 [__main__] INFO: y_train shape: (1211, 1)
-2018-05-23 20:31:17,662 [__main__] INFO: y_test shape: (151, 1)
-2018-05-23 20:31:17,662 [__main__] INFO: y_val shape: (151, 1)
-2018-05-23 20:31:17,662 [__main__] INFO: Data after splitting:
-2018-05-23 20:31:17,676 [__main__] INFO: x_train shape: (1211, 1824)
-2018-05-23 20:31:17,677 [__main__] INFO: x_test shape: (151, 1824)
-2018-05-23 20:31:17,679 [__main__] INFO: x_val hape: (151, 1824)
-2018-05-23 20:31:17,679 [__main__] INFO: y_train shape: (1211, 1)
-2018-05-23 20:31:17,679 [__main__] INFO: y_test shape: (151, 1)
-2018-05-23 20:31:17,679 [__main__] INFO: y_val shape: (151, 1)
-2018-05-23 20:31:17,679 [__main__] INFO: X_train: (1211, 1824)
-2018-05-23 20:31:17,679 [__main__] INFO: Y_train: (1211, 1)
-2018-05-23 20:31:17,679 [__main__] INFO: X_val: (151, 1824)
-2018-05-23 20:31:17,679 [__main__] INFO: Y_val: (151, 1)
-2018-05-23 20:31:17,679 [__main__] INFO: X_test: (151, 1824)
-2018-05-23 20:31:17,679 [__main__] INFO: Y_test: (151, 1)
-2018-05-23 20:31:24,734 [__main__] INFO: Shapes in generate_plots script: bace
-2018-05-23 20:31:24,734 [__main__] INFO: SMILES shape: (1211,)
-2018-05-23 20:31:24,734 [__main__] INFO: x_train shape: (1211, 1824)
-2018-05-23 20:31:24,734 [__main__] INFO: x_test shape: (151, 1824)
-2018-05-23 20:31:24,734 [__main__] INFO: x_val hape: (151, 1824)
-2018-05-23 20:31:24,734 [__main__] INFO: y_train shape: (1211, 1)
-2018-05-23 20:31:24,734 [__main__] INFO: y_test shape: (151, 1)
-2018-05-23 20:31:24,735 [__main__] INFO: y_val shape: (151, 1)
-2018-05-23 20:31:24,735 [__main__] INFO: X shape: (1824, 1513)
-2018-05-23 20:31:24,735 [__main__] INFO: Y shape: (1, 1513)
-
-2018-05-23 20:32:19,525 [__main__] INFO: Dataset: bace
-2018-05-23 20:32:19,525 [__main__] INFO: Descriptors ['mordred']
-2018-05-23 20:32:19,525 [__main__] INFO: Split: stratified
-2018-05-23 20:32:19,525 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/bace.ini
-2018-05-23 20:32:19,526 [__main__] INFO: Split size: 0.1
-2018-05-23 20:32:19,528 [__main__] INFO: Load train data
-2018-05-23 20:32:20,238 [__main__] INFO: Data loaded from config
-2018-05-23 20:32:20,558 [__main__] INFO: Load test data
-2018-05-23 20:32:20,688 [__main__] INFO: Data loaded from config
-2018-05-23 20:32:20,722 [__main__] INFO: Load val data
-2018-05-23 20:32:20,859 [__main__] INFO: Data loaded from config
-2018-05-23 20:32:20,890 [__main__] INFO: Loaded from config
-2018-05-23 20:32:20,904 [__main__] INFO: x_train shape: (1211, 1824)
-2018-05-23 20:32:20,905 [__main__] INFO: x_test shape: (151, 1824)
-2018-05-23 20:32:20,907 [__main__] INFO: x_val hape: (151, 1824)
-2018-05-23 20:32:20,907 [__main__] INFO: y_train shape: (1211, 1)
-2018-05-23 20:32:20,907 [__main__] INFO: y_test shape: (151, 1)
-2018-05-23 20:32:20,907 [__main__] INFO: y_val shape: (151, 1)
-2018-05-23 20:32:20,907 [__main__] INFO: Data after splitting:
-2018-05-23 20:32:20,921 [__main__] INFO: x_train shape: (1211, 1824)
-2018-05-23 20:32:20,923 [__main__] INFO: x_test shape: (151, 1824)
-2018-05-23 20:32:20,924 [__main__] INFO: x_val hape: (151, 1824)
-2018-05-23 20:32:20,924 [__main__] INFO: y_train shape: (1211, 1)
-2018-05-23 20:32:20,924 [__main__] INFO: y_test shape: (151, 1)
-2018-05-23 20:32:20,924 [__main__] INFO: y_val shape: (151, 1)
-2018-05-23 20:32:20,924 [__main__] INFO: X_train: (1211, 1824)
-2018-05-23 20:32:20,925 [__main__] INFO: Y_train: (1211, 1)
-2018-05-23 20:32:20,925 [__main__] INFO: X_val: (151, 1824)
-2018-05-23 20:32:20,925 [__main__] INFO: Y_val: (151, 1)
-2018-05-23 20:32:20,925 [__main__] INFO: X_test: (151, 1824)
-2018-05-23 20:32:20,925 [__main__] INFO: Y_test: (151, 1)
-2018-05-23 20:32:27,983 [__main__] INFO: Shapes in generate_plots script: bace
-2018-05-23 20:32:27,983 [__main__] INFO: SMILES shape: (1211,)
-2018-05-23 20:32:27,983 [__main__] INFO: x_train shape: (1211, 1824)
-2018-05-23 20:32:27,983 [__main__] INFO: x_test shape: (151, 1824)
-2018-05-23 20:32:27,983 [__main__] INFO: x_val hape: (151, 1824)
-2018-05-23 20:32:27,983 [__main__] INFO: y_train shape: (1211, 1)
-2018-05-23 20:32:27,983 [__main__] INFO: y_test shape: (151, 1)
-2018-05-23 20:32:27,983 [__main__] INFO: y_val shape: (151, 1)
-2018-05-23 20:32:27,983 [__main__] INFO: X shape: (1824, 1513)
-2018-05-23 20:32:27,983 [__main__] INFO: Y shape: (1, 1513)
-
-2018-05-23 20:33:22,065 [__main__] INFO: Dataset: bace
-2018-05-23 20:33:22,065 [__main__] INFO: Descriptors ['maccs']
-2018-05-23 20:33:22,065 [__main__] INFO: Split: scaffold
-2018-05-23 20:33:22,065 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/bace.ini
-2018-05-23 20:33:22,065 [__main__] INFO: Split size: 0.1
-2018-05-23 20:33:22,066 [__main__] INFO: Load train data
-2018-05-23 20:33:22,087 [__main__] INFO: Data loaded from config
-2018-05-23 20:33:22,097 [__main__] INFO: Load test data
-2018-05-23 20:33:22,107 [__main__] INFO: Data loaded from config
-2018-05-23 20:33:22,109 [__main__] INFO: Load val data
-2018-05-23 20:33:22,118 [__main__] INFO: Data loaded from config
-2018-05-23 20:33:22,121 [__main__] INFO: Loaded from config
-2018-05-23 20:33:22,122 [__main__] INFO: x_train shape: (1207, 167)
-2018-05-23 20:33:22,122 [__main__] INFO: x_test shape: (152, 167)
-2018-05-23 20:33:22,122 [__main__] INFO: x_val hape: (154, 167)
-2018-05-23 20:33:22,122 [__main__] INFO: y_train shape: (1207, 1)
-2018-05-23 20:33:22,122 [__main__] INFO: y_test shape: (152, 1)
-2018-05-23 20:33:22,122 [__main__] INFO: y_val shape: (154, 1)
-2018-05-23 20:33:22,122 [__main__] INFO: Data after splitting:
-2018-05-23 20:33:22,123 [__main__] INFO: x_train shape: (1207, 167)
-2018-05-23 20:33:22,123 [__main__] INFO: x_test shape: (152, 167)
-2018-05-23 20:33:22,123 [__main__] INFO: x_val hape: (154, 167)
-2018-05-23 20:33:22,123 [__main__] INFO: y_train shape: (1207, 1)
-2018-05-23 20:33:22,123 [__main__] INFO: y_test shape: (152, 1)
-2018-05-23 20:33:22,123 [__main__] INFO: y_val shape: (154, 1)
-2018-05-23 20:33:22,123 [__main__] INFO: X_train: (1207, 167)
-2018-05-23 20:33:22,123 [__main__] INFO: Y_train: (1207, 1)
-2018-05-23 20:33:22,123 [__main__] INFO: X_val: (154, 167)
-2018-05-23 20:33:22,123 [__main__] INFO: Y_val: (154, 1)
-2018-05-23 20:33:22,123 [__main__] INFO: X_test: (152, 167)
-2018-05-23 20:33:22,123 [__main__] INFO: Y_test: (152, 1)
-2018-05-23 20:33:22,852 [__main__] INFO: Shapes in generate_plots script: bace
-2018-05-23 20:33:22,852 [__main__] INFO: SMILES shape: (1207,)
-2018-05-23 20:33:22,852 [__main__] INFO: x_train shape: (1207, 167)
-2018-05-23 20:33:22,852 [__main__] INFO: x_test shape: (152, 167)
-2018-05-23 20:33:22,852 [__main__] INFO: x_val hape: (154, 167)
-2018-05-23 20:33:22,852 [__main__] INFO: y_train shape: (1207, 1)
-2018-05-23 20:33:22,852 [__main__] INFO: y_test shape: (152, 1)
-2018-05-23 20:33:22,852 [__main__] INFO: y_val shape: (154, 1)
-2018-05-23 20:33:22,852 [__main__] INFO: X shape: (167, 1513)
-2018-05-23 20:33:22,852 [__main__] INFO: Y shape: (1, 1513)
-
-2018-05-23 20:34:06,997 [__main__] INFO: Dataset: bace
-2018-05-23 20:34:06,997 [__main__] INFO: Descriptors ['maccs']
-2018-05-23 20:34:06,998 [__main__] INFO: Split: cluster
-2018-05-23 20:34:06,998 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/bace.ini
-2018-05-23 20:34:06,998 [__main__] INFO: Split size: 0.1
-2018-05-23 20:34:07,000 [__main__] INFO: Load train data
-2018-05-23 20:34:07,021 [__main__] INFO: Data loaded from config
-2018-05-23 20:34:07,029 [__main__] INFO: Load test data
-2018-05-23 20:34:07,041 [__main__] INFO: Data loaded from config
-2018-05-23 20:34:07,046 [__main__] INFO: Load val data
-2018-05-23 20:34:07,058 [__main__] INFO: Data loaded from config
-2018-05-23 20:34:07,062 [__main__] INFO: Loaded from config
-2018-05-23 20:34:07,063 [__main__] INFO: x_train shape: (757, 167)
-2018-05-23 20:34:07,063 [__main__] INFO: x_test shape: (442, 167)
-2018-05-23 20:34:07,063 [__main__] INFO: x_val hape: (314, 167)
-2018-05-23 20:34:07,063 [__main__] INFO: y_train shape: (757, 1)
-2018-05-23 20:34:07,064 [__main__] INFO: y_test shape: (442, 1)
-2018-05-23 20:34:07,064 [__main__] INFO: y_val shape: (314, 1)
-2018-05-23 20:34:07,064 [__main__] INFO: Data after splitting:
-2018-05-23 20:34:07,064 [__main__] INFO: x_train shape: (757, 167)
-2018-05-23 20:34:07,064 [__main__] INFO: x_test shape: (442, 167)
-2018-05-23 20:34:07,064 [__main__] INFO: x_val hape: (314, 167)
-2018-05-23 20:34:07,065 [__main__] INFO: y_train shape: (757, 1)
-2018-05-23 20:34:07,065 [__main__] INFO: y_test shape: (442, 1)
-2018-05-23 20:34:07,065 [__main__] INFO: y_val shape: (314, 1)
-2018-05-23 20:34:07,065 [__main__] INFO: X_train: (757, 167)
-2018-05-23 20:34:07,065 [__main__] INFO: Y_train: (757, 1)
-2018-05-23 20:34:07,065 [__main__] INFO: X_val: (314, 167)
-2018-05-23 20:34:07,065 [__main__] INFO: Y_val: (314, 1)
-2018-05-23 20:34:07,065 [__main__] INFO: X_test: (442, 167)
-2018-05-23 20:34:07,065 [__main__] INFO: Y_test: (442, 1)
-2018-05-23 20:34:07,811 [__main__] INFO: Shapes in generate_plots script: bace
-2018-05-23 20:34:07,811 [__main__] INFO: SMILES shape: (757,)
-2018-05-23 20:34:07,811 [__main__] INFO: x_train shape: (757, 167)
-2018-05-23 20:34:07,811 [__main__] INFO: x_test shape: (442, 167)
-2018-05-23 20:34:07,811 [__main__] INFO: x_val hape: (314, 167)
-2018-05-23 20:34:07,812 [__main__] INFO: y_train shape: (757, 1)
-2018-05-23 20:34:07,812 [__main__] INFO: y_test shape: (442, 1)
-2018-05-23 20:34:07,812 [__main__] INFO: y_val shape: (314, 1)
-2018-05-23 20:34:07,812 [__main__] INFO: X shape: (167, 1513)
-2018-05-23 20:34:07,812 [__main__] INFO: Y shape: (1, 1513)
-
-2018-05-23 20:34:52,518 [__main__] INFO: Dataset: bace
-2018-05-23 20:34:52,518 [__main__] INFO: Descriptors ['maccs']
-2018-05-23 20:34:52,518 [__main__] INFO: Split: random
-2018-05-23 20:34:52,518 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/bace.ini
-2018-05-23 20:34:52,518 [__main__] INFO: Split size: 0.1
-2018-05-23 20:34:52,519 [__main__] INFO: Load train data
-2018-05-23 20:34:52,540 [__main__] INFO: Data loaded from config
-2018-05-23 20:34:52,551 [__main__] INFO: Load test data
-2018-05-23 20:34:52,561 [__main__] INFO: Data loaded from config
-2018-05-23 20:34:52,564 [__main__] INFO: Load val data
-2018-05-23 20:34:52,573 [__main__] INFO: Data loaded from config
-2018-05-23 20:34:52,576 [__main__] INFO: Loaded from config
-2018-05-23 20:34:52,576 [__main__] INFO: x_train shape: (1211, 167)
-2018-05-23 20:34:52,576 [__main__] INFO: x_test shape: (151, 167)
-2018-05-23 20:34:52,577 [__main__] INFO: x_val hape: (151, 167)
-2018-05-23 20:34:52,577 [__main__] INFO: y_train shape: (1211, 1)
-2018-05-23 20:34:52,577 [__main__] INFO: y_test shape: (151, 1)
-2018-05-23 20:34:52,577 [__main__] INFO: y_val shape: (151, 1)
-2018-05-23 20:34:52,577 [__main__] INFO: Data after splitting:
-2018-05-23 20:34:52,577 [__main__] INFO: x_train shape: (1211, 167)
-2018-05-23 20:34:52,577 [__main__] INFO: x_test shape: (151, 167)
-2018-05-23 20:34:52,578 [__main__] INFO: x_val hape: (151, 167)
-2018-05-23 20:34:52,578 [__main__] INFO: y_train shape: (1211, 1)
-2018-05-23 20:34:52,578 [__main__] INFO: y_test shape: (151, 1)
-2018-05-23 20:34:52,578 [__main__] INFO: y_val shape: (151, 1)
-2018-05-23 20:34:52,578 [__main__] INFO: X_train: (1211, 167)
-2018-05-23 20:34:52,578 [__main__] INFO: Y_train: (1211, 1)
-2018-05-23 20:34:52,578 [__main__] INFO: X_val: (151, 167)
-2018-05-23 20:34:52,578 [__main__] INFO: Y_val: (151, 1)
-2018-05-23 20:34:52,578 [__main__] INFO: X_test: (151, 167)
-2018-05-23 20:34:52,578 [__main__] INFO: Y_test: (151, 1)
-2018-05-23 20:34:53,310 [__main__] INFO: Shapes in generate_plots script: bace
-2018-05-23 20:34:53,310 [__main__] INFO: SMILES shape: (1211,)
-2018-05-23 20:34:53,310 [__main__] INFO: x_train shape: (1211, 167)
-2018-05-23 20:34:53,311 [__main__] INFO: x_test shape: (151, 167)
-2018-05-23 20:34:53,311 [__main__] INFO: x_val hape: (151, 167)
-2018-05-23 20:34:53,311 [__main__] INFO: y_train shape: (1211, 1)
-2018-05-23 20:34:53,311 [__main__] INFO: y_test shape: (151, 1)
-2018-05-23 20:34:53,311 [__main__] INFO: y_val shape: (151, 1)
-2018-05-23 20:34:53,311 [__main__] INFO: X shape: (167, 1513)
-2018-05-23 20:34:53,311 [__main__] INFO: Y shape: (1, 1513)
-
-2018-05-23 20:35:37,264 [__main__] INFO: Dataset: bace
-2018-05-23 20:35:37,264 [__main__] INFO: Descriptors ['maccs']
-2018-05-23 20:35:37,265 [__main__] INFO: Split: stratified
-2018-05-23 20:35:37,265 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/bace.ini
-2018-05-23 20:35:37,265 [__main__] INFO: Split size: 0.1
-2018-05-23 20:35:37,266 [__main__] INFO: Load train data
-2018-05-23 20:35:37,285 [__main__] INFO: Data loaded from config
-2018-05-23 20:35:37,296 [__main__] INFO: Load test data
-2018-05-23 20:35:37,307 [__main__] INFO: Data loaded from config
-2018-05-23 20:35:37,309 [__main__] INFO: Load val data
-2018-05-23 20:35:37,319 [__main__] INFO: Data loaded from config
-2018-05-23 20:35:37,322 [__main__] INFO: Loaded from config
-2018-05-23 20:35:37,322 [__main__] INFO: x_train shape: (1211, 167)
-2018-05-23 20:35:37,323 [__main__] INFO: x_test shape: (151, 167)
-2018-05-23 20:35:37,323 [__main__] INFO: x_val hape: (151, 167)
-2018-05-23 20:35:37,323 [__main__] INFO: y_train shape: (1211, 1)
-2018-05-23 20:35:37,323 [__main__] INFO: y_test shape: (151, 1)
-2018-05-23 20:35:37,323 [__main__] INFO: y_val shape: (151, 1)
-2018-05-23 20:35:37,323 [__main__] INFO: Data after splitting:
-2018-05-23 20:35:37,324 [__main__] INFO: x_train shape: (1211, 167)
-2018-05-23 20:35:37,324 [__main__] INFO: x_test shape: (151, 167)
-2018-05-23 20:35:37,324 [__main__] INFO: x_val hape: (151, 167)
-2018-05-23 20:35:37,324 [__main__] INFO: y_train shape: (1211, 1)
-2018-05-23 20:35:37,324 [__main__] INFO: y_test shape: (151, 1)
-2018-05-23 20:35:37,324 [__main__] INFO: y_val shape: (151, 1)
-2018-05-23 20:35:37,324 [__main__] INFO: X_train: (1211, 167)
-2018-05-23 20:35:37,324 [__main__] INFO: Y_train: (1211, 1)
-2018-05-23 20:35:37,324 [__main__] INFO: X_val: (151, 167)
-2018-05-23 20:35:37,324 [__main__] INFO: Y_val: (151, 1)
-2018-05-23 20:35:37,324 [__main__] INFO: X_test: (151, 167)
-2018-05-23 20:35:37,324 [__main__] INFO: Y_test: (151, 1)
-2018-05-23 20:35:38,047 [__main__] INFO: Shapes in generate_plots script: bace
-2018-05-23 20:35:38,048 [__main__] INFO: SMILES shape: (1211,)
-2018-05-23 20:35:38,048 [__main__] INFO: x_train shape: (1211, 167)
-2018-05-23 20:35:38,048 [__main__] INFO: x_test shape: (151, 167)
-2018-05-23 20:35:38,048 [__main__] INFO: x_val hape: (151, 167)
-2018-05-23 20:35:38,048 [__main__] INFO: y_train shape: (1211, 1)
-2018-05-23 20:35:38,048 [__main__] INFO: y_test shape: (151, 1)
-2018-05-23 20:35:38,048 [__main__] INFO: y_val shape: (151, 1)
-2018-05-23 20:35:38,048 [__main__] INFO: X shape: (167, 1513)
-2018-05-23 20:35:38,048 [__main__] INFO: Y shape: (1, 1513)
-
-2018-05-23 20:36:23,377 [__main__] INFO: Dataset: tox21
-2018-05-23 20:36:23,377 [__main__] INFO: Descriptors ['rdkit', 'morgan', 'mordred', 'maccs']
-2018-05-23 20:36:23,377 [__main__] INFO: Split: scaffold
-2018-05-23 20:36:23,377 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/tox21.ini
-2018-05-23 20:36:23,377 [__main__] INFO: Split size: 0.1
-2018-05-23 20:36:23,378 [__main__] INFO: Load train data
-2018-05-23 20:36:23,918 [__main__] INFO: Data loaded from config
-2018-05-23 20:36:24,178 [__main__] INFO: Load test data
-2018-05-23 20:36:24,754 [__main__] INFO: Data loaded from config
-2018-05-23 20:36:25,027 [__main__] INFO: Load val data
-2018-05-23 20:36:25,028 [__main__] INFO: Loading data
-2018-05-23 20:36:25,035 [__main__] INFO: After processing shapes:
-2018-05-23 20:36:25,035 [__main__] INFO: Mordred data extraction
-2018-05-23 20:46:00,541 [__main__] INFO: mordred_features shape: (5102, 1824)
-2018-05-23 20:46:00,541 [__main__] INFO: RDKit data extraction
-2018-05-23 20:46:36,589 [__main__] INFO: rdkit_features shape: (5102, 200)
-2018-05-23 20:46:36,590 [__main__] INFO: After cleaning shapes:
-2018-05-23 20:46:38,603 [__main__] INFO: rdkit_features shape: (5102, 200)
-2018-05-23 20:46:59,607 [__main__] INFO: mordred_features shape: (5102, 1824)
-2018-05-23 20:46:59,720 [__main__] INFO: Maccs data extraction
-2018-05-23 20:47:10,642 [__main__] INFO: maccs_fingerprints shape: (5102, 167)
-2018-05-23 20:47:10,642 [__main__] INFO: Morgan data extraction
-2018-05-23 20:47:12,286 [__main__] INFO: morgan_fingerprints shape: (5102, 32)
-2018-05-23 20:47:15,128 [__main__] INFO: Loaded from config
-2018-05-23 20:47:15,144 [__main__] INFO: x_train shape: (551, 2223)
-2018-05-23 20:47:15,156 [__main__] INFO: x_test shape: (566, 2223)
-2018-05-23 20:47:15,391 [__main__] INFO: x_val hape: (4951, 2223)
-2018-05-23 20:47:15,391 [__main__] INFO: y_train shape: (551, 1)
-2018-05-23 20:47:15,391 [__main__] INFO: y_test shape: (566, 1)
-2018-05-23 20:47:15,392 [__main__] INFO: y_val shape: (4951, 1)
-2018-05-23 20:47:15,392 [__main__] INFO: Data after splitting:
-2018-05-23 20:47:15,402 [__main__] INFO: x_train shape: (551, 2223)
-2018-05-23 20:47:15,414 [__main__] INFO: x_test shape: (566, 2223)
-2018-05-23 20:47:15,649 [__main__] INFO: x_val hape: (4951, 2223)
-2018-05-23 20:47:15,649 [__main__] INFO: y_train shape: (551, 1)
-2018-05-23 20:47:15,649 [__main__] INFO: y_test shape: (566, 1)
-2018-05-23 20:47:15,649 [__main__] INFO: y_val shape: (4951, 1)
-2018-05-23 20:47:15,650 [__main__] INFO: X_train: (551, 2223)
-2018-05-23 20:47:15,650 [__main__] INFO: Y_train: (551, 1)
-2018-05-23 20:47:15,650 [__main__] INFO: X_val: (4951, 2223)
-2018-05-23 20:47:15,650 [__main__] INFO: Y_val: (4951, 1)
-2018-05-23 20:47:15,650 [__main__] INFO: X_test: (566, 2223)
-2018-05-23 20:47:15,650 [__main__] INFO: Y_test: (566, 1)
-2018-05-23 20:47:55,230 [__main__] INFO: Shapes in generate_plots script: tox21
-2018-05-23 20:47:55,230 [__main__] INFO: SMILES shape: (551,)
-2018-05-23 20:47:55,230 [__main__] INFO: x_train shape: (551, 2223)
-2018-05-23 20:47:55,230 [__main__] INFO: x_test shape: (566, 2223)
-2018-05-23 20:47:55,230 [__main__] INFO: x_val hape: (4951, 2223)
-2018-05-23 20:47:55,230 [__main__] INFO: y_train shape: (551, 1)
-2018-05-23 20:47:55,230 [__main__] INFO: y_test shape: (566, 1)
-2018-05-23 20:47:55,230 [__main__] INFO: y_val shape: (4951, 1)
-2018-05-23 20:47:55,230 [__main__] INFO: X shape: (2223, 6068)
-2018-05-23 20:47:55,230 [__main__] INFO: Y shape: (1, 6068)
-
-2018-05-23 20:52:10,203 [__main__] INFO: Dataset: tox21
-2018-05-23 20:52:10,203 [__main__] INFO: Descriptors ['rdkit', 'morgan', 'mordred', 'maccs']
-2018-05-23 20:52:10,203 [__main__] INFO: Split: cluster
-2018-05-23 20:52:10,203 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/tox21.ini
-2018-05-23 20:52:10,203 [__main__] INFO: Split size: 0.1
-2018-05-23 20:52:10,204 [__main__] INFO: Load train data
-2018-05-23 20:52:10,204 [__main__] INFO: Loading data
-2018-05-23 20:52:10,215 [__main__] INFO: After processing shapes:
-2018-05-23 20:52:10,215 [__main__] INFO: Mordred data extraction
-2018-05-23 21:18:42,831 [__main__] INFO: mordred_features shape: (8042, 1824)
-2018-05-23 21:18:42,831 [__main__] INFO: RDKit data extraction
-2018-05-23 21:30:49,025 [__main__] INFO: rdkit_features shape: (8042, 200)
-2018-05-23 21:30:49,025 [__main__] INFO: After cleaning shapes:
-2018-05-23 21:30:51,549 [__main__] INFO: rdkit_features shape: (7687, 200)
-2018-05-23 21:31:23,572 [__main__] INFO: mordred_features shape: (7687, 1824)
-2018-05-23 21:31:23,742 [__main__] INFO: Maccs data extraction
-2018-05-23 21:31:40,009 [__main__] INFO: maccs_fingerprints shape: (7687, 167)
-2018-05-23 21:31:40,009 [__main__] INFO: Morgan data extraction
-2018-05-23 21:31:42,456 [__main__] INFO: morgan_fingerprints shape: (7687, 32)
-2018-05-23 21:31:47,016 [__main__] INFO: Load test data
-2018-05-23 21:31:47,599 [__main__] INFO: Data loaded from config
-2018-05-23 21:31:47,924 [__main__] INFO: Load val data
-2018-05-23 21:31:47,924 [__main__] INFO: Can not load data
-2018-05-23 21:31:47,924 [__main__] INFO: Loaded from config
-2018-05-23 21:31:48,284 [__main__] INFO: x_train shape: (7057, 2223)
-2018-05-23 21:31:48,297 [__main__] INFO: x_test shape: (566, 2223)
-2018-05-23 21:31:48,297 [__main__] INFO: x_val hape: (0,)
-2018-05-23 21:31:48,298 [__main__] INFO: y_train shape: (7057, 1)
-2018-05-23 21:31:48,298 [__main__] INFO: y_test shape: (566, 1)
-2018-05-23 21:31:48,298 [__main__] INFO: y_val shape: (0,)
-2018-05-23 21:31:48,299 [__main__] INFO: Split val data
-2018-05-23 21:33:10,960 [__main__] INFO: Data after splitting:
-2018-05-23 21:33:11,139 [__main__] INFO: x_train shape: (3398, 2223)
-2018-05-23 21:33:11,164 [__main__] INFO: x_test shape: (566, 2223)
-2018-05-23 21:33:11,358 [__main__] INFO: x_val hape: (3659, 2223)
-2018-05-23 21:33:11,359 [__main__] INFO: y_train shape: (3398, 1)
-2018-05-23 21:33:11,359 [__main__] INFO: y_test shape: (566, 1)
-2018-05-23 21:33:11,359 [__main__] INFO: y_val shape: (3659, 1)
-2018-05-23 21:33:11,401 [__main__] INFO: X_train: (3398, 2223)
-2018-05-23 21:33:11,401 [__main__] INFO: Y_train: (3398, 1)
-2018-05-23 21:33:11,402 [__main__] INFO: X_val: (3659, 2223)
-2018-05-23 21:33:11,402 [__main__] INFO: Y_val: (3659, 1)
-2018-05-23 21:33:11,402 [__main__] INFO: X_test: (566, 2223)
-2018-05-23 21:33:11,402 [__main__] INFO: Y_test: (566, 1)
-2018-05-23 21:34:01,287 [__main__] INFO: Shapes in generate_plots script: tox21
-2018-05-23 21:34:01,288 [__main__] INFO: SMILES shape: (3398,)
-2018-05-23 21:34:01,288 [__main__] INFO: x_train shape: (3398, 2223)
-2018-05-23 21:34:01,288 [__main__] INFO: x_test shape: (566, 2223)
-2018-05-23 21:34:01,288 [__main__] INFO: x_val hape: (3659, 2223)
-2018-05-23 21:34:01,288 [__main__] INFO: y_train shape: (3398, 1)
-2018-05-23 21:34:01,288 [__main__] INFO: y_test shape: (566, 1)
-2018-05-23 21:34:01,288 [__main__] INFO: y_val shape: (3659, 1)
-2018-05-23 21:34:01,288 [__main__] INFO: X shape: (2223, 7623)
-2018-05-23 21:34:01,288 [__main__] INFO: Y shape: (1, 7623)
-
-2018-05-23 21:40:52,900 [__main__] INFO: Dataset: tox21
-2018-05-23 21:40:52,900 [__main__] INFO: Descriptors ['rdkit', 'morgan', 'mordred', 'maccs']
-2018-05-23 21:40:52,900 [__main__] INFO: Split: random
-2018-05-23 21:40:52,900 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/tox21.ini
-2018-05-23 21:40:52,900 [__main__] INFO: Split size: 0.1
-2018-05-23 21:40:52,901 [__main__] INFO: Load train data
-2018-05-23 21:40:52,901 [__main__] INFO: Loading data
-2018-05-23 21:40:52,911 [__main__] INFO: After processing shapes:
-2018-05-23 21:40:52,911 [__main__] INFO: Mordred data extraction
-2018-05-23 22:07:50,587 [__main__] INFO: mordred_features shape: (8042, 1824)
-2018-05-23 22:07:50,587 [__main__] INFO: RDKit data extraction
-2018-05-23 22:19:46,794 [__main__] INFO: rdkit_features shape: (8042, 200)
-2018-05-23 22:19:46,795 [__main__] INFO: After cleaning shapes:
-2018-05-23 22:19:49,322 [__main__] INFO: rdkit_features shape: (7687, 200)
-2018-05-23 22:20:21,654 [__main__] INFO: mordred_features shape: (7687, 1824)
-2018-05-23 22:20:21,821 [__main__] INFO: Maccs data extraction
-2018-05-23 22:20:38,178 [__main__] INFO: maccs_fingerprints shape: (7687, 167)
-2018-05-23 22:20:38,178 [__main__] INFO: Morgan data extraction
-2018-05-23 22:20:40,630 [__main__] INFO: morgan_fingerprints shape: (7687, 32)
-2018-05-23 22:20:45,332 [__main__] INFO: Load test data
-2018-05-23 22:20:45,920 [__main__] INFO: Data loaded from config
-2018-05-23 22:20:46,246 [__main__] INFO: Load val data
-2018-05-23 22:20:46,246 [__main__] INFO: Can not load data
-2018-05-23 22:20:46,246 [__main__] INFO: Loaded from config
-2018-05-23 22:20:46,614 [__main__] INFO: x_train shape: (7057, 2223)
-2018-05-23 22:20:46,627 [__main__] INFO: x_test shape: (566, 2223)
-2018-05-23 22:20:46,627 [__main__] INFO: x_val hape: (0,)
-2018-05-23 22:20:46,629 [__main__] INFO: y_train shape: (7057, 1)
-2018-05-23 22:20:46,629 [__main__] INFO: y_test shape: (566, 1)
-2018-05-23 22:20:46,629 [__main__] INFO: y_val shape: (0,)
-2018-05-23 22:20:46,629 [__main__] INFO: Split val data
-2018-05-23 22:20:47,074 [__main__] INFO: Data after splitting:
-2018-05-23 22:20:47,118 [__main__] INFO: x_train shape: (706, 2223)
-2018-05-23 22:20:47,131 [__main__] INFO: x_test shape: (566, 2223)
-2018-05-23 22:20:47,565 [__main__] INFO: x_val hape: (6351, 2223)
-2018-05-23 22:20:47,565 [__main__] INFO: y_train shape: (706, 1)
-2018-05-23 22:20:47,565 [__main__] INFO: y_test shape: (566, 1)
-2018-05-23 22:20:47,566 [__main__] INFO: y_val shape: (6351, 1)
-2018-05-23 22:20:47,609 [__main__] INFO: X_train: (706, 2223)
-2018-05-23 22:20:47,609 [__main__] INFO: Y_train: (706, 1)
-2018-05-23 22:20:47,609 [__main__] INFO: X_val: (6351, 2223)
-2018-05-23 22:20:47,609 [__main__] INFO: Y_val: (6351, 1)
-2018-05-23 22:20:47,609 [__main__] INFO: X_test: (566, 2223)
-2018-05-23 22:20:47,609 [__main__] INFO: Y_test: (566, 1)
-2018-05-23 22:21:39,873 [__main__] INFO: Shapes in generate_plots script: tox21
-2018-05-23 22:21:39,873 [__main__] INFO: SMILES shape: (706,)
-2018-05-23 22:21:39,873 [__main__] INFO: x_train shape: (706, 2223)
-2018-05-23 22:21:39,873 [__main__] INFO: x_test shape: (566, 2223)
-2018-05-23 22:21:39,873 [__main__] INFO: x_val hape: (6351, 2223)
-2018-05-23 22:21:39,873 [__main__] INFO: y_train shape: (706, 1)
-2018-05-23 22:21:39,873 [__main__] INFO: y_test shape: (566, 1)
-2018-05-23 22:21:39,873 [__main__] INFO: y_val shape: (6351, 1)
-2018-05-23 22:21:39,873 [__main__] INFO: X shape: (2223, 7623)
-2018-05-23 22:21:39,873 [__main__] INFO: Y shape: (1, 7623)
-
-2018-05-23 22:27:00,388 [__main__] INFO: Dataset: tox21
-2018-05-23 22:27:00,389 [__main__] INFO: Descriptors ['rdkit', 'morgan', 'mordred', 'maccs']
-2018-05-23 22:27:00,389 [__main__] INFO: Split: stratified
-2018-05-23 22:27:00,389 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/tox21.ini
-2018-05-23 22:27:00,389 [__main__] INFO: Split size: 0.1
-2018-05-23 22:27:00,390 [__main__] INFO: Load train data
-2018-05-23 22:27:00,390 [__main__] INFO: Loading data
-2018-05-23 22:27:00,404 [__main__] INFO: After processing shapes:
-2018-05-23 22:27:00,404 [__main__] INFO: Mordred data extraction
-2018-05-23 22:53:26,176 [__main__] INFO: mordred_features shape: (8042, 1824)
-2018-05-23 22:53:26,176 [__main__] INFO: RDKit data extraction
-2018-05-23 23:05:00,296 [__main__] INFO: rdkit_features shape: (8042, 200)
-2018-05-23 23:05:00,296 [__main__] INFO: After cleaning shapes:
-2018-05-23 23:05:02,841 [__main__] INFO: rdkit_features shape: (7687, 200)
-2018-05-23 23:05:35,297 [__main__] INFO: mordred_features shape: (7687, 1824)
-2018-05-23 23:05:35,466 [__main__] INFO: Maccs data extraction
-2018-05-23 23:05:51,841 [__main__] INFO: maccs_fingerprints shape: (7687, 167)
-2018-05-23 23:05:51,841 [__main__] INFO: Morgan data extraction
-2018-05-23 23:05:54,294 [__main__] INFO: morgan_fingerprints shape: (7687, 32)
-2018-05-23 23:05:58,919 [__main__] INFO: Load test data
-2018-05-23 23:05:59,494 [__main__] INFO: Data loaded from config
-2018-05-23 23:05:59,823 [__main__] INFO: Load val data
-2018-05-23 23:05:59,824 [__main__] INFO: Can not load data
-2018-05-23 23:05:59,824 [__main__] INFO: Loaded from config
-2018-05-23 23:06:00,192 [__main__] INFO: x_train shape: (7057, 2223)
-2018-05-23 23:06:00,205 [__main__] INFO: x_test shape: (566, 2223)
-2018-05-23 23:06:00,205 [__main__] INFO: x_val hape: (0,)
-2018-05-23 23:06:00,206 [__main__] INFO: y_train shape: (7057, 1)
-2018-05-23 23:06:00,206 [__main__] INFO: y_test shape: (566, 1)
-2018-05-23 23:06:00,206 [__main__] INFO: y_val shape: (0,)
-2018-05-23 23:06:00,206 [__main__] INFO: Split val data
-2018-05-23 23:06:00,681 [__main__] INFO: Data after splitting:
-2018-05-23 23:06:00,725 [__main__] INFO: x_train shape: (706, 2223)
-2018-05-23 23:06:00,738 [__main__] INFO: x_test shape: (566, 2223)
-2018-05-23 23:06:01,146 [__main__] INFO: x_val hape: (6351, 2223)
-2018-05-23 23:06:01,146 [__main__] INFO: y_train shape: (706, 1)
-2018-05-23 23:06:01,146 [__main__] INFO: y_test shape: (566, 1)
-2018-05-23 23:06:01,146 [__main__] INFO: y_val shape: (6351, 1)
-2018-05-23 23:06:01,191 [__main__] INFO: X_train: (706, 2223)
-2018-05-23 23:06:01,191 [__main__] INFO: Y_train: (706, 1)
-2018-05-23 23:06:01,191 [__main__] INFO: X_val: (6351, 2223)
-2018-05-23 23:06:01,191 [__main__] INFO: Y_val: (6351, 1)
-2018-05-23 23:06:01,191 [__main__] INFO: X_test: (566, 2223)
-2018-05-23 23:06:01,191 [__main__] INFO: Y_test: (566, 1)
-2018-05-23 23:06:52,745 [__main__] INFO: Shapes in generate_plots script: tox21
-2018-05-23 23:06:52,745 [__main__] INFO: SMILES shape: (706,)
-2018-05-23 23:06:52,745 [__main__] INFO: x_train shape: (706, 2223)
-2018-05-23 23:06:52,745 [__main__] INFO: x_test shape: (566, 2223)
-2018-05-23 23:06:52,745 [__main__] INFO: x_val hape: (6351, 2223)
-2018-05-23 23:06:52,745 [__main__] INFO: y_train shape: (706, 1)
-2018-05-23 23:06:52,745 [__main__] INFO: y_test shape: (566, 1)
-2018-05-23 23:06:52,745 [__main__] INFO: y_val shape: (6351, 1)
-2018-05-23 23:06:52,745 [__main__] INFO: X shape: (2223, 7623)
-2018-05-23 23:06:52,745 [__main__] INFO: Y shape: (1, 7623)
-
-2018-05-23 23:12:30,523 [__main__] INFO: Dataset: tox21
-2018-05-23 23:12:30,523 [__main__] INFO: Descriptors ['rdkit']
-2018-05-23 23:12:30,523 [__main__] INFO: Split: scaffold
-2018-05-23 23:12:30,523 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/tox21.ini
-2018-05-23 23:12:30,523 [__main__] INFO: Split size: 0.1
-2018-05-23 23:12:30,524 [__main__] INFO: Load train data
-2018-05-23 23:12:30,550 [__main__] INFO: Data loaded from config
-2018-05-23 23:12:30,559 [__main__] INFO: Load test data
-2018-05-23 23:12:30,586 [__main__] INFO: Data loaded from config
-2018-05-23 23:12:30,598 [__main__] INFO: Load val data
-2018-05-23 23:12:30,756 [__main__] INFO: Data loaded from config
-2018-05-23 23:12:30,845 [__main__] INFO: Loaded from config
-2018-05-23 23:12:30,846 [__main__] INFO: x_train shape: (551, 200)
-2018-05-23 23:12:30,847 [__main__] INFO: x_test shape: (566, 200)
-2018-05-23 23:12:30,856 [__main__] INFO: x_val hape: (4951, 200)
-2018-05-23 23:12:30,856 [__main__] INFO: y_train shape: (551, 1)
-2018-05-23 23:12:30,856 [__main__] INFO: y_test shape: (566, 1)
-2018-05-23 23:12:30,856 [__main__] INFO: y_val shape: (4951, 1)
-2018-05-23 23:12:30,856 [__main__] INFO: Data after splitting:
-2018-05-23 23:12:30,857 [__main__] INFO: x_train shape: (551, 200)
-2018-05-23 23:12:30,858 [__main__] INFO: x_test shape: (566, 200)
-2018-05-23 23:12:30,865 [__main__] INFO: x_val hape: (4951, 200)
-2018-05-23 23:12:30,866 [__main__] INFO: y_train shape: (551, 1)
-2018-05-23 23:12:30,866 [__main__] INFO: y_test shape: (566, 1)
-2018-05-23 23:12:30,866 [__main__] INFO: y_val shape: (4951, 1)
-2018-05-23 23:12:30,866 [__main__] INFO: X_train: (551, 200)
-2018-05-23 23:12:30,866 [__main__] INFO: Y_train: (551, 1)
-2018-05-23 23:12:30,866 [__main__] INFO: X_val: (4951, 200)
-2018-05-23 23:12:30,866 [__main__] INFO: Y_val: (4951, 1)
-2018-05-23 23:12:30,866 [__main__] INFO: X_test: (566, 200)
-2018-05-23 23:12:30,866 [__main__] INFO: Y_test: (566, 1)
-2018-05-23 23:12:33,728 [__main__] INFO: Shapes in generate_plots script: tox21
-2018-05-23 23:12:33,728 [__main__] INFO: SMILES shape: (551,)
-2018-05-23 23:12:33,728 [__main__] INFO: x_train shape: (551, 200)
-2018-05-23 23:12:33,728 [__main__] INFO: x_test shape: (566, 200)
-2018-05-23 23:12:33,728 [__main__] INFO: x_val hape: (4951, 200)
-2018-05-23 23:12:33,728 [__main__] INFO: y_train shape: (551, 1)
-2018-05-23 23:12:33,728 [__main__] INFO: y_test shape: (566, 1)
-2018-05-23 23:12:33,728 [__main__] INFO: y_val shape: (4951, 1)
-2018-05-23 23:12:33,728 [__main__] INFO: X shape: (200, 6068)
-2018-05-23 23:12:33,728 [__main__] INFO: Y shape: (1, 6068)
-
-2018-05-23 23:14:51,643 [__main__] INFO: Dataset: tox21
-2018-05-23 23:14:51,643 [__main__] INFO: Descriptors ['rdkit']
-2018-05-23 23:14:51,643 [__main__] INFO: Split: cluster
-2018-05-23 23:14:51,643 [__main__] INFO: Path: /home/cel/Tasks/virtual_screening/data/data_configs/tox21.ini
-2018-05-23 23:14:51,643 [__main__] INFO: Split size: 0.1
-2018-05-23 23:14:51,644 [__main__] INFO: Load train data
-2018-05-23 23:14:51,644 [__main__] INFO: Loading data
-2018-05-23 23:14:51,650 [__main__] INFO: After processing shapes:
-2018-05-23 23:14:51,650 [__main__] INFO: RDKit data extraction
-2018-05-23 23:15:12,806 [__main__] INFO: rdkit_features shape: (3398, 200)
-2018-05-23 23:15:12,806 [__main__] INFO: After cleaning shapes:
-2018-05-23 23:15:13,925 [__main__] INFO: rdkit_features shape: (3397, 200)
-2018-05-23 23:15:14,079 [__main__] INFO: Load test data
-2018-05-23 23:15:14,106 [__main__] INFO: Data loaded from config
-2018-05-23 23:15:14,115 [__main__] INFO: Load val data
-2018-05-23 23:15:14,116 [__main__] INFO: Loading data
-2018-05-23 23:15:14,122 [__main__] INFO: After processing shapes:
-2018-05-23 23:15:14,122 [__main__] INFO: Mordred data extraction
-2018-05-23 23:22:05,047 [__main__] INFO: mordred_features shape: (3659, 1824)
-2018-05-23 23:22:05,047 [__main__] INFO: RDKit data extraction
-2018-05-23 23:23:02,744 [__main__] INFO: rdkit_features shape: (3659, 200)
-2018-05-23 23:23:02,745 [__main__] INFO: After cleaning shapes:
-2018-05-23 23:23:03,970 [__main__] INFO: rdkit_features shape: (3659, 200)
-2018-05-23 23:23:19,225 [__main__] INFO: mordred_features shape: (3659, 1824)
-2018-05-23 23:23:20,908 [__main__] INFO: Loaded from config
-2018-05-23 23:23:20,915 [__main__] INFO: x_train shape: (3307, 200)
-2018-05-23 23:23:20,916 [__main__] INFO: x_test shape: (566, 200)
-2018-05-23 23:23:21,054 [__main__] INFO: x_val hape: (3568, 2024)
-2018-05-23 23:23:21,055 [__main__] INFO: y_train shape: (3307, 1)
-2018-05-23 23:23:21,055 [__main__] INFO: y_test shape: (566, 1)
-2018-05-23 23:23:21,056 [__main__] INFO: y_val shape: (3568, 1)
-2018-05-23 23:23:21,056 [__main__] INFO: Data after splitting:
-2018-05-23 23:23:21,061 [__main__] INFO: x_train shape: (3307, 200)
-2018-05-23 23:23:21,062 [__main__] INFO: x_test shape: (566, 200)
-2018-05-23 23:23:21,200 [__main__] INFO: x_val hape: (3568, 2024)
-2018-05-23 23:23:21,200 [__main__] INFO: y_train shape: (3307, 1)
-2018-05-23 23:23:21,201 [__main__] INFO: y_test shape: (566, 1)
-2018-05-23 23:23:21,201 [__main__] INFO: y_val shape: (3568, 1)
-2018-05-23 23:23:21,201 [__main__] INFO: X_train: (3307, 200)
-2018-05-23 23:23:21,201 [__main__] INFO: Y_train: (3307, 1)
-2018-05-23 23:23:21,201 [__main__] INFO: X_val: (3568, 2024)
-2018-05-23 23:23:21,201 [__main__] INFO: Y_val: (3568, 1)
-2018-05-23 23:23:21,201 [__main__] INFO: X_test: (566, 200)
-2018-05-23 23:23:21,201 [__main__] INFO: Y_test: (566, 1)

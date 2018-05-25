@@ -10,6 +10,7 @@ import getopt
 import logging
 import numpy as np
 import pandas as pd
+from matplotlib import pyplot
 from datetime import datetime
 from shutil import copyfile, copytree
 from sklearn.metrics import accuracy_score, recall_score, roc_auc_score, f1_score, matthews_corrcoef, make_scorer
@@ -125,6 +126,17 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
         os.rename(path_old, path)
     except TypeError:
         pass
+
+    try:
+        pyplot.bar(range(len(model.feature_importances_)), model.feature_importances_)
+        pyplot.savefig(path+"img/feature_importance.png", dpi=500)
+    except:
+        pass
+    #for i in range(x_test.shape[1]):
+    #    x_test = replace_by_mean(x_test, i)
+    #    test_proba = model.predict_proba(x_test)
+    #    auc = roc_auc_score(y_test, test_proba)
+        
     
     #plot_TSNE(x_train, y_train, path)
     logger.info("Results path: %s", path)

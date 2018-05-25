@@ -14,12 +14,13 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier, IsolationForest 
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV, PredefinedSplit
+from sklearn.preprocessing import MinMaxScaler
 from keras.wrappers.scikit_learn import KerasClassifier
 from moloi.config_processing import read_model_config, cv_splits_save, cv_splits_load
 from moloi.evaluation import evaluate, make_scoring
 from moloi.splits.cv import create_cv
-from moloi.data_processing import get_data, preprocessing
-from moloi.models.keras_models import FCNN, LSTM, MultilayerPerceptron, Logreg, create_callbacks
+from moloi.data_processing import get_data, clean_data
+from moloi.models.keras_models import FCNN, LSTM, MLP, Logreg, create_callbacks
 from moloi.model_processing import load_model, save_model
 import xgboost as xgb
 
@@ -98,9 +99,15 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
                                                                                                 options.targets, random_state, options.split_type, options.split_s, 
                                                                                                 verbose, options.descriptors, options.n_jobs)
 
-    x_train = preprocessing(x_train)
-    x_test = preprocessing(x_test)
-    x_val = preprocessing(x_val)
+    x_train = clean_data(x_train)
+    x_test = clean_data(x_test)
+    x_val = clean_data(x_val)
+    
+    # Scale
+    transformer_X = MinMaxScaler().fit(x_train)
+    x_train = transformer_X.transform(x_train)
+    x_test = transformer_X.transform(x_test)
+    x_val = transformer_X.transform(x_val)
 
     if len(np.unique(y_train)) == 1:
         logger.error("Multiclass data: only one class in y_train")
@@ -182,7 +189,7 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
             model = RandomizedSearchCV(LogisticRegression(**rparams), **sklearn_params)
         elif options.select_model == "knn":
             model = RandomizedSearchCV(KNeighborsClassifier(**rparams), **sklearn_params)
-        elif options.select_model == "xgb" and xgb_flag:
+        elif options.select_model == "xgb":
             model = RandomizedSearchCV(xgb.XGBClassifier(**rparams), **sklearn_params)
         elif options.select_model == "svc":
             model = RandomizedSearchCV(SVC(**rparams), **sklearn_params)
@@ -200,8 +207,8 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
         elif options.select_model == "lstm":
             search_model = KerasClassifier(build_fn=LSTM, input_shape=input_shape, output_shape=output_shape, input_length=x_train.shape[1])
             model = RandomizedSearchCV(estimator=search_model, **keras_params)
-        elif options.select_model == "multilayer_perceptron":
-            search_model = KerasClassifier(build_fn=MultilayerPerceptron, input_shape=input_shape, output_shape=output_shape)
+        elif options.select_model == "mlp":
+            search_model = KerasClassifier(build_fn=MLP, input_shape=input_shape, output_shape=output_shape)
             model = RandomizedSearchCV(estimator=search_model, **keras_params)   
         # elif options.select_model == "rnn":
         #     search_model = KerasClassifier(build_fn=RNN, input_shape=input_shape, output_shape=output_shape, input_length=x_train.shape[1])
@@ -219,6 +226,7 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
         rparams = model.best_params_
         grid = pd.DataFrame(model.cv_results_).sort_values(by='mean_test_score', ascending=False)
         grid.to_csv(options.output + "gridsearch.csv")
+        model = model.best_estimator_
 
     try:
         del rparams["epochs"]
@@ -253,8 +261,8 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
         model = FCNN(input_shape, output_shape, **rparams)
     elif options.select_model == "regression":
         model = Logreg(input_shape, output_shape, **rparams)
-    elif options.select_model == "multilayer_perceptron":
-        model = MultilayerPerceptron(input_shape, output_shape, **rparams)
+    elif options.select_model == "mlp":
+        model = MLP(input_shape, output_shape, **rparams)
     # elif options.select_model == "rnn":
     #     model = RNN(input_shape, output_shape, **rparams)
     # elif options.select_model == "gru":

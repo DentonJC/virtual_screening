@@ -1,5 +1,5 @@
 Data config,Model config,Section,Output,n_jobs,Load model,Model,Metric,Split type,Split size,Descriptors,n_bits,n_cv,Patience,Gridsearch,n_iter,Balanced acc,ROC AUC test,ROC AUC val,rparams
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,20,regression,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",1024,5,100,True,20,0.78185,0.8444,0.8788,"{'momentum': 0.7, 'lr': 0.01, 'l2': 0.001}"
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,FCNN,,,,fcnn,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",1024,3,10000,True,20,,,,
 /data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,21,regression,roc_auc,random,0.1,"['rdkit', 'morgan','mordred', 'maccs']",1024,5,100,True,20,0.78985,0.9001,0.8717,"{'momentum': 0.7, 'lr': 0.001, 'l2': 0.0001}"
 /data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,22,regression,roc_auc,cluster,0.1,"['rdkit', 'morgan','mordred', 'maccs']",1024,5,100,True,20,0.602,0.6402,0.6177,"{'momentum': 0.5, 'lr': 0.0001, 'l2': 0.001, 'epochs': 100, 'class_weight': None, 'batch_size': 64}"
 /data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,23,regression,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",1024,5,100,True,20,0.78185,0.8444,0.8788,"{'momentum': 0.7, 'lr': 0.01, 'l2': 0.001}"
@@ -8,7 +8,7 @@ Data config,Model config,Section,Output,n_jobs,Load model,Model,Metric,Split typ
 /data/data_configs/bace.ini,/data/model_configs/configs.ini,IF,,,26,if,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",1024,5,100,True,20,0,0,0,"{'verbose': 2, 'n_estimators': 10, 'contamination': 0.3, 'bootstrap': 'True'}"
 /data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,27,regression,roc_auc,stratified,0.1,"['rdkit', 'morgan','mordred', 'maccs']",1024,5,100,True,20,0.74915,0.8294,0.8849,"{'momentum': 0.9, 'lr': 0.001, 'l2': 1}"
 /data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,28,logreg,roc_auc,cluster,0.1,"['rdkit', 'morgan','mordred', 'maccs']",1024,5,100,True,20,0.6468,0.7189,0.5949,"{'solver': 'sag', 'max_iter': 50, 'C': 60}"
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,FCNN,,,,fcnn,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",1024,3,100,True,3,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,,regression,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",1024,5,100,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",1024,5,100,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",1024,5,100,True,20,,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,FCNN,,,,fcnn,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",1024,3,100,True,3,0,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,29,regression,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",1024,3,100,True,3,0.77585,0.8462,0.8633,"{'momentum': 0.7, 'lr': 0.01, 'l2': 0.001}"
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",1024,3,100,True,3,,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",1024,3,100,True,3,,,,

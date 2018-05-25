@@ -9,7 +9,7 @@ from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 
 
-def plot_history(history, path):
+def plot_old_history(history, path):
     """
     Create plot of model fitting history and save in path.
     """
@@ -25,6 +25,28 @@ def plot_history(history, path):
         plt.title(str(keys[i]))
         #plt.ylabel(str(keys[i]))
         #plt.xlabel('epoch')
+    plt.savefig(path+'img/history.png')
+    plt.clf()
+    plt.cla()
+    plt.close()
+
+
+def plot_history(path):
+    columns = ['acc', 'loss']
+    history = pd.read_csv(path, header=0, sep=';')
+    history = np.array(history)
+    x = np.array(history[:,0])
+    history = history[:,1:]
+
+    plt.figure(figsize=(10, 4*len(columns)))
+    plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=0.2)
+
+    for i in range(2):
+        plt.subplot(len(columns)*100 + 10 + i + 1)
+        plt.plot(x, np.array(history[:,i]), label='train', color='b')
+        plt.plot(x, np.array(history[:,i+2]), label='val', color='g')
+        plt.title(str(columns[i]))
+        plt.legend()
     plt.savefig(path+'img/history.png')
     plt.clf()
     plt.cla()
@@ -94,47 +116,57 @@ def plot_grid_search(score, path):
         except ValueError:
             pass
 
-        plt.savefig(path+'img/grid_'+c+'.png', dpi=1000)
+        plt.savefig(path+'img/grid_'+c+'.png', dpi=500)
         plt.clf()
         plt.cla()
         plt.close()
 
 
-def plot_TSNE(x, y, path, title="t-SNE", label_1="inactive", label_2="active", n_components=2):
+def plot_TSNE(x, y, path, title="t-SNE", label_1="active", label_2="inactive", label_3="", c1='g', c2='b', c3='r', s=2, alpha=1, n_components=2):
     print("t-SNE fitting")
     tsne = TSNE(n_components=n_components)
     coordinates = tsne.fit_transform(x)
-    
-    plt.scatter(coordinates[np.where(y==0)[0],0],
-            coordinates[np.where(y==0)[0],1],
-            c="red", s=5, alpha=0.4, label=label_1)
+
     plt.scatter(coordinates[np.where(y==1)[0],0],
             coordinates[np.where(y==1)[0],1],
-            c="blue", s=5, alpha=0.4, label=label_2)
+            c=c1, s=s, alpha=alpha, label=label_1)
+    plt.scatter(coordinates[np.where(y==0)[0],0],
+            coordinates[np.where(y==0)[0],1],
+            c=c2, s=s, alpha=alpha, label=label_2)
+    
+    if len(np.unique(y)) == 3:
+        plt.scatter(coordinates[np.where(y==2)[0],0],
+                coordinates[np.where(y==2)[0],1],
+                c=c3, s=s, alpha=alpha, label=label_3)
 
     plt.title(title)
     plt.legend()
-    plt.savefig(path, dpi=1000)
+    plt.savefig(path, dpi=500)
     plt.clf()
     plt.cla()
     plt.close()
     
 
-def plot_PCA(x, y, path, title="PCA", label_1="inactive", label_2="active", n_components=2):
+def plot_PCA(x, y, path, title="PCA", label_1="active", label_2="inactive", label_3="", c1='r', c2='b', c3='g', s=2, alpha=1, n_components=2):
     print("PCA fitting")
     pca = PCA(n_components=n_components)
     coordinates = pca.fit_transform(x)
-    
-    plt.scatter(coordinates[np.where(y==0)[0],0],
-            coordinates[np.where(y==0)[0],1],
-            c="red", s=5, alpha=0.4, label=label_1)
+
     plt.scatter(coordinates[np.where(y==1)[0],0],
             coordinates[np.where(y==1)[0],1],
-            c="blue", s=5, alpha=0.4, label=label_2)
+            c=c1, s=s, alpha=alpha, label=label_1)
+    plt.scatter(coordinates[np.where(y==0)[0],0],
+            coordinates[np.where(y==0)[0],1],
+            c=c2, s=s, alpha=alpha, label=label_2)
+    
+    if len(np.unique(y)) == 3:
+        plt.scatter(coordinates[np.where(y==2)[0],0],
+                coordinates[np.where(y==2)[0],1],
+                c=c3, s=s, alpha=alpha, label=label_3)
 
     plt.title(title)
     plt.legend()
-    plt.savefig(path, dpi=1000)
+    plt.savefig(path, dpi=500)
     plt.clf()
     plt.cla()
     plt.close()

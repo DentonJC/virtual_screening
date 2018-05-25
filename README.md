@@ -214,3 +214,4 @@ Results path /tmp/2017-12-01 17:45:27.798223 logreg tox21 all 0.913/ <br />
 - https://github.com/gmum/ananas/blob/master/fingerprints/_desc_rdkit.py
 - RDKit: Open-source cheminformatics; http://www.rdkit.org
 - Keras (2015), Chollet et al., https://github.com/fchollet/keras
+- Visualization https://github.com/Sebubu/hualos
