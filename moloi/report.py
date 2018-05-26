@@ -90,12 +90,12 @@ def create_report(logger, path, accuracy_test, accuracy_train, rec, auc_train, a
     ptext = '<font size=12> <b> Host name: </b> %s </font>' % socket.gethostname()
     Report.append(Paragraph(ptext, styles["Justify"]))
     Report.append(Spacer(1, 12))
-    
+
     try:
         plot_history(history, path)
     except:
         logger.info("Can not create history plot for this experiment")
-
+    plot_history(history, path)
 
     try:
         plot_auc(x_train, x_test, x_val, y_train, y_test, y_val, path, train_proba, test_proba, val_proba, auc_train, auc_test, auc_val)

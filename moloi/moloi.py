@@ -126,9 +126,6 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
     model_loaded = False
     grid = False
 
-    if options.load_model:
-        model, model_loaded = load_model(options.load_model, logger)
-
     if options.gridsearch and not p_rparams and not model_loaded:
         logger.info("GRID SEARCH")  
         #scoring = {'accuracy': 'accuracy', 'MCC': make_scorer(matthews_corrcoef)}
@@ -226,7 +223,11 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
         rparams = model.best_params_
         grid = pd.DataFrame(model.cv_results_).sort_values(by='mean_test_score', ascending=False)
         grid.to_csv(options.output + "gridsearch.csv")
-        model = model.best_estimator_
+        # model = model.best_estimator_
+
+    r_batch_size = rparams.get("batch_size")
+    r_epochs = rparams.get("epochs")
+    r_class_weight = rparams.get("class_weight")
 
     try:
         del rparams["epochs"]
@@ -272,7 +273,13 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
     else:
         logger.info("Model name is not found or xgboost import error.")
         sys.exit(0)
-
+    
+    rparams["batch_size"] = r_batch_size
+    rparams["class_weight"] = r_class_weight
+    rparams["epochs"] = r_epochs
+    
+    if options.load_model:
+        model, model_loaded = load_model(options.load_model, logger)
     logger.info("MODEL FIT")
     try:
         monitor = 'binary_crossentropy' # This is a binary classification problem, come on, I don't want to get this from config
@@ -289,7 +296,10 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
     accuracy_test, accuracy_train, rec, auc, auc_val, f1, path = evaluate(logger, options, random_state, options.output, model, x_train, 
                                                                     x_test, x_val, y_val, y_train, y_test, time_start, rparams, history, 
                                                                     options.section, options.n_jobs, descriptors, grid)
-    model_address = save_model(model, path, logger)
+    if not options.load_model:
+        model_address = save_model(model, path, logger)
+    else:
+        model_address = options.load_model
 
     logger.info("Done")
     return accuracy_test, accuracy_train, rec, auc, auc_val, f1, rparams, model_address

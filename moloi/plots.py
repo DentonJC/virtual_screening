@@ -31,20 +31,17 @@ def plot_old_history(history, path):
     plt.close()
 
 
-def plot_history(path):
+def plot_history(history, path):
     columns = ['acc', 'loss']
-    history = pd.read_csv(path, header=0, sep=';')
-    history = np.array(history)
-    x = np.array(history[:,0])
-    history = history[:,1:]
+    keys = list(history.history.keys())
 
     plt.figure(figsize=(10, 4*len(columns)))
     plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=0.2)
 
     for i in range(2):
         plt.subplot(len(columns)*100 + 10 + i + 1)
-        plt.plot(x, np.array(history[:,i]), label='train', color='b')
-        plt.plot(x, np.array(history[:,i+2]), label='val', color='g')
+        plt.plot(np.array(history.history[keys[i]]), label='train', color='b')
+        plt.plot(np.array(history.history[keys[i+2]]), label='val', color='g')
         plt.title(str(columns[i]))
         plt.legend()
     plt.savefig(path+'img/history.png')
