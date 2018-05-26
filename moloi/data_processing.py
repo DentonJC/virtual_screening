@@ -7,6 +7,8 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from moloi.descriptors.descriptors import descriptor_rdkit, descriptor_mordred, descriptor_maccs, descriptor_morgan, descriptor_spectrophore
+from moloi.descriptors.mordred import mordred_fetures_names
+from moloi.descriptors.rdkit import rdkit_fetures_names
 from moloi.config_processing import read_data_config
 from moloi.splits.scaffold_split import scaffold_split
 from moloi.splits.cluster_split import cluster_split
@@ -69,6 +71,7 @@ def featurization(logger, filename, n_bits, path, data_config, verbose, descript
         rdkit_features = np.array(rdkit_features)
         rdkit_features = np.delete(rdkit_features, missing, axis=0)
         rdkit_features = pd.DataFrame(rdkit_features)
+        rdkit_features.columns = rdkit_fetures_names()
         rdkit_features.to_csv(rdkit_address+".gz", compression="gzip", sep=",", index=False)
         logger.info("rdkit_features shape: %s", str(np.array(rdkit_features).shape))
     
@@ -76,6 +79,7 @@ def featurization(logger, filename, n_bits, path, data_config, verbose, descript
         mordred_features = np.array(mordred_features)
         mordred_features = np.delete(mordred_features, missing, axis=0)
         mordred_features = pd.DataFrame(mordred_features)
+        mordred_features.columns = mordred_fetures_names()
         mordred_features.to_csv(mordred_address+".gz", compression="gzip", sep=",", index=False)
         logger.info("mordred_features shape: %s", str(np.array(mordred_features).shape))
 

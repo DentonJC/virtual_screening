@@ -14,6 +14,17 @@ from rdkit.Chem import AllChem
 from mordred import Calculator, descriptors
 
 
+# features names
+def mordred_fetures_names():
+    calc = Calculator(descriptors)
+    cols = []
+    for i in calc.descriptors:
+        i = str(i)
+        i = i.split(".")[-1]
+        cols.append(str(i))
+    return cols
+
+
 def smiles_to_mordred(x, embed=True):
     """
     Featurizes pd Series of smiles using mordred.Calculator
@@ -79,6 +90,13 @@ def smiles_to_mordred(x, embed=True):
             all_features.append(features)
 
     all_features = pd.DataFrame(all_features)
+    cols = []
+    for i in calc.descriptors:
+        i = str(i)
+        i = i.split(".")[-1]
+        cols.append(str(i))
+
+    all_features.columns = cols
     return [all_features, missing]
 
 

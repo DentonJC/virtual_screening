@@ -14,11 +14,15 @@ from rdkit import Chem
 from rdkit.Chem import Descriptors, AllChem
 import re
 
+
 def _camel_to_snail(s):
     """ Convert CamelCase to snail_case. """
     return re.sub('(?!^)([A-Z]+)', r'_\1', s).lower()
 
 DESCRIPTORS = {_camel_to_snail(s): f for (s, f) in Descriptors.descList}
+
+def rdkit_fetures_names():
+    return DESCRIPTORS.keys()
 
 
 def _rdkit_transform(mol):
@@ -96,7 +100,7 @@ def smiles_to_rdkit(x):
     #    print(len(features_values))
     #except:
     #    print(features_values.shape)
-    features_values = np.asarray(features_values)
+    #features_values = np.asarray(features_values)
     features = pd.DataFrame(features_values)#, index=features_index)
     features.columns = DESCRIPTORS.keys()
     #features.reindex(features.index.union(missing))
