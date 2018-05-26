@@ -19,7 +19,7 @@ from keras.wrappers.scikit_learn import KerasClassifier
 from moloi.config_processing import read_model_config, cv_splits_save, cv_splits_load
 from moloi.evaluation import evaluate, make_scoring
 from moloi.splits.cv import create_cv
-from moloi.data_processing import get_data, clean_data
+from moloi.data_processing import get_data, clean_data, drop_nan
 from moloi.models.keras_models import FCNN, LSTM, MLP, Logreg, create_callbacks
 from moloi.model_processing import load_model, save_model
 import xgboost as xgb
@@ -43,7 +43,7 @@ def get_options():
     parser.add_argument('--metric', default='accuracy', choices=['accuracy', 'roc_auc', 'f1', 'matthews'],  help='metric for RandomizedSearchCV'),
     parser.add_argument('--split_type', choices=['stratified', 'scaffold', 'random', 'cluster'], default='stratified', type=str, help='type of train-test split'),
     parser.add_argument('--split_s', default=0.2, type=float, help='size of test and valid splits'),
-    parser.add_argument('--targets', '-t', default=0, type=int, help='set number of target column'),
+    parser.add_argument('--targets', '-t', default=0, help='set number of target column'),
     parser.add_argument('--experiments_file', '-e', default='experiments.csv', help='where to write results of experiments')
     return parser
 
@@ -56,9 +56,12 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
         options = get_options().parse_args()
     else:
         options = get_options().parse_args(args_list)
-    targets = options.targets
-    if options.targets is not list:
+
+    if type(options.targets) is str:
+        options.targets = eval(options.targets)
+    if type(options.targets) is not list:
         options.targets = [options.targets]
+
     descriptors = options.descriptors
     options.descriptors = eval(options.descriptors) # input is string, need array
     n_cv = options.n_cv
@@ -102,7 +105,7 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
     x_train = clean_data(x_train)
     x_test = clean_data(x_test)
     x_val = clean_data(x_val)
-    
+
     # Scale
     transformer_X = MinMaxScaler().fit(x_train)
     x_train = transformer_X.transform(x_train)
@@ -121,17 +124,29 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
     if len(np.unique(y_train)) > 2 or len(np.unique(y_test)) > 2 or len(np.unique(y_val)) > 2 and "roc_auc" in options.metric:
         logger.error("Multiclass data: can not use ROC AUC metric")
         sys.exit(0)
+    if y_train.shape[1] > 1 and "roc_auc" in options.metric:
+        logger.error("Multilabel data: can not use ROC AUC metric")
+        sys.exit(0)
 
     history = False
     model_loaded = False
     grid = False
+        
+    if options.load_model:
+        _, model_loaded = load_model(options.load_model, logger)
 
     if options.gridsearch and not p_rparams and not model_loaded:
-        logger.info("GRID SEARCH")  
+        logger.info("GRID SEARCH")
+        logger.info("x_train shape: %s", str(np.array(x_train).shape))
+        logger.info("x_test shape: %s", str(np.array(x_test).shape))
+        logger.info("x_val shape: %s", str(np.array(x_val).shape))
+        logger.info("y_train shape: %s", str(np.array(y_train).shape))
+        logger.info("y_test shape: %s", str(np.array(y_test).shape))
+        logger.info("y_val shape: %s", str(np.array(y_val).shape))
         #scoring = {'accuracy': 'accuracy', 'MCC': make_scorer(matthews_corrcoef)}
         scoring = make_scoring(options.metric)
         ####
-        loaded_cv = cv_splits_load(options.split_type, root_address+options.data_config, targets)
+        loaded_cv = cv_splits_load(options.split_type, root_address+options.data_config, options.targets)
         if loaded_cv is False:
             for i in range(100):
                 count = 0
@@ -149,7 +164,7 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
         else:
             options.n_cv = eval(loaded_cv)
 
-        cv_splits_save(options.split_type, options.n_cv, root_address+options.data_config, targets)
+        cv_splits_save(options.split_type, options.n_cv, root_address+options.data_config, options.targets)
         f = open(options.output+'n_cv', 'w')
         f.write(str(options.n_cv))
         f.close()
@@ -219,11 +234,17 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
         
         time.sleep(5)
         logger.info("GRIDSEARCH FIT")
-        model.fit(x_train, np.ravel(y_train))
+        if y_train.shape[1] == 1:
+            model.fit(x_train, np.ravel(y_train))
+        else:
+            model.fit(x_train, y_train)
         rparams = model.best_params_
         grid = pd.DataFrame(model.cv_results_).sort_values(by='mean_test_score', ascending=False)
         grid.to_csv(options.output + "gridsearch.csv")
         # model = model.best_estimator_
+
+    if p_rparams:
+        rparams = p_rparams
 
     r_batch_size = rparams.get("batch_size")
     r_epochs = rparams.get("epochs")
@@ -242,9 +263,6 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
     except KeyError:
         pass
 
-    if p_rparams:
-        rparams = p_rparams
-    
     if options.select_model == "logreg":
         model = LogisticRegression(**rparams)
     elif options.select_model == "knn":
@@ -282,7 +300,7 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
         model, model_loaded = load_model(options.load_model, logger)
     logger.info("MODEL FIT")
     try:
-        monitor = 'binary_crossentropy' # This is a binary classification problem, come on, I don't want to get this from config
+        monitor = 'binary_crossentropy'
         mode = 'auto'
         #if monitor is False:
         #    monitor = 'val_acc'

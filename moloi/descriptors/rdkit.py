@@ -22,6 +22,7 @@ def _camel_to_snail(s):
 DESCRIPTORS = {_camel_to_snail(s): f for (s, f) in Descriptors.descList}
 
 def rdkit_fetures_names():
+    DESCRIPTORS = {_camel_to_snail(s): f for (s, f) in Descriptors.descList}
     return DESCRIPTORS.keys()
 
 
@@ -31,7 +32,8 @@ def _rdkit_transform(mol):
         try:
             res.append(f(mol))
         except ValueError:
-            return res.append(np.NaN)
+            # return res.append(np.NaN)
+            res.append(np.NaN)
 
     return np.array(res)
 
@@ -75,7 +77,7 @@ def smiles_to_rdkit(x):
                 _ = AllChem.EmbedMolecule(m, useRandomCoords=True, ignoreSmoothingFailures=True)
 
             # Try logarithmically more iteration (still fails sometimes)
-            for maxIters in [200, 2000, 20000, 200000, 2000000, 20000000, 2000000000]:
+            for maxIters in [200, 2000, 20000, 200000, 2000000]:
                 ret = AllChem.UFFOptimizeMolecule(m, maxIters=maxIters)
                 if ret == 0:
                     break
@@ -83,14 +85,14 @@ def smiles_to_rdkit(x):
             if ret != 0:
                 missing.append(key)
                 features_index.append(key)
-                features_values.append(np.asarray([0]*200))
+                features_values.append(np.asarray([0]*len(DESCRIPTORS.keys())))
             else:
                 features_index.append(key)
                 features_values.append(_rdkit_transform(m))
         except:
             missing.append(key)
             features_index.append(key)
-            features_values.append(np.asarray([0]*200))
+            features_values.append(np.asarray([0]*len(DESCRIPTORS.keys())))
 
     print("Serialized {} out of {} compounds to sdf".format(len(x) - len(missing), len(x)))
 
@@ -102,6 +104,8 @@ def smiles_to_rdkit(x):
     #    print(features_values.shape)
     #features_values = np.asarray(features_values)
     features = pd.DataFrame(features_values)#, index=features_index)
+    #print(features.shape)
+    #print(len(DESCRIPTORS.keys()))
     features.columns = DESCRIPTORS.keys()
     #features.reindex(features.index.union(missing))
 

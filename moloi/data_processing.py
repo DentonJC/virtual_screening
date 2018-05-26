@@ -237,31 +237,60 @@ def compile_data(labels, mordred_features, rdkit_features, maccs_fingerprints, m
     return x, y
 
 
-def drop_nan(x, y):
+def drop_nan(x, y, axis=1):
     """
     Remove rows with NaN in data and labes relevant to this rows.
     """
-    _, targ = x.shape
+    targ = x.shape[1]
     table = np.c_[x, y]
     table = pd.DataFrame(table)
-    table = table.dropna(axis=0, how='any')
+    table = table.dropna(axis=axis, how='any')
     table = np.array(table)
     x = table[:, 0:targ]
     y = table[:, targ:]
     return x, y
 
 
-def clean_data(x):
+def m_mean(a, column):
+    """
+    for feature importance
+    """
+    mean = np.mean(a.T[column])
+    for i in range(len(a)):
+        a[i][column] = mean
+    return a
+
+
+def clean_data(x, mode="zero"):
     x = np.array(x)
+    
+    for i in range(x.shape[0]):
+        for j in range(x.shape[1]):
+            if isinstance(x[i][j], (str, np.str)):
+                try:
+                    x[i][j] = float(x[i][j])
+                except:
+                    x[i][j] = np.nan
+
+    if mode == "mean":
+        x = pd.DataFrame(x)
+        x = x.apply(lambda l: l.fillna(l.mean()),axis=0)
+        x = np.array(x)
+    if mode == "zero":
+        x = pd.DataFrame(x)
+        x = x.fillna(0)
+        x = np.array(x)
 
     for j, col in enumerate(x):
         for i, row in enumerate(col):
             if not isinstance(row, (int, float, np.int64, np.float64)):
                 x[j][i] = 0
-            if x[j][i] == np.NaN: # do NOT remove
-                x[j][i] = 0
+            if np.isnan(x[j][i]): # do NOT remove
+                if mode == "clean":
+                    x[j][i] = 0
             if not np.isfinite(x[j][i]): # do NOT remove
                 x[j][i] = 0
+
     return x
 
 
@@ -455,11 +484,11 @@ def get_data(logger, data_config, n_bits, set_targets, random_state, split_type,
             
             elif len(x_test) < 1 or len(y_test) < 1:
                 logger.info("Split test data")
-                x_test, y_test, x_train, y_train, smiles_test, smiles_train, labels_test, labels_train, smiles_test_full, smiles_train_full = split(split_type, x_train, y_train, smiles_train, labels_train, smiles_train_full, split_size, random_state)
+                x_test, y_test, x_train, y_train, smiles_test, smiles_train, labels_test, labels_train, smiles_test_full, smiles_train_full = split(split_type, x_train, y_train, smiles_train, labels_train, smiles_train_full, 1-split_size, random_state)
             
             elif len(x_val) < 1 or len(y_val) < 1:
                 logger.info("Split val data")
-                x_train, y_train, x_val, y_val, smiles_train, smiles_val, labels_train, labels_val, smiles_train_full, smiles_val_full = split(split_type, x_train, y_train, smiles_train, labels_train, smiles_train_full, split_size, random_state)
+                x_train, y_train, x_val, y_val, smiles_train, smiles_val, labels_train, labels_val, smiles_train_full, smiles_val_full = split(split_type, x_train, y_train, smiles_train, labels_train, smiles_train_full, 1-split_size, random_state)
 
             for j in [y_train, y_val, y_test]:
                 if len(np.unique(j)) > 1:
