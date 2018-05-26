@@ -263,7 +263,7 @@ def m_mean(a, column):
 
 def clean_data(x, mode="zero"):
     x = np.array(x)
-    
+
     for i in range(x.shape[0]):
         for j in range(x.shape[1]):
             if isinstance(x[i][j], (str, np.str)):

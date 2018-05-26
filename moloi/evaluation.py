@@ -51,10 +51,6 @@ def make_scoring(metric):
 
 
 def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val, y_val, y_train, y_test, time_start, rparams, history, section, n_jobs, descriptors, score):
-    if y_train.shape[1] > 1:
-        y_train = y_train[:,0]
-        y_test = y_test[:,0]
-        y_val = y_val[:,0]
     y_pred_test = model.predict(x_test)
     y_pred_train = model.predict(x_train)
     save_labels(y_pred_train, path + "y_pred_test.csv")

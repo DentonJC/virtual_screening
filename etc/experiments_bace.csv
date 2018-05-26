@@ -1,45 +1,42 @@
 Data config,Model config,Section,Output,n_jobs,Load model,Model,Metric,Split type,Split size,Descriptors,n_bits,n_cv,Patience,Gridsearch,n_iter,Balanced acc,ROC AUC test,ROC AUC val
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,,regression,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",2048,3,10,True,3,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,,regression,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",512,3,10,True,3,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,,regression,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",32,3,10,True,3,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,2,rf,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",2048,5,500,True,100,0.77585,0.8664,0.8653
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,3,rf,roc_auc,scaffold,0.1,['rdkit'],2048,5,500,True,100,0.8025,0.8727,0.8624
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,4,rf,roc_auc,scaffold,0.1,['morgan'],2048,5,500,True,100,0.82205,0.8853,0.9073
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,5,rf,roc_auc,scaffold,0.1,['mordred'],2048,5,500,True,100,0.74845,0.8612,0.8103
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,6,rf,roc_auc,scaffold,0.1,['maccs'],2048,5,500,True,100,0.84235,0.8901,0.8822
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,7,rf,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",2048,5,500,True,100,0.7751,0.8758,0.8233
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,8,rf,roc_auc,scaffold,0.1,"['morgan', 'maccs']",2048,5,500,True,100,0.8153,0.8952,0.9053
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,9,rf,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",2048,5,500,True,100,0.78295,0.8699,0.8685
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,10,rf,roc_auc,scaffold,0.1,"['morgan','mordred']",2048,5,500,True,100,0.7552,0.8624,0.8165
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,11,rf,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",2048,5,500,True,100,0.8025,0.8805,0.8832
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,12,regression,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",2048,5,500,True,100,0.82205,0.903,0.8972
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,13,regression,roc_auc,scaffold,0.1,['rdkit'],2048,5,500,True,100,0.7434,0.8266,0.851
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,14,regression,roc_auc,scaffold,0.1,['morgan'],2048,5,500,True,100,0.82275,0.894,0.8976
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,15,regression,roc_auc,scaffold,0.1,['mordred'],2048,5,500,True,100,0.76195,0.8617,0.8584
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,16,regression,roc_auc,scaffold,0.1,['maccs'],2048,5,500,True,100,0.737,0.8216,0.8287
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,17,regression,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",2048,5,500,True,100,0.5,0.5,0.5
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,18,regression,roc_auc,scaffold,0.1,"['morgan', 'maccs']",2048,5,500,True,100,0.81635,0.9056,0.8981
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,19,regression,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",2048,5,500,True,100,0.8035,0.8654,0.8672
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,20,regression,roc_auc,scaffold,0.1,"['morgan','mordred']",2048,5,500,True,100,0.8089,0.8915,0.8915
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,21,regression,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",2048,5,500,True,100,0.8224,0.8976,0.9014
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,22,logreg,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",2048,5,500,True,100,0.7542,0.8607,0.8631
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,23,logreg,roc_auc,scaffold,0.1,['rdkit'],2048,5,500,True,100,0.74945,0.8373,0.8579
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,24,logreg,roc_auc,scaffold,0.1,['morgan'],2048,5,500,True,100,0.82915,0.8855,0.9046
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,25,logreg,roc_auc,scaffold,0.1,['mordred'],2048,5,500,True,100,0.72745,0.8432,0.8479
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,26,logreg,roc_auc,scaffold,0.1,['maccs'],2048,5,500,True,100,0.73735,0.828,0.8354
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,27,logreg,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",2048,5,500,True,100,0.72105,0.854,0.8525
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,28,logreg,roc_auc,scaffold,0.1,"['morgan', 'maccs']",2048,5,500,True,100,0.8288,0.9085,0.9018
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,29,logreg,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",2048,5,500,True,100,0.8096,0.8706,0.8673
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,30,logreg,roc_auc,scaffold,0.1,"['morgan','mordred']",2048,5,500,True,100,0.78825,0.8841,0.8879
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,31,logreg,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",2048,5,500,True,100,0.816,0.8881,0.904
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,32,knn,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",2048,5,500,True,100,0.82205,0.8801,0.8852
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,33,knn,roc_auc,scaffold,0.1,['rdkit'],2048,5,500,True,100,0.815,0.859,0.8751
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,34,knn,roc_auc,scaffold,0.1,['morgan'],2048,5,500,True,100,0.80215,0.8595,0.8618
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,35,knn,roc_auc,scaffold,0.1,['mordred'],2048,5,500,True,100,0.8153,0.8802,0.8712
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,36,knn,roc_auc,scaffold,0.1,['maccs'],2048,5,500,True,100,0.83555,0.8923,0.8642
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,37,knn,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",2048,5,500,True,100,0.7954,0.8774,0.8702
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,38,knn,roc_auc,scaffold,0.1,"['morgan', 'maccs']",2048,5,500,True,100,0.8153,0.8732,0.8506
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,39,knn,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",2048,5,500,True,100,0.82915,0.8763,0.8586
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,['rdkit'],2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,['morgan'],2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,['mordred'],2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,['maccs'],2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['morgan', 'maccs']",2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['morgan','mordred']",2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,,regression,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,,regression,roc_auc,scaffold,0.1,['rdkit'],2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,,regression,roc_auc,scaffold,0.1,['morgan'],2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,,regression,roc_auc,scaffold,0.1,['mordred'],2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,,regression,roc_auc,scaffold,0.1,['maccs'],2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,,regression,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,,regression,roc_auc,scaffold,0.1,"['morgan', 'maccs']",2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,,regression,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,,regression,roc_auc,scaffold,0.1,"['morgan','mordred']",2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,,regression,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,['rdkit'],2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,['morgan'],2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,['mordred'],2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,['maccs'],2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['morgan', 'maccs']",2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['morgan','mordred']",2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,['rdkit'],2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,['morgan'],2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,['mordred'],2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,['maccs'],2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['morgan', 'maccs']",2048,5,500,True,100,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",2048,5,500,True,100,,,
 /data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['morgan','mordred']",2048,5,500,True,100,,,
 /data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",2048,5,500,True,100,,,
 /data/data_configs/bace.ini,/data/model_configs/configs.ini,FCNN,,,,fcnn,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",2048,5,500,True,100,,,
