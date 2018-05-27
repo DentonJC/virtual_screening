@@ -21,6 +21,8 @@ else:
 
 def featurization(logger, filename, n_bits, path, data_config, verbose, descriptors, n_jobs, split_type):
     logger.info("Loading data")
+    logger.info("Filename: %s", filename)
+    logger.info("Descriptors: %s", str(descriptors))
     data = pd.read_csv(filename)
     # Cleaning
     if "mol_id" in list(data):
@@ -302,34 +304,37 @@ def load_data(logger, path, filename, labels_addr, maccs_addr, morgan_addr, spec
 
     if labels_addr and os.path.isfile(path + labels_addr):
         labels = pd.read_csv(path + labels_addr, header=0)
+        logger.info("labels loaded from config")
         t_descriptors.remove('labels')
 
-    for i in ['MACCS', 'maccs', 'Maccs', 'maccs (167)']:
-        if i in t_descriptors:
-            if maccs_addr and os.path.isfile(path + maccs_addr):
-                maccs = pd.read_csv(path + maccs_addr, header=0)
-                t_descriptors.remove(i)
+    if 'maccs' in t_descriptors:
+        if maccs_addr and os.path.isfile(path + maccs_addr):
+            maccs = pd.read_csv(path + maccs_addr, header=0)
+            logger.info("maccs loaded from config")
+            t_descriptors.remove('maccs')
     
-    for i in ['MORGAN', 'Morgan', 'morgan', 'morgan (n)', 'ECFP']:
-        if i in t_descriptors:
-            if morgan_addr and os.path.isfile(path + morgan_addr):
-                morgan = pd.read_csv(path + morgan_addr, header=0)
-                t_descriptors.remove(i)
+    if 'morgan' in t_descriptors:
+        if morgan_addr and os.path.isfile(path + morgan_addr):
+            morgan = pd.read_csv(path + morgan_addr, header=0)
+            logger.info("morgan loaded from config")
+            t_descriptors.remove('morgan')
     
-    for i in ['spectrophore']:
-        if i in t_descriptors:
-            if spectrophore_addr and os.path.isfile(path + spectrophore_addr):
-                spectrophore = pd.read_csv(path + spectrophore_addr, header=0)
-                t_descriptors.remove(i)
+    if 'spectrophore' in t_descriptors:
+        if spectrophore_addr and os.path.isfile(path + spectrophore_addr):
+            spectrophore = pd.read_csv(path + spectrophore_addr, header=0)
+            logger.info("spectrophore loaded from config")
+            t_descriptors.remove('spectrophore')
     
     if 'mordred' in t_descriptors:
         if mordred_addr and os.path.isfile(path + mordred_addr):
             mordred = pd.read_csv(path + mordred_addr, header=0)
+            logger.info("mordred loaded from config")
             t_descriptors.remove('mordred')
     
     if 'rdkit' in t_descriptors:
         if rdkit_addr and os.path.isfile(path + rdkit_addr):
             rdkit = pd.read_csv(path + rdkit_addr, header=0)
+            logger.info("rdkit loaded from config")
             t_descriptors.remove('rdkit')
 
     if filename and len(t_descriptors) == 0:
@@ -455,14 +460,14 @@ def get_data(logger, data_config, n_bits, set_targets, random_state, split_type,
         if not os.path.exists(path+d):
             os.makedirs(path+d)
     filename_train, filename_test, filename_val, labels_train, labels_test, labels_val, maccs_train, maccs_test, maccs_val, morgan_train, morgan_test, morgan_val, spectrophore_train, spectrophore_test, spectrophore_val, mordred_train, mordred_test, mordred_val, rdkit_train, rdkit_test, rdkit_val = read_data_config(data_config, descriptors, n_bits, split_type)
-    
+
     logger.info("Load train data")
     x_train, y_train, smiles_train, labels_train, smiles_train_full = load_data(logger, path, filename_train, labels_train, maccs_train, morgan_train, spectrophore_train, mordred_train, rdkit_train, set_targets, n_bits, data_config, verbose, descriptors, n_jobs, split_type)
     logger.info("Load test data")
     x_test, y_test, smiles_test, labels_test, smiles_test_full = load_data(logger, path, filename_test, labels_test, maccs_test, morgan_test, spectrophore_test, mordred_test, rdkit_test, set_targets, n_bits, data_config, verbose, descriptors, n_jobs, split_type)
     logger.info("Load val data")
     x_val, y_val, smiles_val, labels_val, smiles_val_full = load_data(logger, path, filename_val, labels_val, maccs_val, morgan_val, spectrophore_val, mordred_val, rdkit_val, set_targets, n_bits, data_config, verbose, descriptors, n_jobs, split_type)
-    
+
     logger.info("Loaded from config")
     logger.info("x_train shape: %s", str(np.array(x_train).shape))
     logger.info("x_test shape: %s", str(np.array(x_test).shape))
@@ -508,25 +513,25 @@ def get_data(logger, data_config, n_bits, set_targets, random_state, split_type,
         test = pd.DataFrame(np.c_[smiles_test_full, labels_test], columns=names)
         val = pd.DataFrame(np.c_[smiles_val_full, labels_val], columns=names)
         path = os.path.dirname(os.path.realpath(__file__)).replace("/moloi", "")
-        train.to_csv(path + filename_train.replace("_train.csv","_"+split_type+"_train.csv"), sep=",", index=False)
-        test.to_csv(path + filename_train.replace("_train.csv","_"+split_type+"_test.csv"), sep=",", index=False)
-        val.to_csv(path + filename_train.replace("_train.csv","_"+split_type+"_val.csv"), sep=",", index=False)
+        train.to_csv(path + filename_train.replace("_train.csv","_"+split_type+"_train.csv.gz").replace("/data","/data/preprocessed"), compression="gzip", sep=",", index=False)
+        test.to_csv(path + filename_train.replace("_train.csv","_"+split_type+"_test.csv.gz").replace("/data","/data/preprocessed"), compression="gzip", sep=",", index=False)
+        val.to_csv(path + filename_train.replace("_train.csv","_"+split_type+"_val.csv.gz").replace("/data","/data/preprocessed"), compression="gzip", sep=",", index=False)
 
         files_config = ConfigParser.ConfigParser()
 
         files_config.read(data_config)
         name = os.path.basename(filename_train).replace(".csv","")
         try:
-            files_config[split_type]["dataset_train"] = filename_train.replace("_train.csv","_"+split_type+"_train.csv")
-            files_config[split_type]["dataset_test"] = filename_train.replace("_train.csv","_"+split_type+"_test.csv")
-            files_config[split_type]["dataset_val"] = filename_train.replace("_train.csv","_"+split_type+"_val.csv")
+            files_config[split_type]["dataset_train"] = filename_train.replace("_train.csv","_"+split_type+"_train.csv.gz").replace("/data","/data/preprocessed")
+            files_config[split_type]["dataset_test"] = filename_train.replace("_train.csv","_"+split_type+"_test.csv.gz").replace("/data","/data/preprocessed")
+            files_config[split_type]["dataset_val"] = filename_train.replace("_train.csv","_"+split_type+"_val.csv.gz").replace("/data","/data/preprocessed")
         except:
             with open(data_config, "a") as ini:
                 ini.write('[' + split_type + ']')
             files_config.read(data_config)
-            files_config[split_type]["dataset_train"] = filename_train.replace("_train.csv","_"+split_type+"_train.csv")
-            files_config[split_type]["dataset_test"] = filename_train.replace("_train.csv","_"+split_type+"_test.csv")
-            files_config[split_type]["dataset_val"] = filename_train.replace("_train.csv","_"+split_type+"_val.csv")
+            files_config[split_type]["dataset_train"] = filename_train.replace("_train.csv","_"+split_type+"_train.csv.gz").replace("/data","/data/preprocessed")
+            files_config[split_type]["dataset_test"] = filename_train.replace("_train.csv","_"+split_type+"_test.csv.gz").replace("/data","/data/preprocessed")
+            files_config[split_type]["dataset_val"] = filename_train.replace("_train.csv","_"+split_type+"_val.csv.gz").replace("/data","/data/preprocessed")
         with open(data_config, 'w') as configfile:
             files_config.write(configfile)
     

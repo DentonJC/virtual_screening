@@ -71,8 +71,8 @@ for data in datasets:
 
             # plot_TSNE(X.T, Y.T, root_address+"/etc/img/"+data+"/tsne/t-SNE_activity"+str(d)+"_"+s+".png", title="t-SNE_"+data+"_"+str(d)+"_"+s, label_1="active", label_2="inactive", s=1, alpha=0.8)
             # plot_PCA(X.T, Y.T, root_address+"/etc/img/"+data+"/pca/PCA_activity"+str(d)+"_"+s+".png", title="PCA_"+data+"_"+str(d)+"_"+s, label_1="active", label_2="inactive", s=1, alpha=0.8)
-            plot_TSNE(X.T, Y.T, root_address+"/etc/img/"+data+"/tsne/t-SNE_activity"+s+".png", title="t-SNE_"+data+"_"+s, label_1="active", label_2="inactive", s=1, alpha=0.8)
-            plot_PCA(X.T, Y.T, root_address+"/etc/img/"+data+"/pca/PCA_activity"+s+".png", title="PCA_"+data+"_"+s, label_1="active", label_2="inactive", s=1, alpha=0.8)
+            plot_TSNE(X.T, Y.T, root_address+"/etc/img/"+data+"/tsne/t-SNE_activity"+s+".png", title="t-SNE "+data+" "+s+" split", label_1="active", label_2="inactive", s=1, alpha=0.8)
+            plot_PCA(X.T, Y.T, root_address+"/etc/img/"+data+"/pca/PCA_activity"+s+".png", title="PCA "+data+" "+s+" split", label_1="active", label_2="inactive", s=1, alpha=0.8)
 
             y_train = [[0]] * len(y_train)
             y_test = [[1]] * len(y_test)
@@ -87,5 +87,5 @@ for data in datasets:
 
             # plot_TSNE(X.T, Y.T, root_address+"/etc/img/"+data+"/tsne/t-SNE_split"+str(d)+"_"+s+".png", title="t-SNE_"+data+"_"+str(d)+"_"+s, label_1="train", label_2="test", label_3="val", s=1, alpha=0.8)
             # plot_PCA(X.T, Y.T, root_address+"/etc/img/"+data+"/pca/PCA_split"+str(d)+"_"+s+".png", title="PCA_"+data+"_"+str(d)+"_"+s, label_1="train", label_2="test", label_3="val", s=1, alpha=0.8)
-            plot_TSNE(X.T, Y.T, root_address+"/etc/img/"+data+"/tsne/t-SNE_split"+s+".png", title="t-SNE_"+data+"_"+s, label_1="train", label_2="test", label_3="val", s=1, alpha=0.8)
-            plot_PCA(X.T, Y.T, root_address+"/etc/img/"+data+"/pca/PCA_split"+s+".png", title="PCA_"+data+"_"+s, label_1="train", label_2="test", label_3="val", s=1, alpha=0.8)
+            plot_TSNE(X.T, Y.T, root_address+"/etc/img/"+data+"/tsne/t-SNE_split"+s+".png", title="t-SNE "+data+" "+s+" split", label_1="train", label_2="test", label_3="val", s=1, alpha=0.8)
+            plot_PCA(X.T, Y.T, root_address+"/etc/img/"+data+"/pca/PCA_split"+s+".png", title="PCA "+data+" "+s+" split", label_1="train", label_2="test", label_3="val", s=1, alpha=0.8)
