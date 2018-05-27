@@ -124,7 +124,7 @@ setup(
     #
     #   py_modules=["my_module"],
     #
-    packages=find_packages(exclude=['contrib', 'docs', 'tests']),  # Required
+    packages=find_packages(exclude=['contrib', 'docs', 'tests']), # Required
 
     # This field lists other packages that your project depends on to run.
     # Any package you put here will be installed by pip when your project is
@@ -132,7 +132,8 @@ setup(
     #
     # For an analysis of "install_requires" vs pip's requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    #install_requires=['peppercorn'],  # Optional
+    install_requires=['pandas','keras','scikit-learn','matplotlib','reportlab','seaborn','joblib','xgboost','mordred','configparser','argparse'],  # Optional
+    
 
     # List additional groups of dependencies here (e.g. development
     # dependencies). Users will be able to install these using the "extras"
@@ -161,7 +162,7 @@ setup(
     # http://docs.python.org/3.4/distutils/setupscript.html#installing-additional-files
     #
     # In this case, 'data_file' will be installed into '<sys.prefix>/my_data'
-    # data_files=[('moloi', ['data/'])],  # Optional
+    #data_files=[('moloi_data', ['data/'])],  # Optional
 
     # To provide executable scripts, use entry points in preference to the
     # "scripts" keyword. Entry points provide cross-platform support and allow

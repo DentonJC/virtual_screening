@@ -173,29 +173,36 @@ A csv format file is required, in which one of the headers will be "smiles", and
 <b>Attention:</b> Please, add '\_train', '\_test' and '\_val' to the end of files if you want to run the experiment table. This is not a bug, it is a feature.
 
 ## Example input <a name="input"></a>
-python src/run_model.py logreg data/tox21.csv LOGREG_TOX21 --features all --fingerprint morgan --n_bits 1024 --n_jobs -1 -p 2000 -t 0 --n_iter 10
+python moloi/moloi.py --model_config '/data/model_configs/configs.ini' --descriptors ['rdkit', 'morgan','mordred', 'maccs'] --n_bits 2048 --n_cv 5 -p 100 -g --n_iter 300 --metric 'roc_auc' --split_type 'scaffold' --split_s 0.1 --select_model 'rf' --data_config '/data/data_configs/bace.ini' --section 'RF' -e 'etc/experiments_bace.csv' -t 0
 
 ## Example output <a name="output"></a>
-Loading data <br />
-Data shape: (7981, 308) <br />
-Features shape: (7981, 296) <br />
-Labels shape: (7981, 12) <br />
+
+Script adderss: run.py <br />
+Descriptors: ['rdkit', 'morgan', 'mordred', 'maccs'] <br />
+n_bits: 2048 <br />
+Config file: /data/model_configs/configs.ini <br />
+Section: RF <br />
+Grid search <br />
+Load train data <br />
+Load test data <br />
+Load val data <br />
 Data loaded <br />
-X_train: (4126, 292) <br />
-Y_train: (4126, 1) <br />
-X_test: (1376, 292) <br />
-Y_test: (1376, 1) <br />
-X_val: (1376, 292) <br />
-Y_val: (1376, 1) <br />
-FIT <br />
+x_train shape: (1207, 4239) <br />
+x_test shape: (152, 4239) <br />
+x_val shape: (154, 4239) <br />
+y_train shape: (1207, 1) <br />
+y_test shape: (152, 1) <br />
+y_val shape: (154, 1) <br />
+GRID SEARCH <br />
+GRIDSEARCH FIT <br />
+MODEL FIT <br />
 EVALUATE <br />
-Accuracy test: 91.28% <br />
-Accuracy train: 95.27% <br />
-0:06:27.941201 <br />
-Can't create history plot for this type of experiment <br />
+Accuracy test: 70.39% <br />
+0:07:37.644208 <br />
+Creating report <br />
 Report complete, you can see it in the results folder <br />
+Results path: /tmp/2018-05-27_15:45:04_RF_['rdkit','morgan','mordred','maccs']70.395/ <br />
 Done <br />
-Results path /tmp/2017-12-01 17:45:27.798223 logreg tox21 all 0.913/ <br />
 
 ## Processing the experiment table  <a name="table"></a>
   1. Fill in the table with experiments parameters (examples in /etc, False = empty cell), UTF-8
