@@ -1,6 +1,7 @@
 Data config,Model config,Section,Output,n_jobs,Load model,Model,Metric,Split type,Split size,Descriptors,n_bits,n_cv,Patience,Gridsearch,n_iter,Balanced acc,ROC AUC test,ROC AUC val
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",2048,5,100,True,300,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,,regression,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",2048,5,100,True,300,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",2048,5,100,True,300,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",2048,5,100,True,300,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",2048,5,100,True,300,0.0,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,2.0,regression,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",2048,5,100,True,3,0.8224,0.9079999999999999,0.8908
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,3.0,regression,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",2048,5,100,True,3,0.8224,0.9092,0.8942
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,4.0,logreg,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",2048,5,100,True,300,0.82205,0.9033,0.8911
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,5,knn,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",2048,5,100,True,300,0.8160000000000001,0.8846,0.8917
 /data/data_configs/bace.ini,/data/model_configs/configs.ini,FCNN,,,,fcnn,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",2048,5,100,True,300,,,

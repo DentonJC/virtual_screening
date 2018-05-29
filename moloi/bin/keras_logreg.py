@@ -60,10 +60,10 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 # load data and configs
-epochs, rparams, gparams = read_model_config(root_address+model_config, section)
-x_train, x_test, x_val, y_val, y_train, y_test, input_shape, output_shape, smiles = get_data(logger, root_address+data_config, n_bits,
-                                                                                             targets, random_state, split_type, split_s,
-                                                                                             verbose, descriptors, n_jobs)
+epochs, rparams, gparams = read_model_config(root_address+options.model_config, options.section)
+x_train, x_test, x_val, y_val, y_train, y_test, input_shape, output_shape, smiles = get_data(logger, root_address+options.data_config, options.n_bits, 
+                                                                                            options.targets, random_state, options.split_type, options.split_s, 
+                                                                                            verbose, options.descriptors, options.n_jobs)
 
 x_train = clean_data(x_train)
 x_test = clean_data(x_test)

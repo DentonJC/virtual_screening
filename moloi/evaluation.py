@@ -129,6 +129,11 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
 
     try:
         pyplot.bar(range(len(model.feature_importances_)), model.feature_importances_)
+        try:
+            fi = pd.DataFrame(model.feature_importances_)
+            fi.to_csv(path+"feature_importance.csv", sep=",", index=False)
+        except:
+            pass
         pyplot.savefig(path+"img/feature_importance.png", dpi=500)
     except:
         pass

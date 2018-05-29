@@ -19,7 +19,7 @@ else:
     import configparser as ConfigParser
 
 
-def featurization(logger, filename, n_bits, path, data_config, verbose, descriptors, n_jobs, split_type):
+def featurization(logger, filename, n_bits, path, data_config, verbose, descriptors, n_jobs, split_type, split_size):
     logger.info("Loading data")
     logger.info("Filename: %s", filename)
     logger.info("Descriptors: %s", str(descriptors))
@@ -153,52 +153,55 @@ def featurization(logger, filename, n_bits, path, data_config, verbose, descript
     if "_val" in name: name = "val"
 
     if split_type is False:
-        split_type = 'DEFAULT'
+        section = 'DEFAULT'
+    else:
+        section = split_type+" "+str(split_size)
 
-    if split_type not in config.sections():
-        split_type = 'DEFAULT'
+    if split_type+" "+str(split_size) not in config.sections():
+        section = 'DEFAULT'
+    else:
+        section = split_type+" "+str(split_size)
 
-
-    config[split_type]["labels_" + str(name)] = str(labels_address.replace(path, '') + '.gz')
+    config[section]["labels_" + str(name)] = str(labels_address.replace(path, '') + '.gz')
     for i in ['mordred']:
         if i in descriptors:
             try:
-                config[split_type]["mordred_" + str(name)] = str(mordred_address.replace(path, '') + '.gz')
+                config[section]["mordred_" + str(name)] = str(mordred_address.replace(path, '') + '.gz')
             except:
                 config.read(data_config)
-                config[split_type]["mordred_" + str(name)] = str(mordred_address.replace(path, '') + '.gz')
+                config[section]["mordred_" + str(name)] = str(mordred_address.replace(path, '') + '.gz')
         
     for i in ['rdkit']:
         if i in descriptors:
             try:
-                config[split_type]["rdkit_" + str(name)] = str(rdkit_address.replace(path, '') + '.gz')
+                config[section]["rdkit_" + str(name)] = str(rdkit_address.replace(path, '') + '.gz')
             except:
                 config.read(data_config)
-                config[split_type]["rdkit_" + str(name)] = str(rdkit_address.replace(path, '') + '.gz')
+                config[section]["rdkit_" + str(name)] = str(rdkit_address.replace(path, '') + '.gz')
      
     for i in ['MACCS', 'maccs', 'Maccs', 'maccs (167)']:
         if i in descriptors:
             try:
-                config[split_type]["maccs_" + str(name)] = str(maccs_address.replace(path, '') + '.gz')
+                config[section]["maccs_" + str(name)] = str(maccs_address.replace(path, '') + '.gz')
             except:
                 config.read(data_config)
-                config[split_type]["maccs_" + str(name)] = str(maccs_address.replace(path, '') + '.gz')
+                config[section]["maccs_" + str(name)] = str(maccs_address.replace(path, '') + '.gz')
 
     for i in ['MORGAN', 'Morgan', 'morgan', 'morgan (n)', 'ECFP']:
         if i in descriptors:
             try:
-                config[split_type]["morgan_" + str(n_bits) + '_' + str(name)] = str(morgan_address.replace(path, '') + '.gz')
+                config[section]["morgan_" + str(n_bits) + '_' + str(name)] = str(morgan_address.replace(path, '') + '.gz')
             except:
                 config.read(data_config)
-                config[split_type]["fmorgan_" + str(n_bits) + '_' + str(name)] = str(morgan_address.replace(path, '') + '.gz')
+                config[section]["fmorgan_" + str(n_bits) + '_' + str(name)] = str(morgan_address.replace(path, '') + '.gz')
 
     for i in ['spectrophore']:
         if i in descriptors:
             try:
-                config[split_type]["spectrophore_" + str(n_bits) + '_' + str(name)] = str(spectrophore_address.replace(path, '') + '.gz')
+                config[section]["spectrophore_" + str(n_bits) + '_' + str(name)] = str(spectrophore_address.replace(path, '') + '.gz')
             except:
                 config.read(data_config)
-                config[split_type]["spectrophore_" + str(n_bits) + '_' + str(name)] = str(spectrophore_address.replace(path, '') + '.gz')
+                config[section]["spectrophore_" + str(n_bits) + '_' + str(name)] = str(spectrophore_address.replace(path, '') + '.gz')
 
     with open(data_config, 'w') as configfile:
         config.write(configfile)
@@ -296,7 +299,7 @@ def clean_data(x, mode="zero"):
     return x
 
 
-def load_data(logger, path, filename, labels_addr, maccs_addr, morgan_addr, spectrophore_addr, mordred_addr, rdkit_addr, set_targets, n_bits, data_config, verbose, descriptors, n_jobs, split_type, do_featurization=True):
+def load_data(logger, path, filename, labels_addr, maccs_addr, morgan_addr, spectrophore_addr, mordred_addr, rdkit_addr, set_targets, n_bits, data_config, verbose, descriptors, n_jobs, split_type, split_size, do_featurization=True):
     x, y, smiles, labels, full_smiles = [], [], [], [], []
     t_descriptors = descriptors[:]
     t_descriptors.append('labels')
@@ -342,7 +345,7 @@ def load_data(logger, path, filename, labels_addr, maccs_addr, morgan_addr, spec
     elif filename:
         if os.path.isfile(path+filename):
             if do_featurization:
-                t_labels, t_mordred, t_rdkit, t_maccs, t_morgan, t_spectrophore = featurization(logger, path+filename, n_bits, path, data_config, verbose, t_descriptors, n_jobs, split_type)
+                t_labels, t_mordred, t_rdkit, t_maccs, t_morgan, t_spectrophore = featurization(logger, path+filename, n_bits, path, data_config, verbose, t_descriptors, n_jobs, split_type, split_size)
             else:
                 t_labels, t_mordred, t_rdkit, t_maccs, t_morgan, t_spectrophore = [], [], [], [], [], []
             if labels is False:
@@ -459,14 +462,14 @@ def get_data(logger, data_config, n_bits, set_targets, random_state, split_type,
     for d in dirs:
         if not os.path.exists(path+d):
             os.makedirs(path+d)
-    filename_train, filename_test, filename_val, labels_train, labels_test, labels_val, maccs_train, maccs_test, maccs_val, morgan_train, morgan_test, morgan_val, spectrophore_train, spectrophore_test, spectrophore_val, mordred_train, mordred_test, mordred_val, rdkit_train, rdkit_test, rdkit_val = read_data_config(data_config, descriptors, n_bits, split_type)
+    filename_train, filename_test, filename_val, labels_train, labels_test, labels_val, maccs_train, maccs_test, maccs_val, morgan_train, morgan_test, morgan_val, spectrophore_train, spectrophore_test, spectrophore_val, mordred_train, mordred_test, mordred_val, rdkit_train, rdkit_test, rdkit_val = read_data_config(data_config, descriptors, n_bits, split_type, split_size)
 
     logger.info("Load train data")
-    x_train, y_train, smiles_train, labels_train, smiles_train_full = load_data(logger, path, filename_train, labels_train, maccs_train, morgan_train, spectrophore_train, mordred_train, rdkit_train, set_targets, n_bits, data_config, verbose, descriptors, n_jobs, split_type)
+    x_train, y_train, smiles_train, labels_train, smiles_train_full = load_data(logger, path, filename_train, labels_train, maccs_train, morgan_train, spectrophore_train, mordred_train, rdkit_train, set_targets, n_bits, data_config, verbose, descriptors, n_jobs, split_type, split_size)
     logger.info("Load test data")
-    x_test, y_test, smiles_test, labels_test, smiles_test_full = load_data(logger, path, filename_test, labels_test, maccs_test, morgan_test, spectrophore_test, mordred_test, rdkit_test, set_targets, n_bits, data_config, verbose, descriptors, n_jobs, split_type)
+    x_test, y_test, smiles_test, labels_test, smiles_test_full = load_data(logger, path, filename_test, labels_test, maccs_test, morgan_test, spectrophore_test, mordred_test, rdkit_test, set_targets, n_bits, data_config, verbose, descriptors, n_jobs, split_type, split_size)
     logger.info("Load val data")
-    x_val, y_val, smiles_val, labels_val, smiles_val_full = load_data(logger, path, filename_val, labels_val, maccs_val, morgan_val, spectrophore_val, mordred_val, rdkit_val, set_targets, n_bits, data_config, verbose, descriptors, n_jobs, split_type)
+    x_val, y_val, smiles_val, labels_val, smiles_val_full = load_data(logger, path, filename_val, labels_val, maccs_val, morgan_val, spectrophore_val, mordred_val, rdkit_val, set_targets, n_bits, data_config, verbose, descriptors, n_jobs, split_type, split_size)
 
     logger.info("Loaded from config")
     logger.info("x_train shape: %s", str(np.array(x_train).shape))
@@ -522,16 +525,16 @@ def get_data(logger, data_config, n_bits, set_targets, random_state, split_type,
         files_config.read(data_config)
         name = os.path.basename(filename_train).replace(".csv","")
         try:
-            files_config[split_type]["dataset_train"] = filename_train.replace("_train.csv","_"+split_type+"_train.csv.gz").replace("/data","/data/preprocessed")
-            files_config[split_type]["dataset_test"] = filename_train.replace("_train.csv","_"+split_type+"_test.csv.gz").replace("/data","/data/preprocessed")
-            files_config[split_type]["dataset_val"] = filename_train.replace("_train.csv","_"+split_type+"_val.csv.gz").replace("/data","/data/preprocessed")
+            files_config[split_type+" "+str(split_size)]["dataset_train"] = filename_train.replace("_train.csv","_"+split_type+"_train.csv.gz").replace("/data","/data/preprocessed")
+            files_config[split_type+" "+str(split_size)]["dataset_test"] = filename_train.replace("_train.csv","_"+split_type+"_test.csv.gz").replace("/data","/data/preprocessed")
+            files_config[split_type+" "+str(split_size)]["dataset_val"] = filename_train.replace("_train.csv","_"+split_type+"_val.csv.gz").replace("/data","/data/preprocessed")
         except:
             with open(data_config, "a") as ini:
-                ini.write('[' + split_type + ']')
+                ini.write('[' + split_type +" "+str(split_size)+ ']')
             files_config.read(data_config)
-            files_config[split_type]["dataset_train"] = filename_train.replace("_train.csv","_"+split_type+"_train.csv.gz").replace("/data","/data/preprocessed")
-            files_config[split_type]["dataset_test"] = filename_train.replace("_train.csv","_"+split_type+"_test.csv.gz").replace("/data","/data/preprocessed")
-            files_config[split_type]["dataset_val"] = filename_train.replace("_train.csv","_"+split_type+"_val.csv.gz").replace("/data","/data/preprocessed")
+            files_config[split_type+" "+str(split_size)]["dataset_train"] = filename_train.replace("_train.csv","_"+split_type+"_train.csv.gz").replace("/data","/data/preprocessed")
+            files_config[split_type+" "+str(split_size)]["dataset_test"] = filename_train.replace("_train.csv","_"+split_type+"_test.csv.gz").replace("/data","/data/preprocessed")
+            files_config[split_type+" "+str(split_size)]["dataset_val"] = filename_train.replace("_train.csv","_"+split_type+"_val.csv.gz").replace("/data","/data/preprocessed")
         with open(data_config, 'w') as configfile:
             files_config.write(configfile)
     

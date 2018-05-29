@@ -95,6 +95,7 @@ sklearn_params = {'param_distributions': gparams,
 
 model = RandomizedSearchCV(LogisticRegression(**rparams), **sklearn_params)
 model.fit(x_train, np.ravel(y_train))
+
 rparams = model.best_params_
 grid = pd.DataFrame(model.cv_results_).sort_values(by='mean_test_score', ascending=False)
 grid.to_csv(output + "gridsearch.csv")

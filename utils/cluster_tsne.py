@@ -287,9 +287,6 @@ def cluster_split(smi, test_cluster_id, n_splits):
     return train_ids, test_ids
 
 if __name__ == "__main__":
-    # Split
-    n_splits = 3
-
     root_address = os.path.dirname(os.path.realpath(__file__)).replace("/utils", "")
     data_config = "/data/data_configs/bace.ini"
     model_config = "/data/model_configs/configs.ini"
@@ -337,6 +334,7 @@ if __name__ == "__main__":
 
     print(labels)
     
+    n_splits = 3
     s=2
     alpha=1
     title_tsne = "t-SNE BACE cluster split"
