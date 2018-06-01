@@ -28,12 +28,12 @@ def read_data_config(config_path, descriptors, n_bits, split_type=False, split_s
     data_config.read(config_path)
 
     if split_type is False:
-        section = 'DEFAULT'
+        section = 'init'
     else:
         section =  split_type + " " + str(split_size)
 
     if split_type + " " + str(split_size) not in data_config.sections():
-        section = 'DEFAULT'
+        section = 'init'
     else:
         section =  split_type + " " + str(split_size)
 
@@ -47,40 +47,53 @@ def read_data_config(config_path, descriptors, n_bits, split_type=False, split_s
 
     if data_config.has_option(section, 'dataset_test'): dataset_test = data_config.get(section, 'dataset_test')
     if data_config.has_option(section, 'dataset_val'): dataset_val = data_config.get(section, 'dataset_val')
+    
+    if dataset_test:
+        if "_test" not in dataset_test:
+            path = os.path.dirname(os.path.realpath(__file__)).replace("/moloi", "")
+            os.rename(path + dataset_test, path + dataset_test.replace(".csv", "_test.csv"))
+            dataset_test = dataset_test.replace(".csv", "_test.csv")
+    
+    if dataset_val:
+        if "_val" not in dataset_val:
+            path = os.path.dirname(os.path.realpath(__file__)).replace("/moloi", "")
+            os.rename(path + dataset_val, path + dataset_val.replace(".csv", "_val.csv"))
+            dataset_val = dataset_val.replace(".csv", "_val.csv")
+    
     if data_config.has_option(section, 'labels_train'): 
-        if data_config.get(section, 'labels_train') != data_config.get('DEFAULT', 'labels_train'): # and split_type != 'DEFAULT':
-            labels_train = data_config.get(section, 'labels_train')
+        #if data_config.get(section, 'labels_train') != data_config.get('DEFAULT', 'labels_train'): # and split_type != 'DEFAULT':
+        labels_train = data_config.get(section, 'labels_train')
     if data_config.has_option(section, 'labels_test'): labels_test = data_config.get(section, 'labels_test')
     if data_config.has_option(section, 'labels_val'): labels_val = data_config.get(section, 'labels_val')
     if data_config.has_option(section, 'maccs_train'): 
-        if data_config.get(section, 'maccs_train') != data_config.get('DEFAULT', 'maccs_train'):
-            maccs_train = data_config.get(section, 'maccs_train')
+        #if data_config.get(section, 'maccs_train') != data_config.get('DEFAULT', 'maccs_train'):
+        maccs_train = data_config.get(section, 'maccs_train')
     
     if data_config.has_option(section, 'maccs_test'): maccs_test = data_config.get(section, 'maccs_test')
     if data_config.has_option(section, 'maccs_val'): maccs_val = data_config.get(section, 'maccs_val')
     if data_config.has_option(section, 'morgan_' + str(n_bits) + '_train'): 
-        if data_config.has_option('DEFAULT', 'morgan_' + str(n_bits) + '_train'):
-            if data_config.get(section, 'morgan_' + str(n_bits) + '_train') != data_config.get('DEFAULT', 'morgan_' + str(n_bits) + '_train'):
-                morgan_train = data_config.get(section, 'morgan_' + str(n_bits) + '_train')
+        #if data_config.has_option('DEFAULT', 'morgan_' + str(n_bits) + '_train'):
+        #if data_config.get(section, 'morgan_' + str(n_bits) + '_train') != data_config.get('DEFAULT', 'morgan_' + str(n_bits) + '_train'):
+        morgan_train = data_config.get(section, 'morgan_' + str(n_bits) + '_train')
     
     if data_config.has_option(section, 'morgan_' + str(n_bits) + '_test'): morgan_test = data_config.get(section, 'morgan_' + str(n_bits) + '_test')
     if data_config.has_option(section, 'morgan_' + str(n_bits) + '_val'): morgan_val = data_config.get(section, 'morgan_' + str(n_bits) + '_val')
     if data_config.has_option(section, 'spectrophore_train'): 
-         if data_config.has_option('DEFAULT', 'spectrophore_train'):
-            if data_config.get(section, 'spectrophore_train') != data_config.get('DEFAULT', 'spectrophore_train'):
-                spectrophore_train = data_config.get(section, 'spectrophore_' + str(n_bits) + '_train')
+        #if data_config.has_option('DEFAULT', 'spectrophore_train'):
+        #if data_config.get(section, 'spectrophore_train') != data_config.get('DEFAULT', 'spectrophore_train'):
+        spectrophore_train = data_config.get(section, 'spectrophore_' + str(n_bits) + '_train')
         
     if data_config.has_option(section, 'spectrophore_test'): spectrophore_test = data_config.get(section, 'spectrophore_' + str(n_bits) + '_test')
     if data_config.has_option(section, 'spectrophore_val'): spectrophore_val = data_config.get(section, 'spectrophore_' + str(n_bits) + '_val')
     if data_config.has_option(section, 'mordred_train'):
-        if data_config.get(section, 'mordred_train') != data_config.get('DEFAULT', 'mordred_train'):
-            mordred_train = data_config.get(section, 'mordred_train')
+        #if data_config.get(section, 'mordred_train') != data_config.get('DEFAULT', 'mordred_train'):
+        mordred_train = data_config.get(section, 'mordred_train')
         
     if data_config.has_option(section, 'mordred_test'): mordred_test = data_config.get(section, 'mordred_test')
     if data_config.has_option(section, 'mordred_val'): mordred_val = data_config.get(section, 'mordred_val')
     if data_config.has_option(section, 'rdkit_train'):
-        if data_config.get(section, 'rdkit_train') != data_config.get('DEFAULT', 'rdkit_train'):
-            rdkit_train = data_config.get(section, 'rdkit_train')
+        #if data_config.get(section, 'rdkit_train') != data_config.get('DEFAULT', 'rdkit_train'):
+        rdkit_train = data_config.get(section, 'rdkit_train')
         
     if data_config.has_option(section, 'rdkit_test'): rdkit_test = data_config.get(section, 'rdkit_test')
     if data_config.has_option(section, 'rdkit_val'): rdkit_val = data_config.get(section, 'rdkit_val')
@@ -93,12 +106,12 @@ def cv_splits_load(split_type, split_size, data_config, targets):
     cv_config = ConfigParser.ConfigParser()
     cv_config.read(data_config)
     if split_type is False:
-        section = 'DEFAULT'
+        section = 'init'
     else:
         section =  split_type + " " + str(split_size)
 
     if split_type + " " + str(split_size) not in cv_config.sections():
-        section = 'DEFAULT'
+        section = 'init'
     else:
         section =  split_type + " " + str(split_size)
     

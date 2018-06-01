@@ -153,12 +153,12 @@ def featurization(logger, filename, n_bits, path, data_config, verbose, descript
     if "_val" in name: name = "val"
 
     if split_type is False:
-        section = 'DEFAULT'
+        section = 'init'
     else:
         section = split_type+" "+str(split_size)
 
     if split_type+" "+str(split_size) not in config.sections():
-        section = 'DEFAULT'
+        section = 'init'
     else:
         section = split_type+" "+str(split_size)
 
