@@ -93,7 +93,7 @@ sklearn_params = {'param_distributions': gparams,
                   'return_train_score': True,
                   'random_state': random_state}
 
-model = RandomizedSearchCV(SVC(**rparams), **sklearn_params)
+model = RandomizedSearchCV(SVC(**rparams, probability=True), **sklearn_params)
 model.fit(x_train, np.ravel(y_train))
 rparams = model.best_params_
 grid = pd.DataFrame(model.cv_results_).sort_values(by='mean_test_score', ascending=False)

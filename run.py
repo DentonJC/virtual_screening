@@ -97,7 +97,7 @@ if __name__ == "__main__":
             "--n_jobs", "-p", "-g", "--n_iter", "--metric", "--split_type", "--split_s", '--select_model', '--data_config', '--section']
     params = ["Load model", "Output", "Model config", "Descriptors", "n_bits", "n_cv", "n_jobs", "Patience", 
             "Gridsearch", "n_iter", "Metric", "Split type", "Split size", 'Model', 'Data config', 'Section']
-    result_cols = ['balanced_accuracy', 'auc', 'auc_val']#, 'gparams']
+    result_cols = ['balanced_accuracy', 'auc', 'auc_val', 'gparams']
     common_gridsearch = True
     random_state = 1337
     experiments_file = 'etc/experiments_bace.csv'

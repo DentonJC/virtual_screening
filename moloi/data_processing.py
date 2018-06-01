@@ -74,7 +74,7 @@ def featurization(logger, filename, n_bits, path, data_config, verbose, descript
         rdkit_features = np.delete(rdkit_features, missing, axis=0)
         rdkit_features = pd.DataFrame(rdkit_features)
         rdkit_features.columns = rdkit_fetures_names()
-        rdkit_features.to_csv(rdkit_address+".gz", compression="gzip", sep=",", index=False)
+        rdkit_features.to_csv((rdkit_address+".gz").replace('.gz.gz', '.gz'), compression="gzip", sep=",", index=False)
         logger.info("rdkit_features shape: %s", str(np.array(rdkit_features).shape))
     
     if 'mordred' in descriptors or not config.has_option(split_type, 'mordred_'+name):
@@ -82,7 +82,7 @@ def featurization(logger, filename, n_bits, path, data_config, verbose, descript
         mordred_features = np.delete(mordred_features, missing, axis=0)
         mordred_features = pd.DataFrame(mordred_features)
         mordred_features.columns = mordred_fetures_names()
-        mordred_features.to_csv(mordred_address+".gz", compression="gzip", sep=",", index=False)
+        mordred_features.to_csv((mordred_address+".gz").replace('.gz.gz', '.gz'), compression="gzip", sep=",", index=False)
         logger.info("mordred_features shape: %s", str(np.array(mordred_features).shape))
 
     smiles = np.delete(smiles, missing)
@@ -112,7 +112,7 @@ def featurization(logger, filename, n_bits, path, data_config, verbose, descript
     labels = np.c_[smiles, labels]
     labels = pd.DataFrame(labels)
     #labels.rename({'0': "labels"}, axis='columns')
-    labels.to_csv(labels_address+".gz", compression="gzip", sep=",", index=False)
+    labels.to_csv((labels_address+".gz").replace('.gz.gz', '.gz'), compression="gzip", sep=",", index=False)
 
     for i in ['MACCS', 'maccs', 'Maccs', 'maccs (167)']:
         if i in descriptors:
@@ -121,7 +121,7 @@ def featurization(logger, filename, n_bits, path, data_config, verbose, descript
             head, _sep, tail = maccs_address.rpartition('/')
             maccs_address = path + "/data/preprocessed/maccs/" + tail
             maccs_fingerprints = pd.DataFrame(maccs_fingerprints)
-            maccs_fingerprints.to_csv(maccs_address+".gz", compression="gzip", sep=",", index=False)
+            maccs_fingerprints.to_csv((maccs_address+".gz").replace('.gz.gz', '.gz'), compression="gzip", sep=",", index=False)
             logger.info("maccs_fingerprints shape: %s", str(np.array(maccs_fingerprints).shape))
 
     for i in ['MORGAN', 'Morgan', 'morgan', 'morgan (n)', 'ECFP']:
@@ -131,7 +131,7 @@ def featurization(logger, filename, n_bits, path, data_config, verbose, descript
             head, _sep, tail = morgan_address.rpartition('/')
             morgan_address = path + "/data/preprocessed/morgan/" + tail
             morgan_fingerprints = pd.DataFrame(morgan_fingerprints)
-            morgan_fingerprints.to_csv(morgan_address+".gz", compression="gzip", sep=",", index=False)
+            morgan_fingerprints.to_csv((morgan_address+".gz").replace('.gz.gz', '.gz'), compression="gzip", sep=",", index=False)
             logger.info("morgan_fingerprints shape: %s", str(np.array(morgan_fingerprints).shape))
 
     for i in ['spectrophore']:
@@ -141,7 +141,7 @@ def featurization(logger, filename, n_bits, path, data_config, verbose, descript
             head, _sep, tail = spectrophore_address.rpartition('/')
             spectrophore_address = path + "/data/preprocessed/spectrophore/" + tail
             spectrophore_fingerprints = pd.DataFrame(spectrophore_fingerprints)
-            spectrophore_fingerprints.to_csv(spectrophore_address+".gz", compression="gzip", sep=",", index=False)
+            spectrophore_fingerprints.to_csv((spectrophore_address+".gz").replace('.gz.gz', '.gz'), compression="gzip", sep=",", index=False)
             logger.info("spectrophore_fingerprints shape: %s", str(np.array(spectrophore_fingerprints).shape))
 
     # Filling config
@@ -162,46 +162,46 @@ def featurization(logger, filename, n_bits, path, data_config, verbose, descript
     else:
         section = split_type+" "+str(split_size)
 
-    config[section]["labels_" + str(name)] = str(labels_address.replace(path, '') + '.gz')
+    config[section]["labels_" + str(name)] = str(labels_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
     for i in ['mordred']:
         if i in descriptors:
             try:
-                config[section]["mordred_" + str(name)] = str(mordred_address.replace(path, '') + '.gz')
+                config[section]["mordred_" + str(name)] = str(mordred_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
             except:
                 config.read(data_config)
-                config[section]["mordred_" + str(name)] = str(mordred_address.replace(path, '') + '.gz')
+                config[section]["mordred_" + str(name)] = str(mordred_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
         
     for i in ['rdkit']:
         if i in descriptors:
             try:
-                config[section]["rdkit_" + str(name)] = str(rdkit_address.replace(path, '') + '.gz')
+                config[section]["rdkit_" + str(name)] = str(rdkit_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
             except:
                 config.read(data_config)
-                config[section]["rdkit_" + str(name)] = str(rdkit_address.replace(path, '') + '.gz')
+                config[section]["rdkit_" + str(name)] = str(rdkit_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
      
     for i in ['MACCS', 'maccs', 'Maccs', 'maccs (167)']:
         if i in descriptors:
             try:
-                config[section]["maccs_" + str(name)] = str(maccs_address.replace(path, '') + '.gz')
+                config[section]["maccs_" + str(name)] = str(maccs_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
             except:
                 config.read(data_config)
-                config[section]["maccs_" + str(name)] = str(maccs_address.replace(path, '') + '.gz')
+                config[section]["maccs_" + str(name)] = str(maccs_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
 
     for i in ['MORGAN', 'Morgan', 'morgan', 'morgan (n)', 'ECFP']:
         if i in descriptors:
             try:
-                config[section]["morgan_" + str(n_bits) + '_' + str(name)] = str(morgan_address.replace(path, '') + '.gz')
+                config[section]["morgan_" + str(n_bits) + '_' + str(name)] = str(morgan_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
             except:
                 config.read(data_config)
-                config[section]["fmorgan_" + str(n_bits) + '_' + str(name)] = str(morgan_address.replace(path, '') + '.gz')
+                config[section]["fmorgan_" + str(n_bits) + '_' + str(name)] = str(morgan_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
 
     for i in ['spectrophore']:
         if i in descriptors:
             try:
-                config[section]["spectrophore_" + str(n_bits) + '_' + str(name)] = str(spectrophore_address.replace(path, '') + '.gz')
+                config[section]["spectrophore_" + str(n_bits) + '_' + str(name)] = str(spectrophore_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
             except:
                 config.read(data_config)
-                config[section]["spectrophore_" + str(n_bits) + '_' + str(name)] = str(spectrophore_address.replace(path, '') + '.gz')
+                config[section]["spectrophore_" + str(n_bits) + '_' + str(name)] = str(spectrophore_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
 
     with open(data_config, 'w') as configfile:
         config.write(configfile)

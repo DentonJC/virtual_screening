@@ -73,7 +73,6 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
     logger.info("Accuracy test: %.2f%%" % (accuracy_test))
         
     rec = recall_score(y_test, y_pred_test, average=None)
-    
     try:
         train_proba = model.predict_proba(x_train)
         test_proba = model.predict_proba(x_test)
@@ -88,6 +87,8 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
         auc_test = roc_auc_score(y_test, test_proba)
         auc_val = roc_auc_score(y_val, val_proba)
     except:
+        e = sys.exc_info()[0]
+        print("Error: %s" % e)
         auc_train = False
         auc_test = False
         auc_val = False

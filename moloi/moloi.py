@@ -204,7 +204,7 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
         elif options.select_model == "xgb":
             model = RandomizedSearchCV(xgb.XGBClassifier(**rparams), **sklearn_params)
         elif options.select_model == "svc":
-            model = RandomizedSearchCV(SVC(**rparams), **sklearn_params)
+            model = RandomizedSearchCV(SVC(**rparams, probability=True), **sklearn_params)
         elif options.select_model == "rf":
             model = RandomizedSearchCV(RandomForestClassifier(**rparams), **sklearn_params)
         elif options.select_model == "if":
@@ -270,7 +270,7 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
     elif options.select_model == "xgb":
         model = xgb.XGBClassifier(**rparams)
     elif options.select_model == "svc":
-        model = SVC(**rparams)
+        model = SVC(**rparams, probability=True)
     elif options.select_model == "rf":
         model = RandomForestClassifier(**rparams)
     elif options.select_model == "if":
