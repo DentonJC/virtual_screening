@@ -1,314 +1,570 @@
-Data config,Model config,Section,Output,n_jobs,Load model,Model,Metric,Split type,Split size,Descriptors,n_bits,n_cv,Patience,Gridsearch,n_iter,Balanced acc,ROC AUC test,ROC AUC val,gparams
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,35.0,rf,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",32,5,100,True,100,0.76905,0.8486,0.8422,"{'n_estimators': 500, 'min_weight_fraction_leaf': 0.001, 'min_samples_split': 15, 'min_samples_leaf': 10, 'max_leaf_nodes': 15, 'criterion': 'entropy', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,36.0,rf,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",32,5,100,True,100,0.78225,0.8706,0.8739,"{'n_estimators': 2000, 'min_weight_fraction_leaf': 0.001, 'min_samples_split': 15, 'min_samples_leaf': 3, 'max_leaf_nodes': 100, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,37.0,rf,roc_auc,scaffold,0.1,['maccs'],32,5,100,True,100,0.8349,0.8861,0.8773,"{'n_estimators': 2000, 'min_weight_fraction_leaf': 0.001, 'min_samples_split': 15, 'min_samples_leaf': 3, 'max_leaf_nodes': 100, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,38.0,rf,roc_auc,scaffold,0.1,['mordred'],32,5,100,True,100,0.7815,0.8625,0.8809999999999999,"{'n_estimators': 100, 'min_weight_fraction_leaf': 0.001, 'min_samples_split': 5, 'min_samples_leaf': 1, 'max_leaf_nodes': 100, 'criterion': 'gini', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,39.0,rf,roc_auc,scaffold,0.1,"['morgan', 'maccs']",32,5,100,True,100,0.8015,0.8747,0.8981,"{'n_estimators': 100, 'min_weight_fraction_leaf': 0.001, 'min_samples_split': 5, 'min_samples_leaf': 1, 'max_leaf_nodes': 100, 'criterion': 'gini', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,40.0,rf,roc_auc,scaffold,0.1,"['morgan','mordred']",32,5,100,True,100,0.7954,0.8728,0.8741,"{'n_estimators': 100, 'min_weight_fraction_leaf': 0.001, 'min_samples_split': 5, 'min_samples_leaf': 1, 'max_leaf_nodes': 100, 'criterion': 'gini', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,41.0,rf,roc_auc,scaffold,0.1,['morgan'],32,5,100,True,100,0.7488,0.8455,0.8662,"{'n_estimators': 100, 'min_weight_fraction_leaf': 0.001, 'min_samples_split': 5, 'min_samples_leaf': 1, 'max_leaf_nodes': 100, 'criterion': 'gini', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,42.0,rf,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",32,5,100,True,100,0.79575,0.8796,0.8651,"{'n_estimators': 200, 'min_weight_fraction_leaf': 0.01, 'min_samples_split': 3, 'min_samples_leaf': 3, 'max_leaf_nodes': 200, 'criterion': 'entropy', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,43.0,rf,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",32,5,100,True,100,0.7488,0.8262,0.8408,"{'n_estimators': 10, 'min_weight_fraction_leaf': 0.0001, 'min_samples_split': 15, 'min_samples_leaf': 7, 'max_leaf_nodes': 15, 'criterion': 'gini', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,44.0,rf,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",32,5,100,True,100,0.80855,0.8732,0.8592,"{'n_estimators': 100, 'min_weight_fraction_leaf': 0.001, 'min_samples_split': 5, 'min_samples_leaf': 1, 'max_leaf_nodes': 100, 'criterion': 'gini', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,45.0,rf,roc_auc,scaffold,0.1,['rdkit'],32,5,100,True,100,0.789,0.8668,0.8619,"{'n_estimators': 200, 'min_weight_fraction_leaf': 0.01, 'min_samples_split': 3, 'min_samples_leaf': 3, 'max_leaf_nodes': 200, 'criterion': 'entropy', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,46.0,regression,roc_auc,scaffold,0.1,['maccs'],32,5,100,True,100,0.77585,0.8275,0.8417,"{'momentum': 0.5, 'lr': 0.01, 'l2': 1e-07, 'batch_size': 32, 'class_weight': 'balanced', 'epochs': 100}"
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,REGRESSION,,,47.0,regression,roc_auc,scaffold,0.1,['mordred'],32,5,100,True,100,0.81135,0.8763,0.8699,"{'momentum': 0.3, 'lr': 0.01, 'l2': 1e-08, 'batch_size': 64, 'class_weight': 'balanced', 'epochs': 100}"
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,48,logreg,roc_auc,scaffold,0.1,['maccs'],32,5,100,True,100,0.7559,0.8332,0.8388,"{'solver': 'sag', 'max_iter': 200, 'C': 0.5, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,['mordred'],32,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['morgan', 'maccs']",32,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['morgan','mordred']",32,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,['morgan'],32,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",32,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",32,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",32,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",32,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,['rdkit'],32,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,['maccs'],32,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,['mordred'],32,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['morgan', 'maccs']",32,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['morgan','mordred']",32,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,['morgan'],32,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",32,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",32,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",32,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",32,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,['rdkit'],32,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,['maccs'],64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,['mordred'],64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['morgan', 'maccs']",64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['morgan','mordred']",64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,['morgan'],64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,['rdkit'],64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,['maccs'],64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,['mordred'],64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['morgan', 'maccs']",64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['morgan','mordred']",64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,['morgan'],64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,['rdkit'],64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,['maccs'],64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,['mordred'],64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['morgan', 'maccs']",64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['morgan','mordred']",64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,['morgan'],64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,['rdkit'],64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,['maccs'],256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,['mordred'],256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['morgan', 'maccs']",256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['morgan','mordred']",256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,['morgan'],256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,['rdkit'],256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,['maccs'],256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,['mordred'],256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['morgan', 'maccs']",256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['morgan','mordred']",256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,['morgan'],256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,['rdkit'],256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,['maccs'],256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,['mordred'],256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['morgan', 'maccs']",256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['morgan','mordred']",256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,['morgan'],256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,['rdkit'],256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,['maccs'],512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,['mordred'],512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['morgan', 'maccs']",512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['morgan','mordred']",512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,['morgan'],512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,['rdkit'],512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,['maccs'],512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,['mordred'],512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['morgan', 'maccs']",512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['morgan','mordred']",512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,['morgan'],512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,['rdkit'],512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,['maccs'],512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,['mordred'],512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['morgan', 'maccs']",512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['morgan','mordred']",512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,['morgan'],512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,['rdkit'],512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,['maccs'],1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,['mordred'],1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['morgan', 'maccs']",1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['morgan','mordred']",1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,['morgan'],1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,['rdkit'],1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,['maccs'],1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,['mordred'],1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['morgan', 'maccs']",1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['morgan','mordred']",1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,['morgan'],1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,['rdkit'],1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,['maccs'],1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,['mordred'],1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['morgan', 'maccs']",1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['morgan','mordred']",1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,['morgan'],1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,['rdkit'],1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,['maccs'],2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,['mordred'],2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['morgan', 'maccs']",2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['morgan','mordred']",2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,['morgan'],2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,['rdkit'],2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,['maccs'],2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,['mordred'],2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['morgan', 'maccs']",2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['morgan','mordred']",2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,['morgan'],2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,logreg,roc_auc,scaffold,0.1,['rdkit'],2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,['maccs'],2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,['mordred'],2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['morgan', 'maccs']",2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['morgan','mordred']",2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,['morgan'],2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,KNN,,,,knn,roc_auc,scaffold,0.1,['rdkit'],2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,['maccs'],2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,['mordred'],2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['morgan', 'maccs']",2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['morgan','mordred']",2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,['morgan'],2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,['rdkit'],2048,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,['maccs'],1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,['mordred'],1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['morgan', 'maccs']",1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['morgan','mordred']",1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,['morgan'],1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,['rdkit'],1024,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,['maccs'],512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,['mordred'],512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['morgan', 'maccs']",512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['morgan','mordred']",512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,['morgan'],512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,['rdkit'],512,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,['maccs'],256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,['mordred'],256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['morgan', 'maccs']",256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['morgan','mordred']",256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,['morgan'],256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,['rdkit'],256,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,['maccs'],64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,['mordred'],64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['morgan', 'maccs']",64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['morgan','mordred']",64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,['morgan'],64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,['rdkit'],64,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,['maccs'],32,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,['mordred'],32,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['morgan', 'maccs']",32,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['morgan','mordred']",32,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,['morgan'],32,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",32,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",32,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",32,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",32,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,['rdkit'],32,5,100,True,100,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,['maccs'],2048,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,['mordred'],2048,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['morgan', 'maccs']",2048,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['morgan','mordred']",2048,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,['morgan'],2048,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",2048,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",2048,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",2048,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",2048,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,['rdkit'],2048,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,['maccs'],1024,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,['mordred'],1024,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['morgan', 'maccs']",1024,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['morgan','mordred']",1024,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,['morgan'],1024,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",1024,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",1024,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",1024,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",1024,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,['rdkit'],1024,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,['maccs'],512,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,['mordred'],512,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['morgan', 'maccs']",512,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['morgan','mordred']",512,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,['morgan'],512,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",512,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",512,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",512,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",512,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,['rdkit'],512,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,['maccs'],256,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,['mordred'],256,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['morgan', 'maccs']",256,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['morgan','mordred']",256,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,['morgan'],256,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",256,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",256,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",256,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",256,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,['rdkit'],256,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,['maccs'],64,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,['mordred'],64,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['morgan', 'maccs']",64,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['morgan','mordred']",64,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,['morgan'],64,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",64,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",64,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",64,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",64,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,['rdkit'],64,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,['maccs'],32,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,['mordred'],32,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['morgan', 'maccs']",32,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['morgan','mordred']",32,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,['morgan'],32,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",32,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",32,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",32,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",32,5,20,True,20,,,,
-/data/data_configs/bace.ini,/data/model_configs/configs.ini,SVC,,,,svc,roc_auc,scaffold,0.1,['rdkit'],32,5,20,True,20,,,,
-,/data/model_configs/configs.ini,FCNN,,,,fcnn,roc_auc,scaffold,0.1,['maccs'],2048,5,20,True,100,,,,
-,/data/model_configs/configs.ini,FCNN,,,,fcnn,roc_auc,scaffold,0.1,['mordred'],2048,5,20,True,100,,,,
-,/data/model_configs/configs.ini,FCNN,,,,fcnn,roc_auc,scaffold,0.1,"['morgan', 'maccs']",2048,5,20,True,100,,,,
-,/data/model_configs/configs.ini,FCNN,,,,fcnn,roc_auc,scaffold,0.1,"['morgan','mordred']",2048,5,20,True,100,,,,
-,/data/model_configs/configs.ini,FCNN,,,,fcnn,roc_auc,scaffold,0.1,['morgan'],2048,5,20,True,100,,,,
-,/data/model_configs/configs.ini,FCNN,,,,fcnn,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",2048,5,20,True,100,,,,
-,/data/model_configs/configs.ini,FCNN,,,,fcnn,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",2048,5,20,True,100,,,,
-,/data/model_configs/configs.ini,FCNN,,,,fcnn,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",2048,5,20,True,100,,,,
-,/data/model_configs/configs.ini,FCNN,,,,fcnn,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",2048,5,20,True,100,,,,
-,/data/model_configs/configs.ini,FCNN,,,,fcnn,roc_auc,scaffold,0.1,['rdkit'],2048,5,20,True,100,,,,
+Model,Descriptors,n_bits,ROC AUC test,ROC AUC val
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.8486,0.8422
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.8706,0.8739
+rf,['maccs'],32,0.8861,0.8773
+rf,['mordred'],32,0.8625,0.8809999999999999
+rf,"['morgan', 'maccs']",32,0.8747,0.8981
+rf,"['morgan','mordred']",32,0.8728,0.8741
+rf,['morgan'],32,0.8455,0.8662
+rf,"['rdkit', 'maccs']",32,0.8796,0.8651
+rf,"['rdkit', 'mordred']",32,0.8262,0.8408
+rf,"['rdkit', 'morgan']",32,0.8732,0.8592
+rf,['rdkit'],32,0.8668,0.8619
+lr,['maccs'],32,0.8332,0.8388
+lr,['mordred'],32,0.8094,0.8224
+lr,"['morgan', 'maccs']",32,0.8812,0.8678
+lr,"['morgan','mordred']",32,0.8540000000000001,0.8591
+lr,['morgan'],32,0.8203,0.7541
+lr,"['rdkit', 'maccs']",32,0.8836,0.8638
+lr,"['rdkit', 'mordred']",32,0.8094,0.8224
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.8818,0.8675
+lr,"['rdkit', 'morgan']",32,0.8359,0.8538
+lr,['rdkit'],32,0.8287,0.853
+knn,['maccs'],32,0.8751,0.8606
+knn,['mordred'],32,0.8574,0.8664
+knn,"['morgan', 'maccs']",32,0.8753,0.8697
+knn,"['morgan','mordred']",32,0.8691,0.8819
+knn,['morgan'],32,0.8632,0.8785
+knn,"['rdkit', 'maccs']",32,0.8849,0.882
+knn,"['rdkit', 'mordred']",32,0.8608,0.8487
+knn,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.8789,0.8756
+knn,"['rdkit', 'morgan']",32,0.8552,0.8778
+knn,['rdkit'],32,0.8562,0.8756
+xgb,"['morgan', 'maccs']",32,0.8859999999999999,0.8952
+xgb,"['morgan','mordred']",32,0.8468,0.8587
+xgb,['morgan'],32,0.856,0.8775
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.8687,0.8809999999999999
+xgb,"['rdkit', 'morgan']",32,0.8699,0.8640000000000001
+svc,"['morgan', 'maccs']",32,0.8582,0.867
+svc,"['morgan','mordred']",32,0.8617,0.8716
+svc,['morgan'],32,0.8122,0.7571
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.8649,0.8603
+svc,"['rdkit', 'morgan']",32,0.8444,0.8569
+svc,"['morgan', 'maccs']",32,0.8524,0.8716
+svc,"['morgan','mordred']",32,0.865,0.8744
+svc,['morgan'],32,0.8547,0.8397
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.8649,0.8604
+svc,"['rdkit', 'morgan']",32,0.8373,0.8505
+svc,"['morgan', 'maccs']",32,0.8524,0.8716
+svc,"['morgan','mordred']",32,0.865,0.8744
+svc,['morgan'],32,0.8547,0.8397
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.8649,0.8604
+svc,"['rdkit', 'morgan']",32,0.8373,0.8505
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.7397,0.8426
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.7258,0.9027
+rf,['maccs'],32,0.7411,0.8674
+rf,['mordred'],32,0.7378,0.8897
+rf,"['morgan', 'maccs']",32,0.6159,0.8667
+rf,"['morgan','mordred']",32,0.7405,0.898
+rf,"['rdkit', 'morgan','mordred', 'maccs']",32,0.8711,0.8778
+rf,"['rdkit', 'morgan','mordred', 'maccs']",32,0.8831,0.8797
+rf,['maccs'],32,0.8939,0.8857
+rf,['mordred'],32,0.8597,0.8543
+rf,"['morgan', 'maccs']",32,0.8796,0.893
+rf,"['morgan','mordred']",32,0.8778,0.8777
+rf,['morgan'],32,0.8493,0.8778
+rf,"['rdkit', 'maccs']",32,0.8723,0.8682
+rf,"['rdkit', 'mordred']",32,0.8643,0.8616
+rf,"['rdkit', 'morgan']",32,0.8716,0.8699
+rf,['rdkit'],32,0.8690000000000001,0.863
+lr,['maccs'],32,0.8332,0.8388
+lr,['mordred'],32,0.8484,0.8478
+lr,"['morgan', 'maccs']",32,0.8418,0.85
+lr,"['morgan','mordred']",32,0.8491,0.8493
+lr,['morgan'],32,0.8203,0.7539
+lr,"['rdkit', 'maccs']",32,0.8685,0.8707
+lr,"['rdkit', 'mordred']",32,0.8673,0.8559
+lr,"['rdkit', 'morgan','mordred', 'maccs']",32,0.8898,0.8655
+lr,"['rdkit', 'morgan']",32,0.8437,0.8559
+lr,['rdkit'],32,0.8297,0.843
+knn,['maccs'],32,0.8751,0.8606
+knn,['mordred'],32,0.8702,0.8902
+knn,"['morgan', 'maccs']",32,0.8753,0.8697
+knn,"['morgan','mordred']",32,0.8749,0.8953
+knn,['morgan'],32,0.8632,0.8785
+knn,"['rdkit', 'maccs']",32,0.8714,0.8681
+rf,"['rdkit', 'morgan','mordred', 'maccs']",32,0.8486,0.8422
+rf,"['rdkit', 'morgan','mordred', 'maccs']",32,0.8706,0.8739
+rf,['maccs'],32,0.8861,0.8773
+rf,['mordred'],32,0.8625,0.8809999999999999
+rf,"['morgan', 'maccs']",32,0.8747,0.8981
+rf,"['morgan','mordred']",32,0.8728,0.8741
+rf,['morgan'],32,0.8455,0.8662
+rf,"['rdkit', 'maccs']",32,0.8796,0.8651
+rf,"['rdkit', 'mordred']",32,0.8262,0.8408
+rf,"['rdkit', 'morgan']",32,0.8732,0.8592
+rf,['rdkit'],32,0.8668,0.8619
+lr,['maccs'],32,0.8332,0.8388
+lr,['mordred'],32,0.8626,0.8501
+lr,"['morgan', 'maccs']",32,0.8898,0.8655
+lr,"['morgan','mordred']",32,0.8747,0.866
+lr,['morgan'],32,0.8203,0.7541
+lr,"['rdkit', 'maccs']",32,0.8862,0.8641
+lr,"['rdkit', 'mordred']",32,0.8673,0.8559
+lr,"['rdkit', 'morgan','mordred', 'maccs']",32,0.8898,0.8655
+lr,"['rdkit', 'morgan']",32,0.8437,0.8559
+lr,['rdkit'],32,0.8297,0.8434
+knn,['maccs'],32,0.8751,0.8606
+knn,['mordred'],32,0.8702,0.8902
+knn,"['morgan', 'maccs']",32,0.8753,0.8697
+knn,"['morgan','mordred']",32,0.8749,0.8953
+knn,['morgan'],32,0.8632,0.8785
+knn,"['rdkit', 'maccs']",32,0.8714,0.8681
+knn,"['rdkit', 'mordred']",32,0.8812,0.8929
+knn,"['rdkit', 'morgan','mordred', 'maccs']",32,0.8877,0.8668
+knn,"['rdkit', 'morgan']",32,0.8578,0.8807
+knn,['rdkit'],32,0.8705,0.8681
+rf,"['rdkit', 'morgan','mordred', 'maccs']",32,0.8486,0.8422
+rf,"['rdkit', 'morgan','mordred', 'maccs']",32,0.8706,0.8739
+rf,['maccs'],32,0.8861,0.8773
+rf,['mordred'],32,0.8625,0.8809999999999999
+rf,"['morgan', 'maccs']",32,0.8747,0.8981
+rf,"['morgan','mordred']",32,0.8728,0.8741
+rf,['morgan'],32,0.8455,0.8662
+rf,"['rdkit', 'maccs']",32,0.8796,0.8651
+rf,"['rdkit', 'mordred']",32,0.8262,0.8408
+rf,"['rdkit', 'morgan']",32,0.8732,0.8592
+rf,['rdkit'],32,0.8668,0.8619
+lr,['maccs'],32,0.8332,0.8388
+lr,['mordred'],32,0.8094,0.8224
+lr,"['morgan', 'maccs']",32,0.8812,0.8678
+lr,"['morgan','mordred']",32,0.8540000000000001,0.8591
+lr,['morgan'],32,0.8203,0.7541
+lr,"['rdkit', 'maccs']",32,0.8836,0.8638
+lr,"['rdkit', 'mordred']",32,0.8094,0.8224
+lr,"['rdkit', 'morgan','mordred', 'maccs']",32,0.8818,0.8675
+lr,"['rdkit', 'morgan']",32,0.8359,0.8538
+lr,['rdkit'],32,0.8287,0.853
+knn,['maccs'],32,0.8751,0.8606
+knn,['mordred'],32,0.8574,0.8664
+knn,"['morgan', 'maccs']",32,0.8753,0.8697
+knn,"['morgan','mordred']",32,0.8691,0.8819
+knn,['morgan'],32,0.8632,0.8785
+knn,"['rdkit', 'maccs']",32,0.8849,0.882
+knn,"['rdkit', 'mordred']",32,0.8608,0.8487
+knn,"['rdkit', 'morgan','mordred', 'maccs']",32,0.8789,0.8756
+knn,"['rdkit', 'morgan']",32,0.8552,0.8778
+knn,['rdkit'],32,0.8562,0.8756
+rf,['maccs'],64,0.8873,0.8778
+rf,['mordred'],64,0.872,0.8726
+rf,"['morgan', 'maccs']",64,0.8598,0.8759
+rf,"['morgan','mordred']",64,0.843,0.8314
+rf,['morgan'],64,0.8619,0.8901
+rf,"['rdkit', 'maccs']",64,0.8751,0.8653
+rf,"['rdkit', 'mordred']",64,0.8385,0.8542
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",64,0.8740000000000001,0.8675
+rf,"['rdkit', 'morgan']",64,0.8753,0.8743
+rf,['rdkit'],64,0.8654,0.8535
+lr,['maccs'],64,0.8332,0.8388
+lr,['mordred'],64,0.8624,0.8565
+lr,"['morgan', 'maccs']",64,0.8507,0.8533
+lr,"['morgan','mordred']",64,0.8543,0.8624
+lr,['morgan'],64,0.8202,0.8109999999999999
+lr,"['rdkit', 'maccs']",64,0.8595,0.8709
+lr,"['rdkit', 'mordred']",64,0.8094,0.8224
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",64,0.8759999999999999,0.867
+lr,"['rdkit', 'morgan']",64,0.8463,0.8619
+lr,['rdkit'],64,0.8287,0.853
+knn,['maccs'],64,0.8751,0.8606
+knn,['mordred'],64,0.8574,0.8664
+knn,"['morgan', 'maccs']",64,0.8855,0.8743
+knn,"['morgan','mordred']",64,0.8583,0.8651
+knn,['morgan'],64,0.856,0.8524
+knn,"['rdkit', 'maccs']",64,0.8849,0.882
+knn,"['rdkit', 'mordred']",64,0.8608,0.8487
+knn,"['rdkit', 'morgan', 'mordred', 'maccs']",64,0.8799,0.879
+knn,"['rdkit', 'morgan']",64,0.871,0.8884
+knn,['rdkit'],64,0.8562,0.8756
+xgb,"['morgan', 'maccs']",64,0.8557,0.856
+xgb,"['morgan','mordred']",64,0.8759999999999999,0.8857
+xgb,['morgan'],64,0.8735,0.8923
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",64,0.8891,0.8909999999999999
+xgb,"['rdkit', 'morgan']",64,0.8853,0.8754
+svc,"['morgan', 'maccs']",64,0.8084,0.8184
+svc,"['morgan','mordred']",64,0.8392,0.8435
+svc,['morgan'],64,0.8253,0.8095
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",64,0.8645,0.8624
+svc,"['rdkit', 'morgan']",64,0.8541,0.8629
+svc,"['morgan', 'maccs']",64,0.8628,0.8533
+svc,"['morgan','mordred']",64,0.863,0.8731
+svc,['morgan'],64,0.8221,0.8066
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",64,0.8645,0.8624
+svc,"['rdkit', 'morgan']",64,0.846,0.8516
+svc,"['morgan', 'maccs']",64,0.8628,0.8532
+svc,"['morgan','mordred']",64,0.863,0.8731
+svc,['morgan'],64,0.8221,0.8065
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",64,0.8645,0.8624
+svc,"['rdkit', 'morgan']",64,0.846,0.8516
+rf,['maccs'],64,0.8873,0.8778
+rf,['mordred'],64,0.8588,0.8538
+rf,"['morgan', 'maccs']",64,0.8805,0.8754
+rf,"['morgan','mordred']",64,0.8751,0.8768
+rf,['morgan'],64,0.86,0.8916
+rf,"['rdkit', 'maccs']",64,0.8761,0.8690000000000001
+rf,"['rdkit', 'mordred']",64,0.8595,0.8528
+rf,"['rdkit', 'morgan','mordred', 'maccs']",64,0.8401,0.8336
+rf,"['rdkit', 'morgan']",64,0.8742,0.8707
+rf,['rdkit'],64,0.8699,0.8673
+lr,['maccs'],64,0.8332,0.8388
+lr,['mordred'],64,0.8484,0.8478
+lr,"['morgan', 'maccs']",64,0.8507,0.8533
+lr,"['morgan','mordred']",64,0.8595,0.8557
+lr,['morgan'],64,0.8202,0.8109999999999999
+lr,"['rdkit', 'maccs']",64,0.8685,0.8707
+lr,"['rdkit', 'mordred']",64,0.8673,0.8559
+lr,"['rdkit', 'morgan','mordred', 'maccs']",64,0.8902,0.8616
+lr,"['rdkit', 'morgan']",64,0.8481,0.8601
+lr,['rdkit'],64,0.8297,0.8432
+knn,['maccs'],64,0.8751,0.8606
+knn,['mordred'],64,0.8702,0.8902
+knn,"['morgan', 'maccs']",64,0.8855,0.8743
+knn,"['morgan','mordred']",64,0.8666,0.8638
+knn,['morgan'],64,0.856,0.8524
+knn,"['rdkit', 'maccs']",64,0.8714,0.8681
+knn,"['rdkit', 'mordred']",64,0.8812,0.8929
+rf,['maccs'],64,0.8873,0.8778
+rf,['mordred'],64,0.872,0.8726
+rf,"['morgan', 'maccs']",64,0.8598,0.8759
+rf,"['morgan','mordred']",64,0.843,0.8314
+rf,['morgan'],64,0.8619,0.8901
+rf,"['rdkit', 'maccs']",64,0.8751,0.8653
+rf,"['rdkit', 'mordred']",64,0.8385,0.8542
+rf,"['rdkit', 'morgan','mordred', 'maccs']",64,0.8740000000000001,0.8675
+rf,"['rdkit', 'morgan']",64,0.8753,0.8743
+rf,['rdkit'],64,0.8654,0.8535
+lr,['maccs'],64,0.8332,0.8388
+lr,['mordred'],64,0.8624,0.8565
+lr,"['morgan', 'maccs']",64,0.8507,0.8533
+lr,"['morgan','mordred']",64,0.8543,0.8624
+lr,['morgan'],64,0.8202,0.8109999999999999
+lr,"['rdkit', 'maccs']",64,0.8595,0.8709
+lr,"['rdkit', 'mordred']",64,0.8094,0.8224
+lr,"['rdkit', 'morgan','mordred', 'maccs']",64,0.8759999999999999,0.867
+lr,"['rdkit', 'morgan']",64,0.8463,0.8619
+lr,['rdkit'],64,0.8287,0.853
+knn,['maccs'],64,0.8751,0.8606
+knn,['mordred'],64,0.8574,0.8664
+knn,"['morgan', 'maccs']",64,0.8855,0.8743
+knn,"['morgan','mordred']",64,0.8583,0.8651
+knn,['morgan'],64,0.856,0.8524
+knn,"['rdkit', 'maccs']",64,0.8849,0.882
+knn,"['rdkit', 'mordred']",64,0.8608,0.8487
+knn,"['rdkit', 'morgan','mordred', 'maccs']",64,0.8799,0.879
+knn,"['rdkit', 'morgan']",64,0.871,0.8884
+knn,['rdkit'],64,0.8562,0.8756
+rf,['maccs'],256,0.8871,0.8781
+rf,['mordred'],256,0.8557,0.8543
+rf,"['morgan', 'maccs']",256,0.856,0.8677
+rf,"['morgan','mordred']",256,0.8328,0.8224
+rf,['morgan'],256,0.8744,0.8902
+rf,"['rdkit', 'maccs']",256,0.8740000000000001,0.8685
+rf,"['rdkit', 'mordred']",256,0.8462,0.8532
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",256,0.8423,0.8375
+rf,"['rdkit', 'morgan']",256,0.8739,0.8771
+rf,['rdkit'],256,0.8692,0.8638
+lr,['maccs'],256,0.8332,0.8388
+lr,['mordred'],256,0.8628,0.8567
+lr,"['morgan', 'maccs']",256,0.8768,0.8795
+lr,"['morgan','mordred']",256,0.8721,0.8748
+lr,['morgan'],256,0.8607,0.879
+lr,"['rdkit', 'maccs']",256,0.8593,0.8709
+lr,"['rdkit', 'mordred']",256,0.8094,0.8224
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",256,0.8889,0.8798
+lr,"['rdkit', 'morgan']",256,0.8739,0.8849
+lr,['rdkit'],256,0.8287,0.853
+knn,['maccs'],256,0.8751,0.8606
+knn,['mordred'],256,0.8574,0.8664
+knn,"['morgan', 'maccs']",256,0.8756,0.8718
+knn,"['morgan','mordred']",256,0.8698,0.8843
+knn,['morgan'],256,0.8502,0.8287
+knn,"['rdkit', 'maccs']",256,0.8849,0.882
+knn,"['rdkit', 'mordred']",256,0.8608,0.8487
+knn,"['rdkit', 'morgan', 'mordred', 'maccs']",256,0.8686,0.8815
+knn,"['rdkit', 'morgan']",256,0.8631,0.8543
+knn,['rdkit'],256,0.8562,0.8756
+xgb,"['morgan', 'maccs']",256,0.8809999999999999,0.8827
+xgb,"['morgan','mordred']",256,0.878,0.8856
+xgb,['morgan'],256,0.8747,0.8869
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",256,0.8281,0.8356
+xgb,"['rdkit', 'morgan']",256,0.8734,0.8729
+svc,"['morgan', 'maccs']",256,0.8477,0.8417
+svc,"['mordred', 'maccs']",256,0.8756,0.8738
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",256,0.9025,0.8957
+svc,['maccs'],256,0.8427,0.8434
+svc,['mordred'],256,0.8323,0.8467
+svc,"['morgan', 'maccs']",256,0.8477,0.8417
+svc,"['morgan','mordred']",256,0.8569,0.8559
+svc,['morgan'],256,0.8763,0.8763
+svc,"['rdkit', 'maccs']",256,0.8708,0.8803
+svc,"['rdkit', 'mordred']",256,0.8728,0.8716
+svc,"['rdkit', 'morgan']",256,0.8449,0.8565
+svc,['rdkit'],256,0.8292,0.8503
+svc,"['morgan', 'maccs']",256,0.9094,0.9077
+svc,"['mordred', 'maccs']",256,0.8815,0.8809
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",256,0.9016,0.8977
+svc,['maccs'],256,0.858,0.8489
+svc,['mordred'],256,0.8323,0.8464
+svc,"['morgan', 'maccs']",256,0.9094,0.9077
+svc,"['morgan','mordred']",256,0.8803,0.883
+svc,['morgan'],256,0.8652,0.8572
+svc,"['rdkit', 'maccs']",256,0.903,0.9008
+svc,"['rdkit', 'mordred']",256,0.8656,0.8682
+svc,"['rdkit', 'morgan']",256,0.8697,0.877
+svc,['rdkit'],256,0.8281,0.8619
+svc,"['morgan', 'maccs']",256,0.9094,0.9077
+svc,"['mordred', 'maccs']",256,0.8815,0.8809999999999999
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",256,0.9016,0.8977
+svc,['maccs'],256,0.858,0.8488
+svc,['mordred'],256,0.8323,0.8462
+svc,"['morgan', 'maccs']",256,0.9094,0.9077
+svc,"['morgan','mordred']",256,0.8803,0.883
+svc,['morgan'],256,0.8652,0.8572
+svc,"['rdkit', 'maccs']",256,0.903,0.9005
+svc,"['rdkit', 'mordred']",256,0.8656,0.8682
+svc,"['rdkit', 'morgan']",256,0.8697,0.877
+svc,['rdkit'],256,0.8281,0.8619
+rf,['maccs'],256,0.8871,0.8781
+rf,['mordred'],256,0.8557,0.8543
+rf,"['morgan', 'maccs']",256,0.856,0.8677
+rf,"['morgan','mordred']",256,0.8328,0.8224
+rf,['morgan'],256,0.8744,0.8902
+rf,"['rdkit', 'maccs']",256,0.8740000000000001,0.8685
+rf,"['rdkit', 'mordred']",256,0.8462,0.8532
+rf,"['rdkit', 'morgan','mordred', 'maccs']",256,0.8423,0.8375
+rf,"['rdkit', 'morgan']",256,0.8739,0.8771
+rf,['rdkit'],256,0.8692,0.8638
+lr,['maccs'],256,0.8332,0.8388
+lr,['mordred'],256,0.8628,0.8567
+lr,"['morgan', 'maccs']",256,0.8768,0.8795
+lr,"['morgan','mordred']",256,0.8721,0.8748
+lr,['morgan'],256,0.8607,0.879
+lr,"['rdkit', 'maccs']",256,0.8593,0.8709
+lr,"['rdkit', 'mordred']",256,0.8094,0.8224
+lr,"['rdkit', 'morgan','mordred', 'maccs']",256,0.8889,0.8798
+lr,"['rdkit', 'morgan']",256,0.8739,0.8849
+lr,['rdkit'],256,0.8287,0.853
+knn,['maccs'],256,0.8751,0.8606
+knn,['mordred'],256,0.8574,0.8664
+knn,"['morgan', 'maccs']",256,0.8756,0.8718
+knn,"['morgan','mordred']",256,0.8698,0.8843
+knn,['morgan'],256,0.8502,0.8287
+knn,"['rdkit', 'maccs']",256,0.8849,0.882
+knn,"['rdkit', 'mordred']",256,0.8608,0.8487
+knn,"['rdkit', 'morgan','mordred', 'maccs']",256,0.8686,0.8815
+knn,"['rdkit', 'morgan']",256,0.8631,0.8543
+knn,['rdkit'],256,0.8562,0.8756
+rf,['maccs'],512,0.8909,0.8783
+rf,['mordred'],512,0.8699,0.8705
+rf,"['morgan', 'maccs']",512,0.8787,0.8749
+rf,"['morgan','mordred']",512,0.8694,0.87
+rf,['morgan'],512,0.8798,0.904
+rf,"['rdkit', 'maccs']",512,0.8737,0.867
+rf,"['rdkit', 'mordred']",512,0.8728,0.8745
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",512,0.8448,0.8375
+rf,"['rdkit', 'morgan']",512,0.8668,0.8624
+rf,['rdkit'],512,0.8673,0.8541
+lr,['maccs'],512,0.8332,0.8388
+lr,['mordred'],512,0.8628,0.8562
+lr,"['morgan', 'maccs']",512,0.8824,0.8943
+lr,"['morgan','mordred']",512,0.8656,0.8690000000000001
+lr,['morgan'],512,0.8815,0.8878
+lr,"['rdkit', 'maccs']",512,0.8591,0.8709
+lr,"['rdkit', 'mordred']",512,0.8094,0.8224
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",512,0.8909999999999999,0.8819
+lr,"['rdkit', 'morgan']",512,0.8727,0.8881
+lr,['rdkit'],512,0.8287,0.853
+knn,['maccs'],512,0.8751,0.8606
+knn,['mordred'],512,0.8574,0.8664
+knn,"['morgan', 'maccs']",512,0.8847,0.8456
+knn,"['morgan','mordred']",512,0.8734,0.8781
+knn,['morgan'],512,0.862,0.8678
+knn,"['rdkit', 'maccs']",512,0.8849,0.882
+knn,"['rdkit', 'mordred']",512,0.8608,0.8487
+knn,"['rdkit', 'morgan', 'mordred', 'maccs']",512,0.8749,0.8474
+knn,"['rdkit', 'morgan']",512,0.8642,0.8466
+knn,['rdkit'],512,0.8562,0.8756
+xgb,"['morgan', 'maccs']",512,0.9047,0.8876
+xgb,"['morgan','mordred']",512,0.8709,0.8802
+xgb,['morgan'],512,0.904,0.8878
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",512,0.8775,0.8844
+xgb,"['rdkit', 'morgan']",512,0.8737,0.8766
+svc,"['morgan', 'maccs']",512,0.8604,0.8640000000000001
+svc,"['morgan','mordred']",512,0.8638,0.866
+svc,['morgan'],512,0.8886,0.8906
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",512,0.9025,0.8896
+svc,"['rdkit', 'morgan']",512,0.8909999999999999,0.8954
+svc,"['morgan', 'maccs']",512,0.8836,0.8808
+svc,"['morgan','mordred']",512,0.8638,0.866
+svc,['morgan'],512,0.8647,0.8695
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",512,0.8955,0.8935
+svc,"['rdkit', 'morgan']",512,0.8652,0.8729
+svc,"['morgan', 'maccs']",512,0.8836,0.8808
+svc,"['morgan','mordred']",512,0.8638,0.866
+svc,['morgan'],512,0.8647,0.8695
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",512,0.8955,0.8938
+svc,"['rdkit', 'morgan']",512,0.8652,0.8729
+rf,['maccs'],512,0.8909,0.8783
+rf,['mordred'],512,0.8699,0.8705
+rf,"['morgan', 'maccs']",512,0.8787,0.8749
+rf,"['morgan','mordred']",512,0.8694,0.87
+rf,['morgan'],512,0.8798,0.904
+rf,"['rdkit', 'maccs']",512,0.8737,0.867
+rf,"['rdkit', 'mordred']",512,0.8728,0.8745
+rf,"['rdkit', 'morgan','mordred', 'maccs']",512,0.8448,0.8375
+rf,"['rdkit', 'morgan']",512,0.8668,0.8624
+rf,['rdkit'],512,0.8673,0.8541
+lr,['maccs'],512,0.8332,0.8388
+lr,['mordred'],512,0.8628,0.8562
+lr,"['morgan', 'maccs']",512,0.8824,0.8943
+lr,"['morgan','mordred']",512,0.8656,0.8690000000000001
+lr,['morgan'],512,0.8815,0.8878
+lr,"['rdkit', 'maccs']",512,0.8591,0.8709
+lr,"['rdkit', 'mordred']",512,0.8094,0.8224
+lr,"['rdkit', 'morgan','mordred', 'maccs']",512,0.8909999999999999,0.8819
+lr,"['rdkit', 'morgan']",512,0.8727,0.8881
+lr,['rdkit'],512,0.8287,0.853
+knn,['maccs'],512,0.8751,0.8606
+knn,['mordred'],512,0.8574,0.8664
+knn,"['morgan', 'maccs']",512,0.8847,0.8456
+knn,"['morgan','mordred']",512,0.8734,0.8781
+knn,['morgan'],512,0.862,0.8678
+knn,"['rdkit', 'maccs']",512,0.8849,0.882
+knn,"['rdkit', 'mordred']",512,0.8608,0.8487
+knn,"['rdkit', 'morgan','mordred', 'maccs']",512,0.8749,0.8474
+knn,"['rdkit', 'morgan']",512,0.8642,0.8466
+knn,['rdkit'],512,0.8562,0.8756
+rf,['maccs'],1024,0.8883,0.8771
+rf,['mordred'],1024,0.8378,0.8393
+rf,"['morgan', 'maccs']",1024,0.8732,0.8886
+rf,"['morgan','mordred']",1024,0.8167,0.8197
+rf,['morgan'],1024,0.8921,0.9003
+rf,"['rdkit', 'maccs']",1024,0.8732,0.8636
+rf,"['rdkit', 'mordred']",1024,0.8444,0.8363
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",1024,0.8602,0.8107
+rf,"['rdkit', 'morgan']",1024,0.8682,0.8675
+rf,['rdkit'],1024,0.8702,0.8643
+lr,['maccs'],1024,0.8332,0.8388
+lr,['mordred'],1024,0.8626,0.857
+lr,"['morgan', 'maccs']",1024,0.9007,0.904
+lr,"['morgan','mordred']",1024,0.8416,0.8545
+lr,['morgan'],1024,0.8699,0.9046
+lr,"['rdkit', 'maccs']",1024,0.8591,0.8709
+lr,"['rdkit', 'mordred']",1024,0.8096,0.8224
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",1024,0.9009,0.8898
+lr,"['rdkit', 'morgan']",1024,0.8822,0.9062
+lr,['rdkit'],1024,0.8287,0.853
+knn,['maccs'],1024,0.8751,0.8606
+knn,['mordred'],1024,0.8574,0.8664
+xgb,"['morgan', 'maccs']",1024,0.9104,0.9009
+xgb,"['morgan','mordred']",1024,0.8791,0.89
+xgb,['morgan'],1024,0.9037,0.9051
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",1024,0.8690000000000001,0.8856
+xgb,"['rdkit', 'morgan']",1024,0.8704,0.8829
+svc,"['morgan', 'maccs']",1024,0.8817,0.8837
+svc,"['morgan','mordred']",1024,0.8935,0.8911
+svc,['morgan'],1024,0.8914,0.9062
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",1024,0.8876,0.8861
+svc,"['rdkit', 'morgan']",1024,0.8718,0.8905
+svc,"['morgan', 'maccs']",1024,0.9047,0.9001
+svc,"['morgan','mordred']",1024,0.8749,0.8802
+svc,['morgan'],1024,0.8915,0.9068
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",1024,0.9033,0.8987
+svc,"['rdkit', 'morgan']",1024,0.8708,0.8831
+svc,"['morgan', 'maccs']",1024,0.9047,0.8999
+svc,"['morgan','mordred']",1024,0.8749,0.8802
+svc,['morgan'],1024,0.8915,0.9068
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",1024,0.9033,0.8987
+svc,"['rdkit', 'morgan']",1024,0.8708,0.8832
+rf,['maccs'],1024,0.8883,0.8771
+rf,['mordred'],1024,0.8378,0.8393
+rf,"['morgan', 'maccs']",1024,0.8732,0.8886
+rf,"['morgan','mordred']",1024,0.8167,0.8197
+rf,['morgan'],1024,0.8921,0.9003
+rf,"['rdkit', 'maccs']",1024,0.8732,0.8636
+rf,"['rdkit', 'mordred']",1024,0.8444,0.8363
+rf,"['rdkit', 'morgan','mordred', 'maccs']",1024,0.8602,0.8107
+rf,"['rdkit', 'morgan']",1024,0.8682,0.8675
+rf,['rdkit'],1024,0.8702,0.8643
+lr,['maccs'],1024,0.8332,0.8388
+lr,['mordred'],1024,0.8626,0.857
+lr,"['morgan', 'maccs']",1024,0.9007,0.904
+lr,"['morgan','mordred']",1024,0.8416,0.8545
+lr,['morgan'],1024,0.8699,0.9046
+lr,"['rdkit', 'maccs']",1024,0.8591,0.8709
+lr,"['rdkit', 'mordred']",1024,0.8096,0.8224
+lr,"['rdkit', 'morgan','mordred', 'maccs']",1024,0.9009,0.8898
+lr,"['rdkit', 'morgan']",1024,0.8822,0.9062
+lr,['rdkit'],1024,0.8287,0.853
+knn,['maccs'],1024,0.8751,0.8606
+knn,['mordred'],1024,0.8574,0.8664
+knn,"['morgan', 'maccs']",1024,0.9017,0.8824
+knn,"['morgan','mordred']",1024,0.8711,0.8878
+knn,['morgan'],1024,0.8482,0.8474
+knn,"['rdkit', 'maccs']",1024,0.8824,0.8819
+knn,"['rdkit', 'mordred']",1024,0.8217,0.8386
+knn,"['rdkit', 'morgan','mordred', 'maccs']",1024,0.8489,0.8493
+knn,"['rdkit', 'morgan']",1024,0.9189,0.9021
+knn,['rdkit'],1024,0.8557,0.8817
+xgb,['maccs'],2048,0.9017,0.8824
+xgb,['mordred'],2048,0.8711,0.8878
+xgb,"['mordred', 'maccs']",2048,0.8482,0.8474
+knn,"['mordred', 'maccs']",2048,0.8824,0.8819
+lr,"['mordred', 'maccs']",2048,0.8217,0.8386
+rf,"['mordred', 'maccs']",2048,0.8489,0.8493
+xgb,"['morgan', 'maccs']",2048,0.9189,0.9021
+xgb,"['morgan','mordred']",2048,0.8557,0.8817
+xgb,['morgan'],2048,0.9092,0.9008
+xgb,"['rdkit', 'maccs']",2048,0.8616,0.8581
+xgb,"['rdkit', 'mordred']",2048,0.8678,0.883
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,0.8605,0.8795
+xgb,"['rdkit', 'morgan']",2048,0.8671,0.8736
+xgb,['rdkit'],2048,0.8377,0.8559
+svc,"['morgan', 'maccs']",2048,0.9127,0.895
+svc,"['morgan','mordred']",2048,0.8898,0.8861
+svc,['morgan'],2048,0.8964,0.905
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,0.8964,0.8895
+svc,"['rdkit', 'morgan']",2048,0.8896,0.8947
+svc,"['mordred', 'maccs']",2048,0.8756,0.8738
+svc,"['morgan', 'maccs']",2048,0.9144,0.8987
+svc,"['morgan','mordred']",2048,0.8898,0.8861
+svc,['morgan'],2048,0.8959,0.9053
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,0.9054,0.8999
+svc,"['rdkit', 'morgan']",2048,0.8896,0.8947
+svc,"['mordred', 'maccs']",2048,0.8815,0.8809
+svc,"['morgan', 'maccs']",2048,0.9144,0.8987
+svc,"['morgan','mordred']",2048,0.8898,0.8861
+svc,['morgan'],2048,0.8959,0.9053
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,0.9054,0.8999
+svc,"['rdkit', 'morgan']",2048,0.8896,0.8947
+svc,"['mordred', 'maccs']",2048,0.8815,0.8809
+rf,['maccs'],2048,0.9092,0.9008
+rf,['mordred'],2048,0.8616,0.8581
+rf,"['morgan', 'maccs']",2048,0.8678,0.883
+rf,"['morgan','mordred']",2048,0.8605,0.8795
+rf,['morgan'],2048,0.8671,0.8736
+rf,"['rdkit', 'maccs']",2048,0.8377,0.8559
+rf,"['rdkit', 'mordred']",2048,0.9104,0.9009
+rf,"['rdkit', 'morgan','mordred', 'maccs']",2048,0.8791,0.89
+rf,"['rdkit', 'morgan']",2048,0.9037,0.9051
+rf,['rdkit'],2048,0.8690000000000001,0.8856
+lr,['maccs'],2048,0.8704,0.8829
+lr,['mordred'],2048,0.9047,0.8876
+lr,"['morgan', 'maccs']",2048,0.8709,0.8802
+lr,"['morgan','mordred']",2048,0.904,0.8878
+lr,['morgan'],2048,0.8775,0.8844
+lr,"['rdkit', 'maccs']",2048,0.8737,0.8766
+lr,"['rdkit', 'mordred']",2048,0.8809999999999999,0.8827
+lr,"['rdkit', 'morgan','mordred', 'maccs']",2048,0.878,0.8856
+lr,"['rdkit', 'morgan']",2048,0.8747,0.8869
+lr,['rdkit'],2048,0.8281,0.8356
+knn,['maccs'],2048,0.8734,0.8729
+knn,['mordred'],2048,0.8557,0.856
+knn,"['morgan', 'maccs']",2048,0.8759999999999999,0.8857
+knn,"['morgan','mordred']",2048,0.8735,0.8923
+knn,['morgan'],2048,0.8891,0.8909999999999999
+knn,"['rdkit', 'maccs']",2048,0.8853,0.8754
+knn,"['rdkit', 'mordred']",2048,0.8859999999999999,0.8952
+knn,"['rdkit', 'morgan','mordred', 'maccs']",2048,0.8468,0.8587
+knn,"['rdkit', 'morgan']",2048,0.856,0.8775
+knn,['rdkit'],2048,0.8687,0.8809999999999999
+xgb,['maccs'],2048,0.8699,0.8640000000000001

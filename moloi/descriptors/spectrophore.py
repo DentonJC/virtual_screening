@@ -75,9 +75,9 @@ def random(mol, shape=10):
 def _set_seed(seed=666):
     np.random.seed(seed)
 
-"""
+
 if __name__ == "__main__":
     #features = smiles_to_mordred(pd.Series({"lol": "CC", "lol2": "CCN"}))
     features = smiles_to_spectrophore(Molecule("lol2"), n_samples=10, combining_method=None)
     print(features)
-"""
+

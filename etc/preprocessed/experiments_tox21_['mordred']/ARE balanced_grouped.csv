@@ -1,0 +1,4 @@
+Model,n_bits,ARE balanced,error
+rf,32,0.5143,0.0
+lr,32,0.59995,0.0
+knn,32,0.55705,0.0

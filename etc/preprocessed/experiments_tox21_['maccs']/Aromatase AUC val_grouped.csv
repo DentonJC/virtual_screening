@@ -1,0 +1,4 @@
+Model,n_bits,Aromatase AUC val,error
+rf,32,0.7959,0.0
+lr,32,0.7922,0.0
+knn,32,0.6417,0.0

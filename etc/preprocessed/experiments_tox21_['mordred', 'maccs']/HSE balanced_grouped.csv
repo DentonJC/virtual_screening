@@ -1,0 +1,3 @@
+Model,n_bits,HSE balanced,error
+rf,32,0.5,0.0
+lr,32,0.6697,0.0

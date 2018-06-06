@@ -1,0 +1,4 @@
+Model,n_bits,ATAD5 balanced,error
+rf,32,0.5,0.0
+lr,32,0.49915,0.0
+knn,32,0.5252,0.0

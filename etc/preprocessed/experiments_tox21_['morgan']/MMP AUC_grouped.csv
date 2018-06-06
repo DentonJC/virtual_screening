@@ -1,0 +1,4 @@
+Model,n_bits,MMP AUC,error
+rf,32,0.8549,0.0
+lr,32,0.8499,0.0
+knn,32,0.6334,0.0

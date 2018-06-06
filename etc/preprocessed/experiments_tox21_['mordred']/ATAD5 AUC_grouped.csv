@@ -1,0 +1,4 @@
+Model,n_bits,ATAD5 AUC,error
+rf,32,0.7729,0.0
+lr,32,0.7785,0.0
+knn,32,0.6445,0.0

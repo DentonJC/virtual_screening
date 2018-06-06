@@ -197,7 +197,7 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
                             'pre_dispatch': n_cv}
 
         # sklearn models
-        if options.select_model == "logreg":
+        if options.select_model == "lr":
             model = RandomizedSearchCV(LogisticRegression(**rparams), **sklearn_params)
         elif options.select_model == "knn":
             model = RandomizedSearchCV(KNeighborsClassifier(**rparams), **sklearn_params)
@@ -263,7 +263,7 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
     except KeyError:
         pass
 
-    if options.select_model == "logreg":
+    if options.select_model == "lr":
         model = LogisticRegression(**rparams)
     elif options.select_model == "knn":
         model = KNeighborsClassifier(**rparams)
@@ -324,5 +324,5 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
 
 
 if __name__ == "__main__":
-    args_list = ['logreg', '/data/data_configs/bace.ini']
+    args_list = ['lr', '/data/data_configs/bace.ini']
     script(args_list)

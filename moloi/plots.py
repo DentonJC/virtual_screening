@@ -119,7 +119,7 @@ def plot_grid_search(score, path):
         plt.close()
 
 
-def plot_TSNE(x, y, path, title="t-SNE", label_1="active", label_2="inactive", label_3="", c1='g', c2='b', c3='r', s=2, alpha=1, n_components=2):
+def plot_TSNE(x, y, path, title="t-SNE", label_1="active", label_2="inactive", label_3="", c1='r', c2='b', c3='#00FF00', s=2, alpha=1, n_components=2):
     print("t-SNE fitting")
     tsne = TSNE(n_components=n_components)
     coordinates = tsne.fit_transform(x)
@@ -144,7 +144,7 @@ def plot_TSNE(x, y, path, title="t-SNE", label_1="active", label_2="inactive", l
     plt.close()
     
 
-def plot_PCA(x, y, path, title="PCA", label_1="active", label_2="inactive", label_3="", c1='r', c2='b', c3='g', s=2, alpha=1, n_components=2):
+def plot_PCA(x, y, path, title="PCA", label_1="active", label_2="inactive", label_3="", c1='r', c2='b', c3='#00FF00', s=2, alpha=1, n_components=2):
     print("PCA fitting")
     pca = PCA(n_components=n_components)
     coordinates = pca.fit_transform(x)

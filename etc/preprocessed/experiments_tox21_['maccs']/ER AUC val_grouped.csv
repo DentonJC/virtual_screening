@@ -1,0 +1,4 @@
+Model,n_bits,ER AUC val,error
+rf,32,0.7019,0.0
+lr,32,0.677,0.0
+knn,32,0.6724,0.0

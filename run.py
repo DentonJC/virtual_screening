@@ -100,6 +100,6 @@ if __name__ == "__main__":
     result_cols = ['balanced_accuracy', 'auc', 'auc_val', 'gparams']
     common_gridsearch = True
     random_state = 1337
-    experiments_file = 'etc/experiments_bace.csv'
+    experiments_file = 'etc/experiments_clintox.csv'
     verbose = 10
     main(experiments_file, common_gridsearch, random_state, result_cols, keys, params, verbose)

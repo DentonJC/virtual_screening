@@ -1,0 +1,4 @@
+Model,n_bits,AR-LBD AUC val,error
+rf,32,0.8706,0.0
+lr,32,0.785,0.0
+knn,32,0.8599,0.0

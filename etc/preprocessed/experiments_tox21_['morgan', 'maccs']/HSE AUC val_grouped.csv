@@ -1,0 +1,4 @@
+Model,n_bits,HSE AUC val,error
+rf,32,0.6904,0.0
+lr,32,0.6718,0.0
+knn,32,0.6842,0.0

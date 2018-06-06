@@ -1,0 +1,3 @@
+Model,n_bits,p53 AUC,error
+rf,32,0.8183,0.0
+lr,32,0.774,0.0
