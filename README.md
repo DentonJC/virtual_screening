@@ -1,20 +1,21 @@
 # Virtual screening
-It is better to use Theano backend.
+## About
+
 Descriptors:
-- MACCS
-- morgan (ECFP)
-- RDKit
-- mordred
-- spectrophore
+- MACCS (maccs)
+- morgan/ECFP (morgan)
+- RDKit (rdkit)
+- mordred (mordred)
+- spectrophore (spectrophore)
 
 Models:
-- KNN
-- Logistic regression
-- RandomForestClassifier
-- SVC
-- XGBClassifier
-- Isolation Forest
-- FCNN
+- KNN (knn)
+- Logistic regression (lr)
+- RandomForestClassifier (rf)
+- SVC (svc)
+- XGBClassifier (xgb)
+- Isolation Forest (if)
+- FCNN (fcnn)
 
 Splits:
 - random
@@ -22,7 +23,10 @@ Splits:
 - scaffold
 - cluster
 
-Use src/config.ini to configure the models.
+## Goals
+- Seq2Seq -> transfer learning
+- exclude the rich get richer
+- feature selection
 
 ## Table of Contents
 1. [Results](#results)
@@ -30,87 +34,28 @@ Use src/config.ini to configure the models.
     - [Conda](#conda)
     - [Pip](#pip)
 3. [Usage](#usage)
-4. [Dataset](#dataset)
-5. [Input](#input)
-6. [Output](#output)
-7. [Experiments table](#table)
-8. [Citation](#citation)
+4. [Input](#input)
+5. [Output](#output)
+6. [Datasets](../blob/master/data/README.md)
+7. [Data config](../blob/master/data/data_configs/README.md)
+8. [Model config](../blob/master/data/model_configs/README.md)
+9. [Single experiment](../blob/master/moloi/bin/README.md)
+10. [Experiments table](../blob/master/etc/README.md)
+10. [Utilities](../blob/master/utils/README.md)
+11. [Citation](#citation)
 
 ## Results <a name="results"></a>
-### Tox21
-link: https://tripod.nih.gov/tox21/challenge/data.jsp
-
-Set | Class | AR	| AR-LBD	| AhR	| Aromatase	| ER	| ER-LBD	| PPAR-g | ARE	 | ATAD5	| HSE	 | MMP | p53
- --- | --- | --- |  --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-Train | Inactive | 7197	|	6702	|	5948	|	5669	|	5631	|	6818	|	6422	|	5015	|	7003	|	6260	|	5018	|	6511
-Train | Active | 270	|	224	|	767	|	296	|	702	|	319	|	184	|	943	|	252	|	356	|	922	|	419
-Test | Inactive | 574 | 574 | 537 | 489 | 465 | 580 | 574 | 462 | 584 | 588 | 483 | 575 |
-Test | Active | 12  | 8   | 73  | 39  | 51  | 20  | 31  | 93  | 38  | 22  | 60  | 41  |
-
-#### After RDKit featurization
-
-Set | Class | AR	| AR-LBD	| AhR	| Aromatase	| ER	| ER-LBD	| PPAR-g | ARE	 | ATAD5	| HSE	 | MMP | p53
- --- | --- | --- |  --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-Train | Inactive | 6925	|	6441	|	5661	|	5438	|	5392	|	6522	|	6148	|	4849	|	6703	|	6048	|	4782	|	6239
-Train | Active | 220	|	185	|	761	|	278	|	664	|	309	|	180	|	914	|	250	|	350	|	879	|	389
-Test | Inactive | 565 | 566 | 529 | 482 | 458 | 570 | 564 | 454 | 574 | 577 | 474 | 566 |
-Test | Active | 11  | 7   | 70  | 38  | 50  | 20  | 30  | 91  | 36  | 21  | 57  | 39  |
-
-
-### MUV
-link: https://jcheminf.springeropen.com/articles/10.1186/1758-2946-5-26
-
-Class | MUV-466 | MUV-548 | MUV-600 | MUV-644 | MUV-652 | MUV-689 | MUV-692 | MUV-712 | MUV-713 | MUV-733 | MUV-737 | MUV-810 | MUV-832 | MUV-846 | MUV-852 | MUV-858 | MUV-859
---- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-Inactive | 14999 | 15000 | 14999 | 14997 | 15000 | 14993 | 15000 | 14994 | 14990 | 14993 | 14996 | 14998 | 15000 | 14988 | 14991 | 15000 | 14999 |
-Active | 30 | 30 | 30 | 30 | 30 | 30 | 30 | 30 | 30 | 30 | 30 | 30 | 30 | 30 | 30 | 30 | 30
-
-#### After RDKit featurization
-Class | MUV-466 | MUV-548 | MUV-600 | MUV-644 | MUV-652 | MUV-689 | MUV-692 | MUV-712 | MUV-713 | MUV-733 | MUV-737 | MUV-810 | MUV-832 | MUV-846 | MUV-852 | MUV-858 | MUV-859
---- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-Inactive | 14999 | 15000 | 14999 | 14997 | 15000 | 14993 | 15000 | 14994 | 14990 | 14993 | 14996 | 14998 | 15000 | 14988 | 14991 | 15000 | 14999 |
-Active | 30    | 30    | 30    | 30    | 30    | 30    | 30    | 30    | 30    | 30    | 30    | 30    | 30    | 30    | 30    | 30    | 30    |
-
-
-
-### HIV
-link: http://moleculenet.ai/datasets-1/
-
-Class | Activity
---- | ---
-Inactive | 39684
-Active | 1443
-
-#### After RDKit featurization
-Class | Activity
---- | ---
-Inactive | 39604
-Active | 1441
-
-### BACE
-link: http://moleculenet.ai/datasets-1/
-
-Set | Class | Activity
---- | --- | ---
-Train | Inactive | 103
-Train | Active | 145
-Test | Inactive | 719
-Test | Active | 546
-
-#### After RDKit featurization
-Set | Class | Activity
---- | --- | ---
-Train | Inactive | 103
-Train | Active | 145
-Test | Inactive | 719
-Test | Active | 546
+[BACE](,,/blob/master/etc/preprocessed/experiments_bace_results.md)
 
 ## Install <a name="install"></a>
 - Linux
 - Python 3.6+ (Python 2.7 unstable)
 - source env.sh
-- pip install git+git://github.com/DentonJC/virtual_screening
+- It is better to use Theano backend.
 ### with Conda <a name="conda"></a>
+- sh setup.sh
+
+  or
 - Conda (https://www.anaconda.com/download/#linux)
 - conda install --file requirements
 - conda install -c conda-forge xgboost
@@ -121,6 +66,9 @@ Test | Active | 546
 - Python2: pip install ConfigParser
 - pip install argparse
 ### with Pip <a name="pip"></a>
+- pip install git+git://github.com/DentonJC/virtual_screening
+
+  or
 - Packages from requirements
 - pip install xgboost
 - RDKit (https://github.com/rdkit/rdkit)
@@ -130,50 +78,58 @@ Test | Active | 546
 - pip install argparse
 
 ## Usage <a name="usage"></a>
-    usage: logreg.py data section [-h]
-                          [--features {all,a,fingerprint,f,physical,p}]
-                          [--output OUTPUT] [--configs CONFIGS]
-                          [--fingerprint FINGERPRINT] [--n_bits N_BITS]
-                          [--n_iter N_ITER] [--n_jobs N_JOBS]
-                          [--patience PATIENCE] [--gridsearch GRIDSEARCH]
-                          [--dummy DUMMY] [--targets TARGETS]
-                          [--experiments_file EXPERIMENTS_FILE]
-                          select_model [select_model ...] data [data ...]
-                          section [section ...]
-
-    positional arguments:
-    select_model          name of the model, select from list in README
-    data                  path to dataset
-    section               name of section in config file
+    usage: model data section [-h] [--select_model SELECT_MODEL]
+                      [--data_config DATA_CONFIG] [--section SECTION]
+                      [--load_model LOAD_MODEL]
+                      [--descriptors DESCRIPTORS] [--output OUTPUT]
+                      [--model_config MODEL_CONFIG] [--n_bits N_BITS]
+                      [--n_cv N_CV] [--n_iter N_ITER] [--n_jobs N_JOBS]
+                      [--patience PATIENCE] [--gridsearch]
+                      [--metric {accuracy,roc_auc,f1,matthews}]
+                      [--split_type {stratified,scaffold,random,cluster}]
+                      [--split_size SPLIT_SIZE] [--targets TARGETS]
+                      [--experiments_file EXPERIMENTS_FILE]
 
     optional arguments:
     -h, --help            show this help message and exit
-    --features {all,a,fingerprint,f,physical,p}
-                    take features: all, fingerptint or physical
+    --select_model SELECT_MODEL
+                    name of the model, select from list in README
+    --data_config DATA_CONFIG
+                    path to dataset config file
+    --section SECTION     name of section in model config file
+    --load_model LOAD_MODEL
+                    path to model .sav
+    --descriptors DESCRIPTORS
+                    descriptor of molecules
     --output OUTPUT       path to output directory
-    --configs CONFIGS     path to config file
-    --fingerprint FINGERPRINT
-                    maccs (167) or morgan (n)
+    --model_config MODEL_CONFIG
+                    path to config file
     --n_bits N_BITS       number of bits in Morgan fingerprint
+    --n_cv N_CV           number of splits in RandomizedSearchCV
     --n_iter N_ITER       number of iterations in RandomizedSearchCV
     --n_jobs N_JOBS       number of jobs
     --patience PATIENCE, -p PATIENCE
                     patience of fit
-    --gridsearch GRIDSEARCH, -g GRIDSEARCH
-                    use gridsearch
-    --dummy DUMMY, -d DUMMY
-                    use only first 1000 rows of dataset
+    --gridsearch, -g      use gridsearch
+    --metric {accuracy,roc_auc,f1,matthews}
+                    metric for RandomizedSearchCV
+    --split_type {stratified,scaffold,random,cluster}
+                    type of train-test split
+    --split_size SPLIT_SIZE     size of test and valid splits
     --targets TARGETS, -t TARGETS
                     set number of target column
     --experiments_file EXPERIMENTS_FILE, -e EXPERIMENTS_FILE
                     where to write results of experiments
 
-## Dataset <a name="dataset"></a>
-A csv format file is required, in which one of the headers will be "smiles", and the rest - the names of the experiments(targets). The column "mol_id" will be dropped if exist. After processing, the names of the targets are saved, and instead of the "smiles", columns of fingerprints 'f' and physical representations 'p' are added.
-<b>Attention:</b> Please, add '\_train', '\_test' and '\_val' to the end of files if you want to run the experiment table. This is not a bug, it is a feature.
+## Processing the experiment table  <a name="table"></a>
+  1. Fill in the table with experiments parameters (examples in /etc, False = empty cell), UTF-8
+  2. Run run.py with Python, seriously
+  3. Experiments will be performed one by one and fill in the columns with the results
+
+## Single experiment
 
 ## Example input <a name="input"></a>
-python moloi/moloi.py --model_config '/data/model_configs/configs.ini' --descriptors ['rdkit', 'morgan','mordred', 'maccs'] --n_bits 2048 --n_cv 5 -p 100 -g --n_iter 300 --metric 'roc_auc' --split_type 'scaffold' --split_s 0.1 --select_model 'rf' --data_config '/data/data_configs/bace.ini' --section 'RF' -e 'etc/experiments_bace.csv' -t 0
+    python moloi/moloi.py --model_config '/data/model_configs/configs.ini' --descriptors ['rdkit', 'morgan','mordred', 'maccs'] --n_bits 2048 --n_cv 5 -p 100 -g --n_iter 300 --metric 'roc_auc' --split_type 'scaffold' --split_s 0.1 --select_model 'rf' --data_config '/data/data_configs/bace.ini' --section 'RF' -e 'etc/experiments_bace.csv' -t 0
 
 ## Example output <a name="output"></a>
 
@@ -203,11 +159,6 @@ Creating report <br />
 Report complete, you can see it in the results folder <br />
 Results path: /tmp/2018-05-27_15:45:04_RF_['rdkit','morgan','mordred','maccs']70.395/ <br />
 Done <br />
-
-## Processing the experiment table  <a name="table"></a>
-  1. Fill in the table with experiments parameters (examples in /etc, False = empty cell), UTF-8
-  2. Run run.py with Python, seriously
-  3. Experiments will be performed one by one and fill in the columns with the results
 
 ## Citation <a name="citation"></a>
 - Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.
