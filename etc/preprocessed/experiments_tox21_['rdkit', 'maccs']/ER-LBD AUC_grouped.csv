@@ -1,4 +1,0 @@
-Model,n_bits,ER-LBD AUC,error
-rf,32,0.7595,0.0
-lr,32,0.7234,0.0
-knn,32,0.6578,0.0

@@ -1,3 +1,0 @@
-Model,n_bits,p53 AUC,error
-rf,32,0.7942,0.0
-lr,32,0.7997,0.0

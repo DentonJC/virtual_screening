@@ -140,7 +140,7 @@ def label_barh(root_address, fullname, path, FILENAME, split, split_s, text_form
         ax.text(text_x, text_y, text, va='center', color='#FFFFFF', size=7)   
     plt.xlim(lims)
     #print()
-    plt.savefig(root_address+"/etc/preprocessed/experiments_"+FILENAME+'_'+split+'_'+str(split_s)+'_'+descript+'_'+cols[0]+'.png', dpi=600)
+    plt.savefig(root_address+"/etc/preprocessed/experiments_"+FILENAME+'_'+split+'_'+str(split_s)+'_'+descript.replace('[','').replace(']','').replace('\'','')+'_'+cols[0]+'.png', dpi=600)
     plt.close()
     #plt.show()
 

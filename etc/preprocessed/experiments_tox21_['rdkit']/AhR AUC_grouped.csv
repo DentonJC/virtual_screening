@@ -1,3 +1,0 @@
-Model,n_bits,AhR AUC,error
-rf,32,0.8725,0.0
-lr,32,0.8778,0.0

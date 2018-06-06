@@ -1,4 +1,0 @@
-Model,n_bits,HSE balanced,error
-rf,32,0.5476,0.0
-lr,32,0.568,0.0
-knn,32,0.5697,0.0

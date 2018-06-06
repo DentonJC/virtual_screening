@@ -1,4 +1,0 @@
-Model,n_bits,Aromatase AUC,error
-rf,32,0.7536,0.0
-lr,32,0.7661,0.0
-knn,32,0.6547,0.0

@@ -1,3 +1,0 @@
-Model,n_bits,MMP AUC,error
-rf,32,0.844,0.0
-lr,32,0.8921,0.0

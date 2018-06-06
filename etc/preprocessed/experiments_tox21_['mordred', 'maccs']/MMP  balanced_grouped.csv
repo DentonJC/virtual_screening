@@ -1,3 +1,0 @@
-Model,n_bits,MMP  balanced,error
-rf,32,0.5077,0.0
-lr,32,0.7361,0.0

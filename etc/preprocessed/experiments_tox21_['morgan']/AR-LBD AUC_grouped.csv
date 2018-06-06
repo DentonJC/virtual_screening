@@ -1,4 +1,0 @@
-Model,n_bits,AR-LBD AUC,error
-rf,32,0.5911,0.0
-lr,32,0.5124,0.0
-knn,32,0.4885,0.0

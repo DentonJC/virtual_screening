@@ -1,3 +1,0 @@
-Model,n_bits,HSE AUC val,error
-rf,32,0.7306,0.0
-lr,32,0.7172,0.0

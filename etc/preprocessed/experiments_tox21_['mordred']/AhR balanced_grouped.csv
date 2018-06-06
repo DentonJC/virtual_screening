@@ -1,4 +1,0 @@
-Model,n_bits,AhR balanced,error
-rf,32,0.59095,0.0
-lr,32,0.7088,0.0
-knn,32,0.6273,0.0

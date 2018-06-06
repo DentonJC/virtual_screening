@@ -1,4 +1,0 @@
-Model,n_bits,ATAD5 AUC,error
-rf,32,0.7627,0.0
-lr,32,0.7678,0.0
-knn,32,0.6452,0.0

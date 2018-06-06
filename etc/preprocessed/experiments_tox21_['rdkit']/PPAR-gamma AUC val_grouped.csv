@@ -1,3 +1,0 @@
-Model,n_bits,PPAR-gamma AUC val,error
-rf,32,0.7958,0.0
-lr,32,0.7034,0.0

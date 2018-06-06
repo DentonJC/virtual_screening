@@ -1,4 +1,0 @@
-Model,n_bits,ER AUC,error
-rf,32,0.7562,0.0
-lr,32,0.7962,0.0
-knn,32,0.71,0.0

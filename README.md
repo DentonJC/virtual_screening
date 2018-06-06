@@ -36,16 +36,16 @@ Splits:
 3. [Usage](#usage)
 4. [Input](#input)
 5. [Output](#output)
-6. [Datasets](../blob/master/data/README.md)
-7. [Data config](../blob/master/data/data_configs/README.md)
-8. [Model config](../blob/master/data/model_configs/README.md)
-9. [Single experiment](../blob/master/moloi/bin/README.md)
-10. [Experiments table](../blob/master/etc/README.md)
-10. [Utilities](../blob/master/utils/README.md)
+6. [Datasets](../master/data/README.md)
+7. [Data config](../master/data/data_configs/README.md)
+8. [Model config](../master/data/model_configs/README.md)
+9. [Single experiment](../master/moloi/bin/README.md)
+10. [Experiments table](../master/etc/README.md)
+10. [Utilities](../master/utils/README.md)
 11. [Citation](#citation)
 
 ## Results <a name="results"></a>
-[BACE](,,/blob/master/etc/preprocessed/experiments_bace_results.md)
+[BACE](,,/master/etc/preprocessed/experiments_bace_results.md)
 
 ## Install <a name="install"></a>
 - Linux

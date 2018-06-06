@@ -1,4 +1,0 @@
-Model,n_bits,AR balanced,error
-rf,32,0.5,0.0
-lr,32,0.5,0.0
-knn,32,0.54275,0.0

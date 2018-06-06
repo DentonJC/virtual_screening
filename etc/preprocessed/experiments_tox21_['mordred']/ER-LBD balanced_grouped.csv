@@ -1,4 +1,0 @@
-Model,n_bits,ER-LBD balanced,error
-rf,32,0.55,0.0
-lr,32,0.5965,0.0
-knn,32,0.59125,0.0

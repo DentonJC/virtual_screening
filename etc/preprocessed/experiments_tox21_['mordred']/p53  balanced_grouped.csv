@@ -1,4 +1,0 @@
-Model,n_bits,p53  balanced,error
-rf,32,0.4991,0.0
-lr,32,0.5221,0.0
-knn,32,0.5349,0.0
