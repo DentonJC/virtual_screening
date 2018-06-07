@@ -170,12 +170,15 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
         f.close()
         ####
         # check if number of iterations more then possible combinations
-        keys = list(gparams.keys())
-        n_iter = 1
-        for k in keys:
-            n_iter *= len(gparams[k])
-        if options.n_iter > n_iter:
-            options.n_iter = n_iter
+        try:
+            keys = list(gparams.keys())
+            n_iter = 1
+            for k in keys:
+                n_iter *= len(gparams[k])
+            if options.n_iter > n_iter:
+                options.n_iter = n_iter
+        except:
+            pass
 
         sklearn_params = {'param_distributions': gparams,
                          'n_iter': options.n_iter,
@@ -184,6 +187,7 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
                          'verbose': verbose,
                          'scoring': scoring,
                          'return_train_score': True,
+                         'refit': True,
                          'random_state': random_state}
 
         keras_params = {'param_distributions': gparams,
@@ -194,8 +198,17 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
                             'scoring': scoring,
                             'random_state': random_state,
                             'return_train_score': True,
+                            'refit': True,
                             'pre_dispatch': n_cv}
-
+        
+        grid_sklearn_params = {'param_grid': gparams,
+                         'n_jobs': options.n_jobs,
+                         'cv': options.n_cv,
+                         'verbose': verbose,
+                         'scoring': scoring,
+                         'return_train_score': True,
+                         'refit': True}
+                         
         # sklearn models
         if options.select_model == "lr":
             model = RandomizedSearchCV(LogisticRegression(**rparams), **sklearn_params)
@@ -204,7 +217,10 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
         elif options.select_model == "xgb":
             model = RandomizedSearchCV(xgb.XGBClassifier(**rparams), **sklearn_params)
         elif options.select_model == "svc":
-            model = RandomizedSearchCV(SVC(**rparams, probability=True), **sklearn_params)
+            if type(gparams) == list:
+                model = GridSearchCV(SVC(**rparams, probability=True), **grid_sklearn_params)
+            else:
+                model = RandomizedSearchCV(SVC(**rparams, probability=True), **sklearn_params)
         elif options.select_model == "rf":
             model = RandomizedSearchCV(RandomForestClassifier(**rparams), **sklearn_params)
         elif options.select_model == "if":

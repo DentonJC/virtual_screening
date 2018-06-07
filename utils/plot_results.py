@@ -21,6 +21,7 @@ root_address = os.path.dirname(os.path.realpath(__file__)).replace("/utils", "")
 
 grouped = {}
 cfile = pd.read_csv(root_address+"/etc/"+FILENAME+".csv")
+cfile.to_csv(root_address+"/etc/"+FILENAME+"_bkp.csv", sep=",", index=False)
 try:
     cfile = cfile[pd.notnull(cfile['Load model'])]
 except:
@@ -45,7 +46,10 @@ with open(root_address+"/etc/"+FILENAME+".csv", newline='') as csvfile:
         if row[0] == 'Model': continue
         k = row[1]
         if k not in grouped: grouped[k] = {'vals': []}
-        grouped[k]['vals'].append(row[:1]+row[2:])
+        if 'morgan' not in k and 'spectrophore' not in k:
+            grouped[k]['vals'].append(row[:1]+[" "]+row[3:])
+        else:
+            grouped[k]['vals'].append(row[:1]+row[2:])
 
 for desc in grouped:
     directory = FILENAME+'_'+desc
@@ -64,7 +68,10 @@ for desc in grouped:
             if k not in grouped2: grouped2[k] = {'vals': []}
             grouped2[k]['vals'].append(float(row[j]))
             grouped2[k]['Model'] = row[0]
-            grouped2[k]['n_bits'] = row[1]
+            if 'morgan' not in desc and 'spectrophore' not in desc:
+                grouped2[k]['n_bits'] = " "
+            else:
+                grouped2[k]['n_bits'] = row[1]
 			
         csv_file = open(root_address+"/etc/preprocessed/"+directory+"/%s_grouped.csv" % header[j], "w", newline='')
         writer = csv.writer(csv_file, delimiter=',', quotechar='"')
