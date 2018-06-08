@@ -21,7 +21,8 @@ root_address = os.path.dirname(os.path.realpath(__file__)).replace("/utils", "")
 
 grouped = {}
 cfile = pd.read_csv(root_address+"/etc/"+FILENAME+".csv")
-cfile.to_csv(root_address+"/etc/"+FILENAME+"_bkp.csv", sep=",", index=False)
+if not os.path.isfile(root_address+"/etc/"+FILENAME+"_bkp.csv"):
+    cfile.to_csv(root_address+"/etc/"+FILENAME+"_bkp.csv", sep=",", index=False)
 try:
     cfile = cfile[pd.notnull(cfile['Load model'])]
 except:
@@ -105,9 +106,10 @@ def label_barh(root_address, fullname, path, FILENAME, split, split_s, text_form
     xerr = results[cols[1]]
     
     y_pos = np.arange(len(data))
-    bar = ax.barh(y_pos, performance, align='center', xerr=xerr, error_kw=dict(elinewidth=2, color='g'))
+    bar = ax.barh(y_pos, performance, align='center', xerr=xerr, alpha=0.5, error_kw=dict(capthick=1, lw=1, capsize=3, ecolor='#000083'))
 
-    colors = ["C0", "C1", "C8", "C3", "C4", "C2", "C7"]
+    #colors = ["C0", "C1", "C8", "C3", "C4", "C2", "C7"]
+    colors = ["red", "yellow", "blue", "orange", "magenta", "green", "gray"]
 
     for i, b in enumerate(bar):
         if 'knn' in data[i]:
@@ -150,10 +152,13 @@ def label_barh(root_address, fullname, path, FILENAME, split, split_s, text_form
     plt.savefig(root_address+"/etc/preprocessed/experiments_"+FILENAME+'_'+split+'_'+str(split_s)+'_'+descript.replace('[','').replace(']','').replace('\'','')+'_'+cols[0]+'.png', dpi=600)
     plt.close()
     #plt.show()
+    return '_'+split+'_'+str(split_s)+'_'+descript.replace('[','').replace(']','').replace('\'','')+'_'+cols[0]+'.png'
 
 filenames=["maccs", "rdkit", "mordred", "rdkit_maccs", "rdkit_mordred", "morgan_maccs", "morgan_mordred", "rdkit_morgan", "morgan", "rdkit_morgan_mordred_maccs", "mordred_maccs"]
 titles=['MACCS', 'RDKit', 'Mordred', 'MACCS+RDKit', 'RDKit+Mordred', 'Morgan+MACCS', 'Morgan+Mordred', 'RDKit+Morgan', 'Morgan', 'RDKit+Morgan+Mordred+MACCS', 'Mordred+MACCS']
 
+with open(root_address+"/etc/preprocessed/"+FILENAME+'_results.md', 'w') as results:
+    results.write('## '+FILENAME+'\n')
 for i in range(len(titles)):
     try:
         print(titles[i])
@@ -165,6 +170,8 @@ for i in range(len(titles)):
             onlyfiles = [f for f in listdir(path) if isfile(join(path, f))]
         for f in onlyfiles:
             fullname = NAME + ', ' + split + " ("+str(1-2*split_s)+", "+str(split_s)+", "+str(split_s)+"), "
-            label_barh(root_address, fullname, path, NAME, split, split_s, text_format="{:4.5f}", is_inside=True, lims=lims, filename=f, title=titles[i], descript="['"+filenames[i].replace("_","','")+"']")
+            addr = label_barh(root_address, fullname, path, NAME, split, split_s, text_format="{:4.5f}", is_inside=True, lims=lims, filename=f, title=titles[i], descript="['"+filenames[i].replace("_","','")+"']")
+            with open(root_address+"/etc/preprocessed/"+FILENAME+'_results.md', 'a') as results:
+                results.write('<img src="../preprocessed/'+FILENAME+addr+'" /><br/>\n')
     except:
         print(titles[i]+" failed")

@@ -14,7 +14,7 @@ from matplotlib import pyplot
 from datetime import datetime
 from shutil import copyfile, copytree
 from sklearn.metrics import accuracy_score, recall_score, roc_auc_score, f1_score, matthews_corrcoef, make_scorer
-from moloi.report import create_report, plot_auc, plot_TSNE
+from moloi.report import create_report, plot_auc, plot_TSNE, plot_fi
 
 
 def get_latest_file(path):
@@ -128,21 +128,66 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
     except TypeError:
         pass
 
-    try:
-        pyplot.bar(range(len(model.feature_importances_)), model.feature_importances_)
+    descriptors = eval(descriptors)
+    features = []
+    for i in descriptors:
+        if i == 'rdkit':
+            features.append(list(rdkit_fetures_names()))
+        if i == 'mordred':
+            features.append(list(mordred_fetures_names()))
+        if i == 'maccs':
+            features.append(list("maccs_"+str(i) for i in range(167)))
+        if i == 'morgan':
+            features.append(list("morgan_"+str(i) for i in range(options.n_bits)))
+        if i == 'spectrophore':
+            features.append(list("spectrophore_"+str(i) for i in range(options.n_bits)))
+    features = sum(features, [])
+
+    if options.select_model in ['xgb','rf']:
         try:
-            fi = pd.DataFrame(model.feature_importances_)
-            fi.to_csv(path+"feature_importance.csv", sep=",", index=False)
+            importances = model.feature_importances_
+            indices = np.argsort(importances)
+            indices = indices[-30:]
+            
+            plot_fi(indices, importances, features, path, x_label)
+            
+            importances = np.array(importances).reshape(-1,1)
+            features = np.array(features).reshape(-1,1)
+
+            tab = np.hstack([features, importances])
+
+            fi = pd.DataFrame(tab)
+
+            fi.to_csv(path+"feature_importance.csv", sep=",", header=["feature","importance"], index=False)
         except:
             pass
-        pyplot.savefig(path+"img/feature_importance.png", dpi=500)
-    except:
-        pass
-    #for i in range(x_test.shape[1]):
-    #    x_test = replace_by_mean(x_test, i)
-    #    test_proba = model.predict_proba(x_test)
-    #    auc = roc_auc_score(y_test, test_proba)
-        
+    else:
+        try:
+            importances = []
+            X = list(x_test)
+            for i in range(x_test.shape[1]):
+                x_test = np.array(list(X[:]))
+                x = m_mean(x_test, i)
+                test_proba = model.predict_proba(x)
+                auc = roc_auc_score(y_test, test_proba[:,1])
+                importances.append(auc_test-auc)
+
+            indices = np.argsort(importances)
+            indices = indices[-30:]
+            x_label = 'AUC ROC test - AUC ROC without feature'
+            
+            plot_fi(indices, importances, features, path, x_label)
+            
+            importances = np.array(importances).reshape(-1,1)
+            features = np.array(features).reshape(-1,1)
+
+            tab = np.hstack([features, importances])
+
+            fi = pd.DataFrame(tab)
+
+            fi.to_csv(path+"feature_importance.csv", sep=",", header=["feature","importance"], index=False)
+        except:
+            pass
     
     #plot_TSNE(x_train, y_train, path)
     logger.info("Results path: %s", path)

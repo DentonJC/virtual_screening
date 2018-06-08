@@ -167,3 +167,21 @@ def plot_PCA(x, y, path, title="PCA", label_1="active", label_2="inactive", labe
     plt.clf()
     plt.cla()
     plt.close()
+    
+
+def plot_fi(indices, importances, features, path, x_label='Relative Importance'):
+    fig = plt.figure(figsize=(8, 8),dpi=500)
+    ax = fig.add_subplot(111)
+    fig.tight_layout()
+    plt.subplots_adjust(left=0.3, bottom=0.1, right=0.9, top=0.9)
+
+    plt.title('Feature Importances')
+    plt.barh(range(len(indices)), [importances[i] for i in indices], color='b', alpha=1, align='center')
+    plt.yticks(range(len(indices)), [features[i] for i in indices])
+
+    plt.xlabel(x_label)
+    plt.savefig(path+"img/feature_importance.png", dpi=500)
+    plt.clf()
+    plt.cla()
+    plt.close()
+    

@@ -14,7 +14,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier, IsolationForest 
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV, PredefinedSplit
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import MinMaxScaler, Normalizer
 from keras.wrappers.scikit_learn import KerasClassifier
 from moloi.config_processing import read_model_config, cv_splits_save, cv_splits_load
 from moloi.evaluation import evaluate, make_scoring
@@ -107,7 +107,10 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
     x_val = clean_data(x_val)
 
     # Scale
-    transformer_X = MinMaxScaler().fit(x_train)
+    if options.select_model == "svc":
+        transformer_X = MinMaxScaler(feature_range=(-1,1)).fit(x_train)
+    else:
+        transformer_X = MinMaxScaler().fit(x_train)
     x_train = transformer_X.transform(x_train)
     x_test = transformer_X.transform(x_test)
     x_val = transformer_X.transform(x_val)
@@ -224,8 +227,8 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
         elif options.select_model == "rf":
             model = RandomizedSearchCV(RandomForestClassifier(**rparams), **sklearn_params)
         elif options.select_model == "if":
-            model = RandomizedSearchCV(IsolationForest(**rparams), **sklearn_params)                                       
-        # keras models        
+            model = RandomizedSearchCV(IsolationForest(**rparams), **sklearn_params)
+        # keras models
         elif options.select_model == "regression":
             search_model = KerasClassifier(build_fn=Logreg, input_shape=input_shape, output_shape=output_shape)
             model = RandomizedSearchCV(estimator=search_model, **keras_params)
@@ -330,10 +333,11 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
     accuracy_test, accuracy_train, rec, auc, auc_val, f1, path = evaluate(logger, options, random_state, options.output, model, x_train, 
                                                                     x_test, x_val, y_val, y_train, y_test, time_start, rparams, history, 
                                                                     options.section, options.n_jobs, descriptors, grid)
-    if not options.load_model:
-        model_address = save_model(model, path, logger)
-    else:
-        model_address = options.load_model
+    # transfer learning in row
+    #if not options.load_model:
+    model_address = save_model(model, path, logger)
+    #else:
+    #model_address = options.load_model
 
     logger.info("Done")
     return accuracy_test, accuracy_train, rec, auc, auc_val, f1, rparams, model_address
