@@ -88,8 +88,8 @@ def main(experiments_file, common_gridsearch, random_state, result_cols, keys, p
     np.random.seed(random_state)
     # tf.set_random_seed(random_state)
     table = pd.read_csv(experiments_file)
-    if n_jobs > len(table.shape[0]):
-        n_jobs = len(table.shape[0]) - 1
+    if n_jobs > table.shape[0]:
+        n_jobs = table.shape[0] - 1
     Parallel(n_jobs=n_jobs, verbose=verbose)(delayed(f)(i, table, random_state, verbose, logger_flag) for (i) in range(table.shape[0]))
 
 

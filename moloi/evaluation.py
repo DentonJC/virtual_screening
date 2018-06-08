@@ -14,7 +14,11 @@ from matplotlib import pyplot
 from datetime import datetime
 from shutil import copyfile, copytree
 from sklearn.metrics import accuracy_score, recall_score, roc_auc_score, f1_score, matthews_corrcoef, make_scorer
-from moloi.report import create_report, plot_auc, plot_TSNE, plot_fi
+from moloi.report import create_report, plot_auc, plot_TSNE
+from moloi.plots import plot_fi
+from moloi.descriptors.rdkit import rdkit_fetures_names
+from moloi.descriptors.mordred import mordred_fetures_names
+from moloi.data_preprocessing import m_mean
 
 
 def get_latest_file(path):
@@ -149,7 +153,7 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
             indices = np.argsort(importances)
             indices = indices[-30:]
             
-            plot_fi(indices, importances, features, path, x_label)
+            plot_fi(indices, importances, features, path)
             
             importances = np.array(importances).reshape(-1,1)
             features = np.array(features).reshape(-1,1)
@@ -169,7 +173,11 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
                 x_test = np.array(list(X[:]))
                 x = m_mean(x_test, i)
                 test_proba = model.predict_proba(x)
-                auc = roc_auc_score(y_test, test_proba[:,1])
+                try:
+                    auc = roc_auc_score(y_test, test_proba[:,1])
+                except:
+                    auc = roc_auc_score(y_test, test_proba)
+
                 importances.append(auc_test-auc)
 
             indices = np.argsort(importances)
