@@ -124,7 +124,7 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
     if len(np.unique(y_val)) == 1:
         logger.error("Multiclass data: only one class in y_val")
         sys.exit(0)
-    if len(np.unique(y_train)) > 2 or len(np.unique(y_test)) > 2 or len(np.unique(y_val)) > 2 and "roc_auc" in options.metric:
+    if len((np.unique(y_train)) > 2 or len(np.unique(y_test)) > 2 or len(np.unique(y_val)) > 2) and "roc_auc" in options.metric:
         logger.error("Multiclass data: can not use ROC AUC metric")
         sys.exit(0)
     if y_train.shape[1] > 1 and "roc_auc" in options.metric:
