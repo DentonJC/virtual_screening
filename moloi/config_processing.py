@@ -24,6 +24,7 @@ def read_data_config(config_path, descriptors, n_bits, split_type=False, split_s
     (dataset_test, dataset_val, labels_train, labels_test, labels_val, maccs_train, maccs_test, maccs_val, morgan_train, morgan_test, morgan_val, spectrophore_train, 
     spectrophore_test, spectrophore_val, mordred_train, mordred_test, mordred_val, rdkit_train, rdkit_test, rdkit_val) = (False, False, False, False, False, False, 
     False, False, False, False, False, False, False, False, False, False, False, False, False, False)
+    external_train, external_test, external_val  = False, False, False
 
     data_config.read(config_path)
 
@@ -63,6 +64,14 @@ def read_data_config(config_path, descriptors, n_bits, split_type=False, split_s
     if data_config.has_option(section, 'labels_train'): 
         #if data_config.get(section, 'labels_train') != data_config.get('DEFAULT', 'labels_train'): # and split_type != 'DEFAULT':
         labels_train = data_config.get(section, 'labels_train')
+    
+    if data_config.has_option(section, 'external_train'): 
+        external_train = data_config.get(section, 'external_train')
+    if data_config.has_option(section, 'external_test'): 
+        external_test = data_config.get(section, 'external_test')
+    if data_config.has_option(section, 'external_val'): 
+        external_val = data_config.get(section, 'external_val')
+
     if data_config.has_option(section, 'labels_test'): labels_test = data_config.get(section, 'labels_test')
     if data_config.has_option(section, 'labels_val'): labels_val = data_config.get(section, 'labels_val')
     if data_config.has_option(section, 'maccs_train'): 
@@ -98,7 +107,7 @@ def read_data_config(config_path, descriptors, n_bits, split_type=False, split_s
     if data_config.has_option(section, 'rdkit_test'): rdkit_test = data_config.get(section, 'rdkit_test')
     if data_config.has_option(section, 'rdkit_val'): rdkit_val = data_config.get(section, 'rdkit_val')
 
-    return dataset_train, dataset_test, dataset_val, labels_train, labels_test, labels_val, maccs_train, maccs_test, maccs_val, morgan_train, morgan_test, morgan_val, spectrophore_train, spectrophore_test, spectrophore_val, mordred_train, mordred_test, mordred_val, rdkit_train, rdkit_test, rdkit_val
+    return dataset_train, dataset_test, dataset_val, labels_train, labels_test, labels_val, maccs_train, maccs_test, maccs_val, morgan_train, morgan_test, morgan_val, spectrophore_train, spectrophore_test, spectrophore_val, mordred_train, mordred_test, mordred_val, rdkit_train, rdkit_test, rdkit_val, external_train, external_test, external_val
 
 
 def cv_splits_load(split_type, split_size, data_config, targets):

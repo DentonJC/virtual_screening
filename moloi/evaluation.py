@@ -18,7 +18,7 @@ from moloi.report import create_report, plot_auc, plot_TSNE
 from moloi.plots import plot_fi
 from moloi.descriptors.rdkit import rdkit_fetures_names
 from moloi.descriptors.mordred import mordred_fetures_names
-from moloi.data_preprocessing import m_mean
+from moloi.data_processing import m_mean
 
 
 def get_latest_file(path):

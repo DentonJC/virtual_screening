@@ -32,6 +32,7 @@ def featurization(logger, filename, n_bits, path, data_config, verbose, descript
     smiles = data["smiles"]
     
     mordred_features, rdkit_features, maccs_fingerprints, morgan_fingerprints, spectrophore_fingerprints = False, False, False, False, False
+    labels_address, mordred_address, rdkit_address, maccs_address, morgan_address, spectrophore_address, external_address = False, False, False, False, False, False, False
     config = ConfigParser.ConfigParser()
     config.read(data_config)
     head, _sep, tail = filename.rpartition('/')
@@ -144,7 +145,14 @@ def featurization(logger, filename, n_bits, path, data_config, verbose, descript
             spectrophore_fingerprints.to_csv((spectrophore_address+".gz").replace('.gz.gz', '.gz'), compression="gzip", sep=",", index=False)
             logger.info("spectrophore_fingerprints shape: %s", str(np.array(spectrophore_fingerprints).shape))
 
-    # Filling config
+    filling_config(path, data_config, filename, descriptors, n_bits, split_type, split_size, labels_address, mordred_address, rdkit_address, maccs_address, morgan_address, spectrophore_address, external_address)
+    
+    return labels, mordred_features, rdkit_features, maccs_fingerprints, morgan_fingerprints, spectrophore_fingerprints
+    
+    
+def filling_config(path, data_config, filename, descriptors, n_bits, split_type, split_size, labels_address, mordred_address=False, rdkit_address=False, maccs_address=False, morgan_address=False, spectrophore_address=False, external_address=False):
+    config = ConfigParser.ConfigParser()
+    config.read(data_config)
     head, _sep, tail = filename.rpartition('/')
     name = tail.replace(".csv", "")
     
@@ -165,63 +173,65 @@ def featurization(logger, filename, n_bits, path, data_config, verbose, descript
     config[section]["labels_" + str(name)] = str(labels_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
     for i in ['mordred']:
         if i in descriptors:
-            try:
-                config[section]["mordred_" + str(name)] = str(mordred_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
-            except:
-                config.read(data_config)
-                config[section]["mordred_" + str(name)] = str(mordred_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
+            if mordred_address:
+                try:
+                    config[section]["mordred_" + str(name)] = str(mordred_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
+                except:
+                    config.read(data_config)
+                    config[section]["mordred_" + str(name)] = str(mordred_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
         
     for i in ['rdkit']:
         if i in descriptors:
-            try:
-                config[section]["rdkit_" + str(name)] = str(rdkit_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
-            except:
-                config.read(data_config)
-                config[section]["rdkit_" + str(name)] = str(rdkit_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
+            if rdkit_address:
+                try:
+                    config[section]["rdkit_" + str(name)] = str(rdkit_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
+                except:
+                    config.read(data_config)
+                    config[section]["rdkit_" + str(name)] = str(rdkit_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
      
     for i in ['MACCS', 'maccs', 'Maccs', 'maccs (167)']:
         if i in descriptors:
-            try:
-                config[section]["maccs_" + str(name)] = str(maccs_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
-            except:
-                config.read(data_config)
-                config[section]["maccs_" + str(name)] = str(maccs_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
+            if maccs_address:
+                try:
+                    config[section]["maccs_" + str(name)] = str(maccs_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
+                except:
+                    config.read(data_config)
+                    config[section]["maccs_" + str(name)] = str(maccs_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
 
     for i in ['MORGAN', 'Morgan', 'morgan', 'morgan (n)', 'ECFP']:
         if i in descriptors:
-            try:
-                config[section]["morgan_" + str(n_bits) + '_' + str(name)] = str(morgan_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
-            except:
-                config.read(data_config)
-                config[section]["fmorgan_" + str(n_bits) + '_' + str(name)] = str(morgan_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
+            if morgan_address:
+                try:
+                    config[section]["morgan_" + str(n_bits) + '_' + str(name)] = str(morgan_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
+                except:
+                    config.read(data_config)
+                    config[section]["fmorgan_" + str(n_bits) + '_' + str(name)] = str(morgan_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
 
     for i in ['spectrophore']:
         if i in descriptors:
-            try:
-                config[section]["spectrophore_" + str(n_bits) + '_' + str(name)] = str(spectrophore_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
-            except:
-                config.read(data_config)
-                config[section]["spectrophore_" + str(n_bits) + '_' + str(name)] = str(spectrophore_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
+            if spectrophore_address:
+                try:
+                    config[section]["spectrophore_" + str(n_bits) + '_' + str(name)] = str(spectrophore_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
+                except:
+                    config.read(data_config)
+                    config[section]["spectrophore_" + str(n_bits) + '_' + str(name)] = str(spectrophore_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
+                    
+    for i in ['external']:
+        if i in descriptors:
+            if external_address:
+                try:
+                    config[section]["external_" + str(name)] = str(external_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
+                except:
+                    config.read(data_config)
+                    config[section]["external_" + str(name)] = str(external_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
 
     with open(data_config, 'w') as configfile:
         config.write(configfile)
 
-    return labels, mordred_features, rdkit_features, maccs_fingerprints, morgan_fingerprints, spectrophore_fingerprints
-
     
-def compile_data(labels, mordred_features, rdkit_features, maccs_fingerprints, morgan_fingerprints, spectrophore_fingerprints, set_targets):
+def compile_data(labels, mordred_features, rdkit_features, maccs_fingerprints, morgan_fingerprints, spectrophore_fingerprints, external, set_targets):
     labels = np.array(labels)
     x = False
-    if mordred_features is not False:
-        if x is not False:
-            x = np.c_[x, np.array(mordred_features)]
-        else:
-            x = np.array(mordred_features)
-    if rdkit_features is not False:
-        if x is not False:
-            x = np.c_[x, np.array(rdkit_features)]
-        else:
-            x = np.array(rdkit_features)
     if maccs_fingerprints is not False:
         if x is not False:
             x = np.c_[x, np.array(maccs_fingerprints)]
@@ -237,6 +247,21 @@ def compile_data(labels, mordred_features, rdkit_features, maccs_fingerprints, m
             x = np.c_[x, np.array(spectrophore_fingerprints)]
         else:
             x = np.array(spectrophore_fingerprints)
+    if mordred_features is not False:
+        if x is not False:
+            x = np.c_[x, np.array(mordred_features)]
+        else:
+            x = np.array(mordred_features)
+    if rdkit_features is not False:
+        if x is not False:
+            x = np.c_[x, np.array(rdkit_features)]
+        else:
+            x = np.array(rdkit_features)
+    if external is not False:
+        if x is not False:
+            x = np.c_[x, np.array(external)]
+        else:
+            x = np.array(external)
     if set_targets:
         y = labels[:, set_targets].reshape(labels.shape[0], len(set_targets))
     return x, y
@@ -297,9 +322,37 @@ def clean_data(x, mode="zero"):
                 x[j][i] = 0
 
     return x
+    
+
+def split_x(x, n_bits, descriptors):
+    maccs, morgan, mordred, rdkit, spectrophore, external = False, False, False, False, False, False
+    if 'maccs' in descriptors:
+        maccs = x[:167]
+        x = x[167:]
+    
+    if 'morgan' in descriptors:
+        morgan = x[:n_bits]
+        x = x[n_bits:]
+    
+    if 'spectrophore' in descriptors:
+        spectrophore = x[:n_bits]
+        x = x[n_bits:]
+    
+    if 'mordred' in descriptors:
+        mordred = x[:len(mordred_fetures_names())]
+        x = x[len(mordred_fetures_names()):]
+    
+    if 'rdkit' in descriptors:
+        rdkit = x[:len(rdkit_fetures_names())]
+        x = x[len(rdkit_fetures_names()):]
+            
+    if 'external' in descriptors:
+        external = x
+    
+    return maccs, morgan, mordred, rdkit, spectrophore, external
 
 
-def load_data(logger, path, filename, labels_addr, maccs_addr, morgan_addr, spectrophore_addr, mordred_addr, rdkit_addr, set_targets, n_bits, data_config, verbose, descriptors, n_jobs, split_type, split_size, do_featurization=True):
+def load_data(logger, path, filename, labels_addr, maccs_addr, morgan_addr, spectrophore_addr, mordred_addr, rdkit_addr, external_addr, set_targets, n_bits, data_config, verbose, descriptors, n_jobs, split_type, split_size, do_featurization=True):
     x, y, smiles, labels, full_smiles = [], [], [], [], []
     t_descriptors = descriptors[:]
     t_descriptors.append('labels')
@@ -317,7 +370,10 @@ def load_data(logger, path, filename, labels_addr, maccs_addr, morgan_addr, spec
             t_descriptors.remove('maccs')
     
     if 'morgan' in t_descriptors:
+        print("In descr")
+        print(morgan_addr)
         if morgan_addr and os.path.isfile(path + morgan_addr):
+            print("file exist")
             morgan = pd.read_csv(path + morgan_addr, header=0)
             logger.info("morgan loaded from config")
             t_descriptors.remove('morgan')
@@ -339,6 +395,15 @@ def load_data(logger, path, filename, labels_addr, maccs_addr, morgan_addr, spec
             rdkit = pd.read_csv(path + rdkit_addr, header=0)
             logger.info("rdkit loaded from config")
             t_descriptors.remove('rdkit')
+            
+    if 'external' in t_descriptors:
+        if external_addr and os.path.isfile(path + external_addr):
+            external = pd.read_csv(path + external_addr, header=0)
+            logger.info("external loaded from config")
+            t_descriptors.remove('external')
+        else:
+            logger.error("Can not found external dataset")
+            #sys.exit(0)
 
     if filename and len(t_descriptors) == 0:
         logger.info("Data loaded from config")
@@ -350,9 +415,9 @@ def load_data(logger, path, filename, labels_addr, maccs_addr, morgan_addr, spec
                 t_labels, t_mordred, t_rdkit, t_maccs, t_morgan, t_spectrophore = [], [], [], [], [], []
             if labels is False:
                 labels = t_labels
-            if mordred is False:
+            if mordred is False and 'mordred' in descriptors:
                 mordred = t_mordred
-            if rdkit is False:
+            if rdkit is False and 'rdkit' in descriptors:
                 rdkit = t_rdkit
             if maccs is False:
                 maccs = t_maccs
@@ -389,7 +454,9 @@ def load_data(logger, path, filename, labels_addr, maccs_addr, morgan_addr, spec
                 spectrophore = spectrophore.drop("smiles", 1)
 
         full_smiles = pd.DataFrame(smiles)
-        x, y = compile_data(labels, mordred, rdkit, maccs, morgan, spectrophore, set_targets)
+        x, y = compile_data(labels, mordred, rdkit, maccs, morgan, spectrophore, external, set_targets)
+        print(x.shape)
+        print(y.shape)
         smiles = np.array(smiles)
         table = np.c_[x, y]
         table = np.c_[table, smiles]
@@ -440,6 +507,8 @@ def split(split_type, x_train, y_train, smiles_train, labels_train, smiles_train
         print("Wrong split type")
         sys.exit(0)
 
+    x_train = np.array(x_train)
+    smiles_train = np.array(smiles_train)
     x_test = x_train[test]
     y_test = y_train[test]
     x_train = x_train[train]
@@ -451,6 +520,21 @@ def split(split_type, x_train, y_train, smiles_train, labels_train, smiles_train
     smiles_test_full = smiles_train_full.iloc[test]
     smiles_train_full = smiles_train_full.iloc[train]
     return x_test, y_test, x_train, y_train, smiles_test, smiles_train, labels_test, labels_train, smiles_test_full, smiles_train_full
+    
+
+def save_files(train, test, val, train_addr, test_addr, val_addr):
+    train = pd.DataFrame(train)
+    test = pd.DataFrame(test)
+    val = pd.DataFrame(val)
+    train.to_csv(train_addr, compression="gzip", sep=",", index=False)
+    test.to_csv(test_addr, compression="gzip", sep=",", index=False)
+    val.to_csv(val_addr, compression="gzip", sep=",", index=False)
+    
+def create_addr(path, filename, part, descr):
+    address = filename.replace(".csv", "_" + part + "_" + descr + ".csv").replace("_train_train","_train").replace("_test_test","_test").replace("_val_val","_val")
+    head, _sep, tail = address.rpartition('/')
+    address = path + "/data/preprocessed/"+descr+"/" + tail
+    return address
 
 
 def get_data(logger, data_config, n_bits, set_targets, random_state, split_type, split_size, verbose, descriptors, n_jobs):
@@ -458,18 +542,18 @@ def get_data(logger, data_config, n_bits, set_targets, random_state, split_type,
     #    n_bits = 167 # constant for maccs fingerprint
     
     path = os.path.dirname(os.path.realpath(__file__)).replace("/moloi", "")
-    dirs = ["/data/", "/data/preprocessed/", "/data/preprocessed/labels", "/data/preprocessed/morgan", "/data/preprocessed/maccs", "/data/preprocessed/spectrophore", "/data/preprocessed/rdkit", "/data/preprocessed/mordred"]
+    dirs = ["/data/", "/data/preprocessed/", "/data/preprocessed/labels", "/data/preprocessed/external", "/data/preprocessed/morgan", "/data/preprocessed/maccs", "/data/preprocessed/spectrophore", "/data/preprocessed/rdkit", "/data/preprocessed/mordred"]
     for d in dirs:
         if not os.path.exists(path+d):
             os.makedirs(path+d)
-    filename_train, filename_test, filename_val, labels_train, labels_test, labels_val, maccs_train, maccs_test, maccs_val, morgan_train, morgan_test, morgan_val, spectrophore_train, spectrophore_test, spectrophore_val, mordred_train, mordred_test, mordred_val, rdkit_train, rdkit_test, rdkit_val = read_data_config(data_config, descriptors, n_bits, split_type, split_size)
+    filename_train, filename_test, filename_val, labels_train, labels_test, labels_val, maccs_train, maccs_test, maccs_val, morgan_train, morgan_test, morgan_val, spectrophore_train, spectrophore_test, spectrophore_val, mordred_train, mordred_test, mordred_val, rdkit_train, rdkit_test, rdkit_val, external_train, external_test, external_val = read_data_config(data_config, descriptors, n_bits, split_type, split_size)
 
     logger.info("Load train data")
-    x_train, y_train, smiles_train, labels_train, smiles_train_full = load_data(logger, path, filename_train, labels_train, maccs_train, morgan_train, spectrophore_train, mordred_train, rdkit_train, set_targets, n_bits, data_config, verbose, descriptors, n_jobs, split_type, split_size)
+    x_train, y_train, smiles_train, labels_train, smiles_train_full = load_data(logger, path, filename_train, labels_train, maccs_train, morgan_train, spectrophore_train, mordred_train, rdkit_train, external_train, set_targets, n_bits, data_config, verbose, descriptors, n_jobs, split_type, split_size)
     logger.info("Load test data")
-    x_test, y_test, smiles_test, labels_test, smiles_test_full = load_data(logger, path, filename_test, labels_test, maccs_test, morgan_test, spectrophore_test, mordred_test, rdkit_test, set_targets, n_bits, data_config, verbose, descriptors, n_jobs, split_type, split_size)
+    x_test, y_test, smiles_test, labels_test, smiles_test_full = load_data(logger, path, filename_test, labels_test, maccs_test, morgan_test, spectrophore_test, mordred_test, rdkit_test, external_test, set_targets, n_bits, data_config, verbose, descriptors, n_jobs, split_type, split_size)
     logger.info("Load val data")
-    x_val, y_val, smiles_val, labels_val, smiles_val_full = load_data(logger, path, filename_val, labels_val, maccs_val, morgan_val, spectrophore_val, mordred_val, rdkit_val, set_targets, n_bits, data_config, verbose, descriptors, n_jobs, split_type, split_size)
+    x_val, y_val, smiles_val, labels_val, smiles_val_full = load_data(logger, path, filename_val, labels_val, maccs_val, morgan_val, spectrophore_val, mordred_val, rdkit_val, external_val, set_targets, n_bits, data_config, verbose, descriptors, n_jobs, split_type, split_size)
 
     logger.info("Loaded from config")
     logger.info("x_train shape: %s", str(np.array(x_train).shape))
@@ -511,6 +595,77 @@ def get_data(logger, data_config, n_bits, set_targets, random_state, split_type,
             sys.exit(0)
 
     if split_type:
+        maccs_train, morgan_train, mordred_train, rdkit_train, spectrophore_train, external_train = split_x(x_train, n_bits, descriptors)
+        maccs_test, morgan_test, mordred_test, rdkit_test, spectrophore_test, external_test = split_x(x_test, n_bits, descriptors)
+        maccs_val, morgan_val, mordred_val, rdkit_val, spectrophore_val, external_val = split_x(x_val, n_bits, descriptors)
+        labels_address, mordred_address, rdkit_address, maccs_address, morgan_address, spectrophore_address, external_address = False, False, False, False, False, False, False
+        
+        labels_train_address = create_addr(path, filename_train, "train", "labels")
+        labels_test_address = create_addr(path, filename_train, "test", "labels")
+        labels_val_address = create_addr(path, filename_train, "val", "labels")
+
+        if maccs_train is not False:
+            maccs_train_address = create_addr(path, filename_train, "train", "maccs")
+            maccs_test_address = create_addr(path, filename_train, "test", "maccs")
+            maccs_val_address = create_addr(path, filename_train, "val", "maccs")
+            save_files(maccs_train, maccs_test, maccs_val, maccs_train_address, maccs_test_address, maccs_val_address)
+        else:
+            maccs_train_address = False
+            maccs_test_address = False
+            maccs_val_address = False
+        if morgan_train is not False:
+            morgan_train_address = create_addr(path, filename_train, "train", "morgan")
+            morgan_test_address = create_addr(path, filename_train, "test", "morgan")
+            morgan_val_address = create_addr(path, filename_train, "val", "morgan")
+            save_files(morgan_train, morgan_test, morgan_val, morgan_train_address.replace("_morgan","_morgan_"+str(n_bits)), morgan_test_address.replace("_morgan","_morgan_"+str(n_bits)), morgan_val_address.replace("_morgan","_morgan_"+str(n_bits)))
+        else:
+            morgan_train_address = False
+            morgan_test_address = False
+            morgan_val_address = False
+        if mordred_train is not False:
+            mordred_train_address = create_addr(path, filename_train, "train", "mordred")
+            mordred_test_address = create_addr(path, filename_train, "test", "mordred")
+            mordred_val_address = create_addr(path, filename_train, "val", "mordred")
+            save_files(mordred_train, mordred_test, mordred_val, mordred_train_address, mordred_test_address, mordred_val_address)
+        else:
+            mordred_train_address = False
+            mordred_test_address = False
+            mordred_val_address = False
+        if rdkit_train is not False:
+            rdkit_train_address = create_addr(path, filename_train, "train", "rdkit")
+            rdkit_test_address = create_addr(path, filename_train, "test", "rdkit")
+            rdkit_val_address = create_addr(path, filename_train, "val", "rdkit")
+            save_files(rdkit_train, rdkit_test, rdkit_val, rdkit_train_address, rdkit_test_address, rdkit_val_address)
+        else:
+            rdkit_train_address = False
+            rdkit_test_address = False
+            rdkit_val_address = False
+        if spectrophore_train is not False:
+            spectrophore_train_address = create_addr(path, filename_train, "train", "spectrophore")
+            spectrophore_test_address = create_addr(path, filename_train, "test", "spectrophore")
+            spectrophore_val_address = create_addr(path, filename_train, "val", "spectrophore")
+            save_files(spectrophore_train, spectrophore_test, spectrophore_val, spectrophore_train_address, spectrophore_test_address, spectrophore_val_address)
+        else:
+            spectrophore_train_address = False
+            spectrophore_test_address = False
+            spectrophore_val_address = False
+        if external_train is not False:
+            external_val_address = create_addr(path, filename_train, "val", "external")
+            external_train_address = create_addr(path, filename_train, "train", "external")
+            external_test_address = create_addr(path, filename_train, "test", "external")
+            save_files(external_train, external_test, external_val, external_train_address+'.gz', external_test_address+'.gz', external_val_address+'.gz')
+        else:
+            external_val_address = False
+            external_train_address = False
+            external_test_address = False
+
+        with open(data_config, "a") as ini:
+            ini.write('[' + split_type +" "+str(split_size)+ ']')
+        filling_config(path, data_config, "_train", descriptors, n_bits, split_type, split_size, labels_train_address, mordred_train_address, rdkit_train_address, maccs_train_address, morgan_train_address, spectrophore_train_address, external_train_address)
+        filling_config(path, data_config, "_test", descriptors, n_bits, split_type, split_size, labels_test_address, mordred_test_address, rdkit_test_address, maccs_test_address, morgan_test_address, spectrophore_test_address, external_test_address)
+        filling_config(path, data_config, "_val", descriptors, n_bits, split_type, split_size, labels_val_address, mordred_val_address, rdkit_val_address, maccs_val_address, morgan_val_address, spectrophore_val_address, external_val_address)
+        
+        
         names = ["smiles"] + ["label"]*labels_train.shape[1]       
         train = pd.DataFrame(np.c_[smiles_train_full, labels_train], columns=names)
         test = pd.DataFrame(np.c_[smiles_test_full, labels_test], columns=names)
@@ -542,6 +697,8 @@ def get_data(logger, data_config, n_bits, set_targets, random_state, split_type,
     y_test = np.asarray(y_test, dtype=int)
     y_val = np.asarray(y_val, dtype=int)
     
+    print("")
+    logger.info("Splitted data:")
     logger.info("X_train: %s", str(x_train.shape))
     logger.info("Y_train: %s", str(y_train.shape))
     logger.info("X_val: %s", str(x_val.shape))
