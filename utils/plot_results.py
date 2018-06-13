@@ -11,7 +11,7 @@ from pylab import xlim
 plt.style.use('ggplot')
 
 
-NAME = "bace"
+NAME = "clintox"
 FILENAME = 'experiments_'+NAME
 split = "scaffold"
 split_s = 0.1

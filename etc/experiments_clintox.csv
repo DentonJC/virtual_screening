@@ -1,219 +1,219 @@
-Data config,Model config,Section,Output,n_jobs,Load model,Model,Metric,Split type,Split size,Descriptors,n_bits,n_cv,Patience,Gridsearch,n_iter,balanced,ROC AUC,ROC AUC val,gparams
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,169.0,rf,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",32,5,100,True,100,0.53845,0.8354,0.6534,"{'n_estimators': 300, 'min_weight_fraction_leaf': 1e-05, 'min_samples_split': 100, 'min_samples_leaf': 7, 'max_leaf_nodes': 400, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,170.0,rf,roc_auc,scaffold,0.1,['maccs'],32,5,100,True,100,0.5,0.768,0.7601,"{'n_estimators': 200, 'min_weight_fraction_leaf': 0.1, 'min_samples_split': 100, 'min_samples_leaf': 15, 'max_leaf_nodes': 30, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,171.0,rf,roc_auc,scaffold,0.1,['mordred'],32,5,100,True,100,0.5,0.7148,0.5703,"{'n_estimators': 100, 'min_weight_fraction_leaf': 0.01, 'min_samples_split': 100, 'min_samples_leaf': 15, 'max_leaf_nodes': 5, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,172.0,rf,roc_auc,scaffold,0.1,"['morgan', 'maccs']",32,5,100,True,100,0.5,0.7967,0.7819,"{'n_estimators': 5000, 'min_weight_fraction_leaf': 0.01, 'min_samples_split': 10, 'min_samples_leaf': 5, 'max_leaf_nodes': 10, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,173.0,rf,roc_auc,scaffold,0.1,"['morgan','mordred']",32,5,100,True,100,0.53845,0.743,0.5845,"{'n_estimators': 300, 'min_weight_fraction_leaf': 1e-05, 'min_samples_split': 100, 'min_samples_leaf': 7, 'max_leaf_nodes': 400, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,174.0,rf,roc_auc,scaffold,0.1,['morgan'],32,5,100,True,100,0.5,0.6442,0.6074,"{'n_estimators': 500, 'min_weight_fraction_leaf': 0.0001, 'min_samples_split': 60, 'min_samples_leaf': 7, 'max_leaf_nodes': 600, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,175.0,rf,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",32,5,100,True,100,0.5,0.8613,0.753,"{'n_estimators': 5000, 'min_weight_fraction_leaf': 0.01, 'min_samples_split': 10, 'min_samples_leaf': 5, 'max_leaf_nodes': 10, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,176.0,rf,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",32,5,100,True,100,0.53845,0.8159,0.6656,"{'n_estimators': 300, 'min_weight_fraction_leaf': 1e-05, 'min_samples_split': 100, 'min_samples_leaf': 7, 'max_leaf_nodes': 400, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,177.0,rf,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",32,5,100,True,100,0.5,0.7831,0.7043,"{'n_estimators': 100, 'min_weight_fraction_leaf': 1e-05, 'min_samples_split': 100, 'min_samples_leaf': 5, 'max_leaf_nodes': 200, 'criterion': 'gini', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,178.0,rf,roc_auc,scaffold,0.1,['rdkit'],32,5,100,True,100,0.5,0.8014,0.7331,"{'n_estimators': 300, 'min_weight_fraction_leaf': 0.01, 'min_samples_split': 60, 'min_samples_leaf': 5, 'max_leaf_nodes': 60, 'criterion': 'gini', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,179.0,lr,roc_auc,scaffold,0.1,['maccs'],32,5,100,True,100,0.5344,0.8155,0.8833,"{'solver': 'sag', 'max_iter': 100, 'C': 0.2, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,180.0,lr,roc_auc,scaffold,0.1,['mordred'],32,5,100,True,100,0.57285,0.758,0.7426,"{'solver': 'sag', 'max_iter': 30, 'C': 75, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,181.0,lr,roc_auc,scaffold,0.1,"['morgan', 'maccs']",32,5,100,True,100,0.56875,0.8255,0.8822,"{'solver': 'sag', 'max_iter': 100, 'C': 0.3, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,182.0,lr,roc_auc,scaffold,0.1,"['morgan','mordred']",32,5,100,True,100,0.5769,0.7567,0.7546,"{'solver': 'sag', 'max_iter': 200, 'C': 0.5, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,183.0,lr,roc_auc,scaffold,0.1,['morgan'],32,5,100,True,100,0.49595,0.5453,0.759,"{'solver': 'sag', 'max_iter': 10000, 'C': 100, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,184.0,lr,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",32,5,100,True,100,0.599,0.8707,0.8671,"{'solver': 'sag', 'max_iter': 30, 'C': 75, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,185.0,lr,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",32,5,100,True,100,0.53845,0.7308,0.7564,"{'solver': 'sag', 'max_iter': 200, 'C': 0.5, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,186.0,lr,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",32,5,100,True,100,0.53025,0.8064,0.8383,"{'solver': 'sag', 'max_iter': 100, 'C': 0.2, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,187.0,lr,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",32,5,100,True,100,0.52205,0.785,0.7741,"{'solver': 'sag', 'max_iter': 3000, 'C': 30, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,188.0,lr,roc_auc,scaffold,0.1,['rdkit'],32,5,100,True,100,0.52205,0.8228,0.7774,"{'solver': 'sag', 'max_iter': 3000, 'C': 30, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,189.0,knn,roc_auc,scaffold,0.1,['maccs'],32,5,100,True,100,0.57475,0.551,0.7432,"{'weights': 'distance', 'p': 7, 'n_neighbors': 2, 'leaf_size': 30, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,190.0,knn,roc_auc,scaffold,0.1,['mordred'],32,5,100,True,100,0.5444,0.6357,0.5278,"{'weights': 'distance', 'p': 2, 'n_neighbors': 2, 'leaf_size': 50, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,191.0,knn,roc_auc,scaffold,0.1,"['morgan', 'maccs']",32,5,100,True,100,0.57475,0.5553,0.6761,"{'weights': 'distance', 'p': 7, 'n_neighbors': 2, 'leaf_size': 30, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,192.0,knn,roc_auc,scaffold,0.1,"['morgan','mordred']",32,5,100,True,100,0.49375,0.6542,0.6036,"{'weights': 'distance', 'p': 3, 'n_neighbors': 2, 'leaf_size': 50, 'algorithm': 'auto', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,193.0,knn,roc_auc,scaffold,0.1,['morgan'],32,5,100,True,100,0.49185,0.5241,0.6254,"{'weights': 'uniform', 'p': 9, 'n_neighbors': 3, 'leaf_size': 9, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,194.0,knn,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",32,5,100,True,100,0.5744,0.5511,0.6102,"{'weights': 'distance', 'p': 2, 'n_neighbors': 2, 'leaf_size': 50, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,195.0,knn,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",32,5,100,True,100,0.48925,0.7043,0.5249,"{'weights': 'distance', 'p': 7, 'n_neighbors': 2, 'leaf_size': 30, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,196.0,knn,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",32,5,100,True,100,0.5785,0.6756,0.6024,"{'weights': 'distance', 'p': 2, 'n_neighbors': 2, 'leaf_size': 50, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,197.0,knn,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",32,5,100,True,100,0.4713,0.669,0.4264,"{'weights': 'distance', 'p': 5, 'n_neighbors': 2, 'leaf_size': 10, 'algorithm': 'kd_tree', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,198.0,knn,roc_auc,scaffold,0.1,['rdkit'],32,5,100,True,100,0.4754,0.5605,0.4994,"{'weights': 'distance', 'p': 2, 'n_neighbors': 2, 'leaf_size': 50, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,199.0,rf,roc_auc,scaffold,0.1,['maccs'],64,5,100,True,100,0.5,0.7755,0.7841,"{'n_estimators': 200, 'min_weight_fraction_leaf': 0.1, 'min_samples_split': 100, 'min_samples_leaf': 15, 'max_leaf_nodes': 30, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,200.0,rf,roc_auc,scaffold,0.1,['mordred'],64,5,100,True,100,0.53845,0.7555,0.6292,"{'n_estimators': 300, 'min_weight_fraction_leaf': 1e-05, 'min_samples_split': 100, 'min_samples_leaf': 7, 'max_leaf_nodes': 400, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,201.0,rf,roc_auc,scaffold,0.1,"['morgan', 'maccs']",64,5,100,True,100,0.53845,0.8354,0.691,"{'n_estimators': 5000, 'min_weight_fraction_leaf': 0.01, 'min_samples_split': 10, 'min_samples_leaf': 5, 'max_leaf_nodes': 10, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,202.0,rf,roc_auc,scaffold,0.1,"['morgan','mordred']",64,5,100,True,100,0.53845,0.7992,0.6216,"{'n_estimators': 300, 'min_weight_fraction_leaf': 1e-05, 'min_samples_split': 100, 'min_samples_leaf': 7, 'max_leaf_nodes': 400, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,203.0,rf,roc_auc,scaffold,0.1,['morgan'],64,5,100,True,100,0.5,0.6379,0.5115,"{'n_estimators': 500, 'min_weight_fraction_leaf': 0.001, 'min_samples_split': 100, 'min_samples_leaf': 10, 'max_leaf_nodes': 30, 'criterion': 'gini', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,204.0,rf,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",64,5,100,True,100,0.5,0.8739,0.7409,"{'n_estimators': 500, 'min_weight_fraction_leaf': 0.0001, 'min_samples_split': 60, 'min_samples_leaf': 7, 'max_leaf_nodes': 600, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,205.0,rf,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",64,5,100,True,100,0.53845,0.7951,0.6678,"{'n_estimators': 300, 'min_weight_fraction_leaf': 1e-05, 'min_samples_split': 100, 'min_samples_leaf': 7, 'max_leaf_nodes': 400, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,206.0,rf,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",64,5,100,True,100,0.53845,0.8146,0.6611,"{'n_estimators': 300, 'min_weight_fraction_leaf': 1e-05, 'min_samples_split': 100, 'min_samples_leaf': 7, 'max_leaf_nodes': 400, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,207.0,rf,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",64,5,100,True,100,0.5,0.8064,0.6822,"{'n_estimators': 500, 'min_weight_fraction_leaf': 1e-05, 'min_samples_split': 60, 'min_samples_leaf': 10, 'max_leaf_nodes': 60, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,208.0,rf,roc_auc,scaffold,0.1,['rdkit'],64,5,100,True,100,0.5,0.8153,0.7043,"{'n_estimators': 300, 'min_weight_fraction_leaf': 1e-05, 'min_samples_split': 100, 'min_samples_leaf': 7, 'max_leaf_nodes': 400, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,209.0,lr,roc_auc,scaffold,0.1,['maccs'],64,5,100,True,100,0.5344,0.8155,0.8833,"{'solver': 'sag', 'max_iter': 100, 'C': 0.2, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,210.0,lr,roc_auc,scaffold,0.1,['mordred'],64,5,100,True,100,0.53845,0.7505,0.7601,"{'solver': 'sag', 'max_iter': 200, 'C': 0.5, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,211.0,lr,roc_auc,scaffold,0.1,"['morgan', 'maccs']",64,5,100,True,100,0.56875,0.8318,0.8811,"{'solver': 'sag', 'max_iter': 200, 'C': 0.5, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,212.0,lr,roc_auc,scaffold,0.1,"['morgan','mordred']",64,5,100,True,100,0.5769,0.7536,0.7514,"{'solver': 'sag', 'max_iter': 200, 'C': 0.5, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,213.0,lr,roc_auc,scaffold,0.1,['morgan'],64,5,100,True,100,0.5,0.5722,0.5954,"{'solver': 'sag', 'max_iter': 100, 'C': 0.2, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,214.0,lr,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",64,5,100,True,100,0.5687,0.8323,0.8738,"{'solver': 'sag', 'max_iter': 5000, 'C': 0.3, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,215.0,lr,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",64,5,100,True,100,0.53845,0.7289,0.7398,"{'solver': 'sag', 'max_iter': 30, 'C': 0.2, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,216.0,lr,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",64,5,100,True,100,0.53025,0.8058,0.8339,"{'solver': 'sag', 'max_iter': 100, 'C': 0.2, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,217.0,lr,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",64,5,100,True,100,0.52205,0.7207,0.7309,"{'solver': 'sag', 'max_iter': 100, 'C': 85, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,218.0,lr,roc_auc,scaffold,0.1,['rdkit'],64,5,100,True,100,0.52205,0.8228,0.7774,"{'solver': 'sag', 'max_iter': 3000, 'C': 30, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,219.0,knn,roc_auc,scaffold,0.1,['maccs'],64,5,100,True,100,0.57475,0.551,0.7432,"{'weights': 'distance', 'p': 7, 'n_neighbors': 2, 'leaf_size': 30, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,220.0,knn,roc_auc,scaffold,0.1,['mordred'],64,5,100,True,100,0.5444,0.6357,0.5278,"{'weights': 'distance', 'p': 2, 'n_neighbors': 2, 'leaf_size': 50, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,221.0,knn,roc_auc,scaffold,0.1,"['morgan', 'maccs']",64,5,100,True,100,0.5788,0.556,0.6761,"{'weights': 'distance', 'p': 7, 'n_neighbors': 2, 'leaf_size': 30, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,222.0,knn,roc_auc,scaffold,0.1,"['morgan','mordred']",64,5,100,True,100,0.49375,0.6488,0.6036,"{'weights': 'distance', 'p': 3, 'n_neighbors': 2, 'leaf_size': 50, 'algorithm': 'auto', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,223.0,knn,roc_auc,scaffold,0.1,['morgan'],64,5,100,True,100,0.51405,0.4897,0.5251,"{'weights': 'distance', 'p': 7, 'n_neighbors': 2, 'leaf_size': 30, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,224.0,knn,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",64,5,100,True,100,0.5744,0.5511,0.6102,"{'weights': 'distance', 'p': 2, 'n_neighbors': 2, 'leaf_size': 50, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,225.0,knn,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",64,5,100,True,100,0.48925,0.7043,0.5249,"{'weights': 'distance', 'p': 7, 'n_neighbors': 2, 'leaf_size': 30, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,226.0,knn,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",64,5,100,True,100,0.5785,0.675,0.6024,"{'weights': 'distance', 'p': 2, 'n_neighbors': 2, 'leaf_size': 50, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,227.0,knn,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",64,5,100,True,100,0.4713,0.6236,0.4535,"{'weights': 'distance', 'p': 2, 'n_neighbors': 2, 'leaf_size': 50, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,228.0,knn,roc_auc,scaffold,0.1,['rdkit'],64,5,100,True,100,0.4754,0.5605,0.4994,"{'weights': 'distance', 'p': 2, 'n_neighbors': 2, 'leaf_size': 50, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,229.0,rf,roc_auc,scaffold,0.1,['maccs'],256,5,100,True,100,0.5,0.7942,0.807,"{'n_estimators': 100, 'min_weight_fraction_leaf': 0.01, 'min_samples_split': 100, 'min_samples_leaf': 15, 'max_leaf_nodes': 5, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,230.0,rf,roc_auc,scaffold,0.1,['mordred'],256,5,100,True,100,0.5,0.7004,0.5671,"{'n_estimators': 100, 'min_weight_fraction_leaf': 0.01, 'min_samples_split': 100, 'min_samples_leaf': 15, 'max_leaf_nodes': 5, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,231.0,rf,roc_auc,scaffold,0.1,"['morgan', 'maccs']",256,5,100,True,100,0.53845,0.8386,0.6877,"{'n_estimators': 5000, 'min_weight_fraction_leaf': 0.01, 'min_samples_split': 10, 'min_samples_leaf': 5, 'max_leaf_nodes': 10, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,232.0,rf,roc_auc,scaffold,0.1,"['morgan','mordred']",256,5,100,True,100,0.53845,0.7511,0.5856,"{'n_estimators': 300, 'min_weight_fraction_leaf': 1e-05, 'min_samples_split': 100, 'min_samples_leaf': 7, 'max_leaf_nodes': 400, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,233.0,rf,roc_auc,scaffold,0.1,['morgan'],256,5,100,True,100,0.5,0.6867,0.7208,"{'n_estimators': 300, 'min_weight_fraction_leaf': 1e-05, 'min_samples_split': 100, 'min_samples_leaf': 7, 'max_leaf_nodes': 400, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,234.0,rf,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",256,5,100,True,100,0.5,0.86,0.753,"{'n_estimators': 5000, 'min_weight_fraction_leaf': 0.01, 'min_samples_split': 10, 'min_samples_leaf': 5, 'max_leaf_nodes': 10, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,235.0,rf,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",256,5,100,True,100,0.5,0.6999,0.6157,"{'n_estimators': 200, 'min_weight_fraction_leaf': 0.0001, 'min_samples_split': 5, 'min_samples_leaf': 60, 'max_leaf_nodes': 10, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,236.0,rf,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",256,5,100,True,100,0.53845,0.7995,0.6645,"{'n_estimators': 300, 'min_weight_fraction_leaf': 1e-05, 'min_samples_split': 100, 'min_samples_leaf': 7, 'max_leaf_nodes': 400, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,237.0,rf,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",256,5,100,True,100,0.5,0.7774,0.6877,"{'n_estimators': 5000, 'min_weight_fraction_leaf': 0.001, 'min_samples_split': 2, 'min_samples_leaf': 1, 'max_leaf_nodes': 10, 'criterion': 'gini', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,238.0,rf,roc_auc,scaffold,0.1,['rdkit'],256,5,100,True,100,0.5,0.8348,0.7032,"{'n_estimators': 500, 'min_weight_fraction_leaf': 0.0001, 'min_samples_split': 60, 'min_samples_leaf': 7, 'max_leaf_nodes': 600, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,239.0,lr,roc_auc,scaffold,0.1,['maccs'],256,5,100,True,100,0.59915,0.858,0.8964,"{'solver': 'sag', 'max_iter': 40, 'C': 1000.0, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,240.0,lr,roc_auc,scaffold,0.1,['mordred'],256,5,100,True,100,0.53845,0.7498,0.7372,"{'solver': 'sag', 'max_iter': 15000, 'C': 0.2, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,241.0,lr,roc_auc,scaffold,0.1,"['morgan', 'maccs']",256,5,100,True,100,0.5303,0.823,0.8779,"{'solver': 'sag', 'max_iter': 15000, 'C': 0.2, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,242.0,lr,roc_auc,scaffold,0.1,"['morgan','mordred']",256,5,100,True,100,0.5769,0.7705,0.7623,"{'solver': 'sag', 'max_iter': 60, 'C': 5000, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,243.0,lr,roc_auc,scaffold,0.1,['morgan'],256,5,100,True,100,0.53845,0.7198,0.7405,"{'solver': 'sag', 'max_iter': 15000, 'C': 0.3, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,244.0,lr,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",256,5,100,True,100,0.5687,0.8462,0.8682,"{'solver': 'sag', 'max_iter': 50, 'C': 0.5, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,245.0,lr,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",256,5,100,True,100,0.53435,0.7308,0.7586,"{'solver': 'sag', 'max_iter': 40, 'C': 50.0, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,246.0,lr,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",256,5,100,True,100,0.53025,0.8108,0.8306,"{'solver': 'sag', 'max_iter': 15000, 'C': 0.2, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,247.0,lr,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",256,5,100,True,100,0.5,0.7390000000000001,0.6899,"{'solver': 'sag', 'max_iter': 15000, 'C': 0.2, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,248.0,lr,roc_auc,scaffold,0.1,['rdkit'],256,5,100,True,100,0.52205,0.8228,0.7774,"{'solver': 'sag', 'max_iter': 5000, 'C': 30, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,249.0,knn,roc_auc,scaffold,0.1,['maccs'],256,5,100,True,100,0.57475,0.551,0.7432,"{'weights': 'distance', 'p': 7, 'n_neighbors': 2, 'leaf_size': 30, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,250.0,knn,roc_auc,scaffold,0.1,['mordred'],256,5,100,True,100,0.5444,0.6357,0.5278,"{'weights': 'distance', 'p': 2, 'n_neighbors': 2, 'leaf_size': 50, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,251.0,knn,roc_auc,scaffold,0.1,"['morgan', 'maccs']",256,5,100,True,100,0.48375,0.5503,0.6325,"{'weights': 'distance', 'p': 9, 'n_neighbors': 5, 'leaf_size': 5, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,252.0,knn,roc_auc,scaffold,0.1,"['morgan','mordred']",256,5,100,True,100,0.52625,0.5976,0.6025,"{'weights': 'uniform', 'p': 1, 'n_neighbors': 2, 'leaf_size': 10, 'algorithm': 'ball_tree', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,253.0,knn,roc_auc,scaffold,0.1,['morgan'],256,5,100,True,100,0.4634,0.4903,0.6014,"{'weights': 'distance', 'p': 2, 'n_neighbors': 2, 'leaf_size': 50, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,254.0,knn,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",256,5,100,True,100,0.5744,0.5511,0.6102,"{'weights': 'distance', 'p': 2, 'n_neighbors': 2, 'leaf_size': 50, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,255.0,knn,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",256,5,100,True,100,0.48925,0.7043,0.5249,"{'weights': 'distance', 'p': 7, 'n_neighbors': 2, 'leaf_size': 30, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,256.0,knn,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",256,5,100,True,100,0.5785,0.6721,0.6035,"{'weights': 'distance', 'p': 2, 'n_neighbors': 2, 'leaf_size': 50, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,257.0,knn,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",256,5,100,True,100,0.50565,0.5605,0.5271,"{'weights': 'distance', 'p': 2, 'n_neighbors': 2, 'leaf_size': 50, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,258.0,knn,roc_auc,scaffold,0.1,['rdkit'],256,5,100,True,100,0.4754,0.5605,0.4994,"{'weights': 'distance', 'p': 2, 'n_neighbors': 2, 'leaf_size': 50, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,259.0,rf,roc_auc,scaffold,0.1,['maccs'],512,5,100,True,100,0.5,0.7742,0.7884,"{'n_estimators': 200, 'min_weight_fraction_leaf': 0.1, 'min_samples_split': 100, 'min_samples_leaf': 15, 'max_leaf_nodes': 30, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,260.0,rf,roc_auc,scaffold,0.1,['mordred'],512,5,100,True,100,0.5,0.6704,0.5562,"{'n_estimators': 200, 'min_weight_fraction_leaf': 0.0001, 'min_samples_split': 5, 'min_samples_leaf': 60, 'max_leaf_nodes': 10, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,261.0,rf,roc_auc,scaffold,0.1,"['morgan', 'maccs']",512,5,100,True,100,0.53845,0.8247,0.6777,"{'n_estimators': 300, 'min_weight_fraction_leaf': 1e-05, 'min_samples_split': 100, 'min_samples_leaf': 7, 'max_leaf_nodes': 400, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,262.0,rf,roc_auc,scaffold,0.1,"['morgan','mordred']",512,5,100,True,100,0.5,0.6385,0.5431,"{'n_estimators': 20, 'min_weight_fraction_leaf': 0.0001, 'min_samples_split': 15, 'min_samples_leaf': 60, 'max_leaf_nodes': 400, 'criterion': 'gini', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,263.0,rf,roc_auc,scaffold,0.1,['morgan'],512,5,100,True,100,0.5,0.7017,0.711,"{'n_estimators': 5000, 'min_weight_fraction_leaf': 1e-05, 'min_samples_split': 10, 'min_samples_leaf': 30, 'max_leaf_nodes': 10, 'criterion': 'gini', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,264.0,rf,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",512,5,100,True,100,0.5,0.8802,0.742,"{'n_estimators': 500, 'min_weight_fraction_leaf': 0.0001, 'min_samples_split': 60, 'min_samples_leaf': 7, 'max_leaf_nodes': 600, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,265.0,rf,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",512,5,100,True,100,0.53845,0.7963,0.6501,"{'n_estimators': 300, 'min_weight_fraction_leaf': 1e-05, 'min_samples_split': 100, 'min_samples_leaf': 7, 'max_leaf_nodes': 400, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,266.0,rf,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",512,5,100,True,100,0.53845,0.826,0.6822,"{'n_estimators': 300, 'min_weight_fraction_leaf': 1e-05, 'min_samples_split': 100, 'min_samples_leaf': 7, 'max_leaf_nodes': 400, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,267.0,rf,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",512,5,100,True,100,0.5,0.7736,0.6755,"{'n_estimators': 300, 'min_weight_fraction_leaf': 1e-05, 'min_samples_split': 100, 'min_samples_leaf': 7, 'max_leaf_nodes': 400, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,268.0,rf,roc_auc,scaffold,0.1,['rdkit'],512,5,100,True,100,0.5,0.7926,0.7209,"{'n_estimators': 5000, 'min_weight_fraction_leaf': 0.001, 'min_samples_split': 2, 'min_samples_leaf': 1, 'max_leaf_nodes': 10, 'criterion': 'gini', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,269.0,lr,roc_auc,scaffold,0.1,['maccs'],512,5,100,True,100,0.59915,0.8643,0.8986,"{'solver': 'sag', 'max_iter': 50, 'C': 75, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,270.0,lr,roc_auc,scaffold,0.1,['mordred'],512,5,100,True,100,0.6154,0.7661,0.7808,"{'solver': 'sag', 'max_iter': 150, 'C': 85, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,271.0,lr,roc_auc,scaffold,0.1,"['morgan', 'maccs']",512,5,100,True,100,0.5303,0.8599,0.8648,"{'solver': 'sag', 'max_iter': 15000, 'C': 0.3, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,272.0,lr,roc_auc,scaffold,0.1,"['morgan','mordred']",512,5,100,True,100,0.5,0.7104,0.6532,"{'solver': 'sag', 'max_iter': 60, 'C': 0.01, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,273.0,lr,roc_auc,scaffold,0.1,['morgan'],512,5,100,True,100,0.53845,0.8136,0.6663,"{'solver': 'sag', 'max_iter': 50, 'C': 0.5, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,274.0,lr,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",512,5,100,True,100,0.5687,0.8455,0.8682,"{'solver': 'sag', 'max_iter': 50, 'C': 0.5, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,275.0,lr,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",512,5,100,True,100,0.53435,0.7301,0.7497,"{'solver': 'sag', 'max_iter': 30, 'C': 1500, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,276.0,lr,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",512,5,100,True,100,0.53025,0.8335,0.8306,"{'solver': 'sag', 'max_iter': 40, 'C': 105, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,277.0,lr,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",512,5,100,True,100,0.5646,0.8493,0.7076,"{'solver': 'sag', 'max_iter': 5000, 'C': 10.0, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,278.0,lr,roc_auc,scaffold,0.1,['rdkit'],512,5,100,True,100,0.52205,0.8228,0.7774,"{'solver': 'sag', 'max_iter': 5000, 'C': 30, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,279.0,knn,roc_auc,scaffold,0.1,['maccs'],512,5,100,True,100,0.57475,0.551,0.7432,"{'weights': 'distance', 'p': 7, 'n_neighbors': 2, 'leaf_size': 30, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,280.0,knn,roc_auc,scaffold,0.1,['mordred'],512,5,100,True,100,0.5444,0.6357,0.5278,"{'weights': 'distance', 'p': 2, 'n_neighbors': 2, 'leaf_size': 50, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,281.0,knn,roc_auc,scaffold,0.1,"['morgan', 'maccs']",512,5,100,True,100,0.53625,0.5916,0.6003,"{'weights': 'distance', 'p': 2, 'n_neighbors': 2, 'leaf_size': 50, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,282.0,knn,roc_auc,scaffold,0.1,"['morgan','mordred']",512,5,100,True,100,0.5829,0.6689,0.5213,"{'weights': 'distance', 'p': 2, 'n_neighbors': 2, 'leaf_size': 50, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,283.0,knn,roc_auc,scaffold,0.1,['morgan'],512,5,100,True,100,0.50185,0.4847,0.4733,"{'weights': 'distance', 'p': 2, 'n_neighbors': 2, 'leaf_size': 50, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,284.0,knn,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",512,5,100,True,100,0.5744,0.5511,0.6102,"{'weights': 'distance', 'p': 2, 'n_neighbors': 2, 'leaf_size': 50, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,285.0,knn,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",512,5,100,True,100,0.48925,0.7043,0.5249,"{'weights': 'distance', 'p': 7, 'n_neighbors': 2, 'leaf_size': 30, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,286.0,knn,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",512,5,100,True,100,0.5785,0.6718,0.5997,"{'weights': 'distance', 'p': 2, 'n_neighbors': 2, 'leaf_size': 50, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,287.0,knn,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",512,5,100,True,100,0.50565,0.6255,0.4612,"{'weights': 'distance', 'p': 3, 'n_neighbors': 2, 'leaf_size': 50, 'algorithm': 'auto', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,288.0,knn,roc_auc,scaffold,0.1,['rdkit'],512,5,100,True,100,0.4754,0.5605,0.4994,"{'weights': 'distance', 'p': 2, 'n_neighbors': 2, 'leaf_size': 50, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,289.0,rf,roc_auc,scaffold,0.1,['maccs'],1024,5,100,True,100,0.5,0.7829999999999999,0.7819,"{'n_estimators': 300, 'min_weight_fraction_leaf': 0.001, 'min_samples_split': 3, 'min_samples_leaf': 100, 'max_leaf_nodes': 5, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,290.0,rf,roc_auc,scaffold,0.1,['mordred'],1024,5,100,True,100,0.5,0.6836,0.6194,"{'n_estimators': 100, 'min_weight_fraction_leaf': 0.01, 'min_samples_split': 100, 'min_samples_leaf': 15, 'max_leaf_nodes': 5, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,291.0,rf,roc_auc,scaffold,0.1,"['morgan', 'maccs']",1024,5,100,True,100,0.53845,0.8405,0.6866,"{'n_estimators': 300, 'min_weight_fraction_leaf': 1e-05, 'min_samples_split': 100, 'min_samples_leaf': 7, 'max_leaf_nodes': 400, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,292.0,rf,roc_auc,scaffold,0.1,"['morgan','mordred']",1024,5,100,True,100,0.5,0.7042,0.5976,"{'n_estimators': 100, 'min_weight_fraction_leaf': 0.01, 'min_samples_split': 100, 'min_samples_leaf': 15, 'max_leaf_nodes': 5, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,293.0,rf,roc_auc,scaffold,0.1,['morgan'],1024,5,100,True,100,0.5,0.7542,0.723,"{'n_estimators': 200, 'min_weight_fraction_leaf': 1e-05, 'min_samples_split': 15, 'min_samples_leaf': 15, 'max_leaf_nodes': 60, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,294.0,rf,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",1024,5,100,True,100,0.5,0.8651,0.7464,"{'n_estimators': 5000, 'min_weight_fraction_leaf': 0.01, 'min_samples_split': 10, 'min_samples_leaf': 5, 'max_leaf_nodes': 10, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,295.0,rf,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",1024,5,100,True,100,0.5,0.6955,0.6035,"{'n_estimators': 200, 'min_weight_fraction_leaf': 0.0001, 'min_samples_split': 5, 'min_samples_leaf': 60, 'max_leaf_nodes': 10, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,296.0,rf,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",1024,5,100,True,100,0.5,0.7421,0.6622,"{'n_estimators': 100, 'min_weight_fraction_leaf': 0.01, 'min_samples_split': 100, 'min_samples_leaf': 15, 'max_leaf_nodes': 5, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,297.0,rf,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",1024,5,100,True,100,0.5,0.7787,0.6545,"{'n_estimators': 300, 'min_weight_fraction_leaf': 1e-05, 'min_samples_split': 100, 'min_samples_leaf': 7, 'max_leaf_nodes': 400, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,298.0,rf,roc_auc,scaffold,0.1,['rdkit'],1024,5,100,True,100,0.5,0.8689,0.7519,"{'n_estimators': 20, 'min_weight_fraction_leaf': 1e-05, 'min_samples_split': 60, 'min_samples_leaf': 5, 'max_leaf_nodes': 30, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,299.0,lr,roc_auc,scaffold,0.1,['maccs'],1024,5,100,True,100,0.56875,0.8305,0.8877,"{'solver': 'sag', 'max_iter': 50, 'C': 0.5, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,300.0,lr,roc_auc,scaffold,0.1,['mordred'],1024,5,100,True,100,0.57285,0.7598,0.7426,"{'solver': 'sag', 'max_iter': 30, 'C': 950, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,301.0,lr,roc_auc,scaffold,0.1,"['morgan', 'maccs']",1024,5,100,True,100,0.5,0.733,0.7677,"{'solver': 'sag', 'max_iter': 30, 'C': 0.01, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,302.0,lr,roc_auc,scaffold,0.1,"['morgan','mordred']",1024,5,100,True,100,0.5,0.7048,0.6576,"{'solver': 'sag', 'max_iter': 3000, 'C': 0.01, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,303.0,lr,roc_auc,scaffold,0.1,['morgan'],1024,5,100,True,100,0.5,0.723,0.6499,"{'solver': 'sag', 'max_iter': 200, 'C': 0.001, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,304.0,lr,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",1024,5,100,True,100,0.599,0.877,0.8704,"{'solver': 'sag', 'max_iter': 40, 'C': 50.0, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,305.0,lr,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",1024,5,100,True,100,0.53435,0.7282,0.7586,"{'solver': 'sag', 'max_iter': 40, 'C': 105, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,306.0,lr,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",1024,5,100,True,100,0.53845,0.7509,0.7697,"{'solver': 'sag', 'max_iter': 30, 'C': 0.01, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,307.0,lr,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",1024,5,100,True,100,0.5,0.6866,0.6357,"{'solver': 'sag', 'max_iter': 3000, 'C': 0.01, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,308.0,lr,roc_auc,scaffold,0.1,['rdkit'],1024,5,100,True,100,0.52205,0.8228,0.7774,"{'solver': 'sag', 'max_iter': 5000, 'C': 30, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,309.0,knn,roc_auc,scaffold,0.1,['maccs'],1024,5,100,True,100,0.57475,0.551,0.7432,"{'weights': 'distance', 'p': 7, 'n_neighbors': 2, 'leaf_size': 30, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,310.0,knn,roc_auc,scaffold,0.1,['mordred'],1024,5,100,True,100,0.5444,0.6357,0.5278,"{'weights': 'distance', 'p': 2, 'n_neighbors': 2, 'leaf_size': 50, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,311.0,xgb,roc_auc,scaffold,0.1,['maccs'],2048,5,100,True,100,0.68415,0.9056,0.8451,"{'subsample': 0.5, 'n_estimators': 1000, 'min_child_weight': 0.2, 'max_depth': 10, 'learning_rate': 0.1, 'colsample_bytree': 0.9, 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,312.0,xgb,roc_auc,scaffold,0.1,['mordred'],2048,5,100,True,100,0.5303,0.8155,0.8212,"{'subsample': 0.6, 'n_estimators': 5000, 'min_child_weight': 5, 'max_depth': 4, 'learning_rate': 0.1, 'colsample_bytree': 0.7, 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,313.0,xgb,roc_auc,scaffold,0.1,"['mordred', 'maccs']",2048,5,100,True,100,0.75705,0.9018,0.8566,"{'subsample': 0.75, 'n_estimators': 200, 'min_child_weight': 0.4, 'max_depth': 10, 'learning_rate': 1e-06, 'colsample_bytree': 0.9, 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,KNN,,,314.0,knn,roc_auc,scaffold,0.1,"['mordred', 'maccs']",2048,5,100,True,100,0.5666,0.6664,0.6031,"{'weights': 'distance', 'p': 2, 'n_neighbors': 2, 'leaf_size': 50, 'algorithm': 'brute', 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,315.0,lr,roc_auc,scaffold,0.1,"['mordred', 'maccs']",2048,5,100,True,100,0.6032,0.8224,0.8506,"{'solver': 'sag', 'max_iter': 60, 'C': 80.0, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,316.0,rf,roc_auc,scaffold,0.1,"['mordred', 'maccs']",2048,5,100,True,100,0.5,0.6954,0.5976,"{'n_estimators': 100, 'min_weight_fraction_leaf': 0.01, 'min_samples_split': 100, 'min_samples_leaf': 15, 'max_leaf_nodes': 5, 'criterion': 'entropy', 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,317.0,xgb,roc_auc,scaffold,0.1,"['morgan', 'maccs']",2048,5,100,True,100,0.6457,0.9287,0.8146,"{'subsample': 0.8, 'objective': 'binary:logistic', 'n_estimators': 2000, 'min_child_weight': 0.6, 'max_depth': 20, 'learning_rate': 0.001, 'colsample_bytree': 1.0, 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,320.0,svc,roc_auc,scaffold,0.1,"['morgan', 'maccs']",2048,5,100,True,100,0.5,0.813,0.8353,"{'kernel': 'sigmoid', 'gamma': 0.001, 'coef0': 0.01, 'C': 10.0, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,351.0,xgb,roc_auc,scaffold,0.1,"['morgan','mordred']",2048,5,100,True,100,0.5303,0.8424,0.8015,"{'subsample': 0.9, 'n_estimators': 5000, 'min_child_weight': 1, 'max_depth': 10, 'learning_rate': 0.01, 'colsample_bytree': 0.7, 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,352.0,svc,roc_auc,scaffold,0.1,"['morgan','mordred']",2048,5,100,True,100,0.55655,0.7411,0.6172,"{'kernel': 'linear', 'C': 10.0, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,353.0,svc,roc_auc,scaffold,0.1,['morgan'],2048,5,100,True,100,0.49595,0.8243,0.5812,"{'kernel': 'linear', 'C': 0.01, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,354.0,svc,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",2048,5,100,True,100,0.5687,0.8354,0.7896,"{'kernel': 'linear', 'C': 0.01, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,324.0,svc,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",2048,5,100,True,100,0.4959,0.8241,0.6545,"{'kernel': 'linear', 'C': 0.01, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,329.0,svc,roc_auc,scaffold,0.1,"['morgan', 'maccs']",1024,5,100,True,100,0.5344,0.8199,0.8506,"{'kernel': 'linear', 'C': 0.01, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,336.0,svc,roc_auc,scaffold,0.1,"['morgan','mordred']",1024,5,100,True,100,0.591,0.7286,0.6009,"{'kernel': 'linear', 'C': 10.0, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,339.0,svc,roc_auc,scaffold,0.1,['morgan'],1024,5,100,True,100,0.5,0.7674,0.6859,"{'kernel': 'linear', 'C': 0.01, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,343.0,svc,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",1024,5,100,True,100,0.53025,0.8222,0.8151,"{'kernel': 'linear', 'C': 0.01, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,344.0,svc,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",1024,5,100,True,100,0.5,0.7654,0.7243,"{'kernel': 'linear', 'C': 0.01, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,346.0,svc,roc_auc,scaffold,0.1,"['morgan', 'maccs']",512,5,100,True,100,0.53845,0.8243,0.8397,"{'kernel': 'linear', 'C': 0.01, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,355.0,svc,roc_auc,scaffold,0.1,"['morgan','mordred']",512,5,100,True,100,0.53845,0.8305,0.7568,"{'kernel': 'linear', 'C': 0.01, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,356.0,svc,roc_auc,scaffold,0.1,['morgan'],512,5,100,True,100,0.5,0.8261,0.6292,"{'kernel': 'linear', 'C': 0.01, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,357.0,svc,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",512,5,100,True,100,0.5769,0.8108,0.7996,"{'kernel': 'linear', 'C': 0.01, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,358.0,svc,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",512,5,100,True,100,0.5,0.8235,0.7054,"{'kernel': 'linear', 'C': 0.01, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,359.0,svc,roc_auc,scaffold,0.1,"['morgan', 'maccs']",256,5,100,True,100,0.53845,0.778,0.8522,"{'kernel': 'linear', 'C': 0.01, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,360.0,svc,roc_auc,scaffold,0.1,"['mordred', 'maccs']",256,5,100,True,100,0.53845,0.7967,0.8321,"{'kernel': 'linear', 'C': 0.01, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,361.0,svc,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",256,5,100,True,100,0.53845,0.7743,0.8051,"{'kernel': 'linear', 'C': 0.01, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,362.0,svc,roc_auc,scaffold,0.1,['maccs'],256,5,100,True,100,0.53845,0.7674,0.8604,"{'kernel': 'linear', 'C': 0.01, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,363.0,svc,roc_auc,scaffold,0.1,['mordred'],256,5,100,True,100,0.53845,0.8061,0.8124,"{'kernel': 'linear', 'C': 0.01, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,364.0,svc,roc_auc,scaffold,0.1,"['morgan', 'maccs']",256,5,100,True,100,0.53845,0.778,0.8517,"{'kernel': 'linear', 'C': 0.01, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,365.0,svc,roc_auc,scaffold,0.1,"['morgan','mordred']",256,5,100,True,100,0.53845,0.7805,0.8146,"{'kernel': 'linear', 'C': 0.01, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,366.0,svc,roc_auc,scaffold,0.1,['morgan'],256,5,100,True,100,0.53845,0.7342,0.7415,"{'kernel': 'linear', 'C': 0.1, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,367.0,svc,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",256,5,100,True,100,0.5605,0.773,0.856,"{'kernel': 'linear', 'C': 0.1, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,368.0,svc,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",256,5,100,True,100,0.53845,0.8102,0.8084,"{'kernel': 'linear', 'C': 0.01, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,369.0,svc,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",256,5,100,True,100,0.5,0.7144,0.7885,"{'kernel': 'linear', 'C': 0.01, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,370.0,svc,roc_auc,scaffold,0.1,['rdkit'],256,5,100,True,100,0.63335,0.8228,0.7553,"{'kernel': 'linear', 'C': 10.0, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,371.0,svc,roc_auc,scaffold,0.1,"['morgan', 'maccs']",64,5,100,True,100,0.53845,0.7548,0.8321,"{'kernel': 'linear', 'C': 0.01, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,372.0,svc,roc_auc,scaffold,0.1,"['morgan','mordred']",64,5,100,True,100,0.53845,0.7936,0.7546,"{'kernel': 'linear', 'C': 0.01, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,373.0,svc,roc_auc,scaffold,0.1,['morgan'],64,5,100,True,100,0.5,0.5891,0.5682,"{'kernel': 'linear', 'C': 0.1, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,374.0,svc,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",64,5,100,True,100,0.53845,0.7806,0.8228,"{'kernel': 'linear', 'C': 0.01, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,375.0,svc,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",64,5,100,True,100,0.51795,0.7301,0.7398,"{'kernel': 'linear', 'C': 1.0, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,376.0,svc,roc_auc,scaffold,0.1,"['morgan', 'maccs']",32,5,100,True,100,0.53845,0.7636,0.8473,"{'kernel': 'linear', 'C': 0.01, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,377.0,svc,roc_auc,scaffold,0.1,"['morgan','mordred']",32,5,100,True,100,0.53845,0.7999,0.7917,"{'kernel': 'linear', 'C': 0.01, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,378.0,svc,roc_auc,scaffold,0.1,['morgan'],32,5,100,True,100,0.5,0.5372,0.6325,"{'kernel': 'linear', 'C': 0.01, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,379.0,svc,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",32,5,100,True,100,0.53845,0.7812,0.8239,"{'kernel': 'linear', 'C': 0.01, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,SVC,,,380.0,svc,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",32,5,100,True,100,0.52615,0.809,0.7752,"{'kernel': 'linear', 'C': 1.0, 'batch_size': None, 'class_weight': 'balanced', 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,383.0,xgb,roc_auc,scaffold,0.1,['morgan'],2048,5,100,True,100,0.5647,0.8649,0.7775,"{'subsample': 0.5, 'n_estimators': 2000, 'min_child_weight': 0.1, 'max_depth': 10, 'learning_rate': 0.01, 'colsample_bytree': 0.5, 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,384.0,xgb,roc_auc,scaffold,0.1,"['rdkit', 'maccs']",2048,5,100,True,100,0.52615,0.8657,0.7918,"{'subsample': 0.5, 'n_estimators': 2000, 'min_child_weight': 0.2, 'max_depth': 10, 'learning_rate': 0.1, 'colsample_bytree': 0.4, 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,386.0,xgb,roc_auc,scaffold,0.1,"['rdkit', 'mordred']",2048,5,100,True,100,0.5687,0.8449,0.8494,"{'subsample': 1.0, 'n_estimators': 700, 'min_child_weight': 2, 'max_depth': 10, 'learning_rate': 0.1, 'colsample_bytree': 0.6, 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,389.0,xgb,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",2048,5,100,True,100,0.71435,0.9338,0.8759999999999999,"{'subsample': 0.8, 'n_estimators': 100, 'min_child_weight': 0.01, 'max_depth': 10, 'learning_rate': 0.001, 'colsample_bytree': 1.0, 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",2048,5,100,True,100,,,,
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,349.0,xgb,roc_auc,scaffold,0.1,['rdkit'],2048,5,100,True,100,0.5605,0.855,0.7774,"{'subsample': 0.6, 'n_estimators': 500, 'min_child_weight': 2, 'max_depth': 4, 'learning_rate': 0.1, 'colsample_bytree': 0.3, 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,350.0,xgb,roc_auc,scaffold,0.1,"['morgan', 'maccs']",1024,5,100,True,100,0.64165,0.9074,0.8648,"{'subsample': 0.8, 'n_estimators': 100, 'min_child_weight': 0.01, 'max_depth': 10, 'learning_rate': 0.001, 'colsample_bytree': 1.0, 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,381.0,xgb,roc_auc,scaffold,0.1,"['morgan','mordred']",1024,5,100,True,100,0.5303,0.843,0.8103,"{'subsample': 0.9, 'n_estimators': 5000, 'min_child_weight': 1, 'max_depth': 10, 'learning_rate': 0.01, 'colsample_bytree': 0.7, 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,382.0,xgb,roc_auc,scaffold,0.1,['morgan'],1024,5,100,True,100,0.52625,0.8437,0.7699,"{'subsample': 0.9, 'n_estimators': 5000, 'min_child_weight': 1, 'max_depth': 10, 'learning_rate': 0.01, 'colsample_bytree': 0.7, 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,385.0,xgb,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",1024,5,100,True,100,0.71435,0.9363,0.8527,"{'subsample': 0.8, 'n_estimators': 100, 'min_child_weight': 0.01, 'max_depth': 10, 'learning_rate': 0.001, 'colsample_bytree': 1.0, 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,387.0,xgb,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",1024,5,100,True,100,0.5687,0.7673,0.7431,"{'subsample': 0.1, 'n_estimators': 500, 'min_child_weight': 1, 'max_depth': 6, 'learning_rate': 0.1, 'colsample_bytree': 0.8, 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,388.0,xgb,roc_auc,scaffold,0.1,"['morgan', 'maccs']",512,5,100,True,100,0.5303,0.9237,0.8059,"{'subsample': 1.0, 'n_estimators': 700, 'min_child_weight': 2, 'max_depth': 10, 'learning_rate': 0.1, 'colsample_bytree': 0.6, 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,390,xgb,roc_auc,scaffold,0.1,"['morgan','mordred']",512,5,100,True,100,0.5303,0.8487,0.8233,"{'subsample': 0.9, 'n_estimators': 5000, 'min_child_weight': 1, 'max_depth': 10, 'learning_rate': 0.01, 'colsample_bytree': 0.7, 'batch_size': None, 'class_weight': None, 'epochs': None}"
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,['morgan'],512,5,100,True,100,,,,
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",512,5,100,True,100,,,,
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",512,5,100,True,100,,,,
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['morgan', 'maccs']",256,5,100,True,100,,,,
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['morgan','mordred']",256,5,100,True,100,,,,
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,['morgan'],256,5,100,True,100,,,,
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",256,5,100,True,100,,,,
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",256,5,100,True,100,,,,
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['morgan', 'maccs']",64,5,100,True,100,,,,
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['morgan','mordred']",64,5,100,True,100,,,,
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,['morgan'],64,5,100,True,100,,,,
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",64,5,100,True,100,,,,
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",64,5,100,True,100,,,,
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['morgan', 'maccs']",32,5,100,True,100,,,,
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['morgan','mordred']",32,5,100,True,100,,,,
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,['morgan'],32,5,100,True,100,,,,
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",32,5,100,True,100,,,,
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'morgan']",32,5,100,True,100,,,,
+Model,Descriptors,n_bits,balanced,ROC AUC,ROC AUC val
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.53845,0.8354,0.6534
+rf,['maccs'],32,0.5,0.768,0.7601
+rf,['mordred'],32,0.5,0.7148,0.5703
+rf,"['morgan', 'maccs']",32,0.5,0.7967,0.7819
+rf,"['morgan','mordred']",32,0.53845,0.743,0.5845
+rf,['morgan'],32,0.5,0.6442,0.6074
+rf,"['rdkit', 'maccs']",32,0.5,0.8613,0.753
+rf,"['rdkit', 'mordred']",32,0.53845,0.8159,0.6656
+rf,"['rdkit', 'morgan']",32,0.5,0.7831,0.7043
+rf,['rdkit'],32,0.5,0.8014,0.7331
+lr,['maccs'],32,0.5344,0.8155,0.8833
+lr,['mordred'],32,0.57285,0.758,0.7426
+lr,"['morgan', 'maccs']",32,0.56875,0.8255,0.8822
+lr,"['morgan','mordred']",32,0.5769,0.7567,0.7546
+lr,['morgan'],32,0.49595,0.5453,0.759
+lr,"['rdkit', 'maccs']",32,0.599,0.8707,0.8671
+lr,"['rdkit', 'mordred']",32,0.53845,0.7308,0.7564
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.53025,0.8064,0.8383
+lr,"['rdkit', 'morgan']",32,0.52205,0.785,0.7741
+lr,['rdkit'],32,0.52205,0.8228,0.7774
+knn,['maccs'],32,0.57475,0.551,0.7432
+knn,['mordred'],32,0.5444,0.6357,0.5278
+knn,"['morgan', 'maccs']",32,0.57475,0.5553,0.6761
+knn,"['morgan','mordred']",32,0.49375,0.6542,0.6036
+knn,['morgan'],32,0.49185,0.5241,0.6254
+knn,"['rdkit', 'maccs']",32,0.5744,0.5511,0.6102
+knn,"['rdkit', 'mordred']",32,0.48925,0.7043,0.5249
+knn,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.5785,0.6756,0.6024
+knn,"['rdkit', 'morgan']",32,0.4713,0.669,0.4264
+knn,['rdkit'],32,0.4754,0.5605,0.4994
+svc,"['morgan', 'maccs']",32,0.53845,0.7636,0.8473
+svc,"['morgan','mordred']",32,0.53845,0.7999,0.7917
+svc,['morgan'],32,0.5,0.5372,0.6325
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.53845,0.7812,0.8239
+svc,"['rdkit', 'morgan']",32,0.52615,0.809,0.7752
+xgb,"['morgan', 'maccs']",32,0.56875,0.8218,0.7874
+xgb,"['morgan','mordred']",32,0.5303,0.8393,0.8299
+xgb,['morgan'],32,0.48375,0.6341,0.7557
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.75285,0.9179999999999999,0.8599
+xgb,"['rdkit', 'morgan']",32,0.5646,0.8493,0.7774
+rf,['maccs'],64,0.5,0.7755,0.7841
+rf,['mordred'],64,0.53845,0.7555,0.6292
+rf,"['morgan', 'maccs']",64,0.53845,0.8354,0.691
+rf,"['morgan','mordred']",64,0.53845,0.7992,0.6216
+rf,['morgan'],64,0.5,0.6379,0.5115
+rf,"['rdkit', 'maccs']",64,0.5,0.8739,0.7409
+rf,"['rdkit', 'mordred']",64,0.53845,0.7951,0.6678
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",64,0.53845,0.8146,0.6611
+rf,"['rdkit', 'morgan']",64,0.5,0.8064,0.6822
+rf,['rdkit'],64,0.5,0.8153,0.7043
+lr,['maccs'],64,0.5344,0.8155,0.8833
+lr,['mordred'],64,0.53845,0.7505,0.7601
+lr,"['morgan', 'maccs']",64,0.56875,0.8318,0.8811
+lr,"['morgan','mordred']",64,0.5769,0.7536,0.7514
+lr,['morgan'],64,0.5,0.5722,0.5954
+lr,"['rdkit', 'maccs']",64,0.5687,0.8323,0.8738
+lr,"['rdkit', 'mordred']",64,0.53845,0.7289,0.7398
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",64,0.53025,0.8058,0.8339
+lr,"['rdkit', 'morgan']",64,0.52205,0.7207,0.7309
+lr,['rdkit'],64,0.52205,0.8228,0.7774
+knn,['maccs'],64,0.57475,0.551,0.7432
+knn,['mordred'],64,0.5444,0.6357,0.5278
+knn,"['morgan', 'maccs']",64,0.5788,0.556,0.6761
+knn,"['morgan','mordred']",64,0.49375,0.6488,0.6036
+knn,['morgan'],64,0.51405,0.4897,0.5251
+knn,"['rdkit', 'maccs']",64,0.5744,0.5511,0.6102
+knn,"['rdkit', 'mordred']",64,0.48925,0.7043,0.5249
+knn,"['rdkit', 'morgan', 'mordred', 'maccs']",64,0.5785,0.675,0.6024
+knn,"['rdkit', 'morgan']",64,0.4713,0.6236,0.4535
+knn,['rdkit'],64,0.4754,0.5605,0.4994
+svc,"['morgan', 'maccs']",64,0.53845,0.7548,0.8321
+svc,"['morgan','mordred']",64,0.53845,0.7936,0.7546
+svc,['morgan'],64,0.5,0.5891,0.5682
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",64,0.53845,0.7806,0.8228
+svc,"['rdkit', 'morgan']",64,0.51795,0.7301,0.7398
+xgb,"['morgan', 'maccs']",64,0.5647,0.9018,0.8233
+xgb,"['morgan','mordred']",64,0.5303,0.7473,0.7993
+xgb,['morgan'],64,0.49185,0.5413,0.4689
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",64,0.75285,0.912,0.8638
+xgb,"['rdkit', 'morgan']",64,0.5646,0.7478,0.7685
+rf,['maccs'],256,0.5,0.7942,0.807
+rf,['mordred'],256,0.5,0.7004,0.5671
+rf,"['morgan', 'maccs']",256,0.53845,0.8386,0.6877
+rf,"['morgan','mordred']",256,0.53845,0.7511,0.5856
+rf,['morgan'],256,0.5,0.6867,0.7208
+rf,"['rdkit', 'maccs']",256,0.5,0.86,0.753
+rf,"['rdkit', 'mordred']",256,0.5,0.6999,0.6157
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",256,0.53845,0.7995,0.6645
+rf,"['rdkit', 'morgan']",256,0.5,0.7774,0.6877
+rf,['rdkit'],256,0.5,0.8348,0.7032
+lr,['maccs'],256,0.59915,0.858,0.8964
+lr,['mordred'],256,0.53845,0.7498,0.7372
+lr,"['morgan', 'maccs']",256,0.5303,0.823,0.8779
+lr,"['morgan','mordred']",256,0.5769,0.7705,0.7623
+lr,['morgan'],256,0.53845,0.7198,0.7405
+lr,"['rdkit', 'maccs']",256,0.5687,0.8462,0.8682
+lr,"['rdkit', 'mordred']",256,0.53435,0.7308,0.7586
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",256,0.53025,0.8108,0.8306
+lr,"['rdkit', 'morgan']",256,0.5,0.7390000000000001,0.6899
+lr,['rdkit'],256,0.52205,0.8228,0.7774
+knn,['maccs'],256,0.57475,0.551,0.7432
+knn,['mordred'],256,0.5444,0.6357,0.5278
+knn,"['morgan', 'maccs']",256,0.48375,0.5503,0.6325
+knn,"['morgan','mordred']",256,0.52625,0.5976,0.6025
+knn,['morgan'],256,0.4634,0.4903,0.6014
+knn,"['rdkit', 'maccs']",256,0.5744,0.5511,0.6102
+knn,"['rdkit', 'mordred']",256,0.48925,0.7043,0.5249
+knn,"['rdkit', 'morgan', 'mordred', 'maccs']",256,0.5785,0.6721,0.6035
+knn,"['rdkit', 'morgan']",256,0.50565,0.5605,0.5271
+knn,['rdkit'],256,0.4754,0.5605,0.4994
+svc,"['morgan', 'maccs']",256,0.53845,0.778,0.8522
+svc,"['mordred', 'maccs']",256,0.53845,0.7967,0.8321
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",256,0.53845,0.7743,0.8051
+svc,['maccs'],256,0.53845,0.7674,0.8604
+svc,['mordred'],256,0.53845,0.8061,0.8124
+svc,"['morgan', 'maccs']",256,0.53845,0.778,0.8517
+svc,"['morgan','mordred']",256,0.53845,0.7805,0.8146
+svc,['morgan'],256,0.53845,0.7342,0.7415
+svc,"['rdkit', 'maccs']",256,0.5605,0.773,0.856
+svc,"['rdkit', 'mordred']",256,0.53845,0.8102,0.8084
+svc,"['rdkit', 'morgan']",256,0.5,0.7144,0.7885
+svc,['rdkit'],256,0.63335,0.8228,0.7553
+xgb,"['morgan', 'maccs']",256,0.5303,0.9012,0.8648
+xgb,"['morgan','mordred']",256,0.5303,0.8499,0.8179
+xgb,['morgan'],256,0.48375,0.818,0.6652
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",256,0.75285,0.9179999999999999,0.8649
+xgb,"['rdkit', 'morgan']",256,0.51795,0.8373,0.7852
+rf,['maccs'],512,0.5,0.7742,0.7884
+rf,['mordred'],512,0.5,0.6704,0.5562
+rf,"['morgan', 'maccs']",512,0.53845,0.8247,0.6777
+rf,"['morgan','mordred']",512,0.5,0.6385,0.5431
+rf,['morgan'],512,0.5,0.7017,0.711
+rf,"['rdkit', 'maccs']",512,0.5,0.8802,0.742
+rf,"['rdkit', 'mordred']",512,0.53845,0.7963,0.6501
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",512,0.53845,0.826,0.6822
+rf,"['rdkit', 'morgan']",512,0.5,0.7736,0.6755
+rf,['rdkit'],512,0.5,0.7926,0.7209
+lr,['maccs'],512,0.59915,0.8643,0.8986
+lr,['mordred'],512,0.6154,0.7661,0.7808
+lr,"['morgan', 'maccs']",512,0.5303,0.8599,0.8648
+lr,"['morgan','mordred']",512,0.5,0.7104,0.6532
+lr,['morgan'],512,0.53845,0.8136,0.6663
+lr,"['rdkit', 'maccs']",512,0.5687,0.8455,0.8682
+lr,"['rdkit', 'mordred']",512,0.53435,0.7301,0.7497
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",512,0.53025,0.8335,0.8306
+lr,"['rdkit', 'morgan']",512,0.5646,0.8493,0.7076
+lr,['rdkit'],512,0.52205,0.8228,0.7774
+knn,['maccs'],512,0.57475,0.551,0.7432
+knn,['mordred'],512,0.5444,0.6357,0.5278
+knn,"['morgan', 'maccs']",512,0.53625,0.5916,0.6003
+knn,"['morgan','mordred']",512,0.5829,0.6689,0.5213
+knn,['morgan'],512,0.50185,0.4847,0.4733
+knn,"['rdkit', 'maccs']",512,0.5744,0.5511,0.6102
+knn,"['rdkit', 'mordred']",512,0.48925,0.7043,0.5249
+knn,"['rdkit', 'morgan', 'mordred', 'maccs']",512,0.5785,0.6718,0.5997
+knn,"['rdkit', 'morgan']",512,0.50565,0.6255,0.4612
+knn,['rdkit'],512,0.4754,0.5605,0.4994
+svc,"['morgan', 'maccs']",512,0.53845,0.8243,0.8397
+svc,"['morgan','mordred']",512,0.53845,0.8305,0.7568
+svc,['morgan'],512,0.5,0.8261,0.6292
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",512,0.5769,0.8108,0.7996
+svc,"['rdkit', 'morgan']",512,0.5,0.8235,0.7054
+xgb,"['morgan', 'maccs']",512,0.5303,0.9237,0.8059
+xgb,"['morgan','mordred']",512,0.5303,0.8487,0.8233
+xgb,['morgan'],512,0.5222,0.8236,0.7437
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",512,0.71435,0.9269,0.856
+xgb,"['rdkit', 'morgan']",512,0.4877,0.7276,0.7774
+rf,['maccs'],1024,0.5,0.7829999999999999,0.7819
+rf,['mordred'],1024,0.5,0.6836,0.6194
+rf,"['morgan', 'maccs']",1024,0.53845,0.8405,0.6866
+rf,"['morgan','mordred']",1024,0.5,0.7042,0.5976
+rf,['morgan'],1024,0.5,0.7542,0.723
+rf,"['rdkit', 'maccs']",1024,0.5,0.8651,0.7464
+rf,"['rdkit', 'mordred']",1024,0.5,0.6955,0.6035
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",1024,0.5,0.7421,0.6622
+rf,"['rdkit', 'morgan']",1024,0.5,0.7787,0.6545
+rf,['rdkit'],1024,0.5,0.8689,0.7519
+lr,['maccs'],1024,0.56875,0.8305,0.8877
+lr,['mordred'],1024,0.57285,0.7598,0.7426
+lr,"['morgan', 'maccs']",1024,0.5,0.733,0.7677
+lr,"['morgan','mordred']",1024,0.5,0.7048,0.6576
+lr,['morgan'],1024,0.5,0.723,0.6499
+lr,"['rdkit', 'maccs']",1024,0.599,0.877,0.8704
+lr,"['rdkit', 'mordred']",1024,0.53435,0.7282,0.7586
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",1024,0.53845,0.7509,0.7697
+lr,"['rdkit', 'morgan']",1024,0.5,0.6866,0.6357
+lr,['rdkit'],1024,0.52205,0.8228,0.7774
+knn,['maccs'],1024,0.57475,0.551,0.7432
+knn,['mordred'],1024,0.5444,0.6357,0.5278
+svc,"['morgan', 'maccs']",1024,0.5344,0.8199,0.8506
+svc,"['morgan','mordred']",1024,0.591,0.7286,0.6009
+svc,['morgan'],1024,0.5,0.7674,0.6859
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",1024,0.53025,0.8222,0.8151
+svc,"['rdkit', 'morgan']",1024,0.5,0.7654,0.7243
+xgb,"['morgan', 'maccs']",1024,0.64165,0.9074,0.8648
+xgb,"['morgan','mordred']",1024,0.5303,0.843,0.8103
+xgb,['morgan'],1024,0.52625,0.8437,0.7699
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",1024,0.71435,0.9363,0.8527
+xgb,"['rdkit', 'morgan']",1024,0.5687,0.7673,0.7431
+xgb,['maccs'],2048,0.68415,0.9056,0.8451
+xgb,['mordred'],2048,0.5303,0.8155,0.8212
+xgb,"['mordred', 'maccs']",2048,0.75705,0.9018,0.8566
+knn,"['mordred', 'maccs']",2048,0.5666,0.6664,0.6031
+lr,"['mordred', 'maccs']",2048,0.6032,0.8224,0.8506
+rf,"['mordred', 'maccs']",2048,0.5,0.6954,0.5976
+xgb,"['morgan', 'maccs']",2048,0.6457,0.9287,0.8146
+svc,"['morgan', 'maccs']",2048,0.5,0.813,0.8353
+xgb,"['morgan','mordred']",2048,0.5303,0.8424,0.8015
+svc,"['morgan','mordred']",2048,0.55655,0.7411,0.6172
+svc,['morgan'],2048,0.49595,0.8243,0.5812
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,0.5687,0.8354,0.7896
+svc,"['rdkit', 'morgan']",2048,0.4959,0.8241,0.6545
+xgb,['morgan'],2048,0.5647,0.8649,0.7775
+xgb,"['rdkit', 'maccs']",2048,0.52615,0.8657,0.7918
+xgb,"['rdkit', 'mordred']",2048,0.5687,0.8449,0.8494
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,0.71435,0.9338,0.8759999999999999
+xgb,"['rdkit', 'morgan']",2048,0.5605,0.872,0.7719
+xgb,['rdkit'],2048,0.5605,0.855,0.7774

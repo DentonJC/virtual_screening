@@ -1,0 +1,6 @@
+Model,n_bits,balanced,error
+rf, ,0.5,0.0
+lr, ,0.52205,0.0
+knn, ,0.4754,0.0
+svc, ,0.63335,0.0
+xgb, ,0.5605,0.0

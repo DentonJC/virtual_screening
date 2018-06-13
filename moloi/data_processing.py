@@ -30,6 +30,7 @@ def featurization(logger, filename, n_bits, path, data_config, verbose, descript
 
     # Smiles
     smiles = data["smiles"]
+    data = data.drop("smiles", 1)
     
     mordred_features, rdkit_features, maccs_fingerprints, morgan_fingerprints, spectrophore_fingerprints = False, False, False, False, False
     labels_address, mordred_address, rdkit_address, maccs_address, morgan_address, spectrophore_address, external_address = False, False, False, False, False, False, False
@@ -69,7 +70,7 @@ def featurization(logger, filename, n_bits, path, data_config, verbose, descript
         missing = np.concatenate([missing[0],missing[1]])
 
     logger.info("After cleaning shapes:")
-    
+
     if 'rdkit' in descriptors or not config.has_option(split_type, 'rdkit_'+name):
         rdkit_features = np.array(rdkit_features)
         rdkit_features = np.delete(rdkit_features, missing, axis=0)
@@ -87,21 +88,20 @@ def featurization(logger, filename, n_bits, path, data_config, verbose, descript
         logger.info("mordred_features shape: %s", str(np.array(mordred_features).shape))
 
     smiles = np.delete(smiles, missing)
-
-    labels = data.drop("smiles", 1)
+    labels = data
     labels = np.array(labels)
     labels = np.delete(labels, missing, axis=0)
     
     if (labels.dtype != np.dtype('int64')) and (labels.dtype != np.dtype('int')) and (labels.dtype != np.dtype('float')) and (labels.dtype != np.dtype('float64')): # labels encoder if not ints
         l = []
+        le = LabelEncoder()
+        le.fit(labels[:,0])
         for i in range(labels.shape[1]):
             if isinstance(labels[i][0], str):
-                le = LabelEncoder()
-                le.fit(data[:,i])
                 c = le.transform(labels[:,i])
                 l.append(c)
             else:
-                l.append(data[:, i])
+                l.append(labels[:,0])
         labels = np.array(l).T
 
     labels_address = filename.replace(".csv", "_labels.csv")
@@ -169,7 +169,10 @@ def filling_config(path, data_config, filename, descriptors, n_bits, split_type,
         section = 'init'
     else:
         section = split_type+" "+str(split_size)
-
+    
+    print(split_type)
+    print("SECTIOM",section)
+    
     config[section]["labels_" + str(name)] = str(labels_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
     for i in ['mordred']:
         if i in descriptors:
@@ -425,16 +428,19 @@ def load_data(logger, path, filename, labels_addr, maccs_addr, morgan_addr, spec
                 spectrophore = t_spectrophore
         else:
             logger.info("Can not load data")
-            return x, y, smiles, labels, full_smiles
+            sys.exit(0)
     else:
         logger.info("Can not load data")
         return x, y, smiles, labels, full_smiles
-        
+    
+    print('B')
+    print(labels)
     if True:
-        if labels is not False:
-            #if 'smiles' in labels.columns:
-            smiles = labels.iloc[:,0]
-            labels = labels.iloc[:,1:]
+        print(labels.shape)
+        smiles = labels.iloc[:,0]
+        print(smiles.shape)
+        labels = labels.iloc[:,1:]
+        print(labels.shape)
         if mordred is not False:
             if 'smiles' in mordred.columns:
                 mordred = mordred.drop("smiles", 1)
@@ -454,8 +460,14 @@ def load_data(logger, path, filename, labels_addr, maccs_addr, morgan_addr, spec
         full_smiles = pd.DataFrame(smiles)
             
         x, y = compile_data(labels, mordred, rdkit, maccs, morgan, spectrophore, external, set_targets)
+        
+        print('A',smiles)
         smiles = np.array(smiles)
         table = np.c_[x, y]
+        
+        print(smiles)
+        print(table)
+        
         table = np.c_[table, smiles]
         table = pd.DataFrame(table)
         table = table.dropna(axis=0, how='any')
@@ -502,9 +514,9 @@ def split(split_type, x_train, y_train, smiles_train, labels_train, smiles_train
         print("Wrong split type")
         sys.exit(0)
 
-    x_train = np.array(x_train)
-    y_train = np.array(y_train)
-    smiles_train = np.array(smiles_train)
+    #x_train = np.array(x_train)
+    #y_train = np.array(y_train)
+    #smiles_train = np.array(smiles_train)
     x_test = x_train[test]
     y_test = y_train[test]
     x_train = x_train[train]
@@ -544,14 +556,14 @@ def get_data(logger, data_config, n_bits, set_targets, random_state, split_type,
         if not os.path.exists(path+d):
             os.makedirs(path+d)
     filename_train, filename_test, filename_val, labels_train, labels_test, labels_val, maccs_train, maccs_test, maccs_val, morgan_train, morgan_test, morgan_val, spectrophore_train, spectrophore_test, spectrophore_val, mordred_train, mordred_test, mordred_val, rdkit_train, rdkit_test, rdkit_val, external_train, external_test, external_val = read_data_config(data_config, descriptors, n_bits, split_type, split_size)
-
     logger.info("Load train data")
     x_train, y_train, smiles_train, labels_train, smiles_train_full = load_data(logger, path, filename_train, labels_train, maccs_train, morgan_train, spectrophore_train, mordred_train, rdkit_train, external_train, set_targets, n_bits, data_config, verbose, descriptors, n_jobs, split_type, split_size)
     logger.info("Load test data")
     x_test, y_test, smiles_test, labels_test, smiles_test_full = load_data(logger, path, filename_test, labels_test, maccs_test, morgan_test, spectrophore_test, mordred_test, rdkit_test, external_test, set_targets, n_bits, data_config, verbose, descriptors, n_jobs, split_type, split_size)
     logger.info("Load val data")
     x_val, y_val, smiles_val, labels_val, smiles_val_full = load_data(logger, path, filename_val, labels_val, maccs_val, morgan_val, spectrophore_val, mordred_val, rdkit_val, external_val, set_targets, n_bits, data_config, verbose, descriptors, n_jobs, split_type, split_size)
-
+    print(labels_train.shape)
+    
     logger.info("Loaded from config")
     logger.info("x_train shape: %s", str(np.array(x_train).shape))
     logger.info("x_test shape: %s", str(np.array(x_test).shape))
@@ -590,7 +602,10 @@ def get_data(logger, data_config, n_bits, set_targets, random_state, split_type,
         if count != 3:
             logger.info("Can not create a good data split.")
             sys.exit(0)
-
+    print("HERE")
+    print(y_train)
+    print(y_train.shape)
+    
     if split_type:
         filename = filename_train
         head, _sep, tail = filename_train.rpartition('/')
@@ -601,15 +616,16 @@ def get_data(logger, data_config, n_bits, set_targets, random_state, split_type,
 
     
         maccs_train, morgan_train, mordred_train, rdkit_train, spectrophore_train, external_train = split_x(x_train, n_bits, descriptors)
-
         maccs_test, morgan_test, mordred_test, rdkit_test, spectrophore_test, external_test = split_x(x_test, n_bits, descriptors)
         maccs_val, morgan_val, mordred_val, rdkit_val, spectrophore_val, external_val = split_x(x_val, n_bits, descriptors)
         labels_address, mordred_address, rdkit_address, maccs_address, morgan_address, spectrophore_address, external_address = False, False, False, False, False, False, False
         
-        names = ["smiles"] + ["label"]*labels_train.shape[1]  
-        labels_train = pd.DataFrame(np.c_[smiles_train, labels_train], columns=names)
-        labels_test = pd.DataFrame(np.c_[smiles_test, labels_test], columns=names)
-        labels_val = pd.DataFrame(np.c_[smiles_val, labels_val], columns=names)
+        names = ["smiles"] + ["label"]*(labels_train.shape[1]-1)
+        labels_train.columns=names
+        labels_test.columns=names
+        labels_val.columns=names
+        
+        print(labels_val)
         
         labels_train_address = create_addr(path, filename_train, "train", "labels", split_type, split_size)
         labels_test_address = create_addr(path, filename_test, "test", "labels", split_type, split_size)
@@ -674,40 +690,17 @@ def get_data(logger, data_config, n_bits, set_targets, random_state, split_type,
             external_train_address = False
             external_test_address = False
 
+        files_config = ConfigParser.ConfigParser()
+
+        files_config.read(data_config)
+        
+        #if not files_config.has_section(split_type +" "+str(split_size)):
+        #    files_config.add_section(split_type +" "+str(split_size))
         with open(data_config, "a") as ini:
             ini.write('[' + split_type +" "+str(split_size)+ ']')
         filling_config(path, data_config, "_train", descriptors, n_bits, split_type, split_size, labels_train_address, mordred_train_address, rdkit_train_address, maccs_train_address, morgan_train_address, spectrophore_train_address, external_train_address)
         filling_config(path, data_config, "_test", descriptors, n_bits, split_type, split_size, labels_test_address, mordred_test_address, rdkit_test_address, maccs_test_address, morgan_test_address, spectrophore_test_address, external_test_address)
         filling_config(path, data_config, "_val", descriptors, n_bits, split_type, split_size, labels_val_address, mordred_val_address, rdkit_val_address, maccs_val_address, morgan_val_address, spectrophore_val_address, external_val_address)
-        
-        
-        names = ["smiles"] + ["label"]*labels_train.shape[1]       
-        train = pd.DataFrame(np.c_[smiles_train_full, labels_train], columns=names)
-        test = pd.DataFrame(np.c_[smiles_test_full, labels_test], columns=names)
-        val = pd.DataFrame(np.c_[smiles_val_full, labels_val], columns=names)
-        path = os.path.dirname(os.path.realpath(__file__)).replace("/moloi", "")
-
-        train.to_csv(path + filename.replace("_train.csv","_"+split_type+"_train.csv.gz").replace("/data","/data/preprocessed"), compression="gzip", sep=",", index=False)
-        test.to_csv(path + filename.replace("_train.csv","_"+split_type+"_test.csv.gz").replace("/data","/data/preprocessed"), compression="gzip", sep=",", index=False)
-        val.to_csv(path + filename.replace("_train.csv","_"+split_type+"_val.csv.gz").replace("/data","/data/preprocessed"), compression="gzip", sep=",", index=False)
-
-        files_config = ConfigParser.ConfigParser()
-
-        files_config.read(data_config)
-        name = os.path.basename(filename_train).replace(".csv","")
-        try:
-            files_config[split_type+" "+str(split_size)]["dataset_train"] = filename.replace("_train.csv","_"+split_type+"_train.csv.gz").replace("/data","/data/preprocessed")
-            files_config[split_type+" "+str(split_size)]["dataset_test"] = filename.replace("_train.csv","_"+split_type+"_test.csv.gz").replace("/data","/data/preprocessed")
-            files_config[split_type+" "+str(split_size)]["dataset_val"] = filename.replace("_train.csv","_"+split_type+"_val.csv.gz").replace("/data","/data/preprocessed")
-        except:
-            with open(data_config, "a") as ini:
-                ini.write('[' + split_type +" "+str(split_size)+ ']')
-            files_config.read(data_config)
-            files_config[split_type+" "+str(split_size)]["dataset_train"] = filename.replace("_train.csv","_"+split_type+"_train.csv.gz").replace("/data","/data/preprocessed")
-            files_config[split_type+" "+str(split_size)]["dataset_test"] = filename.replace("_train.csv","_"+split_type+"_test.csv.gz").replace("/data","/data/preprocessed")
-            files_config[split_type+" "+str(split_size)]["dataset_val"] = filename.replace("_train.csv","_"+split_type+"_val.csv.gz").replace("/data","/data/preprocessed")
-        with open(data_config, 'w') as configfile:
-            files_config.write(configfile)
     
     y_train = np.asarray(y_train, dtype=int)
     y_test = np.asarray(y_test, dtype=int)
