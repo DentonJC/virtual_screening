@@ -11,7 +11,7 @@ from pylab import xlim
 plt.style.use('ggplot')
 
 
-NAME = "clintox"
+NAME = "bace"
 FILENAME = 'experiments_'+NAME
 split = "scaffold"
 split_s = 0.1
@@ -54,8 +54,8 @@ with open(root_address+"/etc/"+FILENAME+".csv", newline='') as csvfile:
 
 for desc in grouped:
     directory = FILENAME+'_'+desc
-    if not os.path.exists(root_address+"/etc/preprocessed/"+directory):
-        os.makedirs(root_address+"/etc/preprocessed/"+directory)
+    if not os.path.exists(root_address+"/etc/preprocessed_"+NAME+"/"+directory):
+        os.makedirs(root_address+"/etc/preprocessed_"+NAME+"/"+directory)
 
     for j in range(2,len(header)):
         #print(header[j])
@@ -74,7 +74,7 @@ for desc in grouped:
             else:
                 grouped2[k]['n_bits'] = row[1]
 			
-        csv_file = open(root_address+"/etc/preprocessed/"+directory+"/%s_grouped.csv" % header[j], "w", newline='')
+        csv_file = open(root_address+"/etc/preprocessed_"+NAME+"/"+directory+"/%s_grouped.csv" % header[j], "w", newline='')
         writer = csv.writer(csv_file, delimiter=',', quotechar='"')
         writer.writerow(["Model", "n_bits", header[j], "error"])
         for k in grouped2:
@@ -149,7 +149,7 @@ def label_barh(root_address, fullname, path, FILENAME, split, split_s, text_form
         ax.text(text_x, text_y, text, va='center', color='#FFFFFF', size=7)   
     plt.xlim(lims)
     #print()
-    plt.savefig(root_address+"/etc/preprocessed/experiments_"+FILENAME+'_'+split+'_'+str(split_s)+'_'+descript.replace('[','').replace(']','').replace('\'','')+'_'+cols[0]+'.png', dpi=600)
+    plt.savefig(root_address+"/etc/preprocessed_"+NAME+"/experiments_"+FILENAME+'_'+split+'_'+str(split_s)+'_'+descript.replace('[','').replace(']','').replace('\'','')+'_'+cols[0]+'.png', dpi=600)
     plt.close()
     #plt.show()
     return '_'+split+'_'+str(split_s)+'_'+descript.replace('[','').replace(']','').replace('\'','')+'_'+cols[0]+'.png'
@@ -157,21 +157,21 @@ def label_barh(root_address, fullname, path, FILENAME, split, split_s, text_form
 filenames=["maccs", "rdkit", "mordred", "rdkit_maccs", "rdkit_mordred", "morgan_maccs", "morgan_mordred", "rdkit_morgan", "morgan", "rdkit_morgan_mordred_maccs", "mordred_maccs"]
 titles=['MACCS', 'RDKit', 'Mordred', 'MACCS+RDKit', 'RDKit+Mordred', 'Morgan+MACCS', 'Morgan+Mordred', 'RDKit+Morgan', 'Morgan', 'RDKit+Morgan+Mordred+MACCS', 'Mordred+MACCS']
 
-with open(root_address+"/etc/preprocessed/"+FILENAME+'_results.md', 'w') as results:
+with open(root_address+"/etc/preprocessed_"+NAME+"/"+FILENAME+'_results.md', 'w') as results:
     results.write('## '+FILENAME+'\n')
 for i in range(len(titles)):
     try:
         print(titles[i])
         try:
-            path = root_address+"/etc/preprocessed/experiments_"+NAME+"_['"+filenames[i].replace("_","','")+"']"
+            path = root_address+"/etc/preprocessed_"+NAME+"/experiments_"+NAME+"_['"+filenames[i].replace("_","','")+"']"
             onlyfiles = [f for f in listdir(path) if isfile(join(path, f))]
         except:
-            path = root_address+"/etc/preprocessed/experiments_"+NAME+"_['"+filenames[i].replace("_","', '")+"']"
+            path = root_address+"/etc/preprocessed_"+NAME+"/experiments_"+NAME+"_['"+filenames[i].replace("_","', '")+"']"
             onlyfiles = [f for f in listdir(path) if isfile(join(path, f))]
         for f in onlyfiles:
             fullname = NAME + ', ' + split + " ("+str(1-2*split_s)+", "+str(split_s)+", "+str(split_s)+"), "
             addr = label_barh(root_address, fullname, path, NAME, split, split_s, text_format="{:4.5f}", is_inside=True, lims=lims, filename=f, title=titles[i], descript="['"+filenames[i].replace("_","','")+"']")
-            with open(root_address+"/etc/preprocessed/"+FILENAME+'_results.md', 'a') as results:
-                results.write('<img src="../preprocessed/'+FILENAME+addr+'" /><br/>\n')
+            with open(root_address+"/etc/preprocessed_"+NAME+"/"+FILENAME+'_results.md', 'a') as results:
+                results.write('<img src="../preprocessed_'+NAME+"/"+FILENAME+addr+'" /><br/>\n')
     except:
         print(titles[i]+" failed")
