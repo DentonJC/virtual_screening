@@ -170,9 +170,6 @@ def filling_config(path, data_config, filename, descriptors, n_bits, split_type,
     else:
         section = split_type+" "+str(split_size)
     
-    print(split_type)
-    print("SECTIOM",section)
-    
     config[section]["labels_" + str(name)] = str(labels_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
     for i in ['mordred']:
         if i in descriptors:
@@ -432,15 +429,10 @@ def load_data(logger, path, filename, labels_addr, maccs_addr, morgan_addr, spec
     else:
         logger.info("Can not load data")
         return x, y, smiles, labels, full_smiles
-    
-    print('B')
-    print(labels)
+
     if True:
-        print(labels.shape)
         smiles = labels.iloc[:,0]
-        print(smiles.shape)
         labels = labels.iloc[:,1:]
-        print(labels.shape)
         if mordred is not False:
             if 'smiles' in mordred.columns:
                 mordred = mordred.drop("smiles", 1)
@@ -461,12 +453,8 @@ def load_data(logger, path, filename, labels_addr, maccs_addr, morgan_addr, spec
             
         x, y = compile_data(labels, mordred, rdkit, maccs, morgan, spectrophore, external, set_targets)
         
-        print('A',smiles)
         smiles = np.array(smiles)
         table = np.c_[x, y]
-        
-        print(smiles)
-        print(table)
         
         table = np.c_[table, smiles]
         table = pd.DataFrame(table)
@@ -514,9 +502,6 @@ def split(split_type, x_train, y_train, smiles_train, labels_train, smiles_train
         print("Wrong split type")
         sys.exit(0)
 
-    #x_train = np.array(x_train)
-    #y_train = np.array(y_train)
-    #smiles_train = np.array(smiles_train)
     x_test = x_train[test]
     y_test = y_train[test]
     x_train = x_train[train]
@@ -562,7 +547,6 @@ def get_data(logger, data_config, n_bits, set_targets, random_state, split_type,
     x_test, y_test, smiles_test, labels_test, smiles_test_full = load_data(logger, path, filename_test, labels_test, maccs_test, morgan_test, spectrophore_test, mordred_test, rdkit_test, external_test, set_targets, n_bits, data_config, verbose, descriptors, n_jobs, split_type, split_size)
     logger.info("Load val data")
     x_val, y_val, smiles_val, labels_val, smiles_val_full = load_data(logger, path, filename_val, labels_val, maccs_val, morgan_val, spectrophore_val, mordred_val, rdkit_val, external_val, set_targets, n_bits, data_config, verbose, descriptors, n_jobs, split_type, split_size)
-    print(labels_train.shape)
     
     logger.info("Loaded from config")
     logger.info("x_train shape: %s", str(np.array(x_train).shape))
@@ -602,9 +586,6 @@ def get_data(logger, data_config, n_bits, set_targets, random_state, split_type,
         if count != 3:
             logger.info("Can not create a good data split.")
             sys.exit(0)
-    print("HERE")
-    print(y_train)
-    print(y_train.shape)
     
     if split_type:
         filename = filename_train
@@ -624,8 +605,6 @@ def get_data(logger, data_config, n_bits, set_targets, random_state, split_type,
         labels_train.columns=names
         labels_test.columns=names
         labels_val.columns=names
-        
-        print(labels_val)
         
         labels_train_address = create_addr(path, filename_train, "train", "labels", split_type, split_size)
         labels_test_address = create_addr(path, filename_test, "test", "labels", split_type, split_size)

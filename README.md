@@ -45,7 +45,8 @@ Splits:
 11. [Citation](#citation)
 
 ## Results <a name="results"></a>
-[BACE](../master/etc/preprocessed/experiments_bace_results.md)
+[BACE](../master/etc/preprocessed_bace/experiments_bace_results.md)
+[Clintox](../master/etc/preprocessed_clintox/experiments_clintox_results.md)
 
 ## Install <a name="install"></a>
 - Linux
