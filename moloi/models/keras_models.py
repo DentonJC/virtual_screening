@@ -73,7 +73,7 @@ def FCNN(input_shape, output_shape, inference=False, input_dropout=0.0, l2=0.0, 
     dropouts = [dropout_1, dropout_2]
     hidden_dims = [hidden_dim_1, hidden_dim_2]
     input = Input(shape=(input_shape,))
-    x = Dropout(input_dropout)(input, training=not inference)
+    x = Dense(input_dropout)(input)
     for h_id, (hd, drop) in enumerate(zip(hidden_dims, dropouts)):
         x = Dense(hd, name="dense_" + str(h_id), kernel_regularizer=l2_reg(l2))(x)
         if bn:

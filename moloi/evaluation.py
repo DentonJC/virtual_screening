@@ -70,6 +70,7 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
         y_pred_train = [int(round(value)) for value in y_pred_train]
     except ValueError:
         logger.error("Model is not trained")
+        print(y_pred_test)
         sys.exit(0)
         
     accuracy_test = accuracy_score(list(np.ravel(y_test)), y_pred_test)*100

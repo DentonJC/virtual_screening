@@ -431,8 +431,12 @@ def load_data(logger, path, filename, labels_addr, maccs_addr, morgan_addr, spec
         return x, y, smiles, labels, full_smiles
 
     if True:
-        smiles = labels.iloc[:,0]
-        labels = labels.iloc[:,1:]
+        if 'smiles' in labels.columns:
+            smiles = labels['smiles']
+            labels = labels.drop("smiles", 1)
+        else:
+            smiles = labels.iloc[:,0]
+            labels = labels.iloc[:,1:]
         if mordred is not False:
             if 'smiles' in mordred.columns:
                 mordred = mordred.drop("smiles", 1)
@@ -601,7 +605,12 @@ def get_data(logger, data_config, n_bits, set_targets, random_state, split_type,
         maccs_val, morgan_val, mordred_val, rdkit_val, spectrophore_val, external_val = split_x(x_val, n_bits, descriptors)
         labels_address, mordred_address, rdkit_address, maccs_address, morgan_address, spectrophore_address, external_address = False, False, False, False, False, False, False
         
-        names = ["smiles"] + ["label"]*(labels_train.shape[1]-1)
+        labels_train["smiles"] = smiles_train
+        labels_test["smiles"] = smiles_test
+        labels_val["smiles"] = smiles_val
+        names = ["label"]*(labels_train.shape[1]-1) + ["smiles"]
+        
+        
         labels_train.columns=names
         labels_test.columns=names
         labels_val.columns=names
@@ -669,18 +678,21 @@ def get_data(logger, data_config, n_bits, set_targets, random_state, split_type,
             external_train_address = False
             external_test_address = False
 
+        ini = open(data_config, "a")
+        ini.write('[' + split_type +" "+str(split_size)+ ']'+'\n')
+        ini.write("dataset_train = "+str(labels_train_address.replace(path, ''))+'\n')
+        ini.write("dataset_test = "+str(labels_test_address.replace(path, ''))+'\n')
+        ini.write("dataset_val = "+str(labels_val_address.replace(path, ''))+'\n')
+        ini.close()
+                
         files_config = ConfigParser.ConfigParser()
 
         files_config.read(data_config)
-        
-        #if not files_config.has_section(split_type +" "+str(split_size)):
-        #    files_config.add_section(split_type +" "+str(split_size))
-        with open(data_config, "a") as ini:
-            ini.write('[' + split_type +" "+str(split_size)+ ']')
         filling_config(path, data_config, "_train", descriptors, n_bits, split_type, split_size, labels_train_address, mordred_train_address, rdkit_train_address, maccs_train_address, morgan_train_address, spectrophore_train_address, external_train_address)
         filling_config(path, data_config, "_test", descriptors, n_bits, split_type, split_size, labels_test_address, mordred_test_address, rdkit_test_address, maccs_test_address, morgan_test_address, spectrophore_test_address, external_test_address)
         filling_config(path, data_config, "_val", descriptors, n_bits, split_type, split_size, labels_val_address, mordred_val_address, rdkit_val_address, maccs_val_address, morgan_val_address, spectrophore_val_address, external_val_address)
-    
+
+        
     y_train = np.asarray(y_train, dtype=int)
     y_test = np.asarray(y_test, dtype=int)
     y_val = np.asarray(y_val, dtype=int)

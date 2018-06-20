@@ -153,7 +153,10 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
         if loaded_cv is False:
             for i in range(100):
                 count = 0
-                options.n_cv = create_cv(smiles, options.split_type, options.n_cv, random_state, y_train)
+                if options.split_type == 'cluster':
+                    options.n_cv = create_cv(smiles, 'random', options.n_cv, random_state, y_train)
+                else:
+                    options.n_cv = create_cv(smiles, options.split_type, options.n_cv, random_state, y_train)
                 for j in options.n_cv:
                     if len(np.unique(j)) > 1:
                         count += 1
@@ -306,7 +309,7 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
     # elif options.select_model == "gru":
     #     model = GRU(input_shape, output_shape, **rparams)
     elif options.select_model == "lstm":
-       model = LSTM(input_shape, output_shape, **rparams)
+       model = LSTM(input_shape, output_shape, input_length=x_train.shape[1], **rparams)
     else:
         logger.info("Model name is not found or xgboost import error.")
         sys.exit(0)
@@ -335,7 +338,10 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
                                                                     options.section, options.n_jobs, descriptors, grid)
     # transfer learning in row
     #if not options.load_model:
-    model_address = save_model(model, path, logger)
+    try:
+        model_address = save_model(model, path, logger)
+    except:
+        model_address = False
     #else:
     #model_address = options.load_model
 
