@@ -13,6 +13,7 @@ from sklearn.utils import class_weight as cw
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier, IsolationForest 
+from sklearn.neural_network import BernoulliRBM, MLPClassifier
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV, PredefinedSplit
 from sklearn.preprocessing import MinMaxScaler, Normalizer
 from keras.wrappers.scikit_learn import KerasClassifier
@@ -231,6 +232,10 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
             model = RandomizedSearchCV(RandomForestClassifier(**rparams), **sklearn_params)
         elif options.select_model == "if":
             model = RandomizedSearchCV(IsolationForest(**rparams), **sklearn_params)
+        elif options.select_model == "rbm":
+            model = RandomizedSearchCV(BernoulliRBM(**rparams), **sklearn_params)
+        elif options.select_model == "mlp_sklearn":
+            model = RandomizedSearchCV(MLPClassifier(**rparams), **sklearn_params)
         # keras models
         elif options.select_model == "regression":
             search_model = KerasClassifier(build_fn=Logreg, input_shape=input_shape, output_shape=output_shape)
@@ -297,6 +302,10 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
         model = RandomForestClassifier(**rparams)
     elif options.select_model == "if":
         model = IsolationForest(**rparams)
+    elif options.select_model == "rbm":
+        model = BernoulliRBM(**rparams)
+    elif options.select_model == "mlp_sklearn":
+        model = MLPClassifier(**rparams)
 
     elif options.select_model == "fcnn":
         model = FCNN(input_shape, output_shape, **rparams)

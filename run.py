@@ -90,7 +90,6 @@ def main(experiments_file, common_gridsearch, random_state, result_cols, keys, p
     table = pd.read_csv(experiments_file)
     if n_jobs > table.shape[0]:
         n_jobs = table.shape[0] - 1
-    n_jobs = 1
     Parallel(n_jobs=n_jobs, verbose=verbose)(delayed(f)(i, table, random_state, verbose, logger_flag) for (i) in range(table.shape[0]))
 
 
@@ -102,7 +101,7 @@ if __name__ == "__main__":
     result_cols = ['balanced_accuracy', 'auc', 'auc_val', 'gparams']
     common_gridsearch = True
     random_state = 1337
-    experiments_file = 'etc/experiments_clintox_2.csv'
+    experiments_file = 'etc/dnn.csv'
     verbose = 10
-    n_jobs=multiprocessing.cpu_count()
+    n_jobs=1#multiprocessing.cpu_count()
     main(experiments_file, common_gridsearch, random_state, result_cols, keys, params, verbose, n_jobs)

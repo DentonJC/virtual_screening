@@ -44,9 +44,10 @@ def featurization(logger, filename, n_bits, path, data_config, verbose, descript
     if "_val" in name: name = "val"
     # Now it is necessary to calculate both physical descriptors, because they may lose the molecules that will affect the other descriptors and labels.
     missing = []
+    section = split_type+" "+str(split_size)
 
     logger.info("After processing shapes:")
-    if 'mordred' in descriptors or not config.has_option(split_type, 'mordred_'+name):
+    if 'mordred' in descriptors and not config.has_option(section, 'mordred_'+name):
         mordred_missing, mordred_features = descriptor_mordred(logger, smiles, verbose, n_jobs)
         
         mordred_address = filename.replace(".csv", "_mordred.csv")
@@ -55,7 +56,7 @@ def featurization(logger, filename, n_bits, path, data_config, verbose, descript
         missing.append(mordred_missing)
         logger.info("mordred_features shape: %s", str(np.array(mordred_features).shape))
 
-    if 'rdkit' in descriptors or not config.has_option(split_type, 'rdkit_'+name):
+    if 'rdkit' in descriptors and not config.has_option(section, 'rdkit_'+name):
         rdkit_missing, rdkit_features = descriptor_rdkit(logger, smiles, verbose, n_jobs)
         
         rdkit_address = filename.replace(".csv", "_rdkit.csv")
@@ -71,7 +72,7 @@ def featurization(logger, filename, n_bits, path, data_config, verbose, descript
 
     logger.info("After cleaning shapes:")
 
-    if 'rdkit' in descriptors or not config.has_option(split_type, 'rdkit_'+name):
+    if 'rdkit' in descriptors and not config.has_option(section, 'rdkit_'+name):
         rdkit_features = np.array(rdkit_features)
         rdkit_features = np.delete(rdkit_features, missing, axis=0)
         rdkit_features = pd.DataFrame(rdkit_features)
@@ -79,7 +80,7 @@ def featurization(logger, filename, n_bits, path, data_config, verbose, descript
         rdkit_features.to_csv((rdkit_address+".gz").replace('.gz.gz', '.gz'), compression="gzip", sep=",", index=False)
         logger.info("rdkit_features shape: %s", str(np.array(rdkit_features).shape))
     
-    if 'mordred' in descriptors or not config.has_option(split_type, 'mordred_'+name):
+    if 'mordred' in descriptors and not config.has_option(section, 'mordred_'+name):
         mordred_features = np.array(mordred_features)
         mordred_features = np.delete(mordred_features, missing, axis=0)
         mordred_features = pd.DataFrame(mordred_features)
@@ -107,6 +108,7 @@ def featurization(logger, filename, n_bits, path, data_config, verbose, descript
     labels_address = filename.replace(".csv", "_labels.csv")
     head, _sep, tail = labels_address.rpartition('/')
     labels_address = path + "/data/preprocessed/labels/" + tail
+    #labels_address.replace(".csv", split_type+'_'+split_size+'.csv')
 
     smiles = np.array(smiles)
     labels = np.array(labels)
@@ -230,6 +232,21 @@ def filling_config(path, data_config, filename, descriptors, n_bits, split_type,
 
     
 def compile_data(labels, mordred_features, rdkit_features, maccs_fingerprints, morgan_fingerprints, spectrophore_fingerprints, external, set_targets):
+    if labels is not False:
+        print('labels',labels.shape)
+    if mordred_features is not False:
+        print('mordred_features',mordred_features.shape)
+    if rdkit_features is not False:
+        print('rdkit_features',rdkit_features.shape)
+    if maccs_fingerprints is not False:
+        print('maccs_fingerprints',maccs_fingerprints.shape)
+    if morgan_fingerprints is not False:
+        print('morgan_fingerprints',morgan_fingerprints.shape)
+    if spectrophore_fingerprints is not False:
+        print('spectrophore_fingerprints',spectrophore_fingerprints.shape)
+    if external is not False:
+        print('external',external.shape)
+
     labels = np.array(labels)
     x = False
     if maccs_fingerprints is not False:
@@ -458,6 +475,12 @@ def load_data(logger, path, filename, labels_addr, maccs_addr, morgan_addr, spec
         x, y = compile_data(labels, mordred, rdkit, maccs, morgan, spectrophore, external, set_targets)
         
         smiles = np.array(smiles)
+        
+        if x.shape[0] != y.shape[0]:
+            print("X amd Y are not match")
+            print(x.shape)
+            print(y.shape)
+            sys.exit(0)
         table = np.c_[x, y]
         
         table = np.c_[table, smiles]

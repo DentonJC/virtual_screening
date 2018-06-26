@@ -1,5 +1,6 @@
-# Virtual screening
+# Moloi
 ## About
+Comparison of the methods of molecular representation in the task of classifying the activity of a molecule (in SMILES notation) in drug discovery experiments and searching for the optimal combination of physical and structural descriptors.
 
 Descriptors:
 - MACCS (maccs)
@@ -16,6 +17,7 @@ Models:
 - XGBClassifier (xgb)
 - Isolation Forest (if)
 - FCNN (fcnn)
+- MLP (mlp, mlp_sklearn)
 
 Splits:
 - random
@@ -24,9 +26,11 @@ Splits:
 - cluster
 
 ## Goals
-- Seq2Seq -> transfer learning
-- exclude the rich get richer
-- feature selection
+- [x] workbench for tables of experiments with large number of easily accessible parameters and hyperparameters
+- [x] featurization, effective work with processed datasets, feature combinations
+- [x] feature importance
+- [ ] feature selection
+- [ ] Seq2Seq for transfer learning
 
 ## Table of Contents
 1. [Results](#results)
@@ -45,15 +49,40 @@ Splits:
 11. [Citation](#citation)
 
 ## Results <a name="results"></a>
-- [BACE](../master/etc/preprocessed_bace/experiments_bace_results.md)
-- [Clintox](../master/etc/preprocessed_clintox/experiments_clintox_results.md)
+#### BACE
+###### Top-10 results
+| Header One     | Header Two     |
+| :------------- | :------------- |
+| Item One       | Item Two       |
+###### Top-10 models
+###### Top-10 descriptors
+###### Plots
+
+- [BACE_scaffold](../master/etc/preprocessed_bace_scaffold/experiments_bace_scaffold_results.md)
+- [BACE_random](../master/etc/preprocessed_bace_random/experiments_bace_random_results.md)
+- [BACE_cluster](../master/etc/preprocessed_bace_cluster/experiments_bace_cluster_results.md)
+
+#### Clintox
+###### Top-10
+| Header One     | Header Two     |
+| :------------- | :------------- |
+| Item One       | Item Two       |
+###### Top-10 models
+###### Top-10 descriptors
+###### Plots
+
+- [Clintox_scaffold](../master/etc/preprocessed_clintox_scaffold/experiments_clintox_scaffold_results.md)
+- [Clintox_random](../master/etc/preprocessed_clintox_random/experiments_clintox_random_results.md)
+- [Clintox_cluster](../master/etc/preprocessed_clintox_cluster/experiments_clintox_cluster_results.md)
 
 ## Install <a name="install"></a>
+- It is good idea to use:
+      git clone https://github.com/DentonJC/virtual_screening.git --depth=1
 - Linux
 - Python 3.6+ (Python 2.7 unstable)
 - source env.sh
 - It is better to use Theano backend.
-### with Conda <a name="conda"></a>
+#### with Conda <a name="conda"></a>
 - sh setup.sh
 
   or
@@ -66,7 +95,7 @@ Splits:
 - Python3: pip install configparser
 - Python2: pip install ConfigParser
 - pip install argparse
-### with Pip <a name="pip"></a>
+#### with Pip <a name="pip"></a>
 - pip install git+git://github.com/DentonJC/virtual_screening
 
   or
@@ -122,12 +151,30 @@ Splits:
     --experiments_file EXPERIMENTS_FILE, -e EXPERIMENTS_FILE
                     where to write results of experiments
 
-## Processing the experiment table  <a name="table"></a>
-  1. Fill in the table with experiments parameters (examples in /etc, False = empty cell), UTF-8
-  2. Run run.py with Python, seriously
-  3. Experiments will be performed one by one and fill in the columns with the results
-
 ## Single experiment
+  1. Create or use a [script](../master/moloi/bin/README.md) from /moloi/bin/
+  2. Run script.py with Python
+
+## Processing the experiment table  <a name="table"></a>
+<b>Attention! Nested parallelization!</b>
+
+  1. To work with classic models and for featurization, it is better to set:
+- run.py: n_jobs = 1
+- experiments_table.csv: n_jobs = -1
+
+  <br>for neural networks:
+- run.py: n_jobs = -1
+- experiments_table.csv: n_jobs = 1
+<br><br>
+
+  2. It is impossible to get RDKit and Mordred descriptors for some molecules, so the first experiment must be done with RDKit and Mordred descriptors (if you want to use them in the following experiments) to exclude the lost molecules from the dataset and other descriptors.
+
+  3. Fill in the [table](../master/etc/README.md) with parameters of experiments (examples in /etc, False = empty cell), UTF-8
+
+  4. Run run.py with Python
+
+  5. Experiments will be performed line by line with parameters from filled columns and with output to the result columns
+
 
 ## Example input <a name="input"></a>
     python moloi/moloi.py --model_config '/data/model_configs/configs.ini' --descriptors ['rdkit', 'morgan','mordred', 'maccs'] --n_bits 2048 --n_cv 5 -p 100 -g --n_iter 300 --metric 'roc_auc' --split_type 'scaffold' --split_s 0.1 --select_model 'rf' --data_config '/data/data_configs/bace.ini' --section 'RF' -e 'etc/experiments_bace.csv' -t 0

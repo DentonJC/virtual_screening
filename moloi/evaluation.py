@@ -148,8 +148,9 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
             features.append(list("spectrophore_"+str(i) for i in range(options.n_bits)))
     features = sum(features, [])
 
-    if options.select_model in ['xgb','rf']:
+    if options.select_model in ['none']: # ['xgb','rf'] - but number of descriptors is too big
         try:
+            # TODO: names of descriptors on plot
             importances = model.feature_importances_
             indices = np.argsort(importances)
             indices = indices[-30:]
@@ -165,7 +166,7 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
 
             fi.to_csv(path+"feature_importance.csv", sep=",", header=["feature","importance"], index=False)
         except:
-            pass
+            logger.error("Can not plot feature importance")
     else:
         try:
             importances = []
@@ -196,7 +197,7 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
 
             fi.to_csv(path+"feature_importance.csv", sep=",", header=["feature","importance"], index=False)
         except:
-            pass
+            logger.error("Can not plot feature importance")
     
     #plot_TSNE(x_train, y_train, path)
     logger.info("Results path: %s", path)

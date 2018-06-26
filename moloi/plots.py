@@ -168,7 +168,7 @@ def plot_PCA(x, y, path, title="PCA", label_1="active", label_2="inactive", labe
     plt.cla()
     plt.close()
     
-
+"""
 def plot_fi(indices, importances, features, path, x_label='Relative Importance'):
     fig = plt.figure(figsize=(8, 8),dpi=500)
     ax = fig.add_subplot(111)
@@ -184,4 +184,42 @@ def plot_fi(indices, importances, features, path, x_label='Relative Importance')
     plt.clf()
     plt.cla()
     plt.close()
+"""
+import matplotlib.patches as mpatches
+from moloi.descriptors.rdkit import rdkit_fetures_names
+from moloi.descriptors.mordred import mordred_fetures_names
+
+def col(i):
+    if 'morgan' in i:
+        return 'r'
+    if i in mordred_fetures_names():
+        return 'g'
+    if i in rdkit_fetures_names():
+        return 'b'
+    if 'maccs' in i:
+        return 'y'
+    else:
+        return 'm'
+
+def plot_fi(indices, importances, features, path, x_label='Relative Importance'):
+    fig = plt.figure(figsize=(8, 8),dpi=500)
+    ax = fig.add_subplot(111)
+    fig.tight_layout()
+    plt.subplots_adjust(left=0.3, bottom=0.1, right=0.9, top=0.9)
+    s = pd.Series([importances[i] for i in indices], index=[features[i] for i in indices])
+    plt.title('Feature Importances')
+
+    color = [col(features[i]) for i in indices]
+    s.plot(kind='barh', color=color, alpha=0.6)
     
+    r = mpatches.Patch(color='r', label='Morgan', alpha=0.6)
+    g = mpatches.Patch(color='g', label='mordred', alpha=0.6)
+    b = mpatches.Patch(color='b', label='RDKit', alpha=0.6)
+    y = mpatches.Patch(color='y', label='MACCS', alpha=0.6)
+    plt.legend(handles=[r,g,b,y])
+
+    plt.xlabel(x_label)
+    plt.savefig(path+"img/feature_importance.png", dpi=500)
+    plt.clf()
+    plt.cla()
+    plt.close()
