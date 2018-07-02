@@ -1,0 +1,361 @@
+Model,Descriptors,n_bits,ROC AUC,ROC AUC val
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.9272,0.9038
+xgb,['rdkit'],32,0.9235,0.9129999999999999
+xgb,"['rdkit', 'maccs']",32,0.9258,0.9103
+xgb,"['rdkit', 'mordred']",32,0.9235,0.9129999999999999
+xgb,"['rdkit', 'morgan']",32,0.9266,0.9107
+xgb,['morgan'],32,0.9073,0.9007
+xgb,"['morgan', 'maccs']",32,0.9342,0.9307
+xgb,"['morgan','mordred']",32,0.9238,0.9094
+xgb,['mordred'],32,0.9265,0.9124
+xgb,"['mordred', 'maccs']",32,0.9237,0.9115
+xgb,['maccs'],32,0.924,0.8964
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.8954,0.9056
+svc,['rdkit'],32,0.8766,0.9105
+svc,"['rdkit', 'maccs']",32,0.8882,0.9177
+svc,"['rdkit', 'mordred']",32,0.8933,0.9194
+svc,"['rdkit', 'morgan']",32,0.8808,0.9112
+svc,['morgan'],32,0.8228,0.8691
+svc,"['morgan', 'maccs']",32,0.8879,0.9189
+svc,"['morgan','mordred']",32,0.8943,0.9145
+svc,['mordred'],32,0.8933,0.9108
+svc,"['mordred', 'maccs']",32,0.8835,0.9082
+svc,['maccs'],32,0.8471,0.8816
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.9035,0.8963
+rf,['rdkit'],32,0.9026,0.8928
+rf,"['rdkit', 'maccs']",32,0.9068,0.8951
+rf,"['rdkit', 'mordred']",32,0.9115,0.8908
+rf,"['rdkit', 'morgan']",32,0.9175,0.9027
+rf,['morgan'],32,0.9058,0.8919
+rf,"['morgan', 'maccs']",32,0.9173,0.9007
+rf,"['morgan','mordred']",32,0.87,0.8512
+rf,['mordred'],32,0.9044,0.8947
+rf,"['mordred', 'maccs']",32,0.9079999999999999,0.8947
+rf,['maccs'],32,0.8886,0.8664
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.9128,0.9101
+lr,['rdkit'],32,0.8826,0.9026
+lr,"['rdkit', 'maccs']",32,0.8898,0.9133
+lr,"['rdkit', 'mordred']",32,0.9131,0.9079
+lr,"['rdkit', 'morgan']",32,0.8786,0.9107
+lr,['morgan'],32,0.8217,0.8575
+lr,"['morgan', 'maccs']",32,0.8833,0.9077
+lr,"['morgan','mordred']",32,0.9144,0.9059
+lr,['mordred'],32,0.9107,0.9017
+lr,"['mordred', 'maccs']",32,0.9054,0.9066
+lr,['maccs'],32,0.8515,0.8795
+knn,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.9304,0.8838
+knn,['rdkit'],32,0.8891,0.8631
+knn,"['rdkit', 'maccs']",32,0.9082,0.8706
+knn,"['rdkit', 'mordred']",32,0.9179999999999999,0.857
+knn,"['rdkit', 'morgan']",32,0.9061,0.868
+knn,['morgan'],32,0.9113,0.8611
+knn,"['morgan', 'maccs']",32,0.8732,0.8446
+knn,"['morgan','mordred']",32,0.9226,0.8513
+knn,['mordred'],32,0.9226,0.8572
+knn,"['mordred', 'maccs']",32,0.9009999999999999,0.8503
+knn,['maccs'],32,0.8849,0.8284
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",64,0.924,0.9137
+xgb,"['rdkit', 'morgan']",64,0.9307,0.9091
+xgb,['morgan'],64,0.93,0.9063
+xgb,"['morgan', 'maccs']",64,0.9356,0.9137
+xgb,"['morgan','mordred']",64,0.9238,0.9101
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",64,0.8951,0.9042
+svc,"['rdkit', 'morgan']",64,0.8809999999999999,0.9038
+svc,['morgan'],64,0.8290000000000001,0.8573
+svc,"['morgan', 'maccs']",64,0.88,0.9108
+svc,"['morgan','mordred']",64,0.8936,0.9109999999999999
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",64,0.9037,0.8943
+rf,"['rdkit', 'morgan']",64,0.9077,0.8998
+rf,['morgan'],64,0.9015,0.9066
+rf,"['morgan', 'maccs']",64,0.9119,0.9044
+rf,"['morgan','mordred']",64,0.9009999999999999,0.8958
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",64,0.9117,0.9063
+lr,"['rdkit', 'morgan']",64,0.8831,0.9022
+lr,['morgan'],64,0.8354,0.8622
+lr,"['morgan', 'maccs']",64,0.8773,0.907
+lr,"['morgan','mordred']",64,0.9068,0.9051
+knn,"['rdkit', 'morgan', 'mordred', 'maccs']",64,0.9042,0.8422
+knn,"['rdkit', 'morgan']",64,0.9193,0.8754
+knn,['morgan'],64,0.9121,0.8678
+knn,"['morgan', 'maccs']",64,0.8761,0.8509
+knn,"['morgan','mordred']",64,0.9245,0.8501
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",256,0.9245,0.9108
+xgb,"['rdkit', 'morgan']",256,0.9361,0.9128
+xgb,['morgan'],256,0.9368,0.9179
+xgb,"['morgan', 'maccs']",256,0.9402,0.9142
+xgb,"['morgan','mordred']",256,0.9254,0.9109999999999999
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",256,0.8907,0.917
+svc,"['rdkit', 'morgan']",256,0.8922,0.9092
+svc,['morgan'],256,0.8819,0.8884
+svc,"['morgan', 'maccs']",256,0.8952,0.9201
+svc,"['morgan','mordred']",256,0.8929,0.904
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",256,0.8715,0.8552
+rf,"['rdkit', 'morgan']",256,0.9262,0.9032
+rf,['morgan'],256,0.9075,0.9021
+rf,"['morgan', 'maccs']",256,0.9191,0.9101
+rf,"['morgan','mordred']",256,0.9059,0.8909999999999999
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",256,0.9187,0.9144
+lr,"['rdkit', 'morgan']",256,0.8979,0.9182
+lr,['morgan'],256,0.9022,0.9008
+lr,"['morgan', 'maccs']",256,0.9017,0.9223
+lr,"['morgan','mordred']",256,0.9109999999999999,0.9072
+knn,"['rdkit', 'morgan', 'mordred', 'maccs']",256,0.9117,0.8404
+knn,"['rdkit', 'morgan']",256,0.8914,0.8501
+knn,['morgan'],256,0.8807,0.8273
+knn,"['morgan', 'maccs']",256,0.8876,0.8729
+knn,"['morgan','mordred']",256,0.9306,0.8936
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",512,0.9273,0.9122
+xgb,"['rdkit', 'morgan']",512,0.9309,0.9117
+xgb,['morgan'],512,0.9435,0.9144
+xgb,"['morgan', 'maccs']",512,0.9256,0.9226
+xgb,"['morgan','mordred']",512,0.9245,0.9115
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",512,0.8886,0.9187
+svc,"['rdkit', 'morgan']",512,0.8831,0.9151
+svc,['morgan'],512,0.8947,0.9059
+svc,"['morgan', 'maccs']",512,0.8994,0.9242
+svc,"['morgan','mordred']",512,0.897,0.9004
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",512,0.9029,0.8963
+rf,"['rdkit', 'morgan']",512,0.9248,0.9051
+rf,['morgan'],512,0.9052,0.8929
+rf,"['morgan', 'maccs']",512,0.9241,0.909
+rf,"['morgan','mordred']",512,0.9044,0.8929
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",512,0.9209999999999999,0.9142
+lr,"['rdkit', 'morgan']",512,0.8984,0.9207
+lr,['morgan'],512,0.9042,0.9073
+lr,"['morgan', 'maccs']",512,0.9063,0.9247
+lr,"['morgan','mordred']",512,0.9165,0.9051
+knn,"['rdkit', 'morgan', 'mordred', 'maccs']",512,0.8975,0.8312
+knn,"['rdkit', 'morgan']",512,0.8765,0.8164
+knn,['morgan'],512,0.8652,0.8021
+knn,"['morgan', 'maccs']",512,0.8603,0.8117
+knn,"['morgan','mordred']",512,0.9287,0.8893
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",1024,0.9268,0.9122
+xgb,"['rdkit', 'morgan']",1024,0.9351,0.9133
+xgb,['morgan'],1024,0.9451,0.9144
+xgb,"['morgan', 'maccs']",1024,0.9428,0.9203
+xgb,"['morgan','mordred']",1024,0.9237,0.91
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",1024,0.8918,0.9187
+svc,"['rdkit', 'morgan']",1024,0.9028,0.9049
+svc,['morgan'],1024,0.9114,0.8879
+svc,"['morgan', 'maccs']",1024,0.9145,0.9087
+svc,"['morgan','mordred']",1024,0.8898,0.9091
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",1024,0.9167,0.9022
+rf,"['rdkit', 'morgan']",1024,0.9246,0.9048
+rf,['morgan'],1024,0.9302,0.8951
+rf,"['morgan', 'maccs']",1024,0.9258,0.9078
+rf,"['morgan','mordred']",1024,0.9129999999999999,0.8994
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",1024,0.9205,0.9147
+lr,"['rdkit', 'morgan']",1024,0.9137,0.9145
+lr,['morgan'],1024,0.9233,0.8831
+lr,"['morgan', 'maccs']",1024,0.9193,0.9208
+lr,"['morgan','mordred']",1024,0.9229999999999999,0.9073
+knn,"['rdkit', 'morgan', 'mordred', 'maccs']",1024,0.9091,0.8373
+knn,"['rdkit', 'morgan']",1024,0.8854,0.8191
+knn,['morgan'],1024,0.8714,0.7868
+knn,"['morgan', 'maccs']",1024,0.8579,0.8001
+knn,"['morgan','mordred']",1024,0.9237,0.8279
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,0.9226,0.9119
+xgb,"['rdkit', 'morgan']",2048,0.9342,0.9128
+xgb,['morgan'],2048,0.9403,0.92
+xgb,"['morgan', 'maccs']",2048,0.9435,0.9161
+xgb,"['morgan','mordred']",2048,0.9223,0.9112
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,0.8975,0.9296
+svc,"['rdkit', 'morgan']",2048,0.9179,0.9089
+svc,['morgan'],2048,0.9252,0.9047
+svc,"['morgan', 'maccs']",2048,0.9213,0.9151
+svc,"['morgan','mordred']",2048,0.8929,0.9142
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,0.9145,0.9001
+rf,"['rdkit', 'morgan']",2048,0.9255,0.9035
+rf,['morgan'],2048,0.9014,0.8924
+rf,"['morgan', 'maccs']",2048,0.9249,0.8922
+rf,"['morgan','mordred']",2048,0.8696,0.8491
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,0.9335,0.9212
+lr,"['rdkit', 'morgan']",2048,0.9254,0.9129999999999999
+lr,['morgan'],2048,0.9347,0.9009999999999999
+lr,"['morgan', 'maccs']",2048,0.9307,0.9207
+lr,"['morgan','mordred']",2048,0.9294,0.9126
+knn,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,0.8961,0.8248
+knn,"['rdkit', 'morgan']",2048,0.8733,0.8122
+knn,['morgan'],2048,0.8721,0.802
+knn,"['morgan', 'maccs']",2048,0.8738,0.8170000000000001
+knn,"['morgan','mordred']",2048,0.9206,0.8277
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.9272,0.9038
+xgb,['rdkit'],32,0.9166,0.9114
+xgb,"['rdkit', 'maccs']",32,0.9145,0.9049
+xgb,"['rdkit', 'mordred']",32,0.9166,0.9114
+xgb,"['rdkit', 'morgan']",32,0.9201,0.9049
+xgb,['morgan'],32,0.9196,0.9049
+xgb,"['morgan', 'maccs']",32,0.9333,0.9189
+xgb,"['morgan','mordred']",32,0.9142,0.9049
+xgb,['mordred'],32,0.9244,0.8975
+xgb,"['mordred', 'maccs']",32,0.9237,0.9115
+xgb,['maccs'],32,0.924,0.8964
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.8951,0.9056
+svc,['rdkit'],32,0.8763,0.9104
+svc,"['rdkit', 'maccs']",32,0.8925,0.9183
+svc,"['rdkit', 'mordred']",32,0.8932,0.9195
+svc,"['rdkit', 'morgan']",32,0.8742,0.9109999999999999
+svc,['morgan'],32,0.8228,0.8691
+svc,"['morgan', 'maccs']",32,0.888,0.9189
+svc,"['morgan','mordred']",32,0.8942,0.9145
+svc,['mordred'],32,0.8933,0.9108
+svc,"['mordred', 'maccs']",32,0.8831,0.9082
+svc,['maccs'],32,0.8471,0.8816
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.9007,0.8865
+rf,['rdkit'],32,0.9075,0.8935
+rf,"['rdkit', 'maccs']",32,0.9154,0.8964
+rf,"['rdkit', 'mordred']",32,0.9169,0.8921
+rf,"['rdkit', 'morgan']",32,0.9194,0.8952
+rf,['morgan'],32,0.8908,0.8961
+rf,"['morgan', 'maccs']",32,0.9143,0.9147
+rf,"['morgan','mordred']",32,0.8714,0.851
+rf,['mordred'],32,0.8715,0.8549
+rf,"['mordred', 'maccs']",32,0.9079,0.8921
+rf,['maccs'],32,0.9037,0.8817
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.9128,0.9101
+lr,['rdkit'],32,0.8705,0.8996
+lr,"['rdkit', 'maccs']",32,0.8898,0.9133
+lr,"['rdkit', 'mordred']",32,0.9131,0.9079
+lr,"['rdkit', 'morgan']",32,0.8786,0.9107
+lr,['morgan'],32,0.8171,0.8608
+lr,"['morgan', 'maccs']",32,0.8833,0.9077
+lr,"['morgan','mordred']",32,0.9115,0.9059
+lr,['mordred'],32,0.9054,0.9028
+lr,"['mordred', 'maccs']",32,0.9054,0.9065
+lr,['maccs'],32,0.8515,0.8795
+knn,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.9033,0.8465
+knn,['rdkit'],32,0.8891,0.8631
+knn,"['rdkit', 'maccs']",32,0.9082,0.8706
+knn,"['rdkit', 'mordred']",32,0.9179999999999999,0.857
+knn,"['rdkit', 'morgan']",32,0.8801,0.8542
+knn,['morgan'],32,0.9108,0.8619
+knn,"['morgan', 'maccs']",32,0.8724,0.8446
+knn,"['morgan','mordred']",32,0.9226,0.8513
+knn,['mordred'],32,0.9226,0.8572
+knn,"['mordred', 'maccs']",32,0.9009999999999999,0.8503
+knn,['maccs'],32,0.8626,0.8357
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",64,0.9194,0.8996
+xgb,"['rdkit', 'morgan']",64,0.9112,0.9079999999999999
+xgb,['morgan'],64,0.8977,0.9063
+xgb,"['morgan', 'maccs']",64,0.9356,0.9137
+xgb,"['morgan','mordred']",64,0.9226,0.9086
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",64,0.8951,0.9044
+svc,"['rdkit', 'morgan']",64,0.8793,0.9044
+svc,['morgan'],64,0.8291,0.8575
+svc,"['morgan', 'maccs']",64,0.88,0.9108
+svc,"['morgan','mordred']",64,0.8936,0.9109999999999999
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",64,0.9051,0.8929
+rf,"['rdkit', 'morgan']",64,0.9119,0.9035
+rf,['morgan'],64,0.9148,0.8928
+rf,"['morgan', 'maccs']",64,0.9161,0.9079
+rf,"['morgan','mordred']",64,0.9066,0.8875
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",64,0.9133,0.9019
+lr,"['rdkit', 'morgan']",64,0.8831,0.9022
+lr,['morgan'],64,0.8354,0.8622
+lr,"['morgan', 'maccs']",64,0.8773,0.907
+lr,"['morgan','mordred']",64,0.9115,0.9014
+knn,"['rdkit', 'morgan', 'mordred', 'maccs']",64,0.9042,0.8422
+knn,"['rdkit', 'morgan']",64,0.8879,0.8549
+knn,['morgan'],64,0.8849,0.8216
+knn,"['morgan', 'maccs']",64,0.8761,0.8509
+knn,"['morgan','mordred']",64,0.9245,0.8501
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",256,0.9251,0.9133
+xgb,"['rdkit', 'morgan']",256,0.9258,0.9115
+xgb,['morgan'],256,0.9368,0.9179
+xgb,"['morgan', 'maccs']",256,0.9303,0.9077
+xgb,"['morgan','mordred']",256,0.9258,0.9135
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",256,0.9014,0.9093
+svc,"['rdkit', 'morgan']",256,0.8845,0.9079
+svc,['morgan'],256,0.8807,0.8922
+svc,"['morgan', 'maccs']",256,0.8952,0.9201
+svc,"['morgan','mordred']",256,0.8929,0.904
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",256,0.9042,0.894
+rf,"['rdkit', 'morgan']",256,0.925,0.9015
+rf,['morgan'],256,0.9084,0.9065
+rf,"['morgan', 'maccs']",256,0.9244,0.9036
+rf,"['morgan','mordred']",256,0.9109999999999999,0.8891
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",256,0.9187,0.9144
+lr,"['rdkit', 'morgan']",256,0.8979,0.9182
+lr,['morgan'],256,0.9022,0.9008
+lr,"['morgan', 'maccs']",256,0.9017,0.9223
+lr,"['morgan','mordred']",256,0.9108,0.9028
+knn,"['rdkit', 'morgan', 'mordred', 'maccs']",256,0.9117,0.8404
+knn,"['rdkit', 'morgan']",256,0.8914,0.8501
+knn,['morgan'],256,0.9079999999999999,0.8559
+knn,"['morgan', 'maccs']",256,0.8876,0.8729
+knn,"['morgan','mordred']",256,0.9352,0.8544
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",512,0.9303,0.9151
+xgb,"['rdkit', 'morgan']",512,0.9293,0.9065
+xgb,['morgan'],512,0.9433,0.9138
+xgb,"['morgan', 'maccs']",512,0.9416,0.9244
+xgb,"['morgan','mordred']",512,0.9219,0.9152
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",512,0.9031,0.9052
+svc,"['rdkit', 'morgan']",512,0.8731,0.9063
+svc,['morgan'],512,0.8826,0.9065
+svc,"['morgan', 'maccs']",512,0.8994,0.9242
+svc,"['morgan','mordred']",512,0.897,0.9004
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",512,0.9107,0.8997
+rf,"['rdkit', 'morgan']",512,0.9072,0.897
+rf,['morgan'],512,0.9021,0.8975
+rf,"['morgan', 'maccs']",512,0.9223,0.8981
+rf,"['morgan','mordred']",512,0.8972,0.8961
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",512,0.9209999999999999,0.9142
+lr,"['rdkit', 'morgan']",512,0.8984,0.9207
+lr,['morgan'],512,0.9015,0.9091
+lr,"['morgan', 'maccs']",512,0.9082,0.9256
+lr,"['morgan','mordred']",512,0.9165,0.8966
+knn,"['rdkit', 'morgan', 'mordred', 'maccs']",512,0.8975,0.8312
+knn,"['rdkit', 'morgan']",512,0.887,0.8402
+knn,['morgan'],512,0.9165,0.8591
+knn,"['morgan', 'maccs']",512,0.88,0.8388
+knn,"['morgan','mordred']",512,0.9032,0.8057
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",1024,0.9268,0.9122
+xgb,"['rdkit', 'morgan']",1024,0.9317,0.9054
+xgb,['morgan'],1024,0.9451,0.9144
+xgb,"['morgan', 'maccs']",1024,0.9428,0.9203
+xgb,"['morgan','mordred']",1024,0.9238,0.9103
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",1024,0.9147,0.9019
+svc,"['rdkit', 'morgan']",1024,0.9028,0.9049
+svc,['morgan'],1024,0.9061,0.8763
+svc,"['morgan', 'maccs']",1024,0.9145,0.9087
+svc,"['morgan','mordred']",1024,0.9084,0.9005
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",1024,0.9172,0.9025
+rf,"['rdkit', 'morgan']",1024,0.9248,0.9051
+rf,['morgan'],1024,0.93,0.8986
+rf,"['morgan', 'maccs']",1024,0.9281,0.8974
+rf,"['morgan','mordred']",1024,0.9065,0.8986
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",1024,0.9191,0.9079
+lr,"['rdkit', 'morgan']",1024,0.9154,0.9101
+lr,['morgan'],1024,0.9249,0.8952
+lr,"['morgan', 'maccs']",1024,0.9226,0.9198
+lr,"['morgan','mordred']",1024,0.9189,0.9009999999999999
+knn,"['rdkit', 'morgan', 'mordred', 'maccs']",1024,0.9091,0.8373
+knn,"['rdkit', 'morgan']",1024,0.8868,0.8220000000000001
+knn,['morgan'],1024,0.8714,0.7868
+knn,"['morgan', 'maccs']",1024,0.8962,0.8342
+knn,"['morgan','mordred']",1024,0.9021,0.7971
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,0.9319,0.9184
+xgb,"['rdkit', 'morgan']",2048,0.9342,0.9128
+xgb,['morgan'],2048,0.9403,0.92
+xgb,"['morgan', 'maccs']",2048,0.9417,0.9268
+xgb,"['morgan','mordred']",2048,0.9266,0.9131
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,0.9238,0.9128
+svc,"['rdkit', 'morgan']",2048,0.9179999999999999,0.9089
+svc,['morgan'],2048,0.9223,0.8886
+svc,"['morgan', 'maccs']",2048,0.9212,0.9149
+svc,"['morgan','mordred']",2048,0.9207,0.9058
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,0.9035,0.8898
+rf,"['rdkit', 'morgan']",2048,0.9267,0.9039
+rf,['morgan'],2048,0.9371,0.8992
+rf,"['morgan', 'maccs']",2048,0.9365,0.9058
+rf,"['morgan','mordred']",2048,0.9144,0.8929
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,0.9298,0.9168
+lr,"['rdkit', 'morgan']",2048,0.9254,0.9129999999999999
+lr,['morgan'],2048,0.9347,0.9012
+lr,"['morgan', 'maccs']",2048,0.9307,0.9207
+lr,"['morgan','mordred']",2048,0.9314,0.9054
+knn,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,0.8961,0.8248
+knn,"['rdkit', 'morgan']",2048,0.8733,0.8122
+knn,['morgan'],2048,0.8721,0.802
+knn,"['morgan', 'maccs']",2048,0.8795,0.8199
+knn,"['morgan','mordred']",2048,0.9206,0.8277

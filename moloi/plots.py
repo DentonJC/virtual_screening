@@ -219,7 +219,7 @@ def plot_fi(indices, importances, features, path, x_label='Relative Importance')
     plt.legend(handles=[r,g,b,y])
 
     plt.xlabel(x_label)
-    plt.savefig(path+"img/feature_importance.png", dpi=500)
+    plt.savefig(path, dpi=500)
     plt.clf()
     plt.cla()
     plt.close()

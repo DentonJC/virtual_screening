@@ -6,3 +6,4 @@ tox21 - sources and script for creating tox21 dataset
 3. generate_plots.py - t-SNE and PCA
 4. draw_smiles.py - SMILES to 2D
 5. plot_results.py - create plots of experiments table
+6. create_final_tables.py - group experiments by models, descriptors and models+descriptors

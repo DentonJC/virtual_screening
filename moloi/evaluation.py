@@ -148,6 +148,7 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
             features.append(list("spectrophore_"+str(i) for i in range(options.n_bits)))
     features = sum(features, [])
 
+    logger.info("Creating feature importance plot")
     if options.select_model in ['none']: # ['xgb','rf'] - but number of descriptors is too big
         try:
             # TODO: names of descriptors on plot
@@ -155,7 +156,10 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
             indices = np.argsort(importances)
             indices = indices[-30:]
             
-            plot_fi(indices, importances, features, path)
+            try:
+                plot_fi(indices, importances, features, path, x_label)
+            except:
+                pass
             
             importances = np.array(importances).reshape(-1,1)
             features = np.array(features).reshape(-1,1)
@@ -165,8 +169,9 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
             fi = pd.DataFrame(tab)
 
             fi.to_csv(path+"feature_importance.csv", sep=",", header=["feature","importance"], index=False)
+            logger.info("Feature importance plot created")
         except:
-            logger.error("Can not plot feature importance")
+            logger.info("Can not plot feature importance")
     else:
         try:
             importances = []
@@ -183,10 +188,17 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
                 importances.append(auc_test-auc)
 
             indices = np.argsort(importances)
-            indices = indices[-30:]
             x_label = 'AUC ROC test - AUC ROC without feature'
             
-            plot_fi(indices, importances, features, path, x_label)
+           try:
+                plot_fi(indices[-30:], importances, features, path+"img/feature_importance.png", x_label)
+            except:
+                pass
+            
+            try:
+                plot_fi(indices, importances, features, path+"img/feature_importance_full.png", x_label)
+            except:
+                pass
             
             importances = np.array(importances).reshape(-1,1)
             features = np.array(features).reshape(-1,1)
@@ -196,8 +208,9 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
             fi = pd.DataFrame(tab)
 
             fi.to_csv(path+"feature_importance.csv", sep=",", header=["feature","importance"], index=False)
+            logger.info("Feature importance plot created")
         except:
-            logger.error("Can not plot feature importance")
+            logger.info("Can not plot feature importance")
     
     #plot_TSNE(x_train, y_train, path)
     logger.info("Results path: %s", path)

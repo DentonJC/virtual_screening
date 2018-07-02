@@ -1,6 +1,0 @@
-Model,n_bits,ROC AUC val,error
-svc, ,0.8321,0.0
-xgb, ,0.8566,0.0
-knn, ,0.6031,0.0
-lr, ,0.8506,0.0
-rf, ,0.5976,0.0

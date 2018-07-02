@@ -49,31 +49,8 @@ Splits:
 11. [Citation](#citation)
 
 ## Results <a name="results"></a>
-#### BACE
-###### Top-10 results
-| Header One     | Header Two     |
-| :------------- | :------------- |
-| Item One       | Item Two       |
-###### Top-10 models
-###### Top-10 descriptors
-###### Plots
-
-- [BACE_scaffold](../master/etc/preprocessed_bace_scaffold/experiments_bace_scaffold_results.md)
-- [BACE_random](../master/etc/preprocessed_bace_random/experiments_bace_random_results.md)
-- [BACE_cluster](../master/etc/preprocessed_bace_cluster/experiments_bace_cluster_results.md)
-
-#### Clintox
-###### Top-10
-| Header One     | Header Two     |
-| :------------- | :------------- |
-| Item One       | Item Two       |
-###### Top-10 models
-###### Top-10 descriptors
-###### Plots
-
-- [Clintox_scaffold](../master/etc/preprocessed_clintox_scaffold/experiments_clintox_scaffold_results.md)
-- [Clintox_random](../master/etc/preprocessed_clintox_random/experiments_clintox_random_results.md)
-- [Clintox_cluster](../master/etc/preprocessed_clintox_cluster/experiments_clintox_cluster_results.md)
+- [Clintox](../master/etc/results/Clintox.md)
+- [BACE](../master/etc/results/BACE.md)
 
 ## Install <a name="install"></a>
 - It is good idea to use:
@@ -207,6 +184,23 @@ Creating report <br />
 Report complete, you can see it in the results folder <br />
 Results path: /tmp/2018-05-27_15:45:04_RF_['rdkit','morgan','mordred','maccs']70.395/ <br />
 Done <br />
+
+### Report
+After running the first experiment, the /tmp folder with the subfolders of the experiments will be created.
+In the experiment folder are:
+1. <b>models/</b>: copies of the folder with models
+2. <b>run.py</b>: copy of the experiment script
+3. <b>results/</b>: folder with model checkpoints (if Keras model)
+4. <b>log</b>: log of the experiment
+5. <b>model.sav</b>: the model
+6. <b>addresses</b>: text file with the address of model - its content allows to load the model in the experiment table
+7. <b>n_cv</b>: a text file with cross-validation indices
+8. <b>gridsearch.csv</b>: history of gridsearch (if gridsearch)
+9. <b>y_pred_test.csv</b>, <b>y_pred_val.csv</b>: predicted test and validation values
+10. <b>img/</b>: ROC AUC plot (if possible)
+11. <b>img/</b>: feature importance plot
+12. <b>img/</b>: gridsearch plots (one picture for each hyperparameter)
+13. <b>report 70.39.pdf</b> (accuracy in name): report with information about the experiment
 
 ## Citation <a name="citation"></a>
 - Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.

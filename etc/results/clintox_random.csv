@@ -1,0 +1,361 @@
+Model,Descriptors,n_bits,ROC AUC,ROC AUC val
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.6882,0.9256
+xgb,['rdkit'],32,0.8602,0.8659
+xgb,"['rdkit', 'maccs']",32,0.9303,0.8907
+xgb,"['rdkit', 'mordred']",32,0.7739,0.7716
+xgb,"['rdkit', 'morgan']",32,0.833,0.74
+xgb,['morgan'],32,0.6232,0.6144
+xgb,"['morgan', 'maccs']",32,0.8989,0.8726
+xgb,"['morgan','mordred']",32,0.8212,0.7738
+xgb,['mordred'],32,0.8302,0.7783
+xgb,"['mordred', 'maccs']",32,0.9459,0.8759
+xgb,['maccs'],32,0.8573,0.8759
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.8864,0.9249
+svc,['rdkit'],32,0.8977,0.9185
+svc,"['rdkit', 'maccs']",32,0.9212,0.8922
+svc,"['rdkit', 'mordred']",32,0.8598,0.8144
+svc,"['rdkit', 'morgan']",32,0.8129,0.9035
+svc,['morgan'],32,0.7183,0.5712
+svc,"['morgan', 'maccs']",32,0.9061,0.867
+svc,"['morgan','mordred']",32,0.8415,0.9128
+svc,['mordred'],32,0.8505,0.9031
+svc,"['mordred', 'maccs']",32,0.867,0.9583
+svc,['maccs'],32,0.9016,0.8469
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.7955,0.8197
+rf,['rdkit'],32,0.8136,0.799
+rf,"['rdkit', 'maccs']",32,0.8394,0.8321
+rf,"['rdkit', 'mordred']",32,0.7697,0.8189
+rf,"['rdkit', 'morgan']",32,0.7992,0.7885
+rf,['morgan'],32,0.6724,0.6449
+rf,"['morgan', 'maccs']",32,0.831,0.7083
+rf,"['morgan','mordred']",32,0.7648,0.7556
+rf,['mordred'],32,0.7663,0.7846
+rf,"['mordred', 'maccs']",32,0.7821,0.7981
+rf,['maccs'],32,0.8648,0.8051
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.8015,0.6371
+lr,['rdkit'],32,0.7303,0.618
+lr,"['rdkit', 'maccs']",32,0.7758,0.6277
+lr,"['rdkit', 'mordred']",32,0.8053,0.7318
+lr,"['rdkit', 'morgan']",32,0.7189,0.5872
+lr,['morgan'],32,0.6551,0.5376
+lr,"['morgan', 'maccs']",32,0.8279,0.6911
+lr,"['morgan','mordred']",32,0.7438,0.6274
+lr,['mordred'],32,0.7431,0.6267
+lr,"['mordred', 'maccs']",32,0.8032,0.6423
+lr,['maccs'],32,0.7911,0.6285
+knn,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.6955,0.7836
+knn,['rdkit'],32,0.6508,0.7915
+knn,"['rdkit', 'maccs']",32,0.6413,0.6942
+knn,"['rdkit', 'mordred']",32,0.6477,0.7494
+knn,"['rdkit', 'morgan']",32,0.6008,0.6983
+knn,['morgan'],32,0.5387,0.6002
+knn,"['morgan', 'maccs']",32,0.6367,0.6088
+knn,"['morgan','mordred']",32,0.6548,0.7537
+knn,['mordred'],32,0.654,0.7496
+knn,"['mordred', 'maccs']",32,0.6912,0.7832
+knn,['maccs'],32,0.633,0.6125
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",64,0.9295,0.8723
+xgb,"['rdkit', 'morgan']",64,0.8606,0.8426
+xgb,['morgan'],64,0.7415,0.6244
+xgb,"['morgan', 'maccs']",64,0.9001,0.8681
+xgb,"['morgan','mordred']",64,0.8227,0.7608
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",64,0.8803,0.9256
+svc,"['rdkit', 'morgan']",64,0.7962,0.8749
+svc,['morgan'],64,0.7002,0.6934
+svc,"['morgan', 'maccs']",64,0.8978,0.8633
+svc,"['morgan','mordred']",64,0.84,0.9179999999999999
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",64,0.7606,0.8092
+rf,"['rdkit', 'morgan']",64,0.8015,0.8065
+rf,['morgan'],64,0.6319,0.5808
+rf,"['morgan', 'maccs']",64,0.8497,0.7269
+rf,"['morgan','mordred']",64,0.7626,0.7899
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",64,0.8023,0.6416
+lr,"['rdkit', 'morgan']",64,0.7205,0.6142
+lr,['morgan'],64,0.6213,0.5674
+lr,"['morgan', 'maccs']",64,0.7836,0.6263
+lr,"['morgan','mordred']",64,0.7438,0.6244
+knn,"['rdkit', 'morgan', 'mordred', 'maccs']",64,0.6955,0.7836
+knn,"['rdkit', 'morgan']",64,0.6083,0.6938
+knn,['morgan'],64,0.5935,0.5704
+knn,"['morgan', 'maccs']",64,0.6465,0.6088
+knn,"['morgan','mordred']",64,0.6548,0.7537
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",256,0.9341,0.8787
+xgb,"['rdkit', 'morgan']",256,0.8572,0.8005
+xgb,['morgan'],256,0.6307,0.6598
+xgb,"['morgan', 'maccs']",256,0.9046,0.8666
+xgb,"['morgan','mordred']",256,0.7863,0.706
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",256,0.8856,0.9294
+svc,"['rdkit', 'morgan']",256,0.7795,0.8279
+svc,['morgan'],256,0.6882,0.7597
+svc,"['morgan', 'maccs']",256,0.8896,0.8506
+svc,"['morgan','mordred']",256,0.8227,0.9218
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",256,0.7909,0.7979
+rf,"['rdkit', 'morgan']",256,0.8061,0.7652
+rf,['morgan'],256,0.6525,0.7202
+rf,"['morgan', 'maccs']",256,0.8557,0.7909999999999999
+rf,"['morgan','mordred']",256,0.7423,0.8145
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",256,0.8568,0.855
+lr,"['rdkit', 'morgan']",256,0.7318,0.6382
+lr,['morgan'],256,0.6912,0.7448
+lr,"['morgan', 'maccs']",256,0.7806,0.6293
+lr,"['morgan','mordred']",256,0.8152,0.8703
+knn,"['rdkit', 'morgan', 'mordred', 'maccs']",256,0.6909,0.7926
+knn,"['rdkit', 'morgan']",256,0.7489,0.6965
+knn,['morgan'],256,0.5586,0.5835
+knn,"['morgan', 'maccs']",256,0.6416,0.6088
+knn,"['morgan','mordred']",256,0.6506,0.7072
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",512,0.9295,0.8719
+xgb,"['rdkit', 'morgan']",512,0.8394,0.9237
+xgb,['morgan'],512,0.6416,0.6501
+xgb,"['morgan', 'maccs']",512,0.8926,0.9061
+xgb,"['morgan','mordred']",512,0.7491,0.7098
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",512,0.8742,0.9361
+svc,"['rdkit', 'morgan']",512,0.8121,0.8509
+svc,['morgan'],512,0.8137,0.8394
+svc,"['morgan', 'maccs']",512,0.8738,0.8640000000000001
+svc,"['morgan','mordred']",512,0.8204,0.9151
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",512,0.7462,0.71
+rf,"['rdkit', 'morgan']",512,0.7455,0.6818
+rf,['morgan'],512,0.7006,0.7437
+rf,"['morgan', 'maccs']",512,0.8693,0.7932
+rf,"['morgan','mordred']",512,0.7288,0.6617
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",512,0.8545,0.8625
+lr,"['rdkit', 'morgan']",512,0.7864,0.9042
+lr,['morgan'],512,0.7724,0.8975
+lr,"['morgan', 'maccs']",512,0.7859,0.6345
+lr,"['morgan','mordred']",512,0.8054,0.7437
+knn,"['rdkit', 'morgan', 'mordred', 'maccs']",512,0.6962,0.7881
+knn,"['rdkit', 'morgan']",512,0.6114,0.6273
+knn,['morgan'],512,0.5676,0.5379999999999999
+knn,"['morgan', 'maccs']",512,0.6518,0.6088
+knn,"['morgan','mordred']",512,0.6536,0.7433
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",1024,0.9439,0.8802
+xgb,"['rdkit', 'morgan']",1024,0.8318,0.8907
+xgb,['morgan'],1024,0.8497,0.8871
+xgb,"['morgan', 'maccs']",1024,0.9068,0.9065
+xgb,"['morgan','mordred']",1024,0.7678,0.7992
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",1024,0.8621,0.9346
+svc,"['rdkit', 'morgan']",1024,0.7515,0.8388
+svc,['morgan'],1024,0.6709,0.8275
+svc,"['morgan', 'maccs']",1024,0.8655,0.8849
+svc,"['morgan','mordred']",1024,0.7866,0.9374
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",1024,0.7924,0.8370000000000001
+rf,"['rdkit', 'morgan']",1024,0.7523,0.669
+rf,['morgan'],1024,0.7986,0.7053
+rf,"['morgan', 'maccs']",1024,0.8693,0.7947
+rf,"['morgan','mordred']",1024,0.7521,0.7496
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",1024,0.8402,0.7693
+lr,"['rdkit', 'morgan']",1024,0.7629,0.6998
+lr,['morgan'],1024,0.7025,0.899
+lr,"['morgan', 'maccs']",1024,0.7814,0.6412
+lr,"['morgan','mordred']",1024,0.8152,0.8584
+knn,"['rdkit', 'morgan', 'mordred', 'maccs']",1024,0.6955,0.7799
+knn,"['rdkit', 'morgan']",1024,0.6152,0.6273
+knn,['morgan'],1024,0.7017,0.5715
+knn,"['morgan', 'maccs']",1024,0.648,0.5581
+knn,"['morgan','mordred']",1024,0.6536,0.747
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,0.9155,0.8779
+xgb,"['rdkit', 'morgan']",2048,0.8,0.8028
+xgb,['morgan'],2048,0.8866,0.8163
+xgb,"['morgan', 'maccs']",2048,0.8993,0.8804
+xgb,"['morgan','mordred']",2048,0.7494,0.7373
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,0.8659,0.9264
+svc,"['rdkit', 'morgan']",2048,0.7008,0.8208
+svc,['morgan'],2048,0.6754,0.8327
+svc,"['morgan', 'maccs']",2048,0.8655,0.867
+svc,"['morgan','mordred']",2048,0.7791,0.9218
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,0.747,0.6875
+rf,"['rdkit', 'morgan']",2048,0.7288,0.6578
+rf,['morgan'],2048,0.7551,0.6542
+rf,"['morgan', 'maccs']",2048,0.8092,0.6963
+rf,"['morgan','mordred']",2048,0.7678,0.7548
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,0.8061,0.6499
+lr,"['rdkit', 'morgan']",2048,0.7636,0.9259999999999999
+lr,['morgan'],2048,0.7468,0.8603
+lr,"['morgan', 'maccs']",2048,0.8302,0.7194
+lr,"['morgan','mordred']",2048,0.8219,0.8569
+knn,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,0.6864,0.7412
+knn,"['rdkit', 'morgan']",2048,0.6136,0.6183
+knn,['morgan'],2048,0.6168,0.5827
+knn,"['morgan', 'maccs']",2048,0.6506,0.6185
+knn,"['morgan','mordred']",2048,0.6416,0.7463
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.7721,0.9049
+xgb,['rdkit'],32,0.8538,0.7355
+xgb,"['rdkit', 'maccs']",32,0.9205,0.9414
+xgb,"['rdkit', 'mordred']",32,0.8121,0.9384
+xgb,"['rdkit', 'morgan']",32,0.7939,0.8062
+xgb,['morgan'],32,0.6232,0.6144
+xgb,"['morgan', 'maccs']",32,0.8787,0.9169
+xgb,"['morgan','mordred']",32,0.8114,0.9396
+xgb,['mordred'],32,0.8298,0.7873
+xgb,"['mordred', 'maccs']",32,0.9016,0.9292
+xgb,['maccs'],32,0.879,0.8409
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.8864,0.9256
+svc,['rdkit'],32,0.8977,0.9185
+svc,"['rdkit', 'maccs']",32,0.9205,0.8922
+svc,"['rdkit', 'mordred']",32,0.8598,0.8144
+svc,"['rdkit', 'morgan']",32,0.8129,0.9035
+svc,['morgan'],32,0.7881,0.6241
+svc,"['morgan', 'maccs']",32,0.9061,0.8655
+svc,"['morgan','mordred']",32,0.8415,0.9128
+svc,['mordred'],32,0.8505,0.9031
+svc,"['mordred', 'maccs']",32,0.867,0.9583
+svc,['maccs'],32,0.9008,0.8484
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.7811,0.7956
+rf,['rdkit'],32,0.7924,0.8028
+rf,"['rdkit', 'maccs']",32,0.8364,0.8358
+rf,"['rdkit', 'mordred']",32,0.7447,0.6859999999999999
+rf,"['rdkit', 'morgan']",32,0.7939,0.7765
+rf,['morgan'],32,0.6469,0.5801
+rf,"['morgan', 'maccs']",32,0.8723,0.7589
+rf,"['morgan','mordred']",32,0.7423,0.6773
+rf,['mordred'],32,0.7547,0.6412
+rf,"['mordred', 'maccs']",32,0.7641,0.6706
+rf,['maccs'],32,0.8618,0.7567
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.8015,0.6371
+lr,['rdkit'],32,0.7311,0.6187
+lr,"['rdkit', 'maccs']",32,0.8227,0.6953
+lr,"['rdkit', 'mordred']",32,0.8197,0.8302
+lr,"['rdkit', 'morgan']",32,0.7265,0.6104
+lr,['morgan'],32,0.6551,0.5376
+lr,"['morgan', 'maccs']",32,0.7851,0.6256
+lr,"['morgan','mordred']",32,0.8099,0.8785
+lr,['mordred'],32,0.8159,0.8629
+lr,"['mordred', 'maccs']",32,0.8009,0.6408
+lr,['maccs'],32,0.7911,0.6285
+knn,"['rdkit', 'morgan', 'mordred', 'maccs']",32,0.6955,0.7836
+knn,['rdkit'],32,0.6508,0.7915
+knn,"['rdkit', 'maccs']",32,0.6462,0.6514
+knn,"['rdkit', 'mordred']",32,0.653,0.6942
+knn,"['rdkit', 'morgan']",32,0.6008,0.6983
+knn,['morgan'],32,0.5526,0.5589
+knn,"['morgan', 'maccs']",32,0.6367,0.6088
+knn,"['morgan','mordred']",32,0.6548,0.7537
+knn,['mordred'],32,0.654,0.7496
+knn,"['mordred', 'maccs']",32,0.6431,0.6483
+knn,['maccs'],32,0.633,0.6125
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",64,0.9068,0.9519
+xgb,"['rdkit', 'morgan']",64,0.8614,0.7089
+xgb,['morgan'],64,0.6416,0.7321
+xgb,"['morgan', 'maccs']",64,0.8956,0.9054
+xgb,"['morgan','mordred']",64,0.7423,0.88
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",64,0.8803,0.9249
+svc,"['rdkit', 'morgan']",64,0.7962,0.8749
+svc,['morgan'],64,0.7002,0.6934
+svc,"['morgan', 'maccs']",64,0.8978,0.8633
+svc,"['morgan','mordred']",64,0.84,0.9179999999999999
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",64,0.7818,0.8144
+rf,"['rdkit', 'morgan']",64,0.7894,0.7787
+rf,['morgan'],64,0.722,0.6613
+rf,"['morgan', 'maccs']",64,0.8497,0.7761
+rf,"['morgan','mordred']",64,0.7423,0.6684
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",64,0.8023,0.6379
+lr,"['rdkit', 'morgan']",64,0.7106,0.5917
+lr,['morgan'],64,0.6213,0.5674
+lr,"['morgan', 'maccs']",64,0.7836,0.6263
+lr,"['morgan','mordred']",64,0.8099,0.88
+knn,"['rdkit', 'morgan', 'mordred', 'maccs']",64,0.6955,0.7836
+knn,"['rdkit', 'morgan']",64,0.6083,0.6938
+knn,['morgan'],64,0.5935,0.5704
+knn,"['morgan', 'maccs']",64,0.6458,0.6088
+knn,"['morgan','mordred']",64,0.6548,0.7537
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",256,0.8394,0.8678
+xgb,"['rdkit', 'morgan']",256,0.8053,0.6968
+xgb,['morgan'],256,0.6206,0.6453
+xgb,"['morgan', 'maccs']",256,0.9068,0.9102
+xgb,"['morgan','mordred']",256,0.7731,0.7001
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",256,0.8856,0.9316
+svc,"['rdkit', 'morgan']",256,0.7795,0.8279
+svc,['morgan'],256,0.6882,0.7589
+svc,"['morgan', 'maccs']",256,0.8896,0.8513
+svc,"['morgan','mordred']",256,0.8227,0.9218
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",256,0.7818,0.7453
+rf,"['rdkit', 'morgan']",256,0.8008,0.7667
+rf,['morgan'],256,0.7641,0.7232
+rf,"['morgan', 'maccs']",256,0.8625,0.7761
+rf,"['morgan','mordred']",256,0.7551,0.6997
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",256,0.8439,0.7566
+lr,"['rdkit', 'morgan']",256,0.722,0.6127
+lr,['morgan'],256,0.7025,0.6203
+lr,"['morgan', 'maccs']",256,0.7806,0.6293
+lr,"['morgan','mordred']",256,0.8084,0.8808
+knn,"['rdkit', 'morgan', 'mordred', 'maccs']",256,0.6909,0.7926
+knn,"['rdkit', 'morgan']",256,0.7489,0.6965
+knn,['morgan'],256,0.5586,0.5835
+knn,"['morgan', 'maccs']",256,0.6465,0.6088
+knn,"['morgan','mordred']",256,0.6506,0.7072
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",512,0.8886,0.9534
+xgb,"['rdkit', 'morgan']",512,0.8318,0.9215
+xgb,['morgan'],512,0.8738,0.7671
+xgb,"['morgan', 'maccs']",512,0.9106,0.867
+xgb,"['morgan','mordred']",512,0.7859,0.81
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",512,0.8735,0.9361
+svc,"['rdkit', 'morgan']",512,0.8136,0.8524
+svc,['morgan'],512,0.7829,0.8335
+svc,"['morgan', 'maccs']",512,0.8738,0.8640000000000001
+svc,"['morgan','mordred']",512,0.8204,0.9151
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",512,0.7432,0.6724
+rf,"['rdkit', 'morgan']",512,0.7955,0.7787
+rf,['morgan'],512,0.7656,0.7247
+rf,"['morgan', 'maccs']",512,0.8482,0.7701
+rf,"['morgan','mordred']",512,0.7303,0.6662
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",512,0.8045,0.6446
+lr,"['rdkit', 'morgan']",512,0.7652,0.6713
+lr,['morgan'],512,0.7446,0.8826
+lr,"['morgan', 'maccs']",512,0.7859,0.6345
+lr,"['morgan','mordred']",512,0.8054,0.7437
+knn,"['rdkit', 'morgan', 'mordred', 'maccs']",512,0.6962,0.7881
+knn,"['rdkit', 'morgan']",512,0.6508,0.7092
+knn,['morgan'],512,0.6157,0.6162
+knn,"['morgan', 'maccs']",512,0.6518,0.6088
+knn,"['morgan','mordred']",512,0.6536,0.7433
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",1024,0.953,0.8989
+xgb,"['rdkit', 'morgan']",1024,0.7845,0.8073
+xgb,['morgan'],1024,0.8249,0.7515
+xgb,"['morgan', 'maccs']",1024,0.9271,0.8424
+xgb,"['morgan','mordred']",1024,0.7844,0.7206
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",1024,0.8621,0.9354
+svc,"['rdkit', 'morgan']",1024,0.7477,0.8403
+svc,['morgan'],1024,0.6987,0.8156
+svc,"['morgan', 'maccs']",1024,0.8655,0.8849
+svc,"['morgan','mordred']",1024,0.7866,0.9374
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",1024,0.8068,0.7626
+rf,"['rdkit', 'morgan']",1024,0.7371,0.6863
+rf,['morgan'],1024,0.7701,0.7247
+rf,"['morgan', 'maccs']",1024,0.843,0.7232
+rf,"['morgan','mordred']",1024,0.7385,0.6684
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",1024,0.8038,0.6491
+lr,"['rdkit', 'morgan']",1024,0.7515,0.6705
+lr,['morgan'],1024,0.7077,0.9028
+lr,"['morgan', 'maccs']",1024,0.7814,0.6412
+lr,"['morgan','mordred']",1024,0.7919,0.9091
+knn,"['rdkit', 'morgan', 'mordred', 'maccs']",1024,0.6909,0.6424
+knn,"['rdkit', 'morgan']",1024,0.7833,0.6578
+knn,['morgan'],1024,0.6574,0.5343
+knn,"['morgan', 'maccs']",1024,0.648,0.5581
+knn,"['morgan','mordred']",1024,0.6536,0.747
+xgb,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,0.8341,0.8993
+xgb,"['rdkit', 'morgan']",2048,0.7678,0.7476
+xgb,['morgan'],2048,0.8415,0.7493
+xgb,"['morgan', 'maccs']",2048,0.8189,0.8692
+xgb,"['morgan','mordred']",2048,0.7656,0.7045
+svc,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,0.8659,0.9264
+svc,"['rdkit', 'morgan']",2048,0.7008,0.8208
+svc,['morgan'],2048,0.6469,0.823
+svc,"['morgan', 'maccs']",2048,0.8655,0.867
+svc,"['morgan','mordred']",2048,0.7799,0.9218
+rf,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,0.85,0.8152
+rf,"['rdkit', 'morgan']",2048,0.7447,0.6705
+rf,['morgan'],2048,0.7821,0.7336
+rf,"['morgan', 'maccs']",2048,0.8114,0.7664
+rf,"['morgan','mordred']",2048,0.7288,0.7023
+lr,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,0.8061,0.6499
+lr,"['rdkit', 'morgan']",2048,0.7606,0.6826
+lr,['morgan'],2048,0.7393,0.8856
+lr,"['morgan', 'maccs']",2048,0.7836,0.6479
+lr,"['morgan','mordred']",2048,0.8062,0.8614
+knn,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,0.6864,0.7412
+knn,"['rdkit', 'morgan']",2048,0.6136,0.6183
+knn,['morgan'],2048,0.6168,0.5827
+knn,"['morgan', 'maccs']",2048,0.5436,0.6006
+knn,"['morgan','mordred']",2048,0.6416,0.7463

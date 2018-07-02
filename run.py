@@ -103,5 +103,11 @@ if __name__ == "__main__":
     random_state = 1337
     experiments_file = 'etc/dnn.csv'
     verbose = 10
-    n_jobs=1#multiprocessing.cpu_count()
-    main(experiments_file, common_gridsearch, random_state, result_cols, keys, params, verbose, n_jobs)
+    n_jobs=1 # multiprocessing.cpu_count()
+    for _ in range(100):
+        try:
+            main(experiments_file, common_gridsearch, random_state, result_cols, keys, params, verbose, n_jobs)
+        except KeyboardInterrupt:
+            break
+        except:
+            pass
