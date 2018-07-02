@@ -135,12 +135,12 @@ Splits:
 ## Processing the experiment table  <a name="table"></a>
 <b>Attention! Nested parallelization!</b>
 
-To work with classic models and for featurization, it is better to set:
-- run.py: n_jobs = 1
-- experiments_table.csv: n_jobs = -1
+1. To work with classic models and for featurization, it is better to set:
+  - run.py: n_jobs = 1
+  - experiments_table.csv: n_jobs = -1
   <br>For neural networks:
-- run.py: n_jobs = -1
-- experiments_table.csv: n_jobs = 1
+  - run.py: n_jobs = -1
+  - experiments_table.csv: n_jobs = 1
 <br><br>
 
 

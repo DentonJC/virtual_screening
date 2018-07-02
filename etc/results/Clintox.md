@@ -117,6 +117,9 @@
 | ['rdkit', 'morgan','mordred', 'maccs'] | 1024   | 0.81288±0.09710 | 0.77493±0.09525 |
 
 ### Plots
-- [Clintox_random](../preprocessed_clintox_random/clintox_random_results.md)
-- [Clintox_cluster](../preprocessed_clintox_cluster/clintox_cluster_results.md)
-- [Clintox_scaffold](../preprocessed_clintox_scaffold/clintox_scaffold_results.md)
+- [Random](../preprocessed_clintox_random/clintox_random_results.md)
+- [Cluster](../preprocessed_clintox_cluster/clintox_cluster_results.md)
+- [Scaffold](../preprocessed_clintox_scaffold/clintox_scaffold_results.md)
+- [Random val](../preprocessed_clintox_random/clintox_random_results_val.md)
+- [Cluster val](../preprocessed_clintox_cluster/clintox_cluster_results_val.md)
+- [Scaffold val](../preprocessed_clintox_scaffold/clintox_scaffold_results_val.md)

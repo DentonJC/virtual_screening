@@ -116,6 +116,9 @@
 
 
 ### Plots
-- [BACE_random](../preprocessed_bace_random/bace_random_results.md)
-- [BACE_cluster](../preprocessed_bace_cluster/bace_cluster_results.md)
-- [BACE_scaffold](../preprocessed_bace_scaffold/bace_scaffold_results.md)
+- [Random](../preprocessed_bace_random/bace_random_results.md)
+- [Cluster](../preprocessed_bace_cluster/bace_cluster_results.md)
+- [Scaffold](../preprocessed_bace_scaffold/bace_scaffold_results.md)
+- [Random val](../preprocessed_bace_random/bace_random_results_val.md)
+- [Cluster val](../preprocessed_bace_cluster/bace_cluster_results_val.md)
+- [Scaffold val](../preprocessed_bace_scaffold/bace_scaffold_results_val.md)
