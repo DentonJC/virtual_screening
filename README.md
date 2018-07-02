@@ -135,22 +135,22 @@ Splits:
 ## Processing the experiment table  <a name="table"></a>
 <b>Attention! Nested parallelization!</b>
 
-  1. To work with classic models and for featurization, it is better to set:
+To work with classic models and for featurization, it is better to set:
 - run.py: n_jobs = 1
 - experiments_table.csv: n_jobs = -1
-
-  <br>for neural networks:
+  <br>For neural networks:
 - run.py: n_jobs = -1
 - experiments_table.csv: n_jobs = 1
 <br><br>
 
-  2. It is impossible to get RDKit and Mordred descriptors for some molecules, so the first experiment must be done with RDKit and Mordred descriptors (if you want to use them in the following experiments) to exclude the lost molecules from the dataset and other descriptors.
 
-  3. Fill in the [table](../master/etc/README.md) with parameters of experiments (examples in /etc, False = empty cell), UTF-8
+2. It is impossible to get RDKit and Mordred descriptors for some molecules, so the first experiment must be done with RDKit and Mordred descriptors (if you want to use them in the following experiments) to exclude the lost molecules from the dataset and other descriptors.
 
-  4. Run run.py with Python
+3. Fill in the [table](../master/etc/README.md) with parameters of experiments (examples in /etc, False = empty cell), UTF-8
 
-  5. Experiments will be performed line by line with parameters from filled columns and with output to the result columns
+4. Run run.py with Python
+
+5. Experiments will be performed line by line with parameters from filled columns and with output to the result columns
 
 
 ## Example input <a name="input"></a>

@@ -116,6 +116,6 @@
 
 
 ### Plots
-- [BACE_random](../master/etc/preprocessed_bace_random/bace_random_results.md)
-- [BACE_cluster](../master/etc/preprocessed_bace_cluster/bace_cluster_results.md)
-- [BACE_scaffold](../master/etc/preprocessed_bace_scaffold/bace_scaffold_results.md)
+- [BACE_random](../preprocessed_bace_random/bace_random_results.md)
+- [BACE_cluster](../preprocessed_bace_cluster/bace_cluster_results.md)
+- [BACE_scaffold](../preprocessed_bace_scaffold/bace_scaffold_results.md)
