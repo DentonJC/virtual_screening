@@ -101,13 +101,13 @@ if __name__ == "__main__":
     result_cols = ['balanced_accuracy', 'auc', 'auc_val', 'gparams']
     common_gridsearch = True
     random_state = 1337
-    experiments_file = 'etc/dnn.csv'
+    experiments_file = 'etc/test.csv'
     verbose = 10
     n_jobs=1 # multiprocessing.cpu_count()
     for _ in range(100):
-        try:
+        if True:
             main(experiments_file, common_gridsearch, random_state, result_cols, keys, params, verbose, n_jobs)
-        except KeyboardInterrupt:
-            break
-        except:
-            pass
+        #except KeyboardInterrupt:
+        #    break
+        #except:
+        #    pass

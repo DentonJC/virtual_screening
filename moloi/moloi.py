@@ -153,24 +153,28 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
         loaded_cv = cv_splits_load(options.split_type, options.split_s, root_address+options.data_config, options.targets)
         if loaded_cv is False:
             for i in range(100):
-                count = 0
-                if options.split_type == 'cluster':
-                    options.n_cv = create_cv(smiles, 'random', options.n_cv, random_state, y_train)
-                else:
-                    options.n_cv = create_cv(smiles, options.split_type, options.n_cv, random_state, y_train)
+                count1 = 0
+                count2 = 0
+                options.n_cv = create_cv(smiles, options.split_type, options.n_cv, random_state, y_train)
                 for j in options.n_cv:
-                    if len(np.unique(j)) > 1:
-                        count += 1
-                if count == len(options.n_cv):
+                    j_train = np.array(j[0])
+                    j_test = np.array(j[1])
+                    if len(np.unique(y_train[j_train])) > 1:
+                        count1 += 1
+                    if len(np.unique(y_train[j_test])) > 1:
+                        count2 += 1
+                if count1 == len(options.n_cv) and count2 == len(options.n_cv):
                     break
-                random_state += 1
-            if count != len(options.n_cv):
+                else:
+                    options.n_cv = n_cv
+                    random_state += 1
+            if count1 != len(options.n_cv) or count2 != len(options.n_cv):
                 logger.info("Can not create a good split cv. Try another random_seed or check the dataset.")
                 sys.exit(0)
-
         else:
             options.n_cv = eval(loaded_cv)
 
+        
         cv_splits_save(options.split_type, options.split_s,  options.n_cv, root_address+options.data_config, options.targets)
         f = open(options.output+'n_cv', 'w')
         f.write(str(options.n_cv))

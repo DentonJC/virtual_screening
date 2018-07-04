@@ -1,0 +1,4 @@
+Data config,Model config,Section,Output,n_jobs,Load model,Model,Metric,Split type,Split size,Descriptors,n_bits,n_cv,Patience,Gridsearch,n_iter,balanced,ROC AUC,ROC AUC val,gparams
+/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,,lr,roc_auc,random,0.1,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,5,100,True,100,,,,
+/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,random,0.1,"['rdkit', 'mordred', 'maccs']",2048,5,100,True,100,,,,
+/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,random,0.1,"['rdkit', 'morgan', 'mordred']",2048,5,100,True,100,,,,

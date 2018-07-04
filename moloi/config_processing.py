@@ -34,6 +34,9 @@ def read_data_config(config_path, descriptors, n_bits, split_type=False, split_s
         section =  split_type + " " + str(split_size)
 
     if split_type + " " + str(split_size) not in data_config.sections():
+        #dataset_train = data_config.get('init', 'dataset_train')
+        #return dataset_train, dataset_test, dataset_val, labels_train, labels_test, labels_val, maccs_train, maccs_test, maccs_val, morgan_train, morgan_test, morgan_val, spectrophore_train, spectrophore_test, spectrophore_val, mordred_train, mordred_test, mordred_val, rdkit_train, rdkit_test, rdkit_val, external_train, external_test, external_val
+
         section = 'init'
     else:
         section =  split_type + " " + str(split_size)

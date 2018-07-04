@@ -190,7 +190,7 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
             indices = np.argsort(importances)
             x_label = 'AUC ROC test - AUC ROC without feature'
             
-           try:
+            try:
                 plot_fi(indices[-30:], importances, features, path+"img/feature_importance.png", x_label)
             except:
                 pass
