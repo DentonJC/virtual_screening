@@ -216,7 +216,7 @@ def plot_fi(indices, importances, features, path, x_label='Relative Importance')
         s.plot(kind='barh', color=color, alpha=0.6)
     except:
         color = [col(features[i]) for i in indices]
-        s.plot(kind='barh', color=[color], alpha=0.6)
+        s.plot(kind='barh', color=color, alpha=0.6)
     
     r = mpatches.Patch(color='r', label='Morgan', alpha=0.6)
     g = mpatches.Patch(color='g', label='mordred', alpha=0.6)
