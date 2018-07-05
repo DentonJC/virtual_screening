@@ -210,9 +210,13 @@ def plot_fi(indices, importances, features, path, x_label='Relative Importance')
     plt.subplots_adjust(left=0.3, bottom=0.1, right=0.9, top=0.9)
     s = pd.Series([importances[i] for i in indices], index=[features[i] for i in indices])
     plt.title('Feature Importances')
-
-    color = [col(features[i]) for i in indices]
-    s.plot(kind='barh', color=color, alpha=0.6)
+    
+    try:
+        color = [list([col(features[i]) for i in indices])]
+        s.plot(kind='barh', color=color, alpha=0.6)
+    except:
+        color = [col(features[i]) for i in indices]
+        s.plot(kind='barh', color=[color], alpha=0.6)
     
     r = mpatches.Patch(color='r', label='Morgan', alpha=0.6)
     g = mpatches.Patch(color='g', label='mordred', alpha=0.6)

@@ -40,6 +40,12 @@ def read_data_config(config_path, descriptors, n_bits, split_type=False, split_s
         section = 'init'
     else:
         section =  split_type + " " + str(split_size)
+    
+    ################################################
+    # WARNING! Disable loading of splitted datasets#
+    ################################################
+    section = 'init'
+    ################################################
 
     dataset_train = data_config.get(section, 'dataset_train')
     

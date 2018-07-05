@@ -150,7 +150,8 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
         #scoring = {'accuracy': 'accuracy', 'MCC': make_scorer(matthews_corrcoef)}
         scoring = make_scoring(options.metric)
         ####
-        loaded_cv = cv_splits_load(options.split_type, options.split_s, root_address+options.data_config, options.targets)
+        loaded_cv = False # split saving and loading is not complete
+        # loaded_cv = cv_splits_load(options.split_type, options.split_s, root_address+options.data_config, options.targets)
         if loaded_cv is False:
             for i in range(100):
                 count1 = 0
@@ -175,10 +176,11 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
             options.n_cv = eval(loaded_cv)
 
         
-        cv_splits_save(options.split_type, options.split_s,  options.n_cv, root_address+options.data_config, options.targets)
-        f = open(options.output+'n_cv', 'w')
-        f.write(str(options.n_cv))
-        f.close()
+        #cv_splits_save(options.split_type, options.split_s,  options.n_cv, root_address+options.data_config, options.targets)
+        #f = open(options.output+'n_cv', 'w')
+        #f.write(str(options.n_cv))
+        #f.close()
+
         ####
         # check if number of iterations more then possible combinations
         try:

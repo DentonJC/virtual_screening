@@ -194,10 +194,10 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
             except:
                 pass
             
-            try:
-                plot_fi(indices, importances, features, path+"img/feature_importance_full.png", x_label)
-            except:
-                pass
+            #try:
+            #    plot_fi(indices, importances, features, path+"img/feature_importance_full.png", x_label)
+            #except:
+            #    pass
             
             importances = np.array(importances).reshape(-1,1)
             features = np.array(features).reshape(-1,1)

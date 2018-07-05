@@ -29,8 +29,12 @@ def featurization(logger, filename, n_bits, path, data_config, verbose, descript
         data = data.drop("mol_id", 1)
 
     # Smiles
-    smiles = data["smiles"]
-    data = data.drop("smiles", 1)
+    try:
+        smiles = data["smiles"]
+        data = data.drop("smiles", 1)
+    except:
+        smiles = data["0"]
+        data = data.drop("0", 1)
     
     mordred_features, rdkit_features, maccs_fingerprints, morgan_fingerprints, spectrophore_fingerprints = False, False, False, False, False
     labels_address, mordred_address, rdkit_address, maccs_address, morgan_address, spectrophore_address, external_address = False, False, False, False, False, False, False
@@ -105,7 +109,10 @@ def featurization(logger, filename, n_bits, path, data_config, verbose, descript
                 l.append(labels[:,0])
         labels = np.array(l).T
 
-    labels_address = filename.replace(".csv", "_labels.csv")
+    if 'labels' not in filename:
+        labels_address = filename.replace(".csv", "_labels.csv")
+    else:
+        labels_address = filename
     head, _sep, tail = labels_address.rpartition('/')
     labels_address = path + "/data/preprocessed/labels/" + tail
     #labels_address.replace(".csv", split_type+'_'+split_size+'.csv')
@@ -172,6 +179,7 @@ def filling_config(path, data_config, filename, descriptors, n_bits, split_type,
     else:
         section = split_type+" "+str(split_size)
     
+    config[section]["dataset_" + str(name)] = str(labels_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz') # WARNING! Rewrite original dataset address in config
     config[section]["labels_" + str(name)] = str(labels_address.replace(path, '') + '.gz').replace('.gz.gz', '.gz')
     for i in ['mordred']:
         if i in descriptors:
@@ -638,6 +646,10 @@ def get_data(logger, data_config, n_bits, set_targets, random_state, split_type,
         labels_test.columns=names
         labels_val.columns=names
         
+        ################################################
+        # WARNING! Disable saving of splitted datasets#
+        ################################################
+        """
         labels_train_address = create_addr(path, filename_train, "train", "labels", split_type, split_size)
         labels_test_address = create_addr(path, filename_test, "test", "labels", split_type, split_size)
         labels_val_address = create_addr(path, filename_val, "val", "labels", split_type, split_size)
@@ -715,7 +727,9 @@ def get_data(logger, data_config, n_bits, set_targets, random_state, split_type,
         filling_config(path, data_config, "_test", descriptors, n_bits, split_type, split_size, labels_test_address, mordred_test_address, rdkit_test_address, maccs_test_address, morgan_test_address, spectrophore_test_address, external_test_address)
         filling_config(path, data_config, "_val", descriptors, n_bits, split_type, split_size, labels_val_address, mordred_val_address, rdkit_val_address, maccs_val_address, morgan_val_address, spectrophore_val_address, external_val_address)
 
-        
+        """
+        ################################################
+
     y_train = np.asarray(y_train, dtype=int)
     y_test = np.asarray(y_test, dtype=int)
     y_val = np.asarray(y_val, dtype=int)
