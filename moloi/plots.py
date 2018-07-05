@@ -2,6 +2,8 @@
 
 import numpy as np
 import pandas as pd
+import matplotlib as mlp
+mlp.use('Agg')
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from sklearn.metrics import roc_auc_score, roc_curve

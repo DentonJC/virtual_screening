@@ -4,6 +4,8 @@
 An additional script to run a series of experiments described in table like etc/experiments.csv
  where columns are hyperparameters and rows are experiments.
 """
+import matplotlib as mlp
+mlp.use('Agg') # plot without a running X server
 import os
 import sys
 import math
@@ -103,7 +105,7 @@ if __name__ == "__main__":
     random_state = 1337
     experiments_file = 'etc/test.csv'
     verbose = 10
-    n_jobs=1 # multiprocessing.cpu_count()
+    n_jobs=1 # multiprocessing.cpu_count() # only for evaluation
     for _ in range(100):
         if True:
             main(experiments_file, common_gridsearch, random_state, result_cols, keys, params, verbose, n_jobs)

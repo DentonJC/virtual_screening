@@ -10,7 +10,6 @@ import getopt
 import logging
 import numpy as np
 import pandas as pd
-from matplotlib import pyplot
 from datetime import datetime
 from shutil import copyfile, copytree
 from sklearn.metrics import accuracy_score, recall_score, roc_auc_score, f1_score, matthews_corrcoef, make_scorer

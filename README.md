@@ -51,6 +51,7 @@ Splits:
 ## Results <a name="results"></a>
 - [Clintox](../master/etc/results/Clintox.md)
 - [BACE](../master/etc/results/BACE.md)
+- [Feature importance](../master/etc/feature_importance/FEATURE_IMPORTANCE.md)
 
 ## Install <a name="install"></a>
 - It is good idea to use:
@@ -135,10 +136,10 @@ Splits:
 ## Processing the experiment table  <a name="table"></a>
 <b>Attention! Nested parallelization!</b>
 
-1. To work with classic models and for featurization, it is better to set:
+1. Default set:
   - run.py: n_jobs = 1
   - experiments_table.csv: n_jobs = -1
-  <br>For neural networks:
+  <br>Only for evaluation:
   - run.py: n_jobs = -1
   - experiments_table.csv: n_jobs = 1
 <br><br>
