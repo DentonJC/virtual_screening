@@ -88,10 +88,10 @@ for data in datasets:
                 logger.info("X shape: %s", str(X.shape))
                 logger.info("Y shape: %s", str(Y.shape)+'\n')
                 
-                addresses_tsne = [root_address+"/etc/img/"+data+"/"+str(d)+"/tsne/t-SNE_activity_"+s+".png", root_address+"/etc/img/"+data+"/"+str(d)+"/tsne/t-SNE_split_"+s+".png"]
+                addresses_tsne = root_address+"/etc/img/"+data+"/"+str(d)+"/tsne/t-SNE_"+s+".png"
                 titles_tsne = ["t-SNE "+data+" "+s+" split", "t-SNE "+data+" "+s+" activity"]
                 
-                addresses_pca = [root_address+"/etc/img/"+data+"/"+str(d)+"/pca/PCA_activity_"+s+".png", root_address+"/etc/img/"+data+"/"+str(d)+"/pca/PCA_split_"+s+".png"]
+                addresses_pca = root_address+"/etc/img/"+data+"/"+str(d)+"/pca/PCA_"+s+".png"
                 titles_pca = ["PCA "+data+" "+s+" split", "PCA "+data+" "+s+" activity"]
                 
                 labels1 = ["active", "train"]

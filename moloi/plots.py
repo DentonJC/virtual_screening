@@ -11,6 +11,16 @@ from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 from pylab import *
 
+params = {
+    'axes.labelsize': 8,
+    'font.size': 8,
+    'legend.fontsize': 10,
+    'xtick.labelsize': 10,
+    'ytick.labelsize': 10,
+    'figure.figsize': [8, 4] # 4.5, 4.5
+    }
+rcParams.update(params)
+
 
 def plot_old_history(history, path):
     """
@@ -88,7 +98,7 @@ def plot_auc(x_train, x_test, x_val, y_train, y_test, y_val, path, train_proba, 
     plt.ylabel('True Positive Rate')
     plt.title('Receiver operating characteristic')
     plt.legend(loc="lower right")
-    plt.savefig(path+'img/auc.png', dpi=100)
+    plt.savefig(path+'img/auc.png', dpi=150)
     plt.clf()
     plt.cla()
     plt.close()
@@ -181,17 +191,6 @@ def plot_fi(indices, importances, features, path, x_label='Relative Importance')
     plt.clf()
     plt.cla()
     plt.close()
-    
-    
-params = {
-    'axes.labelsize': 8,
-    'font.size': 8,
-    'legend.fontsize': 10,
-    'xtick.labelsize': 10,
-    'ytick.labelsize': 10,
-    'figure.figsize': [8, 4] # 4.5, 4.5
-    }
-rcParams.update(params)
 
 
 def plot_TSNE(x, y, y_a, path, titles, label_1, label_2, label_3, c1='r', c2='b', c3='#00FF00', s=2, alpha=1, n_components=2):    
@@ -232,7 +231,7 @@ def plot_TSNE(x, y, y_a, path, titles, label_1, label_2, label_3, c1='r', c2='b'
 
     ax2.set_title(titles[1])
     ax2.legend()
-    fig.savefig(path[1])#, dpi=150)
+    fig.savefig(path)#, dpi=150)
     fig.clf()
 
 
@@ -274,5 +273,5 @@ def plot_PCA(x, y, y_a, path, titles, label_1, label_2, label_3, c1='r', c2='b',
 
     ax2.set_title(titles[1])
     ax2.legend()
-    fig.savefig(path[1])#, dpi=150)
+    fig.savefig(path)#, dpi=150)
     fig.clf()
