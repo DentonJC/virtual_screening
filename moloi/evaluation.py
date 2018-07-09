@@ -18,6 +18,7 @@ from moloi.plots import plot_fi
 from moloi.descriptors.rdkit import rdkit_fetures_names
 from moloi.descriptors.mordred import mordred_fetures_names
 from moloi.data_processing import m_mean
+from joblib import Parallel, delayed 
 
 
 def get_latest_file(path):
@@ -51,6 +52,17 @@ def make_scoring(metric):
     if metric in 'matthews':
         scoring = make_scorer(matthews_corrcoef)
     return scoring
+
+
+def find_importances(i, X, y_test, model, auc_test):
+    x_test = np.array(list(X[:]))
+    x = m_mean(x_test, i)
+    test_proba = model.predict_proba(x)
+    try:
+        auc = roc_auc_score(y_test, test_proba[:,1])
+    except:
+        auc = roc_auc_score(y_test, test_proba)
+    return auc_test-auc
 
 
 def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val, y_val, y_train, y_test, time_start, rparams, history, section, n_jobs, descriptors, score):
@@ -173,19 +185,11 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
             logger.info("Can not plot feature importance")
     else:
         try:
-            importances = []
             X = list(x_test)
-            for i in range(x_test.shape[1]):
-                x_test = np.array(list(X[:]))
-                x = m_mean(x_test, i)
-                test_proba = model.predict_proba(x)
-                try:
-                    auc = roc_auc_score(y_test, test_proba[:,1])
-                except:
-                    auc = roc_auc_score(y_test, test_proba)
 
-                importances.append(auc_test-auc)
-
+            importances = []
+            importances.append(Parallel(n_jobs=n_jobs, verbose=1)(delayed(find_importances)(i, X, y_test, model, auc_test) for (i) in range(x_test.shape[1])))
+            importances = importances[0]
             indices = np.argsort(importances)
             x_label = 'AUC ROC test - AUC ROC without feature'
             

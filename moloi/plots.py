@@ -9,6 +9,7 @@ from mpl_toolkits.mplot3d import Axes3D
 from sklearn.metrics import roc_auc_score, roc_curve
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
+from pylab import *
 
 
 def plot_old_history(history, path):
@@ -46,7 +47,7 @@ def plot_history(history, path):
         plt.plot(np.array(history.history[keys[i+2]]), label='val', color='g')
         plt.title(str(columns[i]))
         plt.legend()
-    plt.savefig(path+'img/history.png')
+    plt.savefig(path+'img/history.png', dpi=150)
     plt.clf()
     plt.cla()
     plt.close()
@@ -115,61 +116,12 @@ def plot_grid_search(score, path):
         except ValueError:
             pass
 
-        plt.savefig(path+'img/grid_'+c+'.png', dpi=500)
+        plt.savefig(path+'img/grid_'+c+'.png', dpi=150)
         plt.clf()
         plt.cla()
         plt.close()
 
 
-def plot_TSNE(x, y, path, title="t-SNE", label_1="active", label_2="inactive", label_3="", c1='r', c2='b', c3='#00FF00', s=2, alpha=1, n_components=2):
-    print("t-SNE fitting")
-    tsne = TSNE(n_components=n_components)
-    coordinates = tsne.fit_transform(x)
-
-    plt.scatter(coordinates[np.where(y==1)[0],0],
-            coordinates[np.where(y==1)[0],1],
-            c=c1, s=s, alpha=alpha, label=label_1)
-    plt.scatter(coordinates[np.where(y==0)[0],0],
-            coordinates[np.where(y==0)[0],1],
-            c=c2, s=s, alpha=alpha, label=label_2)
-    
-    if len(np.unique(y)) == 3:
-        plt.scatter(coordinates[np.where(y==2)[0],0],
-                coordinates[np.where(y==2)[0],1],
-                c=c3, s=s, alpha=alpha, label=label_3)
-
-    plt.title(title)
-    plt.legend()
-    plt.savefig(path, dpi=500)
-    plt.clf()
-    plt.cla()
-    plt.close()
-    
-
-def plot_PCA(x, y, path, title="PCA", label_1="active", label_2="inactive", label_3="", c1='r', c2='b', c3='#00FF00', s=2, alpha=1, n_components=2):
-    print("PCA fitting")
-    pca = PCA(n_components=n_components)
-    coordinates = pca.fit_transform(x)
-
-    plt.scatter(coordinates[np.where(y==1)[0],0],
-            coordinates[np.where(y==1)[0],1],
-            c=c1, s=s, alpha=alpha, label=label_1)
-    plt.scatter(coordinates[np.where(y==0)[0],0],
-            coordinates[np.where(y==0)[0],1],
-            c=c2, s=s, alpha=alpha, label=label_2)
-    
-    if len(np.unique(y)) == 3:
-        plt.scatter(coordinates[np.where(y==2)[0],0],
-                coordinates[np.where(y==2)[0],1],
-                c=c3, s=s, alpha=alpha, label=label_3)
-
-    plt.title(title)
-    plt.legend()
-    plt.savefig(path, dpi=500)
-    plt.clf()
-    plt.cla()
-    plt.close()
-    
 """
 def plot_fi(indices, importances, features, path, x_label='Relative Importance'):
     fig = plt.figure(figsize=(8, 8),dpi=500)
@@ -204,7 +156,7 @@ def col(i):
         return 'm'
 
 def plot_fi(indices, importances, features, path, x_label='Relative Importance'):
-    fig = plt.figure(figsize=(8, 8),dpi=500)
+    fig = plt.figure(figsize=(8, 8),dpi=150)
     ax = fig.add_subplot(111)
     fig.tight_layout()
     plt.subplots_adjust(left=0.3, bottom=0.1, right=0.9, top=0.9)
@@ -225,7 +177,102 @@ def plot_fi(indices, importances, features, path, x_label='Relative Importance')
     plt.legend(handles=[r,g,b,y])
 
     plt.xlabel(x_label)
-    plt.savefig(path, dpi=500)
+    plt.savefig(path, dpi=150)
     plt.clf()
     plt.cla()
     plt.close()
+    
+    
+params = {
+    'axes.labelsize': 8,
+    'font.size': 8,
+    'legend.fontsize': 10,
+    'xtick.labelsize': 10,
+    'ytick.labelsize': 10,
+    'figure.figsize': [8, 4] # 4.5, 4.5
+    }
+rcParams.update(params)
+
+
+def plot_TSNE(x, y, y_a, path, titles, label_1, label_2, label_3, c1='r', c2='b', c3='#00FF00', s=2, alpha=1, n_components=2):    
+    print("t-SNE fitting")
+    tsne = TSNE(n_components=n_components)
+    coordinates = tsne.fit_transform(x)
+
+    fig = plt.figure()#(figsize=(3, 6.2),dpi=150)
+    fig.subplots_adjust(left=0.05, bottom=0.1, right=0.99, top=0.90, wspace = 0.2)
+    ax1 = fig.add_subplot(121)
+    ax1.scatter(coordinates[np.where(y==1)[0],0],
+            coordinates[np.where(y==1)[0],1],
+            c=c1, s=s, alpha=alpha, label=label_1[0])
+    ax1.scatter(coordinates[np.where(y==0)[0],0],
+            coordinates[np.where(y==0)[0],1],
+            c=c2, s=s, alpha=alpha, label=label_2[0])
+    
+    if len(np.unique(y)) == 3:
+        ax1.scatter(coordinates[np.where(y==2)[0],0],
+                coordinates[np.where(y==2)[0],1],
+                c=c3, s=s, alpha=alpha, label=label_3[0])
+
+    ax1.set_title(titles[0])
+    ax1.legend()
+    
+    ax2 = fig.add_subplot(122)
+    ax2.scatter(coordinates[np.where(y_a==1)[0],0],
+            coordinates[np.where(y_a==1)[0],1],
+            c=c1, s=s, alpha=alpha, label=label_1[1])
+    ax2.scatter(coordinates[np.where(y_a==0)[0],0],
+            coordinates[np.where(y_a==0)[0],1],
+            c=c2, s=s, alpha=alpha, label=label_2[1])
+    
+    if len(np.unique(y_a)) == 3:
+        ax2.scatter(coordinates[np.where(y_a==2)[0],0],
+                coordinates[np.where(y_a==2)[0],1],
+                c=c3, s=s, alpha=alpha, label=label_3[1])
+
+    ax2.set_title(titles[1])
+    ax2.legend()
+    fig.savefig(path[1])#, dpi=150)
+    fig.clf()
+
+
+def plot_PCA(x, y, y_a, path, titles, label_1, label_2, label_3, c1='r', c2='b', c3='#00FF00', s=2, alpha=1, n_components=2):
+    print("PCA fitting")
+    pca = PCA(n_components=n_components)
+    coordinates = pca.fit_transform(x)
+
+    fig = plt.figure()#(figsize=(3, 6.2),dpi=150)
+    fig.subplots_adjust(left=0.05, bottom=0.1, right=0.99, top=0.90, wspace = 0.2)
+    ax1 = fig.add_subplot(121)
+    ax1.scatter(coordinates[np.where(y==1)[0],0],
+            coordinates[np.where(y==1)[0],1],
+            c=c1, s=s, alpha=alpha, label=label_1[0])
+    ax1.scatter(coordinates[np.where(y==0)[0],0],
+            coordinates[np.where(y==0)[0],1],
+            c=c2, s=s, alpha=alpha, label=label_2[0])
+    
+    if len(np.unique(y)) == 3:
+        ax1.scatter(coordinates[np.where(y==2)[0],0],
+                coordinates[np.where(y==2)[0],1],
+                c=c3, s=s, alpha=alpha, label=label_3[0])
+
+    ax1.set_title(titles[0])
+    ax1.legend()
+    
+    ax2 = fig.add_subplot(122)
+    ax2.scatter(coordinates[np.where(y_a==1)[0],0],
+            coordinates[np.where(y_a==1)[0],1],
+            c=c1, s=s, alpha=alpha, label=label_1[1])
+    ax2.scatter(coordinates[np.where(y_a==0)[0],0],
+            coordinates[np.where(y_a==0)[0],1],
+            c=c2, s=s, alpha=alpha, label=label_2[1])
+    
+    if len(np.unique(y_a)) == 3:
+        ax2.scatter(coordinates[np.where(y_a==2)[0],0],
+                coordinates[np.where(y_a==2)[0],1],
+                c=c3, s=s, alpha=alpha, label=label_3[1])
+
+    ax2.set_title(titles[1])
+    ax2.legend()
+    fig.savefig(path[1])#, dpi=150)
+    fig.clf()

@@ -49,7 +49,7 @@ def get_options():
     return parser
 
     
-def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger_flag=False):
+def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger_flag=False, refit=False):
     time_start = datetime.now()
     # processing parameters
     args_list= list(map(str, args_list))
@@ -328,29 +328,32 @@ def experiment(args_list, random_state=False, p_rparams=False, verbose=0, logger
     else:
         logger.info("Model name is not found or xgboost import error.")
         sys.exit(0)
-    
+
     rparams["batch_size"] = r_batch_size
     rparams["class_weight"] = r_class_weight
     rparams["epochs"] = r_epochs
     
     if options.load_model:
         model, model_loaded = load_model(options.load_model, logger)
-    logger.info("MODEL FIT")
-    try:
-        monitor = 'binary_crossentropy'
-        mode = 'auto'
-        #if monitor is False:
-        #    monitor = 'val_acc'
-        #    mode = 'max'
-        callbacks = create_callbacks(options.output, options.patience, options.section, monitor="val_" + monitor, mode=mode)
-        history = model.fit(x_train, np.ravel(y_train), batch_size=rparams.get("batch_size"), epochs=epochs, shuffle=False, verbose=verbose, callbacks=callbacks, validation_data=(x_val, y_val))
-    except:
-        model.fit(x_train, np.ravel(y_train))
+    
+    if (options.load_model and refit) or not options.load_model:
+        logger.info("MODEL FIT")
+        try:
+            monitor = 'binary_crossentropy'
+            mode = 'auto'
+            #if monitor is False:
+            #    monitor = 'val_acc'
+            #    mode = 'max'
+            callbacks = create_callbacks(options.output, options.patience, options.section, monitor="val_" + monitor, mode=mode)
+            history = model.fit(x_train, np.ravel(y_train), batch_size=rparams.get("batch_size"), epochs=epochs, shuffle=False, verbose=verbose, callbacks=callbacks, validation_data=(x_val, y_val))
+        except:
+            model.fit(x_train, np.ravel(y_train))
     
     logger.info("EVALUATE")
     accuracy_test, accuracy_train, rec, auc, auc_val, f1, path = evaluate(logger, options, random_state, options.output, model, x_train, 
                                                                     x_test, x_val, y_val, y_train, y_test, time_start, rparams, history, 
                                                                     options.section, options.n_jobs, descriptors, grid)
+    
     # transfer learning in row
     #if not options.load_model:
     try:

@@ -21,7 +21,7 @@ def isnan(x):
     """ Checking if the variable is NaN and type float. """
     return isinstance(x, float) and math.isnan(x)
 
-def f(i, table, random_state, verbose, logger_flag):
+def f(i, table, random_state, verbose, logger_flag, refit):
     rparams = False
     command = []
     for c, p in enumerate(params):
@@ -47,7 +47,7 @@ def f(i, table, random_state, verbose, logger_flag):
         if isnan(table.iloc[i, j*len(result_cols) + len(params)]):    
             if not common_gridsearch:
                 rparams = False
-            accuracy_test, accuracy_train, rec, auc, auc_val, f1, rparams, model_address = experiment(final_command, random_state, rparams, verbose, logger_flag)
+            accuracy_test, accuracy_train, rec, auc, auc_val, f1, rparams, model_address = experiment(final_command, random_state, rparams, verbose, logger_flag, refit)
             accuracy_test, accuracy_train, rec, auc, auc_val, f1 = round(accuracy_test, 4), round(accuracy_train, 4), (round(rec[0], 4), round(rec[1], 4)), round(auc, 4), round(auc_val, 4), (round(f1[0], 4), round(f1[1], 4))
             balanced_accuracy = (rec[0] + rec[1]) / 2
             gparams = str(rparams)
@@ -65,7 +65,7 @@ def f(i, table, random_state, verbose, logger_flag):
             table.to_csv(experiments_file, index=False)
             logger_flag = True
 
-def main(experiments_file, common_gridsearch, random_state, result_cols, keys, params, verbose, n_jobs):
+def main(experiments_file, common_gridsearch, random_state, result_cols, keys, params, verbose, n_jobs, refit):
     """
     Check the rows of experiments_file in a loop. If there are no results in the row (empty fields after len(cols)), 
     it takes all values in this row and calls the experiment function until all result fields are filled with step len(result_cols).
@@ -92,7 +92,7 @@ def main(experiments_file, common_gridsearch, random_state, result_cols, keys, p
     table = pd.read_csv(experiments_file)
     if n_jobs > table.shape[0]:
         n_jobs = table.shape[0] - 1
-    Parallel(n_jobs=n_jobs, verbose=verbose)(delayed(f)(i, table, random_state, verbose, logger_flag) for (i) in range(table.shape[0]))
+    Parallel(n_jobs=n_jobs, verbose=verbose)(delayed(f)(i, table, random_state, verbose, logger_flag, refit) for (i) in range(table.shape[0]))
 
 
 if __name__ == "__main__":
@@ -105,11 +105,10 @@ if __name__ == "__main__":
     random_state = 1337
     experiments_file = 'etc/test.csv'
     verbose = 10
+    refit = False
     n_jobs=1 # multiprocessing.cpu_count() # only for evaluation
     for _ in range(100):
-        if True:
-            main(experiments_file, common_gridsearch, random_state, result_cols, keys, params, verbose, n_jobs)
-        #except KeyboardInterrupt:
-        #    break
-        #except:
-        #    pass
+        try:
+            main(experiments_file, common_gridsearch, random_state, result_cols, keys, params, verbose, n_jobs, refit)
+        except KeyboardInterrupt:
+            break

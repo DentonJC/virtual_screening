@@ -51,7 +51,14 @@ Splits:
 ## Results <a name="results"></a>
 - [Clintox](../master/etc/results/Clintox.md)
 - [BACE](../master/etc/results/BACE.md)
-- [Feature importance](../master/etc/feature_importance/FEATURE_IMPORTANCE.md)
+
+
+- [Feature importance XGBoost](../master/etc/feature_importance/xgb/FEATURE_IMPORTANCE.md)
+- [Feature importance Logistic Regression](../master/etc/feature_importance/lr/FEATURE_IMPORTANCE.md)
+- [Feature importance SVC](../master/etc/feature_importance/svc/FEATURE_IMPORTANCE.md)
+- [Feature importance KNN](../master/etc/feature_importance/knn/FEATURE_IMPORTANCE.md)
+- [Feature importance Random Forest](../master/etc/feature_importance/rf/FEATURE_IMPORTANCE.md)
+
 
 ## Install <a name="install"></a>
 - It is good idea to use:

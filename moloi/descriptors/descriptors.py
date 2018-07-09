@@ -64,7 +64,7 @@ def descriptor_maccs(logger, smiles):
     return np.array(features)
 
 
-def descriptor_morgan(logger, smiles, n_bits, hashed=True, radius=2):
+def descriptor_morgan(logger, smiles, n_bits, hashed=True, radius=5):
     logger.info("Morgan data extraction")
     features = [smiles_to_morgan(x, hashed=hashed, radius=radius, n_bits=n_bits) for x in smiles if x]
     return np.array(features)
