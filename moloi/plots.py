@@ -10,6 +10,9 @@ from sklearn.metrics import roc_auc_score, roc_curve
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 from pylab import *
+import matplotlib.patches as mpatches
+from moloi.descriptors.rdkit_descriptor import rdkit_fetures_names
+from moloi.descriptors.mordred_descriptor import mordred_fetures_names
 
 params = {
     'axes.labelsize': 8,
@@ -149,9 +152,6 @@ def plot_fi(indices, importances, features, path, x_label='Relative Importance')
     plt.cla()
     plt.close()
 """
-import matplotlib.patches as mpatches
-from moloi.descriptors.rdkit import rdkit_fetures_names
-from moloi.descriptors.mordred import mordred_fetures_names
 
 def col(i):
     if 'morgan' in i:
@@ -197,6 +197,8 @@ def plot_TSNE(x, y, y_a, path, titles, label_1, label_2, label_3, c1='r', c2='b'
     print("t-SNE fitting")
     tsne = TSNE(n_components=n_components)
     coordinates = tsne.fit_transform(x)
+    coords = pd.DataFrame(coordinates) 
+    coords.to_csv(path.replace('/img/','/img/coordinates/').replace('.png','.csv'))
 
     fig = plt.figure()#(figsize=(3, 6.2),dpi=150)
     fig.subplots_adjust(left=0.05, bottom=0.1, right=0.99, top=0.90, wspace = 0.2)
@@ -233,6 +235,64 @@ def plot_TSNE(x, y, y_a, path, titles, label_1, label_2, label_3, c1='r', c2='b'
     ax2.legend()
     fig.savefig(path)#, dpi=150)
     fig.clf()
+
+
+def plot_result_TSNE(coordinates, y, y_a, path, title, label_1='correct', label_2='incorrect', c1='r', c2='b', s=2, alpha=1):
+    #print(coordinates.shape)
+    fig = plt.figure(figsize=(4, 4))
+    coordinates = coordinates[1:,1:]
+    for i in range(len(coordinates)):
+        if y_a[i] == y[i]:
+            plt.scatter(x=(coordinates[i][0]), y=coordinates[i][1],
+            c=c1, s=3, alpha=alpha, label=label_1)
+        else:
+            plt.scatter(x=(coordinates[i][0]), y=coordinates[i][1],
+            c=c2, s=3, alpha=alpha, label=label_2)
+
+    xmin, xmax = plt.gca().get_xlim()
+    ymin, ymax = plt.gca().get_ylim()
+    plt.title(title)
+    r = mpatches.Patch(color=c1, label=label_1, alpha=0.6)
+    b = mpatches.Patch(color=c2, label=label_2, alpha=0.6)
+    plt.legend(handles=[r,b])
+    plt.savefig(path)#, dpi=150)
+    plt.clf()
+    
+    fig = plt.figure(figsize=(4, 4))
+    for i in range(len(coordinates)):
+        if(y_a[i] == y[i]) and (y[i] == 1):
+            plt.scatter(x=(coordinates[i][0]), y=coordinates[i][1],
+            c=c1, s=3, alpha=alpha, label=label_1)
+        if(y_a[i] != y[i]) and (y[i] == 1):
+            plt.scatter(x=(coordinates[i][0]), y=coordinates[i][1],
+            c=c2, s=3, alpha=alpha, label=label_2)
+
+    plt.xlim(xmin, xmax)
+    plt.ylim(ymin, ymax)    
+    plt.title(title+' positive class')
+    r = mpatches.Patch(color=c1, label=label_1, alpha=0.6)
+    b = mpatches.Patch(color=c2, label=label_2, alpha=0.6)
+    plt.legend(handles=[r,b])
+    plt.savefig(path.replace('.png','_pos.png'))#, dpi=150)
+    plt.clf()
+
+
+    fig = plt.figure(figsize=(4, 4))
+    for i in range(len(coordinates)):
+        if(y_a[i] == y[i]) and (y[i] == 0):
+            plt.scatter(x=(coordinates[i][0]), y=coordinates[i][1],
+            c=c1, s=3, alpha=alpha, label=label_1)
+        if(y_a[i] != y[i]) and (y[i] == 0):
+            plt.scatter(x=(coordinates[i][0]), y=coordinates[i][1],
+            c=c2, s=3, alpha=alpha, label=label_2)
+
+    plt.title(title+' negative class')
+    r = mpatches.Patch(color=c1, label=label_1, alpha=0.6)
+    b = mpatches.Patch(color=c2, label=label_2, alpha=0.6)
+    plt.legend(handles=[r,b])
+    plt.savefig(path.replace('.png','_neg.png'))#, dpi=150)
+    plt.clf()
+
 
 
 def plot_PCA(x, y, y_a, path, titles, label_1, label_2, label_3, c1='r', c2='b', c3='#00FF00', s=2, alpha=1, n_components=2):

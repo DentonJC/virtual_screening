@@ -2,6 +2,7 @@ import numpy as np
 from openbabel import OBSpectrophore
 import moloi.descriptors.mpd
 from pybel import Molecule
+import pybel
 
 
 def molprint2D(mol, d=50):
@@ -23,7 +24,7 @@ def spectro_average(samples):
     return np.mean(np.array(samples), axis=0)
 
         
-def smiles_to_spectrophore(mol, n_samples=10, combining_method=None):
+def smiles_to_spectrophore(smi, n_samples=10, combining_method=None):
     """
     Calculates spectrophore representation. Explicilty adds all hydrogens to mol. If mol is not 3D makes it 3D multiple times
     (calculating 3D conformation is not deterministic) and calculates spectrophore for each conformation, then combines
@@ -43,6 +44,7 @@ def smiles_to_spectrophore(mol, n_samples=10, combining_method=None):
     returns: np.array
     spectrophore representation of mol
     """
+    mol = pybel.readstring('smi', smi)
     # print "parsing", mol
     #mol.addh()
     spectrophore_calculator = OBSpectrophore()
@@ -56,6 +58,14 @@ def smiles_to_spectrophore(mol, n_samples=10, combining_method=None):
             spectro.append(np.array(spectrophore_calculator.GetSpectrophore(mol.OBMol)))
         if combining_method:
             spectro = combining_method(spectro)
+    #print(len(spectro))
+    #spectro = np.array(spectro)
+    spectro = [i for sub in spectro for i in sub]
+    #spectro = spectro.reshape(-1, 1)
+    if len(spectro) < 1:
+        spectro = [0] * 1536
+        #spectro = np.array(spectro).reshape(-1, 1)
+    #print(spectro.shape)
     return spectro
 
 

@@ -7,8 +7,8 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from moloi.descriptors.descriptors import descriptor_rdkit, descriptor_mordred, descriptor_maccs, descriptor_morgan, descriptor_spectrophore
-from moloi.descriptors.mordred import mordred_fetures_names
-from moloi.descriptors.rdkit import rdkit_fetures_names
+from moloi.descriptors.mordred_descriptor import mordred_fetures_names
+from moloi.descriptors.rdkit_descriptor import rdkit_fetures_names
 from moloi.config_processing import read_data_config
 from moloi.splits.scaffold_split import scaffold_split
 from moloi.splits.cluster_split import cluster_split
@@ -146,7 +146,7 @@ def featurization(logger, filename, n_bits, path, data_config, verbose, descript
 
     for i in ['spectrophore']:
         if i in descriptors:
-            spectrophore_fingerprints = descriptor_spectrophore(logger, smiles, n_bits)
+            spectrophore_fingerprints = descriptor_spectrophore(logger, smiles, n_bits, n_jobs, verbose)
             spectrophore_address = filename.replace(".csv", "_spectrophore_"+str(n_bits)+".csv")
             head, _sep, tail = spectrophore_address.rpartition('/')
             spectrophore_address = path + "/data/preprocessed/spectrophore/" + tail
@@ -479,9 +479,12 @@ def load_data(logger, path, filename, labels_addr, maccs_addr, morgan_addr, spec
                 spectrophore = spectrophore.drop("smiles", 1)
 
         full_smiles = pd.DataFrame(smiles)
-            
-        x, y = compile_data(labels, mordred, rdkit, maccs, morgan, spectrophore, external, set_targets)
         
+        #####################
+        #Select features here
+        #####################
+        x, y = compile_data(labels, mordred, rdkit, maccs, morgan, spectrophore, external, set_targets)
+
         smiles = np.array(smiles)
         
         if x.shape[0] != y.shape[0]:

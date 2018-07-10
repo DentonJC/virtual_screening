@@ -6,10 +6,10 @@ from rdkit.Chem import AllChem
 from rdkit import Chem
 from rdkit.Chem import MACCSkeys
 from joblib import Parallel, delayed 
-from moloi.descriptors.rdkit import smiles_to_rdkit
-from moloi.descriptors.mordred import smiles_to_mordred
-from moloi.descriptors.morgan import smiles_to_morgan
-from moloi.descriptors.spectrophore import smiles_to_spectrophore
+from moloi.descriptors.rdkit_descriptor import smiles_to_rdkit
+from moloi.descriptors.mordred_descriptor import smiles_to_mordred
+from moloi.descriptors.morgan_descriptor import smiles_to_morgan
+from moloi.descriptors.spectrophore_descriptor import smiles_to_spectrophore
 import pybel
 
 def descriptor_rdkit(logger, smiles, verbose, n_jobs):    
@@ -68,9 +68,24 @@ def descriptor_morgan(logger, smiles, n_bits, hashed=True, radius=2):
     logger.info("Morgan data extraction")
     features = [smiles_to_morgan(x, hashed=hashed, radius=radius, n_bits=n_bits) for x in smiles if x]
     return np.array(features)
+    
+    
+def descriptor_spectrophore(logger, smiles, n_bits, n_jobs, verbose):    
+    logger.info("Spectrophore data extraction")
+    if n_jobs == -1:
+        n_jobs = multiprocessing.cpu_count()
+        
+    if len(smiles) < n_jobs:
+        n_jobs = len(smiles)
+    features = []
+    features.append(Parallel(n_jobs=n_jobs, verbose=verbose)(delayed(smiles_to_spectrophore)(i, n_samples=n_bits) for (i) in smiles))
+    features = np.array(features)
+    features = [i for sub in features for i in sub]
+    return np.array(features)
 
-
+"""
 def descriptor_spectrophore(logger, smiles, n_bits):
     logger.info("Spectrophore data extraction")
     features = [smiles_to_spectrophore(pybel.readstring('smi', x), n_samples=n_bits) for x in smiles if x]
     return np.array(features)
+"""

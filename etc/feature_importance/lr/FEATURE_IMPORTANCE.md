@@ -3,6 +3,8 @@
 ### Clintox
 #### Random
 <img src="../lr/clintox_random.png" /><br/>
+#### Stratified
+<img src="../lr/clintox_stratified.png" /><br/>
 #### Scaffold
 <img src="../lr/clintox_scaffold.png" /><br/>
 #### Cluster
@@ -11,6 +13,8 @@
 ### BACE
 #### Random
 <img src="../lr/bace_random.png" /><br/>
+#### Stratified
+<img src="../lr/bace_stratified.png" /><br/>
 #### Scaffold
 <img src="../lr/bace_scaffold.png" /><br/>
 #### Cluster

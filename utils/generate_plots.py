@@ -7,8 +7,9 @@ from moloi.plots import plot_TSNE, plot_PCA
 from moloi.splits.cluster_split import cluster_split, molprint2d_count_fingerprinter, BalancedAgglomerativeClustering, tanimoto_similarity, _kernel_to_distance
 
 root_address = os.path.dirname(os.path.realpath(__file__)).replace("/utils", "")
-if not os.path.exists(root_address+"/etc/img/"):
-    os.makedirs(root_address+"/etc/img/")
+if not os.path.exists(root_address+"/etc/img/coordinates/"):
+    os.makedirs(root_address+"/etc/img/coordinates/")
+
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -43,6 +44,10 @@ for data in datasets:
                 os.makedirs(root_address+"/etc/img/"+data+"/"+str(d)+"/pca")
             if not os.path.exists(root_address+"/etc/img/"+data+"/"+str(d)+"/tsne"):
                 os.makedirs(root_address+"/etc/img/"+data+"/"+str(d)+"/tsne")
+            if not os.path.exists(root_address+"/etc/img/coordinates/"+data+"/"+str(d)+"/pca"):
+                os.makedirs(root_address+"/etc/img/coordinates/"+data+"/"+str(d)+"/pca")
+            if not os.path.exists(root_address+"/etc/img/coordinates/"+data+"/"+str(d)+"/tsne"):
+                os.makedirs(root_address+"/etc/img/coordinates/"+data+"/"+str(d)+"/tsne")
             x_train, x_test, x_val, y_val, y_train, y_test, input_shape, output_shape, smiles = get_data(logger, path, n_bits, [0], 1337, s, split_s, 10, d, -1)
             
             x_train = clean_data(x_train)
@@ -92,7 +97,7 @@ for data in datasets:
                 titles_tsne = ["t-SNE "+data+" "+s+" split", "t-SNE "+data+" "+s+" activity"]
                 
                 addresses_pca = root_address+"/etc/img/"+data+"/"+str(d)+"/pca/PCA_"+s+".png"
-                titles_pca = ["PCA "+data+" "+s+" split", "PCA "+data+" "+s+" activity"]
+                titles_pca = ["PCA "+data+" "+s+" split", "PCA "+data+" "+s+" activity", "PCA "+data+" "+s+" result"]
                 
                 labels1 = ["active", "train"]
                 labels2 = ["inactive", "test"]

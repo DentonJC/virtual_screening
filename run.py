@@ -107,7 +107,7 @@ if __name__ == "__main__":
     verbose = 10
     refit = False
     n_jobs=1 # multiprocessing.cpu_count() # only for evaluation
-    for _ in range(100):
+    for _ in range(1):
         try:
             main(experiments_file, common_gridsearch, random_state, result_cols, keys, params, verbose, n_jobs, refit)
         except KeyboardInterrupt:

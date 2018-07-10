@@ -14,9 +14,9 @@ from datetime import datetime
 from shutil import copyfile, copytree
 from sklearn.metrics import accuracy_score, recall_score, roc_auc_score, f1_score, matthews_corrcoef, make_scorer
 from moloi.report import create_report, plot_auc, plot_TSNE
-from moloi.plots import plot_fi
-from moloi.descriptors.rdkit import rdkit_fetures_names
-from moloi.descriptors.mordred import mordred_fetures_names
+from moloi.plots import plot_fi, plot_result_TSNE
+from moloi.descriptors.rdkit_descriptor import rdkit_fetures_names
+from moloi.descriptors.mordred_descriptor import mordred_fetures_names
 from moloi.data_processing import m_mean
 from joblib import Parallel, delayed 
 
@@ -215,6 +215,30 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
         except:
             logger.info("Can not plot feature importance")
     
+    try:
+        logger.info("Creating results plot")
+        root_address = os.path.dirname(os.path.realpath(__file__)).replace('/moloi','')
+        addresses_tsne = root_address+"/etc/img/coordinates/"+options.data_config.replace('/data/data_configs/','').replace('.ini','')+"/"+str(options.descriptors)+"/tsne/t-SNE_"+options.split_type+".png"
+        X_tsne = pd.read_csv(addresses_tsne.replace('.png','.csv'), header=None)
+        Y = np.c_[y_train.T, y_test.T]
+        Y = np.c_[Y, y_val.T]
+        
+        #y_pred_train, y_pred_test, y_pred_val = np.array(y_pred_train), np.array(y_pred_test), np.array(y_pred_val)
+        
+        Y_a = [y_pred_train, y_pred_test, y_pred_val]
+        Y_a = [i for sub in Y_a for i in sub]
+        
+        #Y_a = sum(Y_a, [])
+        Y_a = np.array(Y_a)
+        X_tsne = np.array(X_tsne)
+                
+        title_tsne = "t-SNE "+options.data_config.replace('/data/data_configs/','').replace('.ini','')+" "+options.split_type+" result"
+        s = 3
+        alpha = 0.5
+        plot_result_TSNE(X_tsne, Y.T, Y_a, path+"img/results.png", title=title_tsne, s=s, alpha=alpha)
+        logger.info("Results plot created")
+    except:
+        logger.info("Can not plot results")
     #plot_TSNE(x_train, y_train, path)
     logger.info("Results path: %s", path)
 

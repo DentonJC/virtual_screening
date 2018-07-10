@@ -208,7 +208,8 @@ In the experiment folder are:
 10. <b>img/</b>: ROC AUC plot (if possible)
 11. <b>img/</b>: feature importance plot
 12. <b>img/</b>: gridsearch plots (one picture for each hyperparameter)
-13. <b>report 70.39.pdf</b> (accuracy in name): report with information about the experiment
+13. <b>img/</b>: result plots - 3 plots shows t-SNE with correctly and incorrectly classified points (for all classes, for the positive class and for the negative class)
+14. <b>report 70.39.pdf</b> (accuracy in name): report with information about the experiment
 
 ## Citation <a name="citation"></a>
 - Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.
