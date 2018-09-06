@@ -8,7 +8,7 @@ conda install -y matplotlib
 conda install -y reportlab
 conda install -y seaborn
 conda install -y joblib
-conda install -y -c conda-forge xgboost
+conda install -y -c conda-forge xgboost=0.6
 conda install -y -c openbabel openbabel
 conda install -y -c rdkit rdkit
 conda install -y -c mordred-descriptor mordred

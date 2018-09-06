@@ -3,17 +3,15 @@ http://scikit-learn.org/stable/auto_examples/model_selection/plot_learning_curve
 """
 
 import os
-import sys
 import logging
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.naive_bayes import GaussianNB
 from sklearn.svm import SVC
-from sklearn.datasets import load_digits
 from sklearn.model_selection import learning_curve
 from sklearn.model_selection import ShuffleSplit
-from moloi.data_processing import get_data, clean_data
 from sklearn.preprocessing import MinMaxScaler
+from moloi.data_processing import get_data, clean_data
 
 
 def plot_learning_curve(estimator, title, X, y, ylim=None, cv=None,
@@ -112,7 +110,7 @@ if __name__ == "__main__":
     x_train = clean_data(x_train)
     x_test = clean_data(x_test)
     x_val = clean_data(x_val)
-        
+
     # Scale
     transformer_X = MinMaxScaler().fit(x_train)
     x_train = transformer_X.transform(x_train)

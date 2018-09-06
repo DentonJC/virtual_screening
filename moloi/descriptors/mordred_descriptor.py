@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 """
+https://github.com/kudkudak
+
 Featurization using rdkit descriptors.
 
 Trivial wrapper around rdkit.Chem.Descriptors that includes embedding procedure
@@ -73,7 +75,7 @@ def smiles_to_mordred(x, embed=True):
             missing.append(key)
 
         calc = Calculator(descriptors)
-        
+
         try:
             try:
                 features = calc(m, id=0)._values  # Call on the first conformer

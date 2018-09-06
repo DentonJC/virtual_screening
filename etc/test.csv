@@ -1,2 +1,2 @@
 Data config,Model config,Section,Output,n_jobs,Load model,Model,Metric,Split type,Split size,Descriptors,n_bits,n_cv,Patience,Gridsearch,n_iter,balanced,ROC AUC,ROC AUC val,gparams
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,LOGREG,,,679,lr,roc_auc,scaffold,0.1,"['rdkit', 'morgan', 'mordred', 'maccs','spectrophore'] ",1024,3,100,True,5,,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,lr,roc_auc,scaffold,0.1,"['rdkit', 'morgan', 'mordred', 'maccs', 'spectrophore'] ",1024,3,100,True,5,,,,

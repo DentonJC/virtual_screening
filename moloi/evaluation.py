@@ -1,24 +1,18 @@
 #!/usr/bin/env python
 
+# TODO: replace try by if
+# TODO: fix docstrings
+
 import os
 import sys
-import csv
 import glob
-import math
-import pickle
-import getopt
-import logging
+from shutil import copyfile, copytree
+from datetime import datetime
 import numpy as np
 import pandas as pd
-from datetime import datetime
-from shutil import copyfile, copytree
-from sklearn.metrics import accuracy_score, recall_score, roc_auc_score, f1_score, matthews_corrcoef, make_scorer
-from moloi.report import create_report, plot_auc, plot_TSNE
-from moloi.plots import plot_fi, plot_result_TSNE
-from moloi.descriptors.rdkit_descriptor import rdkit_fetures_names
-from moloi.descriptors.mordred_descriptor import mordred_fetures_names
-from moloi.data_processing import m_mean
-from joblib import Parallel, delayed 
+from sklearn.metrics import accuracy_score, recall_score, roc_auc_score
+from sklearn.metrics import f1_score, matthews_corrcoef, make_scorer
+from moloi.report import create_report
 
 
 def get_latest_file(path):
@@ -54,24 +48,14 @@ def make_scoring(metric):
     return scoring
 
 
-def find_importances(i, X, y_test, model, auc_test):
-    x_test = np.array(list(X[:]))
-    x = m_mean(x_test, i)
-    test_proba = model.predict_proba(x)
-    try:
-        auc = roc_auc_score(y_test, test_proba[:,1])
-    except:
-        auc = roc_auc_score(y_test, test_proba)
-    return auc_test-auc
-
-
-def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val, y_val, y_train, y_test, time_start, rparams, history, section, n_jobs, descriptors, score):
-    y_pred_test = model.predict(x_test)
-    y_pred_train = model.predict(x_train)
+def evaluate(logger, options, random_state, model, data, time_start, rparams, history, score, results):
+    path = options.output
+    y_pred_test = model.predict(data["x_test"])
+    y_pred_train = model.predict(data["x_train"])
     save_labels(y_pred_train, path + "y_pred_test.csv")
-    y_pred_val = model.predict(x_val)
+    y_pred_val = model.predict(data["x_val"])
     save_labels(y_pred_val, path + "y_pred_val.csv")
-    
+
     y_pred_test = np.ravel(y_pred_test)
     y_pred_train = np.ravel(y_pred_train)
     y_pred_val = np.ravel(y_pred_val)
@@ -83,25 +67,25 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
         logger.error("Model is not trained")
         print(y_pred_test)
         sys.exit(0)
-        
-    accuracy_test = accuracy_score(list(np.ravel(y_test)), y_pred_test)*100
-    accuracy_train = accuracy_score(list(np.ravel(y_train)), y_pred_train)*100
+
+    accuracy_test = accuracy_score(list(np.ravel(data["y_test"])), y_pred_test)*100
+    accuracy_train = accuracy_score(list(np.ravel(data["y_train"])), y_pred_train)*100
     logger.info("Accuracy test: %.2f%%" % (accuracy_test))
-        
-    rec = recall_score(y_test, y_pred_test, average=None)
+
+    rec = recall_score(data["y_test"], y_pred_test, average=None)
     try:
-        train_proba = model.predict_proba(x_train)
-        test_proba = model.predict_proba(x_test)
-        val_proba = model.predict_proba(x_val)
+        train_proba = model.predict_proba(data["x_train"])
+        test_proba = model.predict_proba(data["x_test"])
+        val_proba = model.predict_proba(data["x_val"])
         try:
-            train_proba = train_proba[:,1]
-            val_proba = val_proba[:,1]
-            test_proba = test_proba[:,1]
+            train_proba = train_proba[:, 1]
+            val_proba = val_proba[:, 1]
+            test_proba = test_proba[:, 1]
         except:
             pass
-        auc_train = roc_auc_score(y_train, train_proba)
-        auc_test = roc_auc_score(y_test, test_proba)
-        auc_val = roc_auc_score(y_val, val_proba)
+        auc_train = roc_auc_score(data["y_train"], train_proba)
+        auc_test = roc_auc_score(data["y_test"], test_proba)
+        auc_val = roc_auc_score(data["y_val"], val_proba)
     except:
         e = sys.exc_info()[0]
         print("Error: %s" % e)
@@ -112,24 +96,26 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
         test_proba = False
         val_proba = False
 
-    f1 = f1_score(y_test, y_pred_test, average=None)
-    """
-    # balanced acc
-    num_positive = float(np.count_nonzero(y_test))
-    num_negative = float(len(y_test) - num_positive)
-    pos_weight = num_negative / num_positive
-    weights = np.ones_like(y_test)
-    weights[y_train != 0] = pos_weight
-    b_acc = accuracy_score(y_test, y_pred_test, sample_weight=weights)
-    """
-    
+    f1 = f1_score(data["y_test"], y_pred_test, average=None)
+    results = {
+        'accuracy_test': accuracy_test,
+        'accuracy_train': accuracy_train,
+        'rec': rec,
+        'auc_test': auc_test,
+        'auc_train': auc_train,
+        'auc_val': auc_val,
+        'f1': f1,
+        'rparams': rparams
+        }
     # find how long the program was running
     tstop = datetime.now()
     timer = tstop - time_start
     logger.info(timer)
     # create report, prediction and save script and all current models
-    create_report(logger, path, accuracy_test, accuracy_train, rec, auc_train, auc_test, auc_val, train_proba, test_proba, val_proba, f1, timer, rparams, time_start, history, random_state, options, x_train, y_train, x_test, y_test, x_val, y_val, y_pred_train, y_pred_test, y_pred_val, score)
-    
+    create_report(logger, path, train_proba, test_proba, val_proba, timer, rparams,
+                  time_start, history, random_state, options, data, y_pred_train,
+                  y_pred_test, y_pred_val, score, model, results)
+
     copyfile(sys.argv[0], path + os.path.basename(sys.argv[0]))
     try:
         copytree('moloi/models', path + 'models')
@@ -139,107 +125,11 @@ def evaluate(logger, options, random_state, path, model, x_train, x_test, x_val,
     path_old = path[:-1]
 
     try:
-        path = (path[:-8] + '_' + section +  '_' + str(descriptors) +  '_' + str(round(accuracy_test, 3)) +'/').replace(" ", "_")
+        path = (path[:-8] + '_' + options.section + '_' + str(options.descriptors) +
+                '_' + str(round(accuracy_test, 3)) + '/').replace(" ", "_")
         os.rename(path_old, path)
     except TypeError:
         pass
 
-    descriptors = eval(descriptors)
-    features = []
-    for i in descriptors:
-        if i == 'rdkit':
-            features.append(list(rdkit_fetures_names()))
-        if i == 'mordred':
-            features.append(list(mordred_fetures_names()))
-        if i == 'maccs':
-            features.append(list("maccs_"+str(i) for i in range(167)))
-        if i == 'morgan':
-            features.append(list("morgan_"+str(i) for i in range(options.n_bits)))
-        if i == 'spectrophore':
-            features.append(list("spectrophore_"+str(i) for i in range(options.n_bits)))
-    features = sum(features, [])
-
-    logger.info("Creating feature importance plot")
-    if options.select_model in ['none']: # ['xgb','rf'] - but number of descriptors is too big
-        try:
-            # TODO: names of descriptors on plot
-            importances = model.feature_importances_
-            indices = np.argsort(importances)
-            indices = indices[-30:]
-            
-            try:
-                plot_fi(indices, importances, features, path, x_label)
-            except:
-                pass
-            
-            importances = np.array(importances).reshape(-1,1)
-            features = np.array(features).reshape(-1,1)
-
-            tab = np.hstack([features, importances])
-
-            fi = pd.DataFrame(tab)
-
-            fi.to_csv(path+"feature_importance.csv", sep=",", header=["feature","importance"], index=False)
-            logger.info("Feature importance plot created")
-        except:
-            logger.info("Can not plot feature importance")
-    else:
-        try:
-            X = list(x_test)
-
-            importances = []
-            importances.append(Parallel(n_jobs=n_jobs, verbose=1)(delayed(find_importances)(i, X, y_test, model, auc_test) for (i) in range(x_test.shape[1])))
-            importances = importances[0]
-            indices = np.argsort(importances)
-            x_label = 'AUC ROC test - AUC ROC without feature'
-            
-            try:
-                plot_fi(indices[-30:], importances, features, path+"img/feature_importance.png", x_label)
-            except:
-                pass
-            
-            #try:
-            #    plot_fi(indices, importances, features, path+"img/feature_importance_full.png", x_label)
-            #except:
-            #    pass
-            
-            importances = np.array(importances).reshape(-1,1)
-            features = np.array(features).reshape(-1,1)
-
-            tab = np.hstack([features, importances])
-
-            fi = pd.DataFrame(tab)
-
-            fi.to_csv(path+"feature_importance.csv", sep=",", header=["feature","importance"], index=False)
-            logger.info("Feature importance plot created")
-        except:
-            logger.info("Can not plot feature importance")
-    
-    try:
-        logger.info("Creating results plot")
-        root_address = os.path.dirname(os.path.realpath(__file__)).replace('/moloi','')
-        addresses_tsne = root_address+"/etc/img/coordinates/"+options.data_config.replace('/data/data_configs/','').replace('.ini','')+"/"+str(options.descriptors)+"/tsne/t-SNE_"+options.split_type+".png"
-        X_tsne = pd.read_csv(addresses_tsne.replace('.png','.csv'), header=None)
-        Y = np.c_[y_train.T, y_test.T]
-        Y = np.c_[Y, y_val.T]
-        
-        #y_pred_train, y_pred_test, y_pred_val = np.array(y_pred_train), np.array(y_pred_test), np.array(y_pred_val)
-        
-        Y_a = [y_pred_train, y_pred_test, y_pred_val]
-        Y_a = [i for sub in Y_a for i in sub]
-        
-        #Y_a = sum(Y_a, [])
-        Y_a = np.array(Y_a)
-        X_tsne = np.array(X_tsne)
-                
-        title_tsne = "t-SNE "+options.data_config.replace('/data/data_configs/','').replace('.ini','')+" "+options.split_type+" result"
-        s = 3
-        alpha = 0.5
-        plot_result_TSNE(X_tsne, Y.T, Y_a, path+"img/results.png", title=title_tsne, s=s, alpha=alpha)
-        logger.info("Results plot created")
-    except:
-        logger.info("Can not plot results")
-    #plot_TSNE(x_train, y_train, path)
     logger.info("Results path: %s", path)
-
-    return accuracy_test, accuracy_train, rec, auc_test, auc_val, f1, path
+    return results, path

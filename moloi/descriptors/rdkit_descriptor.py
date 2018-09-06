@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 """
+https://github.com/kudkudak
+
 Featurization using rdkit descriptors.
 
 Trivial wrapper around rdkit.Chem.Descriptors that includes embedding procedure

@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+"""
+https://github.com/kudkudak
+"""
+
 
 import numpy as np
 from rdkit import Chem

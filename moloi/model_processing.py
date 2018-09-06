@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 import os
-import pickle
-import logging
+# import pickle
+# import logging
 from sklearn.externals import joblib
 from keras.models import model_from_json
 
@@ -19,8 +19,8 @@ def load_model(load_model, logger):
             fp.close()
         else:
             load_model = eval(load_model)
-        if load_model[1] == False:
-            #model = pickle.load(open(options.load_model, 'rb'))
+        if load_model[1] is False:
+            # model = pickle.load(open(options.load_model, 'rb'))
             model = joblib.load(load_model[0])
         else:
             # load json and create model
@@ -40,7 +40,7 @@ def load_model(load_model, logger):
     return model, model_loaded
 
 
-def save_model(model, path, logger):
+def save_model(model, path, logger, rparams):
     model_address = False
     try:
         # pickle.dump(model, open(options.output+"model.sav", 'wb'))
@@ -49,11 +49,12 @@ def save_model(model, path, logger):
         f = open(path+'addresses', 'w')
         f.write(str(model_address))
         f.close()
-        
+
         f = open(os.path.dirname(os.path.realpath(__file__)).replace("/moloi", "") + "/tmp/addresses", 'a')
         f.write(str(model_address)+'\n')
         f.close()
-        model_address = sum(1 for line in open(os.path.dirname(os.path.realpath(__file__)).replace("/moloi", "") + "/tmp/addresses"))
+        model_address = sum(1 for line in open(os.path.dirname(os.path.realpath(__file__)).replace("/moloi", "") +
+                                               "/tmp/addresses"))
 
     except TypeError:
         try:
@@ -64,9 +65,9 @@ def save_model(model, path, logger):
             # serialize weights to HDF5
             model.save_weights(path+"model.h5")
 
-            loss=rparams.get("loss", 'binary_crossentropy')
-            metrics=rparams.get("metrics", ['accuracy'])
-            optimizer=rparams.get("optimizer", 'Adam')
+            loss = rparams.get("loss", 'binary_crossentropy')
+            metrics = rparams.get("metrics", ['accuracy'])
+            optimizer = rparams.get("optimizer", 'Adam')
             f = open(path+'compile', 'w')
             f.write(loss+'\n'+str(metrics)+'\n'+optimizer)
             f.close()
@@ -78,7 +79,8 @@ def save_model(model, path, logger):
             f = open(os.path.dirname(os.path.realpath(__file__)).replace("/moloi", "") + "/tmp/addresses", 'a')
             f.write(str(model_address)+'\n')
             f.close()
-            model_address = sum(1 for line in open(os.path.dirname(os.path.realpath(__file__)).replace("/moloi", "") + "/tmp/addresses"))
+            model_address = sum(1 for line in open(os.path.dirname(os.path.realpath(__file__)).replace("/moloi", "") +
+                                                   "/tmp/addresses"))
         except:
             logger.info("Can not save this model")
     return model_address
