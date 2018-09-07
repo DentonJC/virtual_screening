@@ -30,8 +30,8 @@ def experiment(args_list, exp_settings, results):
 
     for i in range(len(options.targets)):  # options.targets is array of strings
         options.targets[i] = int(options.targets[i])
-    options.descriptors = eval(options.descriptors)  # input is string, need array
-
+    # options.descriptors = eval(options.descriptors)  # input is string, need array
+    options.descriptors = options.descriptors.split()
     # create experiment folder before starting log
     if not os.path.exists(options.output):
         os.makedirs(options.output)
@@ -105,7 +105,10 @@ def experiment(args_list, exp_settings, results):
     grid = False
 
     if options.load_model:
-        _, model_loaded = load_model(options.load_model, logger)
+        try:
+            _, model_loaded = load_model(options.load_model, logger)
+        except:
+            logger.info("Can not load model")
 
     if options.gridsearch and not exp_settings["rparams"] and not model_loaded:
         logger.info("GRID SEARCH")
@@ -167,16 +170,18 @@ def experiment(args_list, exp_settings, results):
         except:
             model.fit(data["x_train"], np.ravel(data["y_train"]))
 
-    logger.info("EVALUATE")
-    results, path = evaluate(logger, options, exp_settings["random_state"], model, data,
-                             time_start, rparams, history, grid, results)
     # transfer learning in row
     if not options.load_model:
-        model_address = save_model(model, path, logger, results['rparams'])
+        model_address = save_model(model, options.output, logger, results['rparams'])
     else:
         model_address = options.load_model
 
+    logger.info("EVALUATE")
+    results, path = evaluate(logger, options, exp_settings["random_state"], model, data,
+                             time_start, rparams, history, grid, results)
+
     logger.info("Done")
+
     results['model_address'] = model_address
     return results
 

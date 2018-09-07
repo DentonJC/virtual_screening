@@ -83,18 +83,24 @@ def worker(i, table, exp_settings, common_gridsearch, result_cols, keys, params)
 
             # round results
             for key in results:
-                if isinstance(results[key], str):
+                if isinstance(results[key], (str, dict)):
                     continue
-                elif isinstance(results[key], list):
-                    for i in range(len(results[key])):
-                        results[key][i] = round(results[key][i], 4)
+                elif isinstance(results[key], (list, np.ndarray)):
+                    for p in range(len(results[key])):
+                        results[key][p] = round(results[key][p], 4)
                 else:
                     results[key] = round(results[key], 4)
 
+            print(results)
             table = pd.read_csv(experiments_file)
 
             for p, r in enumerate(result_cols):
-                table.iloc[i, j * len(result_cols) + len(params) + p] = results[r]
+                print(results[r])
+                print(i, j * len(result_cols) + len(params) + p)
+                print(table)
+                import sys
+                #sys.exit(0)
+                table.iloc[i, j * len(result_cols) + len(params) + p] = str(results[r])
 
             if model_address:
                 table.iloc[i, 5] = str(model_address)  # set on Load model column
@@ -141,8 +147,4 @@ if __name__ == "__main__":
     verbose = 10
     refit = False
     n_jobs = 1  # multiprocessing.cpu_count() # only for evaluation
-    for _ in range(10):  # 10 attempts
-        try:
-            main(experiments_file, common_gridsearch, random_state, result_cols, keys, params, verbose, n_jobs, refit)
-        except KeyboardInterrupt:
-            break
+    main(experiments_file, common_gridsearch, random_state, result_cols, keys, params, verbose, n_jobs, refit)

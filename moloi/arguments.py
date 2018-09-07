@@ -9,7 +9,7 @@ def get_options():
     parser.add_argument('--data_config', help='path to dataset config file')
     parser.add_argument('--section', help='name of section in model config file')
     parser.add_argument('--load_model', help='path to model .sav')
-    parser.add_argument('--descriptors', default=['mordred', 'maccs'], help='descriptor of molecules')
+    parser.add_argument('--descriptors', type=str, default=['mordred', 'maccs'], help='descriptor of molecules')
     parser.add_argument('--output', default=os.path.dirname(os.path.realpath(__file__)).replace("/moloi", "") +
                         "/tmp/" + str(datetime.now()) + '/', help='path to output directory')
     parser.add_argument('--model_config', default="/data/model_configs/bace.ini", help='path to config file')

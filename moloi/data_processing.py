@@ -39,7 +39,9 @@ def get_data(logger, options, random_state, verbose):
     addresses = read_data_config(options.data_config, options.n_bits, options.split_type, options.split_s)
     logger.info("Load data")
     data = load_data(logger, path, addresses, options, data, verbose)
-
+    if data["x_train"] is False:
+        logger.error("Dataset is not loaded, check data config")
+        sys.exit(0)
     logger.info("Loaded from config")
     logger.info("x_train shape: %s", str(np.array(data["x_train"]).shape))
     logger.info("x_test shape: %s", str(np.array(data["x_test"]).shape))
@@ -47,8 +49,6 @@ def get_data(logger, options, random_state, verbose):
     logger.info("y_train shape: %s", str(np.array(data["y_train"]).shape))
     logger.info("y_test shape: %s", str(np.array(data["y_test"]).shape))
     logger.info("y_val shape: %s", str(np.array(data["y_val"]).shape))
-
-    print(data["y_train"])
 
     if (data["x_train"] is not False and data["x_test"] is not False and data["x_val"] is not False and
         data["y_train"] is not False and data["y_test"] is not False and data["y_val"] is not False):
@@ -64,11 +64,15 @@ def get_data(logger, options, random_state, verbose):
 
             elif data["x_test"] is False or data["y_test"] is False:
                 logger.info("Split test data")
-                data = split(options.split_type, data, 1-options.split_s, random_state, 'test')
+                data = split(options.split_type, data, options.split_s, random_state, 'test')
 
             elif data["x_val"] is False or data["y_val"] is False:
                 logger.info("Split val data")
-                data = split(options.split_type, data, 1-options.split_s, random_state, 'val')
+                data = split(options.split_type, data, options.split_s, random_state, 'val')
+
+            print(len(data["x_train"]))
+            print(len(data["x_test"]))
+            print(len(data["x_val"]))
 
             for j in [data["y_train"], data["y_val"], data["y_test"]]:
                 if len(np.unique(j)) > 1:
@@ -117,10 +121,9 @@ def get_data(logger, options, random_state, verbose):
 
 
 def load_data(logger, path, addresses, options, data, verbose, do_featurization=True):
-    t_descriptors = options.descriptors[:]
-    t_descriptors.append('labels')
-
     for j in ['_train', '_test', '_val']:
+        t_descriptors = options.descriptors[:]
+        t_descriptors.append('labels')
         X = {
             "labels": False,
             "maccs": False,
@@ -135,7 +138,10 @@ def load_data(logger, path, addresses, options, data, verbose, do_featurization=
 
         for i in ['labels', 'maccs', 'morgan', 'mordred', 'rdkit', 'spectrophore', 'external']:
             if i in t_descriptors:
-                if addresses[i + j] and os.path.isfile(path + addresses[i + j]):
+                if addresses[i + j]:
+                    if not os.path.isfile(path + addresses[i + j]):
+                        logger.error("Address im data config is not exist: " + i + j + " = " + path + addresses[i + j])
+                        sys.exit(0)
                     X[i] = pd.read_csv(path + addresses[i + j], header=0)
                     logger.info(i + " loaded from config")
                     t_descriptors.remove(i)
@@ -207,13 +213,13 @@ def load_data(logger, path, addresses, options, data, verbose, do_featurization=
 
         # except UnboundLocalError:
         #     pass
-        return data
+    return data
 
 
 def compile_data(X, set_targets):
     X['labels'] = np.array(X['labels'])
     x = False
-    for i in ['labels', 'maccs', 'morgan', 'mordred', 'rdkit', 'spectrophore', 'external']:
+    for i in ['maccs', 'morgan', 'mordred', 'rdkit', 'spectrophore', 'external']:
         if X[i] is not False:
             print(i, X[i].shape)
 
@@ -468,20 +474,21 @@ def clean_data(x, mode="zero"):
 
 
 def split_test_val(split_type, data, split_size, random_state):
-    split_size = 1 - split_size * 2
+    a = len(data["x_train"])
+    split_size_val = ((a * split_size) / ((a - a * split_size) / 100))/100
+
     data = split(split_type, data, split_size, random_state, 'test')
 
-    data["smiles_test"] = np.array(data["smiles_test"])
-    data["x_test"] = np.array(data["x_test"])
+    # data["smiles_test"] = np.array(data["smiles_test"])
+    # data["x_test"] = np.array(data["x_test"])
 
-    split_size = 0.5
-    data = split(split_type, data, split_size, random_state, 'val')
+    data = split(split_type, data, split_size_val, random_state, 'val')
     return data
 
 
 def split(split_type, data, split_size, random_state, name):
     if split_type == "scaffold":
-        train, test = scaffold_split(data["smiles_train"], frac_train=1 - split_size)
+        train, test = scaffold_split(data["smiles_train"], frac_train=split_size)
     elif split_type == "cluster":
         train, test = cluster_split(data["smiles_train"], test_cluster_id=1, n_splits=2)
     elif split_type == "random":
@@ -514,6 +521,7 @@ def split(split_type, data, split_size, random_state, name):
 
     data["full_smiles_" + name] = data["full_smiles_train"].iloc[test]
     data["full_smiles_train"] = data["full_smiles_train"].iloc[train]
+
     return data
 
 

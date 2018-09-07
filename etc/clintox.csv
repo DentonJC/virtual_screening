@@ -1,4 +1,5 @@
 Data config,Model config,Section,Output,n_jobs,Load model,Model,Metric,Split type,Split size,Descriptors,n_bits,n_cv,Patience,Gridsearch,n_iter,balanced,auc,auc val,gparams
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,0.1,"['rdkit', 'morgan','mordred', 'maccs']",1024,10,100,True,200,,,,
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,random,0.1,['mordred'],1024,10,100,True,200,,,,
-/data/data_configs/clintox.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,cluster,0.1,['maccs'],32,5,100,True,50,,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,714,xgb,roc_auc,random,0.1,rdkit morgan mordred maccs,1024,3,100,True,3,0.7485,0.8692,0.8373,"{'subsample': 0.8, 'n_estimators': 1000, 'min_child_weight': 0.6, 'max_depth': 16, 'learning_rate': 0.01, 'colsample_bytree': 0.1}"
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,XGB,,,,xgb,roc_auc,scaffold,1.1,rdkit morgan mordred maccs,1024,3,101,True,30,,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,RF,,,,rf,roc_auc,scaffold,0.1,rdkit morgan mordred maccs,1024,3,100,True,3,,,,
+/data/data_configs/bace.ini,/data/model_configs/configs.ini,LOGREG,,,,lr,roc_auc,scaffold,0.1,rdkit morgan mordred maccs,1024,3,100,True,3,,,,

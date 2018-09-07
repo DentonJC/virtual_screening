@@ -4,6 +4,7 @@
 # TODO: fix docstrings
 
 import os
+import shutil
 import sys
 import glob
 from shutil import copyfile, copytree
@@ -52,7 +53,7 @@ def evaluate(logger, options, random_state, model, data, time_start, rparams, hi
     path = options.output
     y_pred_test = model.predict(data["x_test"])
     y_pred_train = model.predict(data["x_train"])
-    save_labels(y_pred_train, path + "y_pred_test.csv")
+    save_labels(y_pred_test, path + "y_pred_test.csv")
     y_pred_val = model.predict(data["x_val"])
     save_labels(y_pred_val, path + "y_pred_val.csv")
 
@@ -131,5 +132,14 @@ def evaluate(logger, options, random_state, model, data, time_start, rparams, hi
     except TypeError:
         pass
 
+    try:
+        root = os.path.dirname(os.path.realpath(__file__)).replace("/moloi", "") + "/tmp/"
+        folders = list(os.walk(root))
+        folders = folders[0][1]
+        for folder in folders:
+            	shutil.make_archive(os.path.join(root, folder), 'zip', os.path.join(root, folder))
+            	shutil.rmtree(os.path.join(root, folder))
+    except:
+         pass
     logger.info("Results path: %s", path)
     return results, path
