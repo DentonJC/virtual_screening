@@ -10,6 +10,8 @@ logger = logging.getLogger(__name__)
 from rdkit import Chem
 from rdkit.Chem.Scaffolds import MurckoScaffold
 
+from tqdm import tqdm
+
 def generate_scaffold(smiles, include_chirality=False):
   """
   Compute the Bemis-Murcko scaffold for a SMILES string.
@@ -19,13 +21,19 @@ def generate_scaffold(smiles, include_chirality=False):
   Copied from https://github.com/deepchem/deepchem/blob/master/deepchem/splits/splitters.py
   """
   mol = Chem.MolFromSmiles(smiles)
+  if mol is None:
+      logger.warning("Failedcalculating scaffold for " + smiles)
+      return 'fail'
   scaffold = MurckoScaffold.MurckoScaffoldSmiles(
         mol=mol, includeChirality=include_chirality)
   return scaffold
 
-def scaffold_split(smiles, frac_train=.8, seed=777, log_every_n=1000):
+
+def scaffold_split(smiles, frac_train=.8, seed=777):
     """
     Splits compounds into train/validation/test by scaffold.
+
+    Warning: if there is one very popular scaffold can produce unbalanced split
 
     Params
     ------
@@ -43,36 +51,25 @@ def scaffold_split(smiles, frac_train=.8, seed=777, log_every_n=1000):
     smiles = list(smiles)
 
     scaffolds = {}
-    logger.debug("About to generate scaffolds")
-    data_len = len(smiles)
 
-    rng = np.random.RandomState(seed)
-    rng.shuffle(smiles)
-
-    for ind, smi in enumerate(smiles):
-        if ind % log_every_n == 0:
-            logger.debug("Generating scaffold %d/%d" % (ind, data_len))
+    for ind, smi in tqdm(enumerate(smiles), total=len(smiles)):
         scaffold = generate_scaffold(smi)
         if scaffold not in scaffolds:
             scaffolds[scaffold] = [ind]
         else:
             scaffolds[scaffold].append(ind)
-    # Sort from largest to smallest scaffold sets
-    scaffolds = {key: sorted(value) for key, value in scaffolds.items()}
-    scaffold_sets = [
-        scaffold_set
-        for (scaffold, scaffold_set) in sorted(
-            scaffolds.items(), key=lambda x: (len(x[1]), x[1][0]), reverse=True)
-    ]
+
+    scaffolds_keys = list(scaffolds)
+    rng = np.random.RandomState(seed)
+    rng.shuffle(scaffolds_keys)
 
     train_cutoff = frac_train * len(smiles)
     train_inds, test_inds = [], []
-    logger.debug("About to sort in scaffold sets")
-    for scaffold_set in scaffold_sets:
+    for scaffold_key in scaffolds_keys:
         if len(train_inds) > train_cutoff:
-            test_inds += scaffold_set
+            test_inds += scaffolds[scaffold_key]
         else:
-            train_inds += scaffold_set
+            train_inds += scaffolds[scaffold_key]
     return train_inds, test_inds
 
 if __name__ == "__main__":

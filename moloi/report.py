@@ -102,7 +102,8 @@ def create_report(logger, path, train_proba, test_proba, val_proba, timer, rpara
 
     plot_grid_search(logger, score, path)
 
-    plot_features_importance(logger, options, data, model, path, results["auc_test"])
+    # plot_features_importance(logger, options, data, model, path, results["auc_test"])
+
     plot_results(logger, options, data, pred_train, pred_test, pred_val, path)
     # X = np.c_[x_train.T, x_test.T]
     # X = np.c_[X, x_val.T]

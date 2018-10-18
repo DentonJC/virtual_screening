@@ -10,6 +10,7 @@ from moloi.descriptors.rdkit_descriptor import smiles_to_rdkit
 from moloi.descriptors.mordred_descriptor import smiles_to_mordred
 from moloi.descriptors.morgan_descriptor import smiles_to_morgan
 from moloi.descriptors.spectrophore_descriptor import smiles_to_spectrophore
+BACKEND = 'loky'
 
 
 def descriptor_rdkit(logger, smiles, verbose, n_jobs):
@@ -22,7 +23,7 @@ def descriptor_rdkit(logger, smiles, verbose, n_jobs):
 
     physic = np.array_split(pd.Series(smiles), n_jobs)
     parallel = []
-    parallel.append(Parallel(n_jobs=n_jobs, verbose=verbose)(delayed(smiles_to_rdkit)(pd.Series(p)) for p in physic))
+    parallel.append(Parallel(n_jobs=n_jobs, backend=BACKEND, verbose=verbose)(delayed(smiles_to_rdkit)(pd.Series(p)) for p in physic))
     # p_headers = parallel[0][0][0].columns.values.tolist()
     parallel = np.array(parallel)
     physic_data = parallel[0][0][0].T
@@ -44,7 +45,7 @@ def descriptor_mordred(logger, smiles, verbose, n_jobs):
         n_jobs = len(smiles)
     physic = np.array_split(pd.Series(smiles), n_jobs)
     parallel = []
-    parallel.append(Parallel(n_jobs=n_jobs, verbose=verbose)(delayed(smiles_to_mordred)(pd.Series(p)) for p in physic))
+    parallel.append(Parallel(n_jobs=n_jobs, backend=BACKEND, verbose=verbose)(delayed(smiles_to_mordred)(pd.Series(p)) for p in physic))
     # p_headers = parallel[0][0][0].columns.values.tolist()
     parallel = np.array(parallel)
     physic_data = parallel[0][0][0].T
@@ -78,7 +79,7 @@ def descriptor_spectrophore(logger, smiles, n_bits, n_jobs, verbose):
     if len(smiles) < n_jobs:
         n_jobs = len(smiles)
     features = []
-    features.append(Parallel(n_jobs=n_jobs, verbose=verbose)(delayed(smiles_to_spectrophore)(i, n_samples=n_bits) for i in smiles))
+    features.append(Parallel(n_jobs=n_jobs, backend=BACKEND, verbose=verbose)(delayed(smiles_to_spectrophore)(i, n_samples=n_bits) for i in smiles))
     features = np.array(features)
     features = [i for sub in features for i in sub]
     return np.array(features)

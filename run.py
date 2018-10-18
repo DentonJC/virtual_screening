@@ -16,6 +16,7 @@ import numpy as np
 from joblib import Parallel, delayed
 from moloi.moloi import experiment
 from moloi.dictionaries import results_dict
+BACKEND = 'loky'
 
 
 def isnan(x):
@@ -131,7 +132,7 @@ def main(experiments_file, common_gridsearch, random_state, result_cols, keys, p
         'refit': refit
         }
 
-    Parallel(n_jobs=n_jobs, verbose=verbose)(delayed(worker)(i, table, exp_settings, common_gridsearch, result_cols, keys, params) for i in range(table.shape[0]))
+    Parallel(n_jobs=n_jobs, backend=BACKEND, verbose=verbose)(delayed(worker)(i, table, exp_settings, common_gridsearch, result_cols, keys, params) for i in range(table.shape[0]))
 
 
 if __name__ == "__main__":
@@ -140,10 +141,11 @@ if __name__ == "__main__":
             '--select_model', '--data_config', '--section']
     params = ["Load model", "Output", "Model config", "Descriptors", "n_bits", "n_cv", "n_jobs", "Patience",
               "Gridsearch", "n_iter", "Metric", "Split type", "Split size", 'Model', 'Data config', 'Section']
-    result_cols = ['balanced_accuracy', 'auc', 'auc_val', 'gparams']
+    # result_cols = ['balanced_accuracy', 'auc', 'auc_val']
+    result_cols = ['rmse_test', 'rmse_train']
     common_gridsearch = True
     random_state = 1337
-    experiments_file = 'etc/clintox.csv'
+    experiments_file = 'etc/exp2.csv'
     verbose = 10
     refit = False
     n_jobs = 1  # multiprocessing.cpu_count() # only for evaluation

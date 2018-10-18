@@ -19,7 +19,7 @@ def get_options():
     parser.add_argument('--n_jobs', default=-1, type=int, help='number of jobs')
     parser.add_argument('--patience', '-p', default=100, type=int, help='patience of fit')
     parser.add_argument('--gridsearch', '-g', action='store_true', default=False, help='use gridsearch')
-    parser.add_argument('--metric', default='accuracy', choices=['accuracy', 'roc_auc', 'f1', 'matthews'],
+    parser.add_argument('--metric', default='accuracy', choices=['accuracy', 'roc_auc', 'f1', 'matthews', 'mae', 'r2'],
                         help='metric for RandomizedSearchCV')
     parser.add_argument('--split_type', choices=['stratified', 'scaffold', 'random', 'cluster'], default='stratified',
                         type=str, help='type of train-test split')

@@ -45,7 +45,7 @@ def read_data_config(config_path, n_bits, split_type=False, split_size=0.1):
             addresses['dataset' + j] = data_config.get(section, 'dataset' + j)
 
         if addresses['dataset' + j]:
-            if j not in addresses['dataset' + j]:
+            if j not in addresses['dataset' + j]: # Rename "dataset.csv" to "dataset_train.csv" and change address
                 path = os.path.dirname(os.path.realpath(__file__)).replace("/moloi", "")
                 os.rename(path + addresses['dataset' + j],
                           path + addresses['dataset' + j].replace(".csv", "_train.csv"))

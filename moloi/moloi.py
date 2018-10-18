@@ -31,7 +31,9 @@ def experiment(args_list, exp_settings, results):
     for i in range(len(options.targets)):  # options.targets is array of strings
         options.targets[i] = int(options.targets[i])
     # options.descriptors = eval(options.descriptors)  # input is string, need array
-    options.descriptors = options.descriptors.split()
+    options.descriptors = options.descriptors.split(',')
+    for i, desc in enumerate(options.descriptors):
+        options.descriptors[i] = desc.replace('\'','').replace('[','').replace(']','').replace(' ','')
     # create experiment folder before starting log
     if not os.path.exists(options.output):
         os.makedirs(options.output)
@@ -119,6 +121,7 @@ def experiment(args_list, exp_settings, results):
         logger.info("y_test shape: %s", str(np.array(data["y_test"]).shape))
         logger.info("y_val shape: %s", str(np.array(data["y_val"]).shape))
         # scoring = {'accuracy': 'accuracy', 'MCC': make_scorer(matthews_corrcoef)}
+
         scoring = make_scoring(options.metric)
         # options.n_cv = create_cv_splits()  # disabled
         # check if number of iterations more then possible combinations

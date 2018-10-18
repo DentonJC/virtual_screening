@@ -11,9 +11,10 @@ from shutil import copyfile, copytree
 from datetime import datetime
 import numpy as np
 import pandas as pd
-from sklearn.metrics import accuracy_score, recall_score, roc_auc_score
-from sklearn.metrics import f1_score, matthews_corrcoef, make_scorer
+from sklearn.metrics import accuracy_score, recall_score, roc_auc_score, f1_score, r2_score
+from sklearn.metrics import matthews_corrcoef, make_scorer, mean_squared_error, mean_absolute_error
 from moloi.report import create_report
+from math import sqrt
 
 
 def get_latest_file(path):
@@ -37,15 +38,20 @@ def save_labels(arr, filename):
 
 
 def make_scoring(metric):
-    scoring = make_scorer(accuracy_score)
     if metric in 'accuracy':
         scoring = make_scorer(accuracy_score)
-    if metric in 'roc_auc':
+    elif metric in 'roc_auc':
         scoring = make_scorer(roc_auc_score)
-    if metric in 'f1':
+    elif metric in 'f1':
         scoring = make_scorer(f1_score)
-    if metric in 'matthews':
+    elif metric in 'matthews':
         scoring = make_scorer(matthews_corrcoef)
+    elif metric in 'mae':
+        scoring = make_scorer(mean_absolute_error, greater_is_better=False)
+    elif metric in 'r2':
+        scoring = make_scorer(r2_score)
+    else:
+        scoring = make_scorer(accuracy_score)
     return scoring
 
 
@@ -98,6 +104,12 @@ def evaluate(logger, options, random_state, model, data, time_start, rparams, hi
         val_proba = False
 
     f1 = f1_score(data["y_test"], y_pred_test, average=None)
+    rmse_train = sqrt(mean_squared_error(data["y_train"], y_pred_train))
+    rmse_test = sqrt(mean_squared_error(data["y_test"], y_pred_test))
+
+    mae_train = mean_absolute_error(data["y_train"], y_pred_train)
+    mae_test = mean_absolute_error(data["y_test"], y_pred_test)
+
     results = {
         'accuracy_test': accuracy_test,
         'accuracy_train': accuracy_train,
@@ -106,6 +118,10 @@ def evaluate(logger, options, random_state, model, data, time_start, rparams, hi
         'auc_train': auc_train,
         'auc_val': auc_val,
         'f1': f1,
+        'rmse_test': rmse_test,
+        'rmse_train': rmse_train,
+        'mae_test': mae_test,
+        'mae_train': mae_train,
         'rparams': rparams
         }
     # find how long the program was running

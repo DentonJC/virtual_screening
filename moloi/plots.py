@@ -15,6 +15,7 @@ from joblib import Parallel, delayed
 from moloi.descriptors.rdkit_descriptor import rdkit_fetures_names
 from moloi.descriptors.mordred_descriptor import mordred_fetures_names
 from moloi.data_processing import m_mean
+BACKEND = 'loky'
 # mlp.use('Agg')
 
 
@@ -383,7 +384,7 @@ def plot_features_importance(logger, options, data, model, path, auc_test):
             X = list(data["x_test"])
 
             importances = []
-            importances.append(Parallel(n_jobs=options.n_jobs, verbose=1)(delayed(find_importances)(i, X, data["y_test"], model, auc_test) for i in range(data["x_test"].shape[1])))
+            importances.append(Parallel(n_jobs=options.n_jobs, backend=BACKEND, verbose=1)(delayed(find_importances)(i, X, data["y_test"], model, auc_test) for i in range(data["x_test"].shape[1])))
             importances = importances[0]
             indices = np.argsort(importances)
             x_label = 'AUC ROC test - AUC ROC without feature'

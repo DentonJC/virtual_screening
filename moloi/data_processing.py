@@ -55,6 +55,7 @@ def get_data(logger, options, random_state, verbose):
         options.split_type = False
 
     # if split_type == "scaffold":
+
     if options.split_type:
         for i in range(100):
             count = 0
@@ -70,9 +71,9 @@ def get_data(logger, options, random_state, verbose):
                 logger.info("Split val data")
                 data = split(options.split_type, data, options.split_s, random_state, 'val')
 
-            print(len(data["x_train"]))
-            print(len(data["x_test"]))
-            print(len(data["x_val"]))
+            # print(len(data["x_train"]))
+            # print(len(data["x_test"]))
+            # print(len(data["x_val"]))
 
             for j in [data["y_train"], data["y_val"], data["y_test"]]:
                 if len(np.unique(j)) > 1:
@@ -140,7 +141,7 @@ def load_data(logger, path, addresses, options, data, verbose, do_featurization=
             if i in t_descriptors:
                 if addresses[i + j]:
                     if not os.path.isfile(path + addresses[i + j]):
-                        logger.error("Address im data config is not exist: " + i + j + " = " + path + addresses[i + j])
+                        logger.error("Address in data config is not exist: " + i + j + " = " + path + addresses[i + j])
                         sys.exit(0)
                     X[i] = pd.read_csv(path + addresses[i + j], header=0)
                     logger.info(i + " loaded from config")
@@ -154,7 +155,6 @@ def load_data(logger, path, addresses, options, data, verbose, do_featurization=
                 if do_featurization:
                     X_t, addresses = featurization(logger, path + addresses["dataset" + j],
                                                    options, path, t_descriptors, X_t, addresses, j, verbose)
-
                 for i in ['labels', 'maccs', 'morgan', 'mordred', 'rdkit', 'spectrophore', 'external']:
                     if X[i] is False and (i in options.descriptors or i in 'labels'):
                         X[i] = X_t[i]
@@ -194,6 +194,9 @@ def load_data(logger, path, addresses, options, data, verbose, do_featurization=
         data['x' + j], data['y' + j] = compile_data(X, options.targets)
 
         data['smiles' + j] = np.array(data['smiles' + j])
+
+
+
         if data['x' + j].shape[0] != data['y' + j].shape[0]:
             print("X amd Y are not match")
             print(data['x' + j].shape)
@@ -258,7 +261,8 @@ def featurization(logger, filename, options, path, descriptors, X_t, addresses, 
     missing = []
     section = options.split_type + " " + str(options.split_s)
 
-    logger.info("After processing shapes:")
+    if 'mordred' in descriptors or 'rdkit' in descriptors:
+        logger.info("After processing shapes:")
     if 'mordred' in descriptors and not config.has_option(section, 'mordred' + j):
         mordred_missing, mordred_features = descriptor_mordred(logger, smiles, verbose, options.n_jobs)
 
@@ -282,7 +286,8 @@ def featurization(logger, filename, options, path, descriptors, X_t, addresses, 
     if len(missing) > 1:  # if missing in both rdkit and mordred
         missing = np.concatenate([missing[0], missing[1]])
 
-    logger.info("After cleaning shapes:")
+    if 'mordred' in descriptors or 'rdkit' in descriptors:
+        logger.info("After cleaning shapes:")
 
     if 'rdkit' in descriptors and not config.has_option(section, 'rdkit'+j):
         rdkit_features = np.array(rdkit_features)
@@ -305,7 +310,7 @@ def featurization(logger, filename, options, path, descriptors, X_t, addresses, 
 
         X_t["mordred"] = mordred_features
 
-    smiles = np.delete(smiles, missing)
+    smiles = np.delete(smiles, missing, axis=0)
     labels = data
     labels = np.array(labels)
     labels = np.delete(labels, missing, axis=0)
@@ -477,12 +482,12 @@ def split_test_val(split_type, data, split_size, random_state):
     a = len(data["x_train"])
     split_size_val = ((a * split_size) / ((a - a * split_size) / 100))/100
 
-    data = split(split_type, data, split_size, random_state, 'test')
+    data = split(split_type, data, 1-split_size, random_state, 'test')
 
     # data["smiles_test"] = np.array(data["smiles_test"])
     # data["x_test"] = np.array(data["x_test"])
 
-    data = split(split_type, data, split_size_val, random_state, 'val')
+    data = split(split_type, data, 1-split_size_val, random_state, 'val')
     return data
 
 

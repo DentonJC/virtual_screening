@@ -1,10 +1,10 @@
 import sys
-from sklearn.svm import SVC
+from sklearn.svm import SVC, SVR
 # from sklearn.utils import class_weight as cw
-from sklearn.linear_model import LogisticRegression
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.ensemble import RandomForestClassifier, IsolationForest
-from sklearn.neural_network import BernoulliRBM, MLPClassifier
+from sklearn.linear_model import LogisticRegression, LinearRegression
+from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
+from sklearn.ensemble import RandomForestClassifier, IsolationForest, RandomForestRegressor
+from sklearn.neural_network import BernoulliRBM, MLPClassifier, MLPRegressor
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV  # , PredefinedSplit
 from keras.wrappers.scikit_learn import KerasClassifier
 from moloi.models.keras_models import FCNN, LSTM, MLP, Logreg
@@ -86,6 +86,21 @@ def create_gridsearch_model(logger, rparams, gparams, options, exp_settings, sco
     #     search_model = KerasClassifier(build_fn=GRU, input_shape=input_shape,
     #                                    output_shape=output_shape, input_length=x_train.shape[1])
     #     model = RandomizedSearchCV(estimator=search_model, **keras_params)
+    if options.select_model == "lr_reg":
+        model = RandomizedSearchCV(LinearRegression(**rparams), **sklearn_params)
+    elif options.select_model == "knn_reg":
+        model = RandomizedSearchCV(KNeighborsRegressor(**rparams), **sklearn_params)
+    elif options.select_model == "rf_reg":
+        model = RandomizedSearchCV(RandomForestRegressor(**rparams), **sklearn_params)
+    elif options.select_model == "xgb_reg":
+        model = RandomizedSearchCV(xgb.XGBRegressor(**rparams), **sklearn_params)
+    elif options.select_model == "svr":
+        if type(gparams) == list:
+            model = GridSearchCV(SVR(**rparams, probability=True), **grid_sklearn_params)
+        else:
+            model = RandomizedSearchCV(SVR(**rparams, probability=True), **sklearn_params)
+    elif options.select_model == "mlp_sklearn_reg":
+        model = RandomizedSearchCV(MLPRegressor(**rparams), **sklearn_params)
     else:
         logger.info("Model name is not found.")
         sys.exit(0)
@@ -123,6 +138,18 @@ def create_model(logger, rparams, options, input_shape, output_shape):
     #     model = GRU(input_shape, output_shape, **rparams)
     # elif options.select_model == "lstm":
     #     model = LSTM(input_shape, output_shape, input_length=x_train.shape[1], **rparams)
+    if options.select_model == "lr_reg":
+        model = LinearRegression(**rparams)
+    elif options.select_model == "knn_reg":
+        model = KNeighborsRegressor(**rparams)
+    elif options.select_model == "rf_reg":
+        model = RandomForestRegressor(**rparams)
+    elif options.select_model == "xgb_reg":
+        model = xgb.XGBRegressor(**rparams)
+    elif options.select_model == "svr":
+        model = SVR(**rparams, probability=True)
+    elif options.select_model == "mlp_sklearn_reg":
+        model = MLPRegressor(**rparams)
     else:
         logger.info("Model name is not found or xgboost import error.")
         sys.exit(0)
