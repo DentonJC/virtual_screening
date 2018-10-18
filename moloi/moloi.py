@@ -101,6 +101,13 @@ def experiment(args_list, exp_settings, results):
     if data["y_train"].shape[1] > 1 and "roc_auc" in options.metric:
         logger.error("Multilabel data: can not use ROC AUC metric")
         sys.exit(0)
+    if (len(np.unique(data["y_train"])) > 2 or len(np.unique(data["y_test"])) > 2 or
+       len(np.unique(data["y_val"])) > 2):
+        print("Scale labels for regression task")
+        transformer_Y = MinMaxScaler(feature_range=(-1, 1)).fit(data["y_train"])
+        data["y_train"] = transformer_Y.transform(data["y_train"])
+        data["y_test"] = transformer_Y.transform(data["y_test"])
+        data["y_val"] = transformer_Y.transform(data["y_val"])
 
     history = False
     model_loaded = False

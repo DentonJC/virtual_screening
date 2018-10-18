@@ -78,8 +78,6 @@ def worker(i, table, exp_settings, common_gridsearch, result_cols, keys, params)
             results = experiment(final_command, exp_settings, results)
 
             model_address = results["model_address"]
-            results["auc"] = results["auc_test"]
-            results["balanced_accuracy"] = (results["rec"][0] + results["rec"][1]) / 2
             results["gparams"] = results["rparams"]
 
             # round results
@@ -92,14 +90,14 @@ def worker(i, table, exp_settings, common_gridsearch, result_cols, keys, params)
                 else:
                     results[key] = round(results[key], 4)
 
-            print(results)
+            #print(results)
             table = pd.read_csv(experiments_file)
 
             for p, r in enumerate(result_cols):
-                print(results[r])
-                print(i, j * len(result_cols) + len(params) + p)
-                print(table)
-                import sys
+                #print(results[r])
+                #print(i, j * len(result_cols) + len(params) + p)
+                #print(table)
+                #import sys
                 #sys.exit(0)
                 table.iloc[i, j * len(result_cols) + len(params) + p] = str(results[r])
 
@@ -141,8 +139,8 @@ if __name__ == "__main__":
             '--select_model', '--data_config', '--section']
     params = ["Load model", "Output", "Model config", "Descriptors", "n_bits", "n_cv", "n_jobs", "Patience",
               "Gridsearch", "n_iter", "Metric", "Split type", "Split size", 'Model', 'Data config', 'Section']
-    # result_cols = ['balanced_accuracy', 'auc', 'auc_val']
-    result_cols = ['rmse_test', 'rmse_train']
+    # result_cols = ['balanced_accuracy_test', 'auc_test', 'auc_val']
+    result_cols = ['r2_test', 'r2_val', 'mae_test', 'mae_val']
     common_gridsearch = True
     random_state = 1337
     experiments_file = 'etc/exp2.csv'

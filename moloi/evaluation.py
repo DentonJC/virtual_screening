@@ -59,8 +59,10 @@ def evaluate(logger, options, random_state, model, data, time_start, rparams, hi
     path = options.output
     y_pred_test = model.predict(data["x_test"])
     y_pred_train = model.predict(data["x_train"])
+    save_labels(data["y_test"], path + "y_test.csv")
     save_labels(y_pred_test, path + "y_pred_test.csv")
     y_pred_val = model.predict(data["x_val"])
+    save_labels(data["y_val"], path + "y_val.csv")
     save_labels(y_pred_val, path + "y_pred_val.csv")
 
     y_pred_test = np.ravel(y_pred_test)
@@ -70,16 +72,36 @@ def evaluate(logger, options, random_state, model, data, time_start, rparams, hi
     try:
         y_pred_test = [int(round(value)) for value in y_pred_test]
         y_pred_train = [int(round(value)) for value in y_pred_train]
+        y_pred_val = [int(round(value)) for value in y_pred_val]
     except ValueError:
         logger.error("Model is not trained")
         print(y_pred_test)
         sys.exit(0)
 
-    accuracy_test = accuracy_score(list(np.ravel(data["y_test"])), y_pred_test)*100
-    accuracy_train = accuracy_score(list(np.ravel(data["y_train"])), y_pred_train)*100
-    logger.info("Accuracy test: %.2f%%" % (accuracy_test))
+    try:
+        accuracy_test = accuracy_score(list(np.ravel(data["y_test"])), y_pred_test)*100
+        accuracy_train = accuracy_score(list(np.ravel(data["y_train"])), y_pred_train)*100
+        accuracy_val = accuracy_score(list(np.ravel(data["y_val"])), y_pred_val)*100
+        logger.info("Accuracy test: %.2f%%" % (accuracy_test))
 
-    rec = recall_score(data["y_test"], y_pred_test, average=None)
+        f1_test = f1_score(data["y_test"], y_pred_test, average=None)
+        f1_train = f1_score(data["y_train"], y_pred_train, average=None)
+        f1_val = f1_score(data["y_val"], y_pred_val, average=None)
+
+        rec_test = recall_score(data["y_test"], y_pred_test, average=None)
+        rec_train = recall_score(data["y_train"], y_pred_train, average=None)
+        rec_val = recall_score(data["y_val"], y_pred_val, average=None)
+    except ValueError:
+        accuracy_test = False
+        accuracy_val = False
+        accuracy_train = False
+        f1_test = False
+        f1_train = False
+        f1_val = False
+        rec_test = False
+        rec_train = False
+        rec_val = False
+
     try:
         train_proba = model.predict_proba(data["x_train"])
         test_proba = model.predict_proba(data["x_test"])
@@ -94,8 +116,6 @@ def evaluate(logger, options, random_state, model, data, time_start, rparams, hi
         auc_test = roc_auc_score(data["y_test"], test_proba)
         auc_val = roc_auc_score(data["y_val"], val_proba)
     except:
-        e = sys.exc_info()[0]
-        print("Error: %s" % e)
         auc_train = False
         auc_test = False
         auc_val = False
@@ -103,27 +123,62 @@ def evaluate(logger, options, random_state, model, data, time_start, rparams, hi
         test_proba = False
         val_proba = False
 
-    f1 = f1_score(data["y_test"], y_pred_test, average=None)
-    rmse_train = sqrt(mean_squared_error(data["y_train"], y_pred_train))
-    rmse_test = sqrt(mean_squared_error(data["y_test"], y_pred_test))
+    try:
+        rmse_train = sqrt(abs(mean_squared_error(data["y_train"], y_pred_train)))
+        rmse_test = sqrt(abs(mean_squared_error(data["y_test"], y_pred_test)))
+        rmse_val = sqrt(abs(mean_squared_error(data["y_val"], y_pred_val)))
 
-    mae_train = mean_absolute_error(data["y_train"], y_pred_train)
-    mae_test = mean_absolute_error(data["y_test"], y_pred_test)
+        mae_train = mean_absolute_error(data["y_train"], y_pred_train)
+        mae_test = mean_absolute_error(data["y_test"], y_pred_test)
+        mae_val = mean_absolute_error(data["y_val"], y_pred_val)
+
+        r2_train = r2_score(data["y_train"], y_pred_train)
+        r2_test = r2_score(data["y_test"], y_pred_test)
+        r2_val = r2_score(data["y_val"], y_pred_val)
+    except ValueError:
+        rmse_train = False
+        rmse_test = False
+        rmse_val = False
+        mae_train = False
+        mae_test = False
+        mae_val = False
+        r2_train = False
+        r2_test = False
+        r2_val = False
 
     results = {
         'accuracy_test': accuracy_test,
         'accuracy_train': accuracy_train,
-        'rec': rec,
+        'accuracy_val': accuracy_val,
+        'rec_train': rec_train,
+        'rec_test': rec_test,
+        'rec_val': rec_val,
         'auc_test': auc_test,
         'auc_train': auc_train,
         'auc_val': auc_val,
-        'f1': f1,
+        'f1_train': f1_train,
+        'f1_test': f1_test,
+        'f1_val': f1_val,
         'rmse_test': rmse_test,
         'rmse_train': rmse_train,
+        'rmse_val': rmse_val,
         'mae_test': mae_test,
         'mae_train': mae_train,
+        'mae_val': mae_val,
+        'r2_test': r2_test,
+        'r2_train': r2_train,
+        'r2_val': r2_val,
         'rparams': rparams
         }
+
+    try:
+        results["balanced_accuracy_test"] = (results["rec_test"][0] + results["rec_test"][1]) / 2
+        results["balanced_accuracy_train"] = (results["rec_train"][0] + results["rec_train"][1]) / 2
+        results["balanced_accuracy_val"] = (results["rec_val"][0] + results["rec_val"][1]) / 2
+    except TypeError:
+        results["balanced_accuracy_test"] = False
+        results["balanced_accuracy_train"] = False
+        results["balanced_accuracy_val"] = False
     # find how long the program was running
     tstop = datetime.now()
     timer = tstop - time_start

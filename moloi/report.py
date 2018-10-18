@@ -79,11 +79,11 @@ def create_report(logger, path, train_proba, test_proba, val_proba, timer, rpara
     Report.append(Paragraph(ptext, styles["Justify"]))
     ptext = '<font size=12> <b> Accuracy train: </b> %s </font>' % results["accuracy_train"]
     Report.append(Paragraph(ptext, styles["Justify"]))
-    ptext = '<font size=12> <b> Recall: </b> %s </font>' % results["rec"]
+    ptext = '<font size=12> <b> Recall test: </b> %s </font>' % results["rec_test"]
     Report.append(Paragraph(ptext, styles["Justify"]))
     ptext = '<font size=12> <b> ROC AUC score: </b> %s </font>' % results["auc_test"]
     Report.append(Paragraph(ptext, styles["Justify"]))
-    ptext = '<font size=12> <b> f1 score: </b> %s </font>' % results["f1"]
+    ptext = '<font size=12> <b> f1 test score: </b> %s </font>' % results["f1_test"]
     Report.append(Paragraph(ptext, styles["Justify"]))
 
     ptext = '<font size=12> <b> Started at: </b> %s </font>' % tstart
@@ -95,10 +95,12 @@ def create_report(logger, path, train_proba, test_proba, val_proba, timer, rpara
     Report.append(Spacer(1, 12))
 
     plot_history(logger, history, path)
-    plot_auc(logger, data, path, train_proba, test_proba, val_proba,
-             results["auc_train"], results["auc_test"], results["auc_val"])
-    im = Image(path+'img/auc.png')
-    Report.append(im)
+
+    if results["auc_test"]:
+        plot_auc(logger, data, path, train_proba, test_proba, val_proba,
+                 results["auc_train"], results["auc_test"], results["auc_val"])
+        im = Image(path+'img/auc.png')
+        Report.append(im)
 
     plot_grid_search(logger, score, path)
 

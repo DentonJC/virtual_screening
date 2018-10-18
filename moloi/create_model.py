@@ -1,6 +1,8 @@
 import sys
 from sklearn.svm import SVC, SVR
 # from sklearn.utils import class_weight as cw
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LogisticRegression, LinearRegression
 from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
 from sklearn.ensemble import RandomForestClassifier, IsolationForest, RandomForestRegressor
@@ -87,7 +89,10 @@ def create_gridsearch_model(logger, rparams, gparams, options, exp_settings, sco
     #                                    output_shape=output_shape, input_length=x_train.shape[1])
     #     model = RandomizedSearchCV(estimator=search_model, **keras_params)
     if options.select_model == "lr_reg":
-        model = RandomizedSearchCV(LinearRegression(**rparams), **sklearn_params)
+        pol_features = PolynomialFeatures()
+        lr = LinearRegression()
+        pipeline = Pipeline([('pol_features', pol_features), ("regression", lr)])
+        model = RandomizedSearchCV(pipeline, **sklearn_params)
     elif options.select_model == "knn_reg":
         model = RandomizedSearchCV(KNeighborsRegressor(**rparams), **sklearn_params)
     elif options.select_model == "rf_reg":
@@ -96,9 +101,9 @@ def create_gridsearch_model(logger, rparams, gparams, options, exp_settings, sco
         model = RandomizedSearchCV(xgb.XGBRegressor(**rparams), **sklearn_params)
     elif options.select_model == "svr":
         if type(gparams) == list:
-            model = GridSearchCV(SVR(**rparams, probability=True), **grid_sklearn_params)
+            model = GridSearchCV(SVR(**rparams), **grid_sklearn_params)
         else:
-            model = RandomizedSearchCV(SVR(**rparams, probability=True), **sklearn_params)
+            model = RandomizedSearchCV(SVR(**rparams), **sklearn_params)
     elif options.select_model == "mlp_sklearn_reg":
         model = RandomizedSearchCV(MLPRegressor(**rparams), **sklearn_params)
     else:
@@ -139,7 +144,11 @@ def create_model(logger, rparams, options, input_shape, output_shape):
     # elif options.select_model == "lstm":
     #     model = LSTM(input_shape, output_shape, input_length=x_train.shape[1], **rparams)
     if options.select_model == "lr_reg":
-        model = LinearRegression(**rparams)
+        pol_features = PolynomialFeatures()
+        lr = LinearRegression()
+        pipeline = Pipeline([('pol_features', pol_features), ("regression", lr)])
+        pipeline.set_params(**rparams)
+        model = pipeline
     elif options.select_model == "knn_reg":
         model = KNeighborsRegressor(**rparams)
     elif options.select_model == "rf_reg":
@@ -147,7 +156,7 @@ def create_model(logger, rparams, options, input_shape, output_shape):
     elif options.select_model == "xgb_reg":
         model = xgb.XGBRegressor(**rparams)
     elif options.select_model == "svr":
-        model = SVR(**rparams, probability=True)
+        model = SVR(**rparams)
     elif options.select_model == "mlp_sklearn_reg":
         model = MLPRegressor(**rparams)
     else:
