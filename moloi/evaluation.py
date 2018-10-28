@@ -14,6 +14,7 @@ import pandas as pd
 from sklearn.metrics import accuracy_score, recall_score, roc_auc_score, f1_score, r2_score
 from sklearn.metrics import matthews_corrcoef, make_scorer, mean_squared_error, mean_absolute_error
 from moloi.report import create_report
+from moloi.model_processing import save_model
 from math import sqrt
 
 
@@ -55,7 +56,7 @@ def make_scoring(metric):
     return scoring
 
 
-def evaluate(logger, options, random_state, model, data, time_start, rparams, history, score, results):
+def evaluate(logger, options, random_state, model, data, time_start, rparams, history, score, results, plots):
     path = options.output
     y_pred_test = model.predict(data["x_test"])
     y_pred_train = model.predict(data["x_train"])
@@ -186,7 +187,7 @@ def evaluate(logger, options, random_state, model, data, time_start, rparams, hi
     # create report, prediction and save script and all current models
     create_report(logger, path, train_proba, test_proba, val_proba, timer, rparams,
                   time_start, history, random_state, options, data, y_pred_train,
-                  y_pred_test, y_pred_val, score, model, results)
+                  y_pred_test, y_pred_val, score, model, results, plots)
 
     copyfile(sys.argv[0], path + os.path.basename(sys.argv[0]))
     try:
@@ -202,7 +203,15 @@ def evaluate(logger, options, random_state, model, data, time_start, rparams, hi
         os.rename(path_old, path)
     except TypeError:
         pass
-
+    
+    # transfer learning in row
+    if not options.load_model:
+        model_address = save_model(model, path, logger, results['rparams'])
+    else:
+        model_address = options.load_model
+        
+    results['model_address'] = model_address
+    
     try:
         root = os.path.dirname(os.path.realpath(__file__)).replace("/moloi", "") + "/tmp/"
         folders = list(os.walk(root))

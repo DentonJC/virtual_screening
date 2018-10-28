@@ -9,7 +9,7 @@ Trivial wrapper around rdkit.Chem.Descriptors that includes embedding procedure
 
 See main for example usage.
 """
-import tqdm
+
 import pandas as pd
 from rdkit import Chem
 from rdkit.Chem import AllChem
@@ -47,7 +47,7 @@ def smiles_to_mordred(x, embed=True):
     features_index = []
     molecule_values = []
 
-    for key, smi in tqdm.tqdm(x.items(), total=len(x)):
+    for key, smi in x.items():
         success = -1
         try:
             m = Chem.MolFromSmiles(smi)

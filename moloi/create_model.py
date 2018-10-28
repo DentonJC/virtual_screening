@@ -88,7 +88,7 @@ def create_gridsearch_model(logger, rparams, gparams, options, exp_settings, sco
     #     search_model = KerasClassifier(build_fn=GRU, input_shape=input_shape,
     #                                    output_shape=output_shape, input_length=x_train.shape[1])
     #     model = RandomizedSearchCV(estimator=search_model, **keras_params)
-    if options.select_model == "lr_reg":
+    elif options.select_model == "lr_reg":
         pol_features = PolynomialFeatures()
         lr = LinearRegression()
         pipeline = Pipeline([('pol_features', pol_features), ("regression", lr)])
@@ -114,6 +114,14 @@ def create_gridsearch_model(logger, rparams, gparams, options, exp_settings, sco
 
 
 def create_model(logger, rparams, options, input_shape, output_shape):
+    keras_rparams = dict(rparams)
+    if 'epochs' in keras_rparams:
+        del keras_rparams['epochs']
+    if 'class_weight' in keras_rparams:
+        del keras_rparams['class_weight']
+    if 'batch_size' in keras_rparams:
+        del keras_rparams['batch_size']
+
     if options.select_model == "lr":
         model = LogisticRegression(**rparams)
     elif options.select_model == "knn":
@@ -132,18 +140,18 @@ def create_model(logger, rparams, options, input_shape, output_shape):
         model = MLPClassifier(**rparams)
 
     elif options.select_model == "fcnn":
-        model = FCNN(input_shape, output_shape, **rparams)
+        model = FCNN(input_shape, output_shape, **keras_rparams)
     elif options.select_model == "regression":
-        model = Logreg(input_shape, output_shape, **rparams)
+        model = Logreg(input_shape, output_shape, **keras_rparams)
     elif options.select_model == "mlp":
-        model = MLP(input_shape, output_shape, **rparams)
+        model = MLP(input_shape, output_shape, **keras_rparams)
     # elif options.select_model == "rnn":
     #     model = RNN(input_shape, output_shape, **rparams)
     # elif options.select_model == "gru":
     #     model = GRU(input_shape, output_shape, **rparams)
     # elif options.select_model == "lstm":
     #     model = LSTM(input_shape, output_shape, input_length=x_train.shape[1], **rparams)
-    if options.select_model == "lr_reg":
+    elif options.select_model == "lr_reg":
         pol_features = PolynomialFeatures()
         lr = LinearRegression()
         pipeline = Pipeline([('pol_features', pol_features), ("regression", lr)])

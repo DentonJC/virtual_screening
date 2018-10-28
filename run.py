@@ -14,10 +14,13 @@ import random
 import pandas as pd
 import numpy as np
 from joblib import Parallel, delayed
+from joblib.parallel import BACKENDS
 from moloi.moloi import experiment
 from moloi.dictionaries import results_dict
-BACKEND = 'loky'
 
+BACKEND = 'loki'
+if BACKEND not in BACKENDS.keys():
+    BACKEND = 'multiprocessing'
 
 def isnan(x):
     """ Checking if the variable is NaN and type float. """
@@ -48,7 +51,6 @@ def worker(i, table, exp_settings, common_gridsearch, result_cols, keys, params)
     """
 
     rparams = False
-    logger_flag = False  # crutch for printing a log in the terminal in parallel
     command = []
     for c, p in enumerate(params):
         if not isnan(table[p][i]):
@@ -74,9 +76,7 @@ def worker(i, table, exp_settings, common_gridsearch, result_cols, keys, params)
             if not common_gridsearch:
                 rparams = False
             exp_settings['rparams'] = rparams
-            exp_settings['logger_flag'] = logger_flag
             results = experiment(final_command, exp_settings, results)
-
             model_address = results["model_address"]
             results["gparams"] = results["rparams"]
 
@@ -108,10 +108,9 @@ def worker(i, table, exp_settings, common_gridsearch, result_cols, keys, params)
                     command.append(model_address)
 
             table.to_csv(experiments_file, index=False)
-            logger_flag = True
 
 
-def main(experiments_file, common_gridsearch, random_state, result_cols, keys, params, verbose, n_jobs, refit):
+def main(experiments_file, common_gridsearch, random_state, result_cols, keys, params, verbose, n_jobs, refit, plots, callbacks):
     """ Process inputs and start workers. """
     logger_flag = False
     if not random_state and not isinstance(random_state, int):
@@ -126,8 +125,9 @@ def main(experiments_file, common_gridsearch, random_state, result_cols, keys, p
         'random_state': random_state,
         'rparams': False,
         'verbose': verbose,
-        'logger_flag': logger_flag,
-        'refit': refit
+        'refit': refit,
+        'plots': plots,
+        'callbacks': callbacks
         }
 
     Parallel(n_jobs=n_jobs, backend=BACKEND, verbose=verbose)(delayed(worker)(i, table, exp_settings, common_gridsearch, result_cols, keys, params) for i in range(table.shape[0]))
@@ -139,12 +139,15 @@ if __name__ == "__main__":
             '--select_model', '--data_config', '--section']
     params = ["Load model", "Output", "Model config", "Descriptors", "n_bits", "n_cv", "n_jobs", "Patience",
               "Gridsearch", "n_iter", "Metric", "Split type", "Split size", 'Model', 'Data config', 'Section']
-    # result_cols = ['balanced_accuracy_test', 'auc_test', 'auc_val']
-    result_cols = ['r2_test', 'r2_val', 'mae_test', 'mae_val']
+    result_cols = ['balanced_accuracy_test', 'auc_test', 'auc_val']
+    # result_cols = ['r2_test', 'r2_val', 'mae_test', 'mae_val']
+    # plots = ["history", "AUC", "gridsearch", "feature_importance", "feature_importance_full", "results", "TSNE", "PCA"]
+    plots = ["history", "AUC", "gridsearch", "results", "TSNE"]
+    callbacks = "stopping, csv_logger, checkpoint"
     common_gridsearch = True
     random_state = 1337
-    experiments_file = 'etc/exp2.csv'
+    experiments_file = 'etc/test.csv'
     verbose = 10
     refit = False
     n_jobs = 1  # multiprocessing.cpu_count() # only for evaluation
-    main(experiments_file, common_gridsearch, random_state, result_cols, keys, params, verbose, n_jobs, refit)
+    main(experiments_file, common_gridsearch, random_state, result_cols, keys, params, verbose, n_jobs, refit, plots, callbacks)

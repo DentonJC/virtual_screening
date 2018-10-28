@@ -9,7 +9,6 @@ Trivial wrapper around rdkit.Chem.Descriptors that includes embedding procedure
 
 See main for example usage.
 """
-import tqdm
 import pandas as pd
 import numpy as np
 from rdkit import Chem
@@ -68,7 +67,7 @@ def smiles_to_rdkit(x):
     features_index = []
     features_values = []
 
-    for key, smi in tqdm.tqdm(x.items(), total=len(x)):
+    for key, smi in x.items():
         try:
             # Try optimizing
             m = Chem.MolFromSmiles(smi)
@@ -96,7 +95,7 @@ def smiles_to_rdkit(x):
             features_index.append(key)
             features_values.append(np.asarray([0]*len(DESCRIPTORS.keys())))
 
-    print("Serialized {} out of {} compounds to sdf".format(len(x) - len(missing), len(x)))
+    # print("Serialized {} out of {} compounds to sdf".format(len(x) - len(missing), len(x)))
 
     # Featurize and fill with NaNs
     #print(features_values)

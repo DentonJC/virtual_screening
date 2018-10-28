@@ -13,7 +13,7 @@ from moloi.config_processing import read_model_config
 from moloi.evaluation import evaluate, make_scoring
 # from moloi.splits.cv import create_cv_splits
 from moloi.data_processing import get_data, clean_data
-from moloi.model_processing import load_model, save_model
+from moloi.model_processing import load_model
 from moloi.arguments import get_options
 from moloi.create_model import create_model, create_gridsearch_model
 from moloi.models.keras_models import create_callbacks
@@ -50,7 +50,7 @@ def experiment(args_list, exp_settings, results):
     handler.setFormatter(formatter)
     logger.addHandler(handler)
 
-    if not exp_settings["logger_flag"]:
+    if len(list(logger.handlers)) == 1:
         # writing log to terminal (for stdout `stream=sys.stdout`)
         handler = logging.StreamHandler()
         handler.setFormatter(formatter)
@@ -114,12 +114,15 @@ def experiment(args_list, exp_settings, results):
     grid = False
 
     if options.load_model:
-        try:
-            _, model_loaded = load_model(options.load_model, logger)
-        except:
-            logger.info("Can not load model")
+        _, l_rparams, model_loaded = load_model(options.load_model, logger)
+    
+    if l_rparams is not False:
+        rparams = eval(l_rparams)
+    
+    if not model_loaded:
+        options.load_model = False
 
-    if options.gridsearch and not exp_settings["rparams"] and not model_loaded:
+    if options.gridsearch and not exp_settings["rparams"] and not model_loaded and l_rparams is False:
         logger.info("GRID SEARCH")
         logger.info("x_train shape: %s", str(np.array(data["x_train"]).shape))
         logger.info("x_test shape: %s", str(np.array(data["x_test"]).shape))
@@ -151,26 +154,21 @@ def experiment(args_list, exp_settings, results):
 
     if exp_settings["rparams"]:
         rparams = exp_settings["rparams"]
-
-    params_for_sklearn = dict(rparams)
-    try:
-        del params_for_sklearn["epochs", "class_weight", "batch_size"]
-    except KeyError:
-        pass
-
-    model = create_model(logger, params_for_sklearn, options, data["x_train"].shape[1], data["y_train"].shape[1])
-
+    
     if options.load_model:
-        model, model_loaded = load_model(options.load_model, logger)
+        model, rparams, model_loaded = load_model(options.load_model, logger)
+    else:
+        model = create_model(logger, rparams, options, data["x_train"].shape[1], data["y_train"].shape[1])
 
     if (options.load_model and exp_settings["refit"]) or not options.load_model:
         logger.info("MODEL FIT")
         # TODO: replace try by if keras model
         try:
-            monitor = 'binary_crossentropy'
+            # monitor = 'binary_crossentropy'
+            monitor = 'acc'
             mode = 'auto'
             callbacks = create_callbacks(options.output, options.patience, options.section,
-                                         monitor="val_" + monitor, mode=mode)
+                                         monitor="val_" + monitor, mode=mode, callbacks=exp_settings["callbacks"])
             history = model.fit(data["x_train"], np.ravel(data["y_train"]),
                                 batch_size=rparams.get("batch_size"),
                                 epochs=epochs, shuffle=False,
@@ -180,19 +178,11 @@ def experiment(args_list, exp_settings, results):
         except:
             model.fit(data["x_train"], np.ravel(data["y_train"]))
 
-    # transfer learning in row
-    if not options.load_model:
-        model_address = save_model(model, options.output, logger, results['rparams'])
-    else:
-        model_address = options.load_model
-
     logger.info("EVALUATE")
     results, path = evaluate(logger, options, exp_settings["random_state"], model, data,
-                             time_start, rparams, history, grid, results)
+                             time_start, rparams, history, grid, results, exp_settings["plots"])
 
     logger.info("Done")
-
-    results['model_address'] = model_address
     return results
 
 

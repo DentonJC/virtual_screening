@@ -12,10 +12,13 @@ from sklearn.metrics import roc_auc_score, roc_curve
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 from joblib import Parallel, delayed
+from joblib.parallel import BACKENDS
 from moloi.descriptors.rdkit_descriptor import rdkit_fetures_names
 from moloi.descriptors.mordred_descriptor import mordred_fetures_names
 from moloi.data_processing import m_mean
-BACKEND = 'loky'
+BACKEND = 'loki'
+if BACKEND not in BACKENDS.keys():
+    BACKEND = 'multiprocessing'
 # mlp.use('Agg')
 
 
@@ -90,7 +93,7 @@ def plot_auc(logger, data, path, train_proba, test_proba, val_proba, auc_train, 
         plt.ylabel('True Positive Rate')
         plt.title('Receiver operating characteristic')
         plt.legend(loc="lower right")
-        plt.savefig(path+'img/auc.png', dpi=150)
+        plt.savefig(path+'img/auc.png', dpi=80)
         plt.clf()
         plt.cla()
         plt.close()
@@ -140,7 +143,7 @@ def plot_grid_search(logger, score, path):
             except ValueError:
                 pass
 
-            plt.savefig(path+'img/grid_'+c+'.png', dpi=500)
+            plt.savefig(path+'img/grid_'+c+'.png', dpi=150)
             plt.clf()
             plt.cla()
             plt.close()
@@ -394,10 +397,10 @@ def plot_features_importance(logger, options, data, model, path, auc_test):
             except:
                 pass
 
-            # try:
-            #     plot_fi(indices, importances, features, path+"img/feature_importance_full.png", x_label)
-            # except:
-            #     pass
+            try:
+                plot_fi(indices, importances, features, path+"img/feature_importance_full.png", x_label)
+            except:
+                pass
 
             importances = np.array(importances).reshape(-1, 1)
             features = np.array(features).reshape(-1, 1)
@@ -426,11 +429,62 @@ def plot_results(logger, options, data, y_pred_train, y_pred_test, y_pred_val, p
 
         Y_a = np.array(Y_a)
         X_tsne = np.array(X_tsne)
+        
+        title_tsne = "t-SNE " + os.path.splitext(os.path.basename(options.data_config))[0] + " " + options.split_type + " result"
 
-        title_tsne = "t-SNE " + options.data_config.replace('/data/data_configs/', '').replace('.ini', '') + " " + options.split_type + " result"
         s = 3
         alpha = 0.5
         plot_result_TSNE(X_tsne, Y.T, Y_a, path + "img/results.png", title=title_tsne, s=s, alpha=alpha)
         logger.info("Results plot created")
     except:
         logger.info("Can not plot results")
+
+
+def plot_rep_TSNE(x, y, path, title="t-SNE", label_1="active", label_2="inactive", label_3="", c1='r', c2='b', c3='#00FF00', s=2, alpha=1, n_components=2):
+    print("t-SNE fitting")
+    tsne = TSNE(n_components=n_components)
+    coordinates = tsne.fit_transform(x)
+
+    plt.scatter(coordinates[np.where(y==1)[0],0],
+            coordinates[np.where(y==1)[0],1],
+            c=c1, s=s, alpha=alpha, label=label_1)
+    plt.scatter(coordinates[np.where(y==0)[0],0],
+            coordinates[np.where(y==0)[0],1],
+            c=c2, s=s, alpha=alpha, label=label_2)
+    
+    if len(np.unique(y)) == 3:
+        plt.scatter(coordinates[np.where(y==2)[0],0],
+                coordinates[np.where(y==2)[0],1],
+                c=c3, s=s, alpha=alpha, label=label_3)
+
+    plt.title(title)
+    plt.legend()
+    plt.savefig(path, dpi=150)
+    plt.clf()
+    plt.cla()
+    plt.close()
+    
+
+def plot_rep_PCA(x, y, path, title="PCA", label_1="active", label_2="inactive", label_3="", c1='r', c2='b', c3='#00FF00', s=2, alpha=1, n_components=2):
+    print("PCA fitting")
+    pca = PCA(n_components=n_components)
+    coordinates = pca.fit_transform(x)
+
+    plt.scatter(coordinates[np.where(y==1)[0],0],
+            coordinates[np.where(y==1)[0],1],
+            c=c1, s=s, alpha=alpha, label=label_1)
+    plt.scatter(coordinates[np.where(y==0)[0],0],
+            coordinates[np.where(y==0)[0],1],
+            c=c2, s=s, alpha=alpha, label=label_2)
+    
+    if len(np.unique(y)) == 3:
+        plt.scatter(coordinates[np.where(y==2)[0],0],
+                coordinates[np.where(y==2)[0],1],
+                c=c3, s=s, alpha=alpha, label=label_3)
+
+    plt.title(title)
+    plt.legend()
+    plt.savefig(path, dpi=150)
+    plt.clf()
+    plt.cla()
+    plt.close()

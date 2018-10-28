@@ -1,10 +1,10 @@
 Data config,Model config,Section,Output,n_jobs,Load model,Model,Metric,Split type,Split size,Descriptors,n_bits,n_cv,Patience,Gridsearch,n_iter,R2,R2_train,MAE,MAE_train
-/data/data_configs/exp2.ini,/data/model_configs/configs.ini,XGB_REG,,-1,744.0,xgb_reg,r2,scaffold,0.1,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,3,100,True,5,0.032,0.0633,0.4609,0.4479
+/data/data_configs/exp2.ini,/data/model_configs/configs.ini,XGB_REG,,-1,744,xgb_reg,r2,scaffold,0.1,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,3,100,True,5,0.032,0.0633,0.4609,0.4479
 /data/data_configs/exp2.ini,/data/model_configs/configs.ini,KNN_REG,,-1,746,knn_reg,r2,scaffold,0.1,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,3,100,True,5,0.0318,-0.0904,0.4516,0.4656
-/data/data_configs/exp2.ini,/data/model_configs/configs.ini,SVR,,-1,,svr,r2,scaffold,0.1,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,3,100,True,5,,,,
-/data/data_configs/exp2.ini,/data/model_configs/configs.ini,RF_REG,,-1,,rf_reg,r2,scaffold,0.1,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,3,100,True,5,,,,
-/data/data_configs/exp2.ini,/data/model_configs/configs.ini,XGB_REG,,-1,,xgb_reg,r2,scaffold,0.1,['mordred'],2048,3,100,True,50,,,,
-/data/data_configs/exp2.ini,/data/model_configs/configs.ini,XGB_REG,,-1,,xgb_reg,r2,scaffold,0.1,"['morgan', 'maccs']",2048,3,100,True,50,,,,
+/data/data_configs/exp2.ini,/data/model_configs/configs.ini,SVR,,-1,747,svr,r2,scaffold,0.1,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,3,100,True,5,0.0556,-0.0856,0.4542,0.4906
+/data/data_configs/exp2.ini,/data/model_configs/configs.ini,RF_REG,,-1,748,rf_reg,r2,scaffold,0.1,"['rdkit', 'morgan', 'mordred', 'maccs']",2048,3,100,True,5,0.0654,-0.1234,0.4526,0.4788
+/data/data_configs/exp2.ini,/data/model_configs/configs.ini,XGB_REG,,-1,749,xgb_reg,r2,scaffold,0.1,['mordred'],2048,3,100,True,50,0.0596,0.1047,0.4563,0.4408
+/data/data_configs/exp2.ini,/data/model_configs/configs.ini,XGB_REG,,-1,,xgb_reg,r2,scaffold,0.1,"['morgan', 'maccs']",2048,3,100,True,2,,,,
 /data/data_configs/exp2.ini,/data/model_configs/configs.ini,XGB_REG,,-1,,xgb_reg,r2,scaffold,0.1,"['morgan', 'mordred']",2048,3,100,True,50,,,,
 /data/data_configs/exp2.ini,/data/model_configs/configs.ini,XGB_REG,,-1,,xgb_reg,r2,scaffold,0.1,['morgan'],2048,3,100,True,50,,,,
 /data/data_configs/exp2.ini,/data/model_configs/configs.ini,XGB_REG,,-1,,xgb_reg,r2,scaffold,0.1,"['rdkit', 'maccs']",2048,3,100,True,50,,,,
