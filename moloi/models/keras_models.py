@@ -16,8 +16,8 @@ from keras.regularizers import l2 as l2_reg
 def create_callbacks(output, patience, section, monitor='val_acc', mode='auto',
                      callbacks="stopping, csv_logger, checkpoint, remote, lr", factor=0.1):
     filepath = output + "results/weights-improvement.hdf5"
-    path = output + 'history_' + os.path.basename(sys.argv[0]).replace(".py", "") + "_" + str(section) + '.csv'
-
+    # path = output + 'history_' + os.path.basename(sys.argv[0]).replace(".py", "") + "_" + str(section) + '.csv'
+    path = output + 'history.csv'
     checkpoint = ModelCheckpoint(filepath, monitor=monitor, verbose=1, save_best_only=True, mode=mode)
     stopping = EarlyStopping(monitor=monitor, min_delta=0.00001, patience=patience, verbose=1, mode=mode)
     csv_logger = CSVLogger(path, append=True, separator=';')

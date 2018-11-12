@@ -40,19 +40,19 @@ def save_labels(arr, filename):
 
 def make_scoring(metric):
     if metric in 'accuracy':
-        scoring = make_scorer(accuracy_score)
+        scoring = make_scorer(accuracy_score, greater_is_better=True)
     elif metric in 'roc_auc':
-        scoring = make_scorer(roc_auc_score)
+        scoring = make_scorer(roc_auc_score, greater_is_better=True)
     elif metric in 'f1':
-        scoring = make_scorer(f1_score)
+        scoring = make_scorer(f1_score, greater_is_better=True)
     elif metric in 'matthews':
-        scoring = make_scorer(matthews_corrcoef)
+        scoring = make_scorer(matthews_corrcoef, greater_is_better=True)
     elif metric in 'mae':
         scoring = make_scorer(mean_absolute_error, greater_is_better=False)
     elif metric in 'r2':
-        scoring = make_scorer(r2_score)
+        scoring = make_scorer(r2_score, greater_is_better=True)
     else:
-        scoring = make_scorer(accuracy_score)
+        scoring = make_scorer(accuracy_score, greater_is_better=True)
     return scoring
 
 
@@ -69,15 +69,33 @@ def evaluate(logger, options, random_state, model, data, time_start, rparams, hi
     y_pred_test = np.ravel(y_pred_test)
     y_pred_train = np.ravel(y_pred_train)
     y_pred_val = np.ravel(y_pred_val)
-
+    
     try:
-        y_pred_test = [int(round(value)) for value in y_pred_test]
-        y_pred_train = [int(round(value)) for value in y_pred_train]
-        y_pred_val = [int(round(value)) for value in y_pred_val]
+        rmse_train = sqrt(abs(mean_squared_error(data["y_train"], y_pred_train)))
+        rmse_test = sqrt(abs(mean_squared_error(data["y_test"], y_pred_test)))
+        rmse_val = sqrt(abs(mean_squared_error(data["y_val"], y_pred_val)))
+
+        mae_train = mean_absolute_error(data["y_train"], y_pred_train)
+        mae_test = mean_absolute_error(data["y_test"], y_pred_test)
+        mae_val = mean_absolute_error(data["y_val"], y_pred_val)
+
+        r2_train = r2_score(data["y_train"], y_pred_train)
+        r2_test = r2_score(data["y_test"], y_pred_test)
+        r2_val = r2_score(data["y_val"], y_pred_val)
     except ValueError:
-        logger.error("Model is not trained")
-        print(y_pred_test)
-        sys.exit(0)
+        rmse_train = False
+        rmse_test = False
+        rmse_val = False
+        mae_train = False
+        mae_test = False
+        mae_val = False
+        r2_train = False
+        r2_test = False
+        r2_val = False
+
+    y_pred_test = [int(round(value)) for value in y_pred_test]
+    y_pred_train = [int(round(value)) for value in y_pred_train]
+    y_pred_val = [int(round(value)) for value in y_pred_val]
 
     try:
         accuracy_test = accuracy_score(list(np.ravel(data["y_test"])), y_pred_test)*100
@@ -124,29 +142,6 @@ def evaluate(logger, options, random_state, model, data, time_start, rparams, hi
         test_proba = False
         val_proba = False
 
-    try:
-        rmse_train = sqrt(abs(mean_squared_error(data["y_train"], y_pred_train)))
-        rmse_test = sqrt(abs(mean_squared_error(data["y_test"], y_pred_test)))
-        rmse_val = sqrt(abs(mean_squared_error(data["y_val"], y_pred_val)))
-
-        mae_train = mean_absolute_error(data["y_train"], y_pred_train)
-        mae_test = mean_absolute_error(data["y_test"], y_pred_test)
-        mae_val = mean_absolute_error(data["y_val"], y_pred_val)
-
-        r2_train = r2_score(data["y_train"], y_pred_train)
-        r2_test = r2_score(data["y_test"], y_pred_test)
-        r2_val = r2_score(data["y_val"], y_pred_val)
-    except ValueError:
-        rmse_train = False
-        rmse_test = False
-        rmse_val = False
-        mae_train = False
-        mae_test = False
-        mae_val = False
-        r2_train = False
-        r2_test = False
-        r2_val = False
-
     results = {
         'accuracy_test': accuracy_test,
         'accuracy_train': accuracy_train,
@@ -184,6 +179,7 @@ def evaluate(logger, options, random_state, model, data, time_start, rparams, hi
     tstop = datetime.now()
     timer = tstop - time_start
     logger.info(timer)
+
     # create report, prediction and save script and all current models
     create_report(logger, path, train_proba, test_proba, val_proba, timer, rparams,
                   time_start, history, random_state, options, data, y_pred_train,
@@ -217,9 +213,11 @@ def evaluate(logger, options, random_state, model, data, time_start, rparams, hi
         folders = list(os.walk(root))
         folders = folders[0][1]
         for folder in folders:
-            	shutil.make_archive(os.path.join(root, folder), 'zip', os.path.join(root, folder))
-            	shutil.rmtree(os.path.join(root, folder))
+            #if 'results' not in folder:
+            shutil.make_archive(os.path.join(root, folder), 'zip', os.path.join(root, folder))
+            shutil.rmtree(os.path.join(root, folder))
     except:
          pass
+    
     logger.info("Results path: %s", path)
     return results, path

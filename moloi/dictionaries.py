@@ -54,14 +54,27 @@ def data_dict():
 
 def results_dict():
     results = {
-        'accuracy_test': '-',
-        'accuracy_train': '-',
-        'rec': '-',
-        'auc': '-',
-        'auc_val': '-',
-        'f1': '-',
-        'rparams': '-',
-        'model_address': '-',
-        'balanced_accuracy': '-'
+        'accuracy_test': False,
+        'accuracy_train': False,
+        'accuracy_val': False,
+        'rec_train': False,
+        'rec_test': False,
+        'rec_val': False,
+        'auc_test': False,
+        'auc_train': False,
+        'auc_val': False,
+        'f1_train': False,
+        'f1_test': False,
+        'f1_val': False,
+        'rmse_test': False,
+        'rmse_train': False,
+        'rmse_val': False,
+        'mae_test': False,
+        'mae_train': False,
+        'mae_val': False,
+        'r2_test': False,
+        'r2_train': False,
+        'r2_val': False,
+        'rparams': False
         }
     return results

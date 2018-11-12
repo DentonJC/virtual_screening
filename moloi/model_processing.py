@@ -38,16 +38,12 @@ def load_model(load_model, logger):
             model.load_weights(load_model[1])
             compile_params = [line.rstrip('\n') for line in open(load_model[2])]
             model.compile(loss=compile_params[0], metrics=eval(compile_params[1]), optimizer=compile_params[2])
+            rparams = eval(compile_params[3])
         model_loaded = True
         logger.info("Model loaded")
     except:
         model_loaded = False
         logger.info("Model not loaded")
-    try:
-        compile_params = [line.rstrip('\n') for line in open(load_model[2])]
-        rparams = compile_params[3]
-    except:
-        pass
     return model, rparams, model_loaded
 
 
@@ -56,7 +52,7 @@ def save_model(model, path, logger, rparams):
     try:
         # pickle.dump(model, open(options.output + "model.sav", 'wb'))
         joblib.dump(model, path + "model.sav")
-        model_address = [path + "model.sav", False, False]
+        model_address = [path + "model.sav", False, False, str(rparams)]
         f = open(path + 'addresses', 'w')
         f.write(str(model_address))
         f.close()

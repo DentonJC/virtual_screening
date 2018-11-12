@@ -81,6 +81,8 @@ def descriptor_spectrophore(logger, smiles, n_bits, n_jobs, verbose):
     if len(smiles) < n_jobs:
         n_jobs = len(smiles)
     features = []
+    for i in tqdm(smiles):
+        smiles_to_spectrophore(i, n_samples=n_bits)
     features.append(Parallel(n_jobs=n_jobs, backend=BACKEND, verbose=0)(delayed(smiles_to_spectrophore)(i, n_samples=n_bits) for i in tqdm(smiles)))
     features = np.array(features)
     features = [i for sub in features for i in sub]

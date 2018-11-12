@@ -64,7 +64,7 @@ def smiles_to_mordred(x, embed=True):
                     #print("Failed 1st embedding trial for " + smi)
                     success = AllChem.EmbedMolecule(m, useRandomCoords=True)
                 if success == 0:
-                    for maxIters in [200, 2000, 20000, 200000, 2000000]:
+                    for maxIters in [2000]:
                         ret = AllChem.UFFOptimizeMolecule(m, maxIters=maxIters)
                         if ret == 0:
                             break

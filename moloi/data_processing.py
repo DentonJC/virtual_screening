@@ -15,6 +15,7 @@ from moloi.splits.scaffold_split import scaffold_split
 from moloi.splits.cluster_split import cluster_split
 # from moloi.splitted_dataset import saving_splitted_dataset
 from moloi.dictionaries import data_dict
+
 import sys
 if sys.version_info[0] == 2:  # for Python2
     import ConfigParser
@@ -86,24 +87,6 @@ def get_data(logger, options, random_state, verbose):
         if count != 3:
             logger.info("Can not create a good data split.")
             sys.exit(0)
-
-################################################
-# WARNING! Disable saving of splitted datasets #
-################################################
-#    if options.split_type:
-#        head, _sep, tail = addresses["filename_train"].rpartition('/')
-#        name = tail.replace(".csv", "").replace("_train","").replace("_test","").replace("_val","")
-#        addresses["filename_train"] = name + "_train"
-#        addresses["filename_test"] = name + "_test"
-#        addresses["filename_val"] = name + "_val"
-#
-#
-#        maccs_train, morgan_train, mordred_train, rdkit_train, spectrophore_train, external_train = split_x(x_train, options.n_bits, options.descriptors)
-#        maccs_test, morgan_test, mordred_test, rdkit_test, spectrophore_test, external_test = split_x(x_test, options.n_bits, options.descriptors)
-#        maccs_val, morgan_val, mordred_val, rdkit_val, spectrophore_val, external_val = split_x(x_val, options.n_bits, options.descriptors)
-
-#       saving_splitted_dataset(path, labels_train, labels_test, labels_val, smiles_train, smiles_test, smiles_val, filename_train, filename_test, filename_val, maccs_train, maccs_test, maccs_val, morgan_train, morgan_test, morgan_val, mordred_train, mordred_test, mordred_val, rdkit_train, rdkit_test, rdkit_val, spectrophore_train, spectrophore_test, spectrophore_val, external_train, external_test, external_val, options)
-################################################
 
     data["y_train"] = np.asarray(data["y_train"], dtype=int)
     data["y_test"] = np.asarray(data["y_test"], dtype=int)
@@ -465,6 +448,24 @@ def clean_data(x, mode="zero"):
         x = x.fillna(0)
         x = np.array(x)
 
+    if mode == "flag":
+        z = []
+        for i in range(x.shape[0]):
+            for j in range(x.shape[1]):
+                if np.isnan(x[i][j]):
+                    x[i][j] = 0
+                    z.append(i)
+        print(z)
+        y = np.array(x.shape[0] * [0])
+        for j in z:
+            y[j] = 1
+        y = np.array(y).reshape(-1,1)
+        print(y)
+        x = pd.DataFrame(x)
+        x = x.fillna(0) # just in case
+        x = np.array(x)
+        x = np.concatenate((x, y), axis=1)
+    
     for j, col in enumerate(x):
         for i, row in enumerate(col):
             if not isinstance(row, (int, float, np.int64, np.float64)):
@@ -495,18 +496,18 @@ def split(split_type, data, split_size, random_state, name):
     if split_type == "scaffold":
         train, test = scaffold_split(data["smiles_train"], frac_train=split_size)
     elif split_type == "cluster":
-        train, test = cluster_split(data["smiles_train"], test_cluster_id=1, n_splits=2)
+        test, train = cluster_split(data["smiles_train"], test_cluster_id=1, n_splits=2)
     elif split_type == "random":
         shuffle = True
         stratify = None
         idx = [i for i in range(len(data["smiles_train"]))]
-        train, test = train_test_split(idx, test_size=split_size, stratify=stratify,
+        test, train = train_test_split(idx, test_size=split_size, stratify=stratify,
                                        shuffle=shuffle, random_state=random_state)
     elif split_type == "stratified":
         shuffle = True
         stratify = data["y_train"]
         idx = [i for i in range(len(data["smiles_train"]))]
-        train, test = train_test_split(idx, test_size=split_size, stratify=stratify,
+        test, train = train_test_split(idx, test_size=split_size, stratify=stratify,
                                        shuffle=shuffle, random_state=random_state)
     else:
         print("Wrong split type")

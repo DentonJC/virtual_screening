@@ -4,11 +4,12 @@ import os
 import pylab
 import numpy as np
 import pandas as pd
+import seaborn as sns
 import matplotlib as mlp
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from mpl_toolkits.mplot3d import Axes3D # keep it
-from sklearn.metrics import roc_auc_score, roc_curve
+from sklearn.metrics import roc_auc_score, roc_curve, r2_score, mean_absolute_error
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 from joblib import Parallel, delayed
@@ -16,6 +17,8 @@ from joblib.parallel import BACKENDS
 from moloi.descriptors.rdkit_descriptor import rdkit_fetures_names
 from moloi.descriptors.mordred_descriptor import mordred_fetures_names
 from moloi.data_processing import m_mean
+
+
 BACKEND = 'loki'
 if BACKEND not in BACKENDS.keys():
     BACKEND = 'multiprocessing'
@@ -28,62 +31,90 @@ params = {
     'legend.fontsize': 10,
     'xtick.labelsize': 10,
     'ytick.labelsize': 10,
-    'figure.figsize': [8, 4]  # 4.5, 4.5
+    'figure.figsize': [8, 4]
     }
 pylab.rcParams.update(params)
 
 
-def plot_history(logger, history, path):
+def correlation(logger, X, path):
+    logger.info("Creating correlation plot")
+    try:
+        X = pd.DataFrame(X)
+        corr = X.corr()
+        sns.heatmap(corr, cmap='RdYlGn_r', square=True)
+        plt.title('Features correlation')
+        plt.savefig(path, dpi=150)
+        plt.clf()
+        plt.cla()
+        plt.close()
+    except Exception as e:
+        logger.info("Can not create correlation plot for this experiment: " + str(e))
+        
+def distributions(logger, X, path):
+    logger.info("Creating distributions plot")
+    try:
+        X = pd.DataFrame(X)
+        X.hist(sharex=True)
+        plt.title('Attribute distributions', fontsize=10)
+        plt.savefig(path, dpi=150)
+        plt.clf()
+        plt.cla()
+        plt.close()
+    except Exception as e:
+        logger.info("Can not create distributions plot for this experiment: " + str(e))
+
+
+def plot_history(logger, path):
     logger.info("Creating history plot")
     try:
+        history = pd.read_csv(path + 'history.csv', sep=';')
         columns = ['acc', 'loss']
-        keys = list(history.history.keys())
+        keys = list(history.keys())
 
-        plt.figure(figsize=(10, 4*len(columns)))
+        plt.figure(figsize=(10, 4 * len(columns)))
         plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=0.2)
 
         for i in range(2):
-            plt.subplot(len(columns)*100 + 10 + i + 1)
-            plt.plot(np.array(history.history[keys[i]]), label='train', color='b')
-            plt.plot(np.array(history.history[keys[i+2]]), label='val', color='g')
+            plt.subplot(len(columns) * 100 + 10 + i + 1)
+            plt.plot(np.array(history[keys[i]]), label='train', color='b')
+            plt.plot(np.array(history[keys[i + 2]]), label='val', color='g')
             plt.title(str(columns[i]))
             plt.legend()
         plt.savefig(path+'img/history.png', dpi=150)
         plt.clf()
         plt.cla()
         plt.close()
-    except:
-        logger.info("Can not create history plot for this experiment")
+    except Exception as e:
+        logger.info("Can not create history plot for this experiment: " + str(e))
 
 
-def plot_auc(logger, data, path, train_proba, test_proba, val_proba, auc_train, auc_test, auc_val):
+def plot_auc(logger, data, path, model):
     """
     https://www.wildcardconsulting.dk/useful-information/a-deep-tox21-neural-network-with-rdkit-and-keras/
     """
     logger.info("Creating ROC AUC plot")
     try:
         try:
-            train_proba = train_proba[:, 1]
-            val_proba = val_proba[:, 1]
-            test_proba = test_proba[:, 1]
-        except:
-            pass
+            train_proba = model.predict_proba(data["x_train"])[:, 1]
+            test_proba = model.predict_proba(data["x_test"])[:, 1]
+            val_proba = model.predict_proba(data["x_val"])[:, 1]
+        except IndexError:
+            train_proba = model.predict_proba(data["x_train"])
+            test_proba = model.predict_proba(data["x_test"])
+            val_proba = model.predict_proba(data["x_val"])
+        auc_train = roc_auc_score(data["y_train"], train_proba)
+        auc_test = roc_auc_score(data["y_test"], test_proba)
+        auc_val = roc_auc_score(data["y_val"], val_proba)
 
         fpr_train, tpr_train, _ = roc_curve(data["y_train"], train_proba, pos_label=1)
-        try:
-            fpr_val, tpr_val, _ = roc_curve(data["y_val"], val_proba, pos_label=1)
-        except:
-            pass
         fpr_test, tpr_test, _ = roc_curve(data["y_test"], test_proba, pos_label=1)
+        fpr_val, tpr_val, _ = roc_curve(data["y_val"], val_proba, pos_label=1)
 
         plt.figure()
         lw = 2
 
         plt.plot(fpr_train, tpr_train, color='b', lw=lw, label='Train ROC (area = %0.2f)' % auc_train)
-        try:
-            plt.plot(fpr_val, tpr_val, color='g', lw=lw, label='Val ROC (area = %0.2f)' % auc_val)
-        except:
-            pass
+        plt.plot(fpr_val, tpr_val, color='g', lw=lw, label='Val ROC (area = %0.2f)' % auc_val)
         plt.plot(fpr_test, tpr_test, color='r', lw=lw, label='Test ROC (area = %0.2f)' % auc_test)
 
         plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
@@ -101,9 +132,10 @@ def plot_auc(logger, data, path, train_proba, test_proba, val_proba, auc_train, 
         logger.info("Can't plot ROC AUC for this experiment")
 
 
-def plot_grid_search(logger, score, path):
+def plot_grid_search(logger, path):
     logger.info("Creating GridSearch plot")
     try:
+        score = pd.read_csv(path + "gridsearch.csv", sep=',')
         headers = list(score)
         columns = []
         for h in headers:
@@ -163,13 +195,13 @@ def col(i):
     return 'm'
 
 
-def plot_fi(indices, importances, features, path, x_label='Relative Importance'):
+def plot_fi(indices, importances, features, path, x_label='Relative Importance', title='Feature Importances'):
     fig = plt.figure(figsize=(8, 8), dpi=150)
     # ax = fig.add_subplot(111)
     fig.tight_layout()
     plt.subplots_adjust(left=0.3, bottom=0.1, right=0.9, top=0.9)
     s = pd.Series([importances[i] for i in indices], index=[features[i] for i in indices])
-    plt.title('Feature Importances')
+    plt.title(title)
 
     try:
         color = [list([col(features[i]) for i in indices])]
@@ -192,7 +224,7 @@ def plot_fi(indices, importances, features, path, x_label='Relative Importance')
 
 
 def plot_TSNE(x, y, y_a, path, titles, label_1, label_2, label_3, c1='r', c2='b', c3='#00FF00', s=2, alpha=1, n_components=2):
-    print("t-SNE fitting")
+    print("Creating t-SNE plot")
     tsne = TSNE(n_components=n_components)
     coordinates = tsne.fit_transform(x)
     coords = pd.DataFrame(coordinates)
@@ -333,18 +365,25 @@ def plot_PCA(x, y, y_a, path, titles, label_1, label_2, label_3, c1='r', c2='b',
     fig.clf()
 
 
-def find_importances(i, X, y_test, model, auc_test):
+def find_importances(i, X, y_test, model, value_test, metric):
     x_test = np.array(list(X[:]))
     x = m_mean(x_test, i)
     test_proba = model.predict_proba(x)
-    try:
-        auc = roc_auc_score(y_test, test_proba[:, 1])
-    except:
-        auc = roc_auc_score(y_test, test_proba)
-    return auc_test-auc
+    test_predict = model.predict(x)
+    value = 0
+    if metric == 'r2':
+        value = r2_score(y_test, test_predict)
+    elif metric == 'mae':
+        value = mean_absolute_error(y_test, test_predict)
+    elif metric == 'roc_auc':
+        try:
+            value = roc_auc_score(y_test, test_proba[:, 1])
+        except:
+            value = roc_auc_score(y_test, test_proba)
+    return float(value_test) - value
 
 
-def plot_features_importance(logger, options, data, model, path, auc_test):
+def plot_features_importance(logger, options, data, model, path, value_test, metric):
     logger.info("Creating feature importance plot")
     features = []
     for i in options.descriptors:
@@ -365,7 +404,7 @@ def plot_features_importance(logger, options, data, model, path, auc_test):
             importances = model.feature_importances_
             indices = np.argsort(importances)
             indices = indices[-30:]
-            x_label = 'AUC ROC test - AUC ROC without feature'
+            x_label = 'Importances'
             try:
                 plot_fi(indices, importances, features, path, x_label)
             except:
@@ -378,7 +417,7 @@ def plot_features_importance(logger, options, data, model, path, auc_test):
 
             fi = pd.DataFrame(tab)
 
-            fi.to_csv(path+"feature_importance.csv", sep=",", header=["feature", "importance"], index=False)
+            fi.to_csv(path + "feature_importance.csv", sep=",", header=["feature", "importance"], index=False)
             logger.info("Feature importance plot created")
         except:
             logger.info("Can not plot feature importance")
@@ -387,10 +426,10 @@ def plot_features_importance(logger, options, data, model, path, auc_test):
             X = list(data["x_test"])
 
             importances = []
-            importances.append(Parallel(n_jobs=options.n_jobs, backend=BACKEND, verbose=1)(delayed(find_importances)(i, X, data["y_test"], model, auc_test) for i in range(data["x_test"].shape[1])))
+            importances.append(Parallel(n_jobs=options.n_jobs, backend=BACKEND, verbose=1)(delayed(find_importances)(i, X, data["y_test"], model, value_test, metric) for i in range(data["x_test"].shape[1])))
             importances = importances[0]
             indices = np.argsort(importances)
-            x_label = 'AUC ROC test - AUC ROC without feature'
+            x_label = 'Importances'
 
             try:
                 plot_fi(indices[-30:], importances, features, path+"img/feature_importance.png", x_label)
@@ -411,15 +450,16 @@ def plot_features_importance(logger, options, data, model, path, auc_test):
 
             fi.to_csv(path+"feature_importance.csv", sep=",", header=["feature", "importance"], index=False)
             logger.info("Feature importance plot created")
-        except:
-            logger.info("Can not plot feature importance")
+        except Exception as e:
+            logger.info("Can not plot feature importance: " + str(e))
 
 
 def plot_results(logger, options, data, y_pred_train, y_pred_test, y_pred_val, path):
     try:
         logger.info("Creating results plot")
         root_address = os.path.dirname(os.path.realpath(__file__)).replace('/moloi', '')
-        addresses_tsne = root_address + "/etc/img/coordinates/" + options.data_config.replace('/data/data_configs/', '').replace('.ini', '').replace(root_address, '') + "/" + str(options.descriptors) + "/tsne/t-SNE_" + options.split_type + ".png"
+        addresses_tsne = root_address + "/etc/img/coordinates/" + options.experiments_file.replace('etc/', '').replace('.csv', '').replace(root_address, '') + "/" + str(options.descriptors) + "/tsne/t-SNE_" + options.split_type + ".png"
+
         X_tsne = pd.read_csv(addresses_tsne.replace('.png', '.csv'), header=None)
         Y = np.c_[data["y_train"].T, data["y_test"].T]
         Y = np.c_[Y, data["y_val"].T]
@@ -436,12 +476,12 @@ def plot_results(logger, options, data, y_pred_train, y_pred_test, y_pred_val, p
         alpha = 0.5
         plot_result_TSNE(X_tsne, Y.T, Y_a, path + "img/results.png", title=title_tsne, s=s, alpha=alpha)
         logger.info("Results plot created")
-    except:
-        logger.info("Can not plot results")
+    except Exception as e:
+        logger.info("Can not create results plot for this experiment: " + str(e))
 
 
-def plot_rep_TSNE(x, y, path, title="t-SNE", label_1="active", label_2="inactive", label_3="", c1='r', c2='b', c3='#00FF00', s=2, alpha=1, n_components=2):
-    print("t-SNE fitting")
+def plot_rep_TSNE(logger, x, y, path, title="t-SNE", label_1="active", label_2="inactive", label_3="", c1='r', c2='b', c3='#00FF00', s=2, alpha=1, n_components=2):
+    logger.info("Creating t-SNE plot")
     tsne = TSNE(n_components=n_components)
     coordinates = tsne.fit_transform(x)
 
@@ -459,14 +499,14 @@ def plot_rep_TSNE(x, y, path, title="t-SNE", label_1="active", label_2="inactive
 
     plt.title(title)
     plt.legend()
-    plt.savefig(path, dpi=150)
+    plt.savefig(path, figsize=(4, 4))
     plt.clf()
     plt.cla()
     plt.close()
     
 
-def plot_rep_PCA(x, y, path, title="PCA", label_1="active", label_2="inactive", label_3="", c1='r', c2='b', c3='#00FF00', s=2, alpha=1, n_components=2):
-    print("PCA fitting")
+def plot_rep_PCA(logger, x, y, path, title="PCA", label_1="active", label_2="inactive", label_3="", c1='r', c2='b', c3='#00FF00', s=2, alpha=1, n_components=2):
+    logger.info("Creating PCA plot")
     pca = PCA(n_components=n_components)
     coordinates = pca.fit_transform(x)
 

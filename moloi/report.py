@@ -5,15 +5,15 @@ import sys
 import socket
 import logging
 import numpy as np
+import pandas as pd
 from reportlab.lib.enums import TA_JUSTIFY
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
-from reportlab.platypus import Table
+from reportlab.platypus import Table, PageBreak, FrameBreak
 from reportlab.lib.units import inch
-from moloi.plots import plot_history, plot_auc, plot_grid_search
+from moloi.plots import plot_history, plot_auc, plot_grid_search, correlation, distributions
 from moloi.plots import plot_features_importance, plot_results, plot_rep_TSNE, plot_rep_PCA
-
 
 
 def create_report(logger, path, train_proba, test_proba, val_proba, timer, rparams,
@@ -154,22 +154,21 @@ def create_report(logger, path, train_proba, test_proba, val_proba, timer, rpara
     
     # Plots
     if "history" in plots:
-        plot_history(logger, history, path)
+        plot_history(logger, path)
         if os.path.isfile(path+'img/history.png'):
             im = Image(path+'img/history.png', 8 * inch, 6 * inch, kind='proportional')
             Report.append(im)
 
     if "AUC" in plots:
         if results["auc_test"] is not False:
-            plot_auc(logger, data, path, train_proba, test_proba, val_proba,
-                     results["auc_train"], results["auc_test"], results["auc_val"])
+            plot_auc(logger, data, path, model)
             if os.path.isfile(path+'img/auc.png'):
                 im = Image(path+'img/auc.png', 8 * inch, 3 * inch, kind='proportional')
                 Report.append(im)
     
     if "gridsearch" in plots:
         if score is not False:
-            plot_grid_search(logger, score, path)
+            plot_grid_search(logger, path)
             headers = list(score)
             columns = []
             for h in headers:
@@ -181,7 +180,14 @@ def create_report(logger, path, train_proba, test_proba, val_proba, timer, rpara
                     Report.append(im)
 
     if "feature_importance" in plots or "feature_importance_full" in plots:
-        plot_features_importance(logger, options, data, model, path, results["auc_test"])
+        value_test = 0
+        if options.metric == 'mae':            
+            value_test = results["mae_test"]
+        elif options.metric == 'r2':
+            value_test = results["r2_test"]
+        elif options.metric == 'roc_auc':
+            value_test = results["auc_test"]
+        plot_features_importance(logger, options, data, model, path, value_test, options.metric)
 
     if "feature_importance" in plots:
         if os.path.isfile(path+'img/feature_importance.png'):
@@ -193,7 +199,7 @@ def create_report(logger, path, train_proba, test_proba, val_proba, timer, rpara
             im = Image(path+'img/feature_importance_full.png', 8 * inch, 8 * inch, kind='proportional')
             Report.append(im)
 
-    if "results" in plots:
+    if "results" in plots and options.metric not in ['mae', 'r2']:
         plot_results(logger, options, data, pred_train, pred_test, pred_val, path)
         if os.path.isfile(path+'img/results.png'):
             a = Image(path+'img/results.png', 2 * inch, 2 * inch, kind='proportional')
@@ -202,32 +208,46 @@ def create_report(logger, path, train_proba, test_proba, val_proba, timer, rpara
             table_data = [[a, b, c]]
             results_table = Table(table_data, colWidths=2 * inch, rowHeights=2 * inch, normalizedData=1)
             Report.append(results_table)
-            """
-            im = Image(path+'img/results.png', 2 * inch, 2 * inch, kind='proportional')
-            Report.append(im)
-            im = Image(path+'img/results_neg.png', 2 * inch, 2 * inch, kind='proportional')
-            Report.append(im)
-            im = Image(path+'img/results_pos.png', 2 * inch, 2 * inch, kind='proportional')
-            Report.append(im)
-            """
+
     if "TSNE" in plots or "PCA" in plots:
         X = np.c_[data["x_train"].T, data["x_test"].T]
         X = np.c_[X, data["x_val"].T]
+        X = X.T
         Y = np.c_[data["y_train"].T, data["y_test"].T]
         Y = np.c_[Y, data["y_val"].T]
+        Y = Y.T
 
     if "TSNE" in plots:
-        plot_rep_TSNE(X.T, Y.T, path+'img/t-SNE.png')
+        plot_rep_TSNE(logger, X, Y, path+'img/t-SNE.png')
         if os.path.isfile(path+'img/t-SNE.png'):
             im = Image(path+'img/t-SNE.png', 2 * inch, 2 * inch, kind='proportional')
             Report.append(im)
         
     if "PCA" in plots:
-        plot_rep_PCA(X.T, Y.T, path+'img/PCA.png')
+        plot_rep_PCA(logger, X, Y, path+'img/PCA.png')
         if os.path.isfile(path+'img/PCA.png'):
-            im = Image(path+'img/PCA.png', 8 * inch, 2 * inch, kind='proportional')
+            im = Image(path+'img/PCA.png', 2 * inch, 2 * inch, kind='proportional')
             Report.append(im)
+    
+    Report.append(PageBreak())
+    ptext = '<font size=24> <b> Dataset report </b> </font> <br/>'
+    Report.append(Paragraph(ptext, styles["Justify"]))
+    Report.append(Paragraph(" ", styles["Justify"]))
+    Report.append(Paragraph(" ", styles["Justify"]))
 
+    if "correlation" in plots:
+        correlation(logger, X, path+'img/correlation.png')
+        if os.path.isfile(path+'img/correlation.png'):
+            im = Image(path+'img/correlation.png', 10 * inch, 10 * inch, kind='proportional')
+            Report.append(im)
+            Report.append(FrameBreak())
+    
+    if "distributions" in plots:
+        distributions(logger, X, path+'img/distributions.png')
+        if os.path.isfile(path+'img/distributions.png'):
+            im = Image(path+'img/distributions.png', 8 * inch, 8 * inch, kind='proportional')
+            Report.append(im)
+    
     doc.build(Report)
     logger.info("Report complete, you can see it in the results folder")
 

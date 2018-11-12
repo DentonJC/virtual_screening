@@ -6,7 +6,7 @@ etc/experiments.csv where columns are hyperparameters and rows are experiments.
 """
 
 # TODO: fix docstrings
-
+import os
 import matplotlib
 matplotlib.use('Agg')  # plot without a running X server
 import math
@@ -17,6 +17,8 @@ from joblib import Parallel, delayed
 from joblib.parallel import BACKENDS
 from moloi.moloi import experiment
 from moloi.dictionaries import results_dict
+from moloi.results import process_results
+
 
 BACKEND = 'loki'
 if BACKEND not in BACKENDS.keys():
@@ -25,7 +27,6 @@ if BACKEND not in BACKENDS.keys():
 def isnan(x):
     """ Checking if the variable is NaN and type float. """
     return isinstance(x, float) and math.isnan(x)
-
 
 def worker(i, table, exp_settings, common_gridsearch, result_cols, keys, params):
     """
@@ -90,19 +91,12 @@ def worker(i, table, exp_settings, common_gridsearch, result_cols, keys, params)
                 else:
                     results[key] = round(results[key], 4)
 
-            #print(results)
             table = pd.read_csv(experiments_file)
-
             for p, r in enumerate(result_cols):
-                #print(results[r])
-                #print(i, j * len(result_cols) + len(params) + p)
-                #print(table)
-                #import sys
-                #sys.exit(0)
                 table.iloc[i, j * len(result_cols) + len(params) + p] = str(results[r])
 
             if model_address:
-                table.iloc[i, 5] = str(model_address)  # set on Load model column
+                table.iloc[i, 4] = str(model_address)  # set on Load model column
                 if "--load_model" not in command and common_gridsearch:
                     command.append("--load_model")
                     command.append(model_address)
@@ -122,6 +116,7 @@ def main(experiments_file, common_gridsearch, random_state, result_cols, keys, p
         n_jobs = table.shape[0] - 1
 
     exp_settings = {
+        'experiments_file': os.path.basename(experiments_file).split('.')[0],
         'random_state': random_state,
         'rparams': False,
         'verbose': verbose,
@@ -136,18 +131,27 @@ def main(experiments_file, common_gridsearch, random_state, result_cols, keys, p
 if __name__ == "__main__":
     keys = ["--load_model", "--output", "--model_config", "--descriptors", "--n_bits", "--n_cv",
             "--n_jobs", "-p", "-g", "--n_iter", "--metric", "--split_type", "--split_s",
-            '--select_model', '--data_config', '--section']
+            '--select_model', '--data_config']
     params = ["Load model", "Output", "Model config", "Descriptors", "n_bits", "n_cv", "n_jobs", "Patience",
-              "Gridsearch", "n_iter", "Metric", "Split type", "Split size", 'Model', 'Data config', 'Section']
+              "Gridsearch", "n_iter", "Metric", "Split type", "Split size", 'Model', 'Data config']
     result_cols = ['balanced_accuracy_test', 'auc_test', 'auc_val']
     # result_cols = ['r2_test', 'r2_val', 'mae_test', 'mae_val']
-    # plots = ["history", "AUC", "gridsearch", "feature_importance", "feature_importance_full", "results", "TSNE", "PCA"]
+    # plots = ["history", "AUC", "gridsearch", "feature_importance", "feature_importance_full", "results", "TSNE", "PCA", "correlation", "distributions"]
     plots = ["history", "AUC", "gridsearch", "results", "TSNE"]
     callbacks = "stopping, csv_logger, checkpoint"
     common_gridsearch = True
     random_state = 1337
     experiments_file = 'etc/test.csv'
-    verbose = 10
+    verbose = 0
     refit = False
     n_jobs = 1  # multiprocessing.cpu_count() # only for evaluation
+
+    descriptors = [['rdkit', 'morgan', 'mordred', 'maccs'], ['rdkit'], ['morgan'], ['mordred'], ['maccs']]
+    splits = ['cluster', 'scaffold', 'random', 'stratified']
+
     main(experiments_file, common_gridsearch, random_state, result_cols, keys, params, verbose, n_jobs, refit, plots, callbacks)
+    
+    filenames = ["maccs", "rdkit", "mordred", "morgan", "rdkit_maccs", "rdkit_mordred", "morgan_maccs", "morgan_mordred", "rdkit_morgan", "mordred_maccs", "rdkit_morgan_mordred_maccs"]
+    titles = ['MACCS', 'RDKit', 'Mordred', 'Morgan', 'MACCS+RDKit', 'RDKit+Mordred', 'Morgan+MACCS', 'Morgan+Mordred', 'RDKit+Morgan', 'Mordred+MACCS', 'RDKit+Morgan+Mordred+MACCS']
+    # NAME = ["clintox_scaffold", "clintox_random", "clintox_cluster", "bace_scaffold", "bace_random", "bace_cluster"]
+    process_results(filenames, titles, [os.path.basename(experiments_file).split('.')[0]])

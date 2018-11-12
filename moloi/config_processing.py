@@ -50,6 +50,9 @@ def read_data_config(config_path, n_bits, split_type=False, split_size=0.1):
                 os.rename(path + addresses['dataset' + j],
                           path + addresses['dataset' + j].replace(".csv", "_train.csv"))
                 addresses['dataset' + j] = addresses['dataset' + j].replace(".csv", "_train.csv")
+                data_config[section]["dataset" + j] = addresses['dataset' + j]
+                with open(config_path, 'w') as configfile:
+                    data_config.write(configfile)
 
         for i in ['labels', 'maccs', 'mordred', 'rdkit', 'external']:
             if data_config.has_option(section, i + j):

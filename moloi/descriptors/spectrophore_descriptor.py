@@ -8,8 +8,8 @@ import pybel
 import tempfile
 import subprocess
 import numpy as np
-from openbabel import OBSpectrophore
-from pybel import Molecule
+# from openbabel import OBSpectrophore # uncomment after Segmentation fault fix
+# from pybel import Molecule
 
 
 def molprint2d_fingerprint(mpd, d=50):

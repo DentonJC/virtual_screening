@@ -53,6 +53,17 @@ def create_cv(smiles, split_type, n_cv, random_state, y=False):
             n_cv[i][0].append(train)
             n_cv[i][1].append(test)
 
+    elif split_type == "generator":
+        count = n_cv
+        n_cv = [([], []) for _ in range(count)]
+        for i in range(count):
+            shuffle = True
+            stratify = None
+            idx = [i for i in range(len(smiles))]
+            train, test = train_test_split(idx, test_size=1 - ((len(smiles)/count)/(len(smiles)/100))/100,
+                                           stratify=stratify, shuffle=shuffle)
+            yield(train, test)
+
     else:
         print("Wrong split type")
         sys.exit(0)
